@@ -1,8 +1,10 @@
 // SPLU 5.2.1 Beta
-// Testing Editing with GitHub
+// First tests on GitHub
 
+  //Check if SPLU is already open, throw an error if not
   if(document.getElementById('BRlog')){throw new Error("SPLU Already Running");}
   var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
+  //Check if the user is logged in to BGG, throw an error if not
   if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
   var SPLUversion="5.2.1";
 
@@ -12,6 +14,8 @@
     });
   }
   
+  //This should be at the bottom but is up here to deal with splitting the code to save it in a geeklist.
+  //Could probably rearrange it if we're going to load from GitHub directly.
   function finalSetup(){
     loadPlayers();  
     loadLocations();    
@@ -51,6 +55,7 @@
       }
     }
     
+    //Set the ObjectType accoring to the site they are currently on
     if(window.location.host.slice(-17)=="boardgamegeek.com"){
       setObjectType("boardgame");
     }
