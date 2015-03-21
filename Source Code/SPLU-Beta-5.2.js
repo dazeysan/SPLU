@@ -6,7 +6,7 @@
   var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
   //Check if the user is logged in to BGG, throw an error if not
   if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-  var SPLUversion="5.2.1";
+  var SPLUversio2n="5.2.1";
 
   function fixedEncodeURIComponent(str) {
     return encodeURIComponent(str).replace(/[!'()*]/g, function(c) {
@@ -1914,6 +1914,7 @@
   BRlogMain.appendChild(BRlogRow);
   document.getElementById('maincontent').insertBefore(BRlogMain,document.getElementById('maincontent').firstChild);
 
+  //Set up PopText for buttons and such
   listenerForPopText("collapseColor","Collapse");
   listenerForPopText("collapseStart","Collapse");
   listenerForPopText("collapseRating","Collapse");
@@ -1936,6 +1937,7 @@
   listenerForPopText("showPlayersPaneBtn","Edit All Players");
   listenerForPopText("showLocationsPaneBtn","Edit All Locations");
   listenerForPopText("SPLU.SaveLocationButton","Save This Location");
+  listenerForPopText("BRplaysBtn","View/Edit Play History")
 
   var observer=new MutationObserver(function(){
     if(document.getElementById('selimage0').innerHTML.slice(0,4)=="<div"){
