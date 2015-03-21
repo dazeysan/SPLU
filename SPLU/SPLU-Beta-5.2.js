@@ -1,3 +1,6 @@
+// SPLU 5.2.1 Beta
+// Testing Editing with GitHub
+
   if(document.getElementById('BRlog')){throw new Error("SPLU Already Running");}
   var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
   if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
