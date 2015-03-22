@@ -933,7 +933,7 @@
   function getAllPlays(player){
     console.log("getAllPlays("+player+")");
     if(Math.ceil(SPLUplayData[player]["total"]/100)>(SPLUplayFetch[player].length-1)){
-      for(i=1;i<Math.ceil(SPLUplayData[player]["total"]/100);i++){
+      for(i=1;i<=Math.ceil(SPLUplayData[player]["total"]/100);i++){
         if(SPLUplayFetch[player][i]===undefined){
           SPLUplayFetch[player][i]=0;
         }
@@ -958,7 +958,7 @@
       console.log("Failed to fetch "+SPLUplayFetchFail+" pages");
     }
     tmpStatus=1;
-    for(i=1;i<=SPLUplayFetch[player].length;i++){
+    for(i=1;i<SPLUplayFetch[player].length;i++){
       if(SPLUplayFetch[player][i]!=1){
         tmpStatus=0;
         break;
