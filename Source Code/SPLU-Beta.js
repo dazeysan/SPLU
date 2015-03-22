@@ -933,8 +933,8 @@
   function getAllPlays(player){
     console.log("getAllPlays("+player+")");
     if(Math.ceil(SPLUplayData[player]["total"]/100)>(SPLUplayFetch[player].length-1)){
-      for(i=1;i<Math.ceil(SPLUplayData[player]["total"]/100);i++)
-        if(SPLUplayFetch[player][i]===undefined)
+      for(i=1;i<Math.ceil(SPLUplayData[player]["total"]/100);i++){
+        if(SPLUplayFetch[player][i]===undefined){
           SPLUplayFetch[player][i]=0;
         }
       }
