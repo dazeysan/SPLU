@@ -900,7 +900,6 @@
   }
 
   function getRecentPlays(multiple){
-    document.getElementById("SPLU.PlaysStatus").innerHTML='<progress min="0" max="1" value="0" id="SPLU.PlaysProgress"></progress> Fetching Plays.';
     tmpUser=document.getElementById("SPLU.PlaysLogger").value;
     if(SPLUplayFetch[tmpUser]===undefined){
       SPLUplayFetch[tmpUser]=[];
@@ -933,23 +932,15 @@
   
   function getAllPlays(player){
     console.log("getAllPlays("+player+")");
-    console.log("1-"+SPLUplayFetch[player].length);
     if(Math.ceil(SPLUplayData[player]["total"]/100)>(SPLUplayFetch[player].length-1)){
-      console.log("1.1-"+SPLUplayFetch[player].length);
-      document.getElementById("SPLU.PlaysProgress").max=Math.ceil(SPLUplayData[player]["total"]/100);
-      console.log("1.2-"+SPLUplayFetch[player].length);
-      for(i=1;i<Math.ceil(SPLUplayData[player]["total"]/100);i++){
-        console.log("1.3-"+SPLUplayFetch[player].length);
+      for(i=1;i<=Math.ceil(SPLUplayData[player]["total"]/100);i++){
         if(SPLUplayFetch[player][i]===undefined){
-          console.log("1.4-"+SPLUplayFetch[player].length);
           SPLUplayFetch[player][i]=0;
-          console.log("1.5-"+SPLUplayFetch[player].length);
         }
       }
     }
-    console.log("2-"+SPLUplayFetch[player].length);
     if(SPLUplayFetchFail<5){
-      for(var i=1;i<SPLUplayFetch[player].length;i++){
+      for(i=1;i<SPLUplayFetch[player].length;i++){
         if(SPLUplayFetch[player][i]<0){
           SPLUplayFetch[player][i]--;
         }
@@ -966,16 +957,14 @@
     }else{
       console.log("Failed to fetch "+SPLUplayFetchFail+" pages");
     }
-    console.log("3-"+SPLUplayFetch[player].length);
-    tmpStatus=0;
+    tmpStatus=1;
     for(i=1;i<SPLUplayFetch[player].length;i++){
-      if(SPLUplayFetch[player][i]==1){
-        tmpStatus++;
+      if(SPLUplayFetch[player][i]!=1){
+        tmpStatus=0;
+        break;
       }
     }
-    console.log("4-"+SPLUplayFetch[player].length);
-    document.getElementById("SPLU.PlaysProgress").value=tmpStatus;
-    if(tmpStatus==SPLUplayFetch[player].length-1){
+    if(tmpStatus==1){
       loadPlays(player);
     }else{
       console.log("Still Fetching");
@@ -983,7 +972,7 @@
   }
   
   function parsePlays(player,page,multiple){
-    console.log("parsePlays("+player+","+page+","+multiple+")");
+    console.log("parsePlays("+multiple+")");
     SPLUplayFetch[player][page]=1;
     if(SPLUplayData[player]===undefined){
       SPLUplayData[player]={};
@@ -1000,7 +989,6 @@
   }
 
   function loadPlays(tmpUser){
-    document.getElementById("SPLU.PlaysStatus").innerHTML='<progress min="0" max="1" value="1" id="SPLU.PlaysProgress"></progress> Fetch Complete.';
     if(SPLUplayData[tmpUser]["total"]==0){
       document.getElementById('SPLU.PlaysList').innerHTML=='<div>No Plays Found.</div>';
     }else{
@@ -1512,7 +1500,6 @@
   var tmpHTML='<div id="hidePlaysButton" style="position: absolute; right: 0px; top: 2px;"><a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogPlays\').style.display=\'none\';}" style="border:2px solid #249631;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="http://cf.geekdo-images.com/images/pic2336662.png"></a></div>';
   tmpHTML+='<span style="font-variant:small-caps; font-weight:bold;"><center>Plays</center><br/></span>';
   tmpHTML+='<div><input type="text" id="SPLU.PlaysLogger" value="'+LoggedInAs+'"/><a href="javascript:{void(0);}" onClick="javascript:{getRecentPlays(false);}">Get Recent</a> | <a href="javascript:{void(0);}" onClick="javascript:{getRecentPlays(true);}">Get All</a></div>';
-  tmpHTML+='<div id="SPLU.PlaysStatus"></div>';
   tmpHTML+='<div id="SPLU.PlaysList" style="overflow-y:auto; width:275px;"></div>';
   tmpDiv.innerHTML+=tmpHTML;
   BRlogPlays.appendChild(tmpDiv);
