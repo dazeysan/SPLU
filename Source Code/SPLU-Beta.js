@@ -933,6 +933,7 @@
   
   function getAllPlays(player){
     console.log("getAllPlays("+player+")");
+    console.log("1-"+SPLUplayFetch[player].length);
     if(Math.ceil(SPLUplayData[player]["total"]/100)>(SPLUplayFetch[player].length-1)){
       document.getElementById("SPLU.PlaysProgress").max=Math.ceil(SPLUplayData[player]["total"]/100);
       for(i=1;i<=Math.ceil(SPLUplayData[player]["total"]/100);i++){
@@ -941,6 +942,7 @@
         }
       }
     }
+    console.log("2-"+SPLUplayFetch[player].length);
     if(SPLUplayFetchFail<5){
       for(var i=1;i<SPLUplayFetch[player].length;i++){
         if(SPLUplayFetch[player][i]<0){
@@ -959,12 +961,14 @@
     }else{
       console.log("Failed to fetch "+SPLUplayFetchFail+" pages");
     }
+    console.log("3-"+SPLUplayFetch[player].length);
     tmpStatus=0;
     for(i=1;i<SPLUplayFetch[player].length;i++){
       if(SPLUplayFetch[player][i]==1){
         tmpStatus++;
       }
     }
+    console.log("4-"+SPLUplayFetch[player].length);
     document.getElementById("SPLU.PlaysProgress").value=tmpStatus;
     if(tmpStatus==SPLUplayFetch[player].length-1){
       loadPlays(player);
