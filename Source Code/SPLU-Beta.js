@@ -938,7 +938,7 @@
       console.log("1.1-"+SPLUplayFetch[player].length);
       document.getElementById("SPLU.PlaysProgress").max=Math.ceil(SPLUplayData[player]["total"]/100);
       console.log("1.2-"+SPLUplayFetch[player].length);
-      for(i=1;i<=Math.ceil(SPLUplayData[player]["total"]/100);i++){
+      for(i=1;i<Math.ceil(SPLUplayData[player]["total"]/100);i++){
         console.log("1.3-"+SPLUplayFetch[player].length);
         if(SPLUplayFetch[player][i]===undefined){
           console.log("1.4-"+SPLUplayFetch[player].length);
