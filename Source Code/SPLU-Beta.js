@@ -900,6 +900,7 @@
   }
 
   function getRecentPlays(multiple){
+    document.getElementById("SPLU.PlaysStatus").innerHTML='<progress min="0" max="1" value="0" id="SPLU.PlaysProgress"></progress> Fetching Plays.';
     tmpUser=document.getElementById("SPLU.PlaysLogger").value;
     if(SPLUplayFetch[tmpUser]===undefined){
       SPLUplayFetch[tmpUser]=[];
@@ -933,6 +934,7 @@
   function getAllPlays(player){
     console.log("getAllPlays("+player+")");
     if(Math.ceil(SPLUplayData[player]["total"]/100)>(SPLUplayFetch[player].length-1)){
+      document.getElementById("SPLU.PlaysProgress").max=Math.ceil(SPLUplayData[player]["total"]/100);
       for(i=1;i<=Math.ceil(SPLUplayData[player]["total"]/100);i++){
         if(SPLUplayFetch[player][i]===undefined){
           SPLUplayFetch[player][i]=0;
@@ -957,14 +959,14 @@
     }else{
       console.log("Failed to fetch "+SPLUplayFetchFail+" pages");
     }
-    tmpStatus=1;
+    tmpStatus=0;
     for(i=1;i<SPLUplayFetch[player].length;i++){
-      if(SPLUplayFetch[player][i]!=1){
-        tmpStatus=0;
-        break;
+      if(SPLUplayFetch[player][i]==1){
+        tmpStatus++;
       }
     }
-    if(tmpStatus==1){
+    document.getElementById("SPLU.PlaysProgress").value=tmpStatus;
+    if(tmpStatus==SPLUplayFetch[player].length-1){
       loadPlays(player);
     }else{
       console.log("Still Fetching");
@@ -989,6 +991,7 @@
   }
 
   function loadPlays(tmpUser){
+    document.getElementById("SPLU.PlaysStatus").innerHTML='<progress min="0" max="1" value="1" id="SPLU.PlaysProgress"></progress> Fetch Complete.';
     if(SPLUplayData[tmpUser]["total"]==0){
       document.getElementById('SPLU.PlaysList').innerHTML=='<div>No Plays Found.</div>';
     }else{
@@ -1500,6 +1503,7 @@
   var tmpHTML='<div id="hidePlaysButton" style="position: absolute; right: 0px; top: 2px;"><a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogPlays\').style.display=\'none\';}" style="border:2px solid #249631;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="http://cf.geekdo-images.com/images/pic2336662.png"></a></div>';
   tmpHTML+='<span style="font-variant:small-caps; font-weight:bold;"><center>Plays</center><br/></span>';
   tmpHTML+='<div><input type="text" id="SPLU.PlaysLogger" value="'+LoggedInAs+'"/><a href="javascript:{void(0);}" onClick="javascript:{getRecentPlays(false);}">Get Recent</a> | <a href="javascript:{void(0);}" onClick="javascript:{getRecentPlays(true);}">Get All</a></div>';
+  tmpHTML+='<div id="SPLU.PlaysStatus"></div>';
   tmpHTML+='<div id="SPLU.PlaysList" style="overflow-y:auto; width:275px;"></div>';
   tmpDiv.innerHTML+=tmpHTML;
   BRlogPlays.appendChild(tmpDiv);
