@@ -942,7 +942,7 @@
       }
     }
     if(SPLUplayFetchFail<5){
-      for(i=1;i<SPLUplayFetch[player].length;i++){
+      for(var i=1;i<SPLUplayFetch[player].length;i++){
         if(SPLUplayFetch[player][i]<0){
           SPLUplayFetch[player][i]--;
         }
@@ -974,7 +974,7 @@
   }
   
   function parsePlays(player,page,multiple){
-    console.log("parsePlays("+multiple+")");
+    console.log("parsePlays("+player+","+page+","+multiple+")");
     SPLUplayFetch[player][page]=1;
     if(SPLUplayData[player]===undefined){
       SPLUplayData[player]={};
