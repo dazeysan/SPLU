@@ -914,7 +914,7 @@
     if(SPLUplays[player]===undefined){
       SPLUplays[player]={};
     }
-    SPLUplayFetch[player][page]--1;
+    SPLUplayFetch[player][page]--;
     var oReq=new XMLHttpRequest();
     oReq.onload=function(responseJSON){
       console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
