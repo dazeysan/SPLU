@@ -950,7 +950,7 @@
         }
         if(SPLUplayFetch[player][i]==0){
           SPLUplayFetch[player][i]=-1;
-          window.setTimeout(function(){getPlays(player,i,true);},3000);
+          window.setTimeout(function(){getPlays(player,i,true);},2500);
           break;
         }
       }
@@ -958,7 +958,7 @@
       console.log("Failed to fetch "+SPLUplayFetchFail+" pages");
     }
     tmpStatus=1;
-    for(i=1;i<SPLUplayFetch[player].length;i++){
+    for(i=1;i<=SPLUplayFetch[player].length;i++){
       if(SPLUplayFetch[player][i]!=1){
         tmpStatus=0;
         break;
