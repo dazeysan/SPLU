@@ -939,6 +939,7 @@
       for(i=1;i<=Math.ceil(SPLUplayData[player]["total"]/100);i++){
         if(SPLUplayFetch[player][i]===undefined){
           SPLUplayFetch[player][i]=0;
+          console.log("1.5-"+SPLUplayFetch[player].length);
         }
       }
     }
