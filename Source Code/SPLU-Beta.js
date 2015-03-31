@@ -1043,8 +1043,8 @@
     showHideLocations();
     document.getElementById('quickplay_quantity99').value=tmpPlay.attributes.quantity.value;
     document.getElementById('quickplay_duration99').value=tmpPlay.getAttribute("length");
-    document.getElementById('incomplete').value=tmpPlay.getAttribute("incomplete");
-    document.getElementById('nowinstats').value=tmpPlay.getAttribute("nowinstats");
+    if(tmpPlay.getAttribute("incomplete")==1){document.getElementById('incomplete').checked=true;}
+    if(tmpPlay.getAttribute("nowinstats")==1){document.getElementById('nowinstats').checked=true;}
     if(tmpPlay.getElementsByTagName("comments").length>0){
       document.getElementById('quickplay_comments99').value=tmpPlay.getElementsByTagName("comments")[0].textContent;
     }
