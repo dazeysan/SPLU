@@ -949,6 +949,9 @@
   function getPlays(player,page,multiple){
     console.log("getPlays("+player+", "+page+", "+multiple+")");
     document.getElementById('SPLU.PlaysStatus').innerHTML="Fetching Page: "+page;
+    if(SPLUplayData[player]!==undefined){
+      document.getElementById('SPLU.PlaysStatus').innerHTML+=" of "+Math.ceil(SPLUplayData[player]["total"]/100);
+    }
     SPLUplaysPage=page;
     if(SPLUplays[player]===undefined){
       SPLUplays[player]={};
