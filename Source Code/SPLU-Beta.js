@@ -1049,13 +1049,14 @@
       }
       tmpHTML+='</div>';
       tmpCount=(Object.keys(SPLUplayData[tmpUser]).length)-1;
-      tmpHTML+='<div style="display:table-row;"><div style="display:table-cell;">Loaded '+tmpCount+' of '+SPLUplayData[tmpUser]["total"];
+      document.getElementById('SPLU.PlaysList').innerHTML=tmpHTML;
+      tmpHTML='<div style="display:table-row;"><div style="display:table-cell;">Loaded '+tmpCount+' of '+SPLUplayData[tmpUser]["total"];
       if(SPLUplayData[tmpUser]["total"]>(Object.keys(SPLUplayData[tmpUser]).length)-1){
         tmpCount=(Math.floor(tmpCount/100))+1;
         tmpHTML+='<a href="javascript:{void(0);}" onClick="javascript:{getPlays(\''+tmpUser+'\','+tmpCount+',false);}"> - Load next 100</a>';
       }
       tmpHTML+='</div></div>';
-      document.getElementById('SPLU.PlaysList').innerHTML=tmpHTML;
+      document.getElementById('SPLU.PlaysStatus').innerHTML=tmpHTML;
     }
   }
   
