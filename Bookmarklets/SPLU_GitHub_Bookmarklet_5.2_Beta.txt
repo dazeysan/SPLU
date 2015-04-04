@@ -1,1 +1,1 @@
-javascript:{{document.SPLUcode="";document.SPLUxml="";var%20SPLUscript=document.createElement('script');SPLUscript.type="text/javascript";SPLUscript.src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Source%20Code/SPLU-Beta-5.2.js';document.body.appendChild(SPLUscript);};void(0);%20}
+javascript:{{document.SPLUcode="";document.SPLUxml="";var%20SPLUscript=document.createElement('script');SPLUscript.type="text/javascript";SPLUscript.src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Source Code/SPLU-Beta.js';document.body.appendChild(SPLUscript);};void(0);%20}
