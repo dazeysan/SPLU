@@ -850,6 +850,7 @@
     if (confirm("Press OK to delete this play") == true) {
       document.getElementById('BRresults').innerHTML="Deleting...";
       new Request.JSON({url:'/geekplay.php',data:'ajax=1&action=delete&playid='+tmpPlay.id,onComplete:function(responseJSON,responseText){
+        console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
         if(responseJSON.target.status==200){
           document.getElementById('BRresults').innerHTML="Play Deleted";
         }else{
