@@ -849,7 +849,14 @@
   function deleteGamePlay(){
     if (confirm("Press OK to delete this play") == true) {
       document.getElementById('BRresults').innerHTML="Deleting...";
-      new Request.JSON({url:'/geekplay.php',data:'ajax=1&action=delete&playid='+tmpPlay.id,onComplete:function(responseJSON,responseText){window.resJ=responseJSON;window.resT=responseText; document.getElementById('BRresults').innerHTML=responseJSON.html; console.log(responseText); insertBlank('BRresults'); saveGamePlay2('delete');}}).send();
+      new Request.JSON({url:'/geekplay.php',data:'ajax=1&action=delete&playid='+tmpPlay.id,onComplete:function(responseJSON,responseText){
+        if(responseJSON.target.status==200){
+          document.getElementById('BRresults').innerHTML="Play Deleted";
+        }else{
+          document.getElementById('BRresults').innerHTML="An Error Occured";
+        }
+        saveGamePlay2('delete');
+      }}).send();
     }
   }
   
