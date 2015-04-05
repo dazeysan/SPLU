@@ -1144,7 +1144,7 @@
     document.getElementById("SPLU.PlaysPlayers").innerHTML="";
     for(key in SPLUplayData){
       tmpPlayers.push(key);
-      document.getElementById("SPLU.PlaysPlayers").innerHTML+='<a onClick="javascript:{document.getElementById(\'SPLU.PlaysLogger\').value=\''+key'\';loadPlays(\''+key+'\');}">'+key+'</a><br/>';
+      document.getElementById("SPLU.PlaysPlayers").innerHTML+='<a onClick="javascript:{document.getElementById(\'SPLU.PlaysLogger\').value=\''+key+'\';loadPlays(\''+key+'\');}">'+key+'</a><br/>';
     }
     if(tmpPlayers.length>0){
       document.getElementById("SPLU.PlaysPlayers").style.display="";
