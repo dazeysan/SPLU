@@ -858,6 +858,8 @@
         console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
         if(responseJSON.target.status==200){
           document.getElementById('BRresults').innerHTML="Play Deleted.  <a href='"+responseJSON.target.responseURL+"' target='_blank'>View your plays</a>";
+          SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][tmpPlay.id].deleted=true;
+          loadPlays(document.getElementById("SPLU.PlaysLogger").value);
         }else{
           document.getElementById('BRresults').innerHTML="An Error Occurred";
         }
@@ -1069,7 +1071,11 @@
         tmpPlayId=tmpSort[i]["id"];
         tmpPlayDate=SPLUplayData[tmpUser][tmpPlayId].attributes.date.value;
         tmpPlayGame=SPLUplayData[tmpUser][tmpPlayId].getElementsByTagName("item")[0].attributes.name.value;
-        tmpHTML+='<div id="SPLU.Plays-'+tmpPlayId+'" style="display:table-row;"><div style="display:table-cell;">'+tmpPlayDate+' - <a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+tmpPlayId+');}">'+tmpPlayGame+'</a></div></div>';
+        tmpDecoration="";
+        if(SPLUplayData[tmpUser][tmpPlayId].deleted){
+          tmpDecoration="text-decoration:line-through;";
+        }
+        tmpHTML+='<div id="SPLU.Plays-'+tmpPlayId+'" style="display:table-row;'+tmpDecoration+'"><div style="display:table-cell;">'+tmpPlayDate+' - <a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+tmpPlayId+');}">'+tmpPlayGame+'</a></div></div>';
       }
       tmpHTML+='</div>';
       tmpCount=(Object.keys(SPLUplayData[tmpUser]).length)-1;
