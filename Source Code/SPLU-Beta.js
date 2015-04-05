@@ -1108,8 +1108,6 @@
   }
   
   function filterPlays(plays,user){
-    //SPLUplayFilter.username=document.getElementById("SPLU.PlaysUserFilter").value;
-    //SPLUplayFilter.enabled=true;
     var tmpFilter=[];
     if(SPLUplaysFilter.gamename!=""){
       for(i=0;i<plays.length;i++){
@@ -1127,12 +1125,26 @@
       }
       plays=tmpFilter;
     }
+    if(SPLUplaysFilter.playername!=""){
+      for(i=0;i<plays.length;i++){
+        tmpPlayers=SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
+        for(p=0;p<tmpPlayers.length;p++){
+          if(tmpPlayers[p].getAttribute("name")==SPLUplaysFilter.playername){
+            tmpFilter.push(plays[i]);
+            break;
+          }
+        }
+      }
+      plays=tmpFilter;
+    }
+    
     return tmpFilter;
   }
   
   function addPlaysFilter(){
-    tmpHTML='<div><select name="SPLU.FilterType"><option value="Location"/><option value="Game Name"/><input type="text" name="SPLU.FilterText"/>'; 
+    tmpHTML='<div><select name="SPLU.FilterType"><option value="Location"/><option value="Game Name"/></select><input type="text" name="SPLU.FilterText"/>'; 
     document.getElementById("SPLU.PlaysFilters").innerHTML+=tmpHTML;
+    //select.options[0]=new Option("All", "All", true, true);
   }
   
   function loadPlay(id){
