@@ -853,6 +853,8 @@
       xmlhttp=new XMLHttpRequest();
       xmlhttp.open("POST","/geekplay.php",true);
       xmlhttp.onload=function(responseJSON){
+        window.resJ=responseJSON;
+        window.rest=responseText;
         console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
         if(responseJSON.target.status==200){
           document.getElementById('BRresults').innerHTML="Play Deleted";
