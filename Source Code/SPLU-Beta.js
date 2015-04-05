@@ -1061,8 +1061,9 @@
 
   function loadPlays(tmpUser){
     document.getElementById("SPLU.PlaysPlayers").style.display="none";
+    console.log("loadPlays("+tmpUser+")");
     if(SPLUplayData[tmpUser]["total"]==0){
-      document.getElementById('SPLU.PlaysList').innerHTML=='<div>No Plays Found.</div>';
+      document.getElementById('SPLU.PlaysList').innerHTML='<div>No Plays Found.</div>';
     }else{
       var tmpHTML="";
       var display=true;
