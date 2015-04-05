@@ -1130,6 +1130,11 @@
     return tmpFilter;
   }
   
+  function addPlaysFilter(){
+    tmpHTML='<div><select name="SPLU.FilterType"><option value="Location"/><option value="Game Name"/><input type="text" name="SPLU.FilterText"/>'; 
+    document.getElementById("SPLU.PlaysFilters").innerHTML+=tmpHTML;
+  }
+  
   function loadPlay(id){
 	  console.log(id);
     clearForm();
@@ -1624,9 +1629,10 @@
   var tmpDiv=document.createElement('div');
   var tmpHTML='<div id="hidePlaysButton" style="position: absolute; right: 0px; top: 2px;"><a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogPlays\').style.display=\'none\';}" style="border:2px solid #249631;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="http://cf.geekdo-images.com/images/pic2336662.png"></a></div>';
   tmpHTML+='<span style="font-variant:small-caps; font-weight:bold;"><center>Plays</center><br/></span>';
-  tmpHTML+='<div><input type="text" id="SPLU.PlaysLogger" value="'+LoggedInAs+'" onClick="javascript:{listFetchedPlayers();}"/><a href="javascript:{void(0);}" onClick="javascript:{getRecentPlays(false);}">Get Recent</a> | <a href="javascript:{void(0);}" onClick="javascript:{getRecentPlays(true);}">Get All</a></div>';
+  tmpHTML+='<div><input type="text" id="SPLU.PlaysLogger" value="'+LoggedInAs+'" onClick="javascript:{listFetchedPlayers();}"/><a href="javascript:{void(0);}" onClick="javascript:{getRecentPlays(false);}">Get Recent</a> | <a href="javascript:{void(0);}" onClick="javascript:{getRecentPlays(true);}">Get All</a> | <a href="javascript:{void(0);}" onClick="javascript:{addPlaysFilter();}">+F</a></div>';
   tmpHTML+='<div id="SPLU.PlaysPlayers" style="position: absolute; background-color: rgb(205, 237, 251); width: 126px; padding: 3px; border: 1px solid blue; display:none;">list</div>';
   tmpHTML+='<div id="SPLU.PlaysStatus"></div>';
+  tmpHTML+='<div id="SPLU.PlaysFilters"></div>';
   tmpHTML+='<div id="SPLU.PlaysList" style="overflow-y:auto; width:275px;"></div>';
   tmpDiv.innerHTML+=tmpHTML;
   BRlogPlays.appendChild(tmpDiv);
