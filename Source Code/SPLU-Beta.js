@@ -1139,7 +1139,21 @@
       }
       plays=tmpFilter;
     }
-    
+    if(SPLUplaysFilter.username!=""){
+      for(i=0;i<plays.length;i++){
+        if(SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0]!==undefined){
+          tmpPlayers=SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
+          for(p=0;p<tmpPlayers.length;p++){
+            if(tmpPlayers[p].getAttribute("username")==SPLUplaysFilter.username){
+              tmpFilter.push(plays[i]);
+              break;
+            }
+          }
+        }
+      }
+      plays=tmpFilter;
+    }
+
     return tmpFilter;
   }
   
