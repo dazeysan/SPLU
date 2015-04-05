@@ -959,6 +959,7 @@
   }
 
   function getRecentPlays(multiple){
+    document.getElementById("SPLU.PlaysPlayers").style.display="none";
     tmpUser=document.getElementById("SPLU.PlaysLogger").value;
     if(SPLUplayFetch[tmpUser]===undefined){
       SPLUplayFetch[tmpUser]=[];
@@ -1037,12 +1038,17 @@
   }
   
   function parsePlays(player,page,multiple){
-    console.log("parsePlays("+multiple+")");
+    console.log("parsePlays("+player+","+page+","+multiple+")");
     SPLUplayFetch[player][page]=1;
     if(SPLUplayData[player]===undefined){
       SPLUplayData[player]={};
     }
-    SPLUplayData[player]["total"]=SPLUplays[player][page].getElementsByTagName("plays")[0].getAttribute("total");
+    if(SPLUplays[player][1].getElementsByTagName("plays")[0]===undefined){
+      SPLUplayData[player]["total"]=0;
+      multiple=false;
+    }else{
+      SPLUplayData[player]["total"]=SPLUplays[player][page].getElementsByTagName("plays")[0].getAttribute("total");
+    }
     for(i=0;i<SPLUplays[player][page].getElementsByTagName("play").length;i++){
       SPLUplayData[player][SPLUplays[player][page].getElementsByTagName("play")[i].id]=SPLUplays[player][page].getElementsByTagName("play")[i];
     }
