@@ -268,6 +268,7 @@
     }
   }
 
+  //Sorting functions found on StackOverflow
   function dynamicSort(property) {
     var sortOrder = 1;
     if(property[0] === "-") {
@@ -278,8 +279,7 @@
       var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
       return result * sortOrder;
     }
-}
-
+  }
   function dynamicSortMultiple() {
     /*
      * save the arguments object as it will be overwritten
@@ -848,15 +848,24 @@
   function deleteGamePlay(){
     if (confirm("Press OK to delete this play") == true) {
       document.getElementById('BRresults').innerHTML="Deleting...";
-      new Request.JSON({url:'/geekplay.php',data:'ajax=1&action=delete&playid='+tmpPlay.id,onComplete:function(responseJSON,responseText){
+      
+      
+      xmlhttp=new XMLHttpRequest();
+      xmlhttp.open("POST","/geekplay.php",true);
+      xmlhttp.onload=function(responseJSON){
         console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
         if(responseJSON.target.status==200){
           document.getElementById('BRresults').innerHTML="Play Deleted";
         }else{
-          document.getElementById('BRresults').innerHTML="An Error Occured";
+          document.getElementById('BRresults').innerHTML="An Error Occurred";
         }
-        saveGamePlay2('delete');
-      }}).send();
+      };
+      xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+      xmlhttp.send("version=2&action=delete&playid="+tmpPlay.id);
+
+      saveGamePlay2('delete');
+
+      
     }
   }
   
