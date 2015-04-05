@@ -857,7 +857,7 @@
         window.rest=responseText;
         console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
         if(responseJSON.target.status==200){
-          document.getElementById('BRresults').innerHTML="Play Deleted";
+          document.getElementById('BRresults').innerHTML="Play Deleted.  <a href='"+responseJSON.target.responseURL+"' target='_blank'>View your plays</a>";
         }else{
           document.getElementById('BRresults').innerHTML="An Error Occurred";
         }
