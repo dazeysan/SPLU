@@ -1119,7 +1119,7 @@
     setObjectType(tmpPlay.getElementsByTagName("subtypes")[0].getElementsByTagName("subtype")[0].getAttribute("value"));
     tmpItem=tmpPlay.getElementsByTagName("item")[0];
     SetInstantSearchObject({itemid:'0',objecttype:tmpItem.attributes.objecttype.value,objectid:tmpItem.attributes.objectid.value, name:tmpItem.attributes.name.value,uniqueid:'546e9ffd96dfc'} );
-    if(document.getElementById("SPLU.PlaysLogger").value==LoggedInAs){
+    if(document.getElementById("SPLU.PlaysLogger").value==LoggedInAs&&!SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][id].deleted){
       showHideEditButtons("show");
     }else{
       showHideEditButtons("hide");
