@@ -852,7 +852,7 @@
       
       xmlhttp=new XMLHttpRequest();
       xmlhttp.open("POST","/geekplay.php",true);
-      xmlhttp.onload=function(responseJSON){
+      xmlhttp.onload=function(responseJSON,responseText){
         window.resJ=responseJSON;
         window.rest=responseText;
         console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
