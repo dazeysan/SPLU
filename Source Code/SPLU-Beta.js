@@ -1291,7 +1291,7 @@
     if(SPLUwinners.length>3&&SPLUwinners.length!=PlayerCount){
       sentence+=" and many winners.";
     }
-    if(document.getElementById('quickplay_duration99').value!=""){
+    if(document.getElementById('quickplay_duration99').value!="" && document.getElementById('quickplay_duration99').value!=0){
       if(document.getElementById('quickplay_quantity99').value==1){
         sentence+=" The game lasted ";
         sentence+=document.getElementById('quickplay_duration99').value;
