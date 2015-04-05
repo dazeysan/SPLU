@@ -232,7 +232,7 @@
   var SPLUplays={};
   var SPLUplay={};
   var SPLUobjecttype="";
-  var SPLUplaysFilter={enabeled:false, username:"", playername:"", mindate:"", maxdate:"", location:""};
+  var SPLUplaysFilter={enabled:false, username:"", playername:"", mindate:"", maxdate:"", location:""};
   var SPLUplaysPage=1;
   var SPLUplayData={};
   var SPLUplayFetch={};
@@ -1106,13 +1106,24 @@
   function filterPlays(plays,user){
     //SPLUplayFilter.username=document.getElementById("SPLU.PlaysUserFilter").value;
     //SPLUplayFilter.enabled=true;
-    var tmpSort=[];
-    for(i=0;i<plays.length;i++){
-      if(SPLUplayData[user][plays[i].id].getElementsByTagName("item")[0].attributes.name.value=="Golf"){
-        tmpSort.push(plays[i]);
+    var tmpFilter=[];
+    if(SPLUplaysFilter.gamename!=""){
+      for(i=0;i<plays.length;i++){
+        if(SPLUplayData[user][plays[i].id].getElementsByTagName("item")[0].attributes.name.value==SPLUplaysFilter.gamename){
+          tmpFilter.push(plays[i]);
+        }
       }
+      plays=tmpFilter;
     }
-    return tmpSort;
+    if(SPLUplaysFilter.location!=""){
+      for(i=0;i<plays.length;i++){
+        if(SPLUplayData[user][plays[i].id].getAttribute("location")==SPLUplaysFilter.location){
+          tmpFilter.push(plays[i]);
+        }
+      }
+      plays=tmpFilter;
+    }
+    return tmpFilter;
   }
   
   function loadPlay(id){
