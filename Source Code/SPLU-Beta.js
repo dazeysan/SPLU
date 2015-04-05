@@ -232,7 +232,7 @@
   var SPLUplays={};
   var SPLUplay={};
   var SPLUobjecttype="";
-  var SPLUplaysFilter={enabled:false, username:"", playername:"", mindate:"", maxdate:"", location:""};
+  var SPLUplaysFilter={enabled:false, username:"", playername:"", mindate:"", maxdate:"", location:"", gamename:""};
   var SPLUplaysPage=1;
   var SPLUplayData={};
   var SPLUplayFetch={};
@@ -1093,12 +1093,16 @@
       tmpHTML+='</div>';
       tmpCount=(Object.keys(SPLUplayData[tmpUser]).length)-1;
       document.getElementById('SPLU.PlaysList').innerHTML=tmpHTML;
-      tmpHTML='<div style="display:table-row;"><div style="display:table-cell;">Loaded '+tmpCount+' of '+SPLUplayData[tmpUser]["total"];
+      tmpHTML='<div><div>Loaded '+tmpCount+' of '+SPLUplayData[tmpUser]["total"];
       if(SPLUplayData[tmpUser]["total"]>(Object.keys(SPLUplayData[tmpUser]).length)-1){
         tmpCount=(Math.floor(tmpCount/100))+1;
         tmpHTML+='<a href="javascript:{void(0);}" onClick="javascript:{getPlays(\''+tmpUser+'\','+tmpCount+',false);}"> - Load next 100</a>';
       }
-      tmpHTML+='</div></div>';
+      tmpHTML+='</div>';
+      if(SPLUplaysFilter.enabled){
+        tmpHTML+='<div>Filter Showing '+tmpSort.length+'</div>';
+      }
+      tmpHTML+='</div>';
       document.getElementById('SPLU.PlaysStatus').innerHTML=tmpHTML;
     }
   }
