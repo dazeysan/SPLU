@@ -1063,7 +1063,8 @@
     document.getElementById("SPLU.PlaysPlayers").style.display="none";
     console.log("loadPlays("+tmpUser+")");
     if(SPLUplayData[tmpUser]["total"]==0){
-      document.getElementById('SPLU.PlaysList').innerHTML='<div>No Plays Found.</div>';
+      document.getElementById('SPLU.PlaysStatus').innerHTML='<div>No Plays Found.</div>';
+      document.getElementById('SPLU.PlaysList').innerHTML='';
     }else{
       var tmpHTML="";
       var display=true;
@@ -1150,8 +1151,10 @@
     var tmpPlayers=[];
     document.getElementById("SPLU.PlaysPlayers").innerHTML="";
     for(key in SPLUplayData){
-      tmpPlayers.push(key);
-      document.getElementById("SPLU.PlaysPlayers").innerHTML+='<a onClick="javascript:{document.getElementById(\'SPLU.PlaysLogger\').value=\''+key+'\';loadPlays(\''+key+'\');}">'+key+'</a><br/>';
+      if(SPLUplayData[key]["total"]>0){
+        tmpPlayers.push(key);
+        document.getElementById("SPLU.PlaysPlayers").innerHTML+='<a onClick="javascript:{document.getElementById(\'SPLU.PlaysLogger\').value=\''+key+'\';loadPlays(\''+key+'\');}">'+key+'</a><br/>';
+      }
     }
     if(tmpPlayers.length>0){
       document.getElementById("SPLU.PlaysPlayers").style.display="";
