@@ -926,8 +926,6 @@
     if(action=="none"||action=="delete"){
       clearForm();
     }
-    if(SPLU.Settings.DateField.Reset){setDateField(SPLUtoday);}
-    if(SPLU.Settings.GameField.Reset){VoidInstantSearch({itemid:'0',uniqueid:'546e9ffd96dfc'});}
   }
 
   function clearForm(){
@@ -950,6 +948,9 @@
     PlayerCount=0;
     insertPlayer(-1);
     showHideEditButtons("hide");
+    if(SPLU.Settings.DateField.Reset){setDateField(SPLUtoday);}
+    if(SPLU.Settings.GameField.Reset){VoidInstantSearch({itemid:'0',uniqueid:'546e9ffd96dfc'});}
+
   }
   
   function setDateField(date){
