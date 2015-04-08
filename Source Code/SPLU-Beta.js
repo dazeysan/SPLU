@@ -2135,6 +2135,7 @@
   listenerForPopText("SPLU.SaveLocationButton","Save This Location");
   listenerForPopText("BRplaysBtn","View/Edit Play History")
   listenerForPopText("ResetFormBtn","Clear All Fields")
+  listenerForPopText("DeleteGamePlayBtn","Delete this Play")
 
   var observer=new MutationObserver(function(){
     if(document.getElementById('selimage0').innerHTML.slice(0,4)=="<div"){
