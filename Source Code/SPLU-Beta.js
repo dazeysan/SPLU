@@ -2120,7 +2120,7 @@
   listenerForPopText("collapseName","Collapse");
   listenerForPopText("collapseUsername","Collapse");
   listenerForPopText("SaveGamePlayBtn","Submit and Reset Form");
-  listenerForPopText("SaveGamePlayBtnDupe","Submit but Keep Player Data");
+  listenerForPopText("SaveGamePlayBtnDupe","Submit but Keep Player Data Onscreen");
   listenerForPopText("favoritesGoTo","Choose from your Favorites list");
   listenerForPopText("favoritesAddToList","Add to Favorites");
   listenerForPopText("expansionLoggingButton","Log an expansion");
@@ -2134,6 +2134,7 @@
   listenerForPopText("showLocationsPaneBtn","Edit All Locations");
   listenerForPopText("SPLU.SaveLocationButton","Save This Location");
   listenerForPopText("BRplaysBtn","View/Edit Play History")
+  listenerForPopText("ResetFormBtn","Clear All Fields")
 
   var observer=new MutationObserver(function(){
     if(document.getElementById('selimage0').innerHTML.slice(0,4)=="<div"){
