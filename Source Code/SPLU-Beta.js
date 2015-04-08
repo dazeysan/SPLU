@@ -2119,7 +2119,7 @@
   listenerForPopText("collapseWin","Collapse");
   listenerForPopText("collapseName","Collapse");
   listenerForPopText("collapseUsername","Collapse");
-  listenerForPopText("SaveGamePlayBtn","Submit and Reset Form");
+  listenerForPopText("SaveGamePlayBtn","Submit and Clear All Fields");
   listenerForPopText("SaveGamePlayBtnDupe","Submit but Keep Player Data Onscreen");
   listenerForPopText("favoritesGoTo","Choose from your Favorites list");
   listenerForPopText("favoritesAddToList","Add to Favorites");
