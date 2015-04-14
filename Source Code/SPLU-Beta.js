@@ -1082,15 +1082,20 @@
       if(SPLUplaysFilter.enabled){
         tmpSort=filterPlays(tmpSort,tmpUser);
       }
+      var tmpSortCount=0;
+      var tmpLines=document.getElementsByName("SPLU.PlaysFiltersLine").length;
       for(i=0;i<tmpSort.length;i++){
-        tmpPlayId=tmpSort[i]["id"];
-        tmpPlayDate=SPLUplayData[tmpUser][tmpPlayId].attributes.date.value;
-        tmpPlayGame=SPLUplayData[tmpUser][tmpPlayId].getElementsByTagName("item")[0].attributes.name.value;
-        tmpDecoration="";
-        if(SPLUplayData[tmpUser][tmpPlayId].deleted){
-          tmpDecoration="text-decoration:line-through;";
+        if(tmpSort[i].matches==tmpLines){
+          tmpSortCount++;
+          tmpPlayId=tmpSort[i]["id"];
+          tmpPlayDate=SPLUplayData[tmpUser][tmpPlayId].attributes.date.value;
+          tmpPlayGame=SPLUplayData[tmpUser][tmpPlayId].getElementsByTagName("item")[0].attributes.name.value;
+          tmpDecoration="";
+          if(SPLUplayData[tmpUser][tmpPlayId].deleted){
+            tmpDecoration="text-decoration:line-through;";
+          }
+          tmpHTML+='<div id="SPLU.Plays-'+tmpPlayId+'" style="display:table-row;'+tmpDecoration+'"><div style="display:table-cell;">'+tmpPlayDate+' - <a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+tmpPlayId+');}">'+tmpPlayGame+'</a></div></div>';
         }
-        tmpHTML+='<div id="SPLU.Plays-'+tmpPlayId+'" style="display:table-row;'+tmpDecoration+'"><div style="display:table-cell;">'+tmpPlayDate+' - <a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+tmpPlayId+');}">'+tmpPlayGame+'</a></div></div>';
       }
       tmpHTML+='</div>';
       tmpCount=(Object.keys(SPLUplayData[tmpUser]).length)-1;
@@ -1102,7 +1107,7 @@
       }
       tmpHTML+='</div>';
       if(SPLUplaysFilter.enabled){
-        document.getElementById("SPLU.PlaysFiltersStatus").innerHTML='<div>Showing '+tmpSort.length+'</div>';
+        document.getElementById("SPLU.PlaysFiltersStatus").innerHTML='<div>Showing '+tmpSortCount+'</div>';
       }
       tmpHTML+='</div>';
       document.getElementById('SPLU.PlaysStatus').innerHTML=tmpHTML;
@@ -1111,7 +1116,10 @@
   }
   
   function filterPlays(plays,user){
-    var tmpFilter=[];
+    window.tmpPlays=plays;
+    for(i=0;i<plays.length;i++){
+      plays[i].matches=0;
+    }
     var lines=document.getElementsByName("SPLU.PlaysFiltersLine");
     for(l=0;l<lines.length;l++){
       console.log(lines[l].value);
@@ -1119,33 +1127,30 @@
       if(filtertype=="gamename"){
         for(i=0;i<plays.length;i++){
           if(SPLUplayData[user][plays[i].id].getElementsByTagName("item")[0].attributes.name.value==lines[l].value){
-            tmpFilter.push(plays[i]);
+            plays[i].matches++;
           }
         }
-        plays=tmpFilter;
       }
       if(filtertype=="location"){
         for(i=0;i<plays.length;i++){
           if(SPLUplayData[user][plays[i].id].getAttribute("location")==lines[l].value){
-            tmpFilter.push(plays[i]);
+            plays[i].matches++;
           }
         }
-        plays=tmpFilter;
       }
       if(filtertype=="playername"){
         console.log("playername");
         for(i=0;i<plays.length;i++){
           if(SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0]!==undefined){
-            tmpPlayers=SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
+            var tmpPlayers=SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
             for(p=0;p<tmpPlayers.length;p++){
               if(tmpPlayers[p].getAttribute("name")==lines[l].value){
-                tmpFilter.push(plays[i]);
+                plays[i].matches++;
                 break;
               }
             }
           }
         }
-        plays=tmpFilter;
       }
       if(filtertype=="username"){
         for(i=0;i<plays.length;i++){
@@ -1153,17 +1158,16 @@
             tmpPlayers=SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
             for(p=0;p<tmpPlayers.length;p++){
               if(tmpPlayers[p].getAttribute("username")==lines[l].value){
-                tmpFilter.push(plays[i]);
+                plays[i].matches++;
                 break;
               }
             }
           }
         }
-        plays=tmpFilter;
       }
     }
 
-    return tmpFilter;
+    return plays;
   }
   
   function addPlaysFilter(){
@@ -2080,6 +2084,7 @@
             +'<option value="playername">Player Name</option>'
             +'<option value="username">User Name</option>'
             +'<option value="gamename">Game Name</option>'
+            +'<option value="location">Location</option>'
           +'</select>'
         +'</div>'
       +'</div>'
