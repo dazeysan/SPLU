@@ -1102,7 +1102,7 @@
       }
       tmpHTML+='</div>';
       if(SPLUplaysFilter.enabled){
-        tmpHTML+='<div>Filter Showing '+tmpSort.length+'</div>';
+        document.getElementById("SPLU.PlaysFiltersStatus").innerHTML='<div>Showing '+tmpSort.length+'</div>';
       }
       tmpHTML+='</div>';
       document.getElementById('SPLU.PlaysStatus').innerHTML=tmpHTML;
@@ -1112,49 +1112,55 @@
   
   function filterPlays(plays,user){
     var tmpFilter=[];
-    if(SPLUplaysFilter.gamename!=""){
-      for(i=0;i<plays.length;i++){
-        if(SPLUplayData[user][plays[i].id].getElementsByTagName("item")[0].attributes.name.value==SPLUplaysFilter.gamename){
-          tmpFilter.push(plays[i]);
+    var lines=document.getElementsByName("SPLU.PlaysFiltersLine");
+    for(l=0;l<lines.length;l++){
+      console.log(lines[l].value);
+      var filtertype=lines[l].getAttribute("data-SPLU-filtertype");
+      if(filtertype=="gamename"){
+        for(i=0;i<plays.length;i++){
+          if(SPLUplayData[user][plays[i].id].getElementsByTagName("item")[0].attributes.name.value==lines[l].value){
+            tmpFilter.push(plays[i]);
+          }
         }
+        plays=tmpFilter;
       }
-      plays=tmpFilter;
-    }
-    if(SPLUplaysFilter.location!=""){
-      for(i=0;i<plays.length;i++){
-        if(SPLUplayData[user][plays[i].id].getAttribute("location")==SPLUplaysFilter.location){
-          tmpFilter.push(plays[i]);
+      if(filtertype=="location"){
+        for(i=0;i<plays.length;i++){
+          if(SPLUplayData[user][plays[i].id].getAttribute("location")==lines[l].value){
+            tmpFilter.push(plays[i]);
+          }
         }
+        plays=tmpFilter;
       }
-      plays=tmpFilter;
-    }
-    if(SPLUplaysFilter.playername!=""){
-      for(i=0;i<plays.length;i++){
-        if(SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0]!==undefined){
-          tmpPlayers=SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
-          for(p=0;p<tmpPlayers.length;p++){
-            if(tmpPlayers[p].getAttribute("name")==SPLUplaysFilter.playername){
-              tmpFilter.push(plays[i]);
-              break;
+      if(filtertype=="playername"){
+        console.log("playername");
+        for(i=0;i<plays.length;i++){
+          if(SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0]!==undefined){
+            tmpPlayers=SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
+            for(p=0;p<tmpPlayers.length;p++){
+              if(tmpPlayers[p].getAttribute("name")==lines[l].value){
+                tmpFilter.push(plays[i]);
+                break;
+              }
             }
           }
         }
+        plays=tmpFilter;
       }
-      plays=tmpFilter;
-    }
-    if(SPLUplaysFilter.username!=""){
-      for(i=0;i<plays.length;i++){
-        if(SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0]!==undefined){
-          tmpPlayers=SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
-          for(p=0;p<tmpPlayers.length;p++){
-            if(tmpPlayers[p].getAttribute("username")==SPLUplaysFilter.username){
-              tmpFilter.push(plays[i]);
-              break;
+      if(filtertype=="username"){
+        for(i=0;i<plays.length;i++){
+          if(SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0]!==undefined){
+            tmpPlayers=SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
+            for(p=0;p<tmpPlayers.length;p++){
+              if(tmpPlayers[p].getAttribute("username")==lines[l].value){
+                tmpFilter.push(plays[i]);
+                break;
+              }
             }
           }
         }
+        plays=tmpFilter;
       }
-      plays=tmpFilter;
     }
 
     return tmpFilter;
@@ -2066,10 +2072,11 @@
       +'</div>'
       +'<div id="SPLU.PlaysFilters" style="border: 1px solid blue; border-radius: 5px; padding: 3px;">'
         +'<div id="SPLU.PlaysFiltersCurrent"></div>'
+        +'<div id="SPLU.PlaysFiltersStatus" style="float:right;"></div>'
         +'<div>'
           +'<select id="SPLU.SelectPlaysFilter" onChange="javascript:{addPlaysFilter();}">'
             +'<option value="add">Add a Filter</option>'
-            +'<option value="---">---</option>'
+            +'<option value="---" disabled>---</option>'
             +'<option value="playername">Player Name</option>'
             +'<option value="username">User Name</option>'
             +'<option value="gamename">Game Name</option>'
