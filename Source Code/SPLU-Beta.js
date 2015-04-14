@@ -1587,7 +1587,7 @@
         +'<img src="http://cf.geekdo-images.com/images/pic2319219.png">'
       +'</a>'
     +'</div>'
-    +'<div style="margin-top: -270px; margin-right: -5px;">'
+    +'<div style="margin-top: 25px; padding-left: 8px;">'
       +'<a href="javascript:{void(0);}" onClick="javascript:{showPlaysPane(\'button\');}" id="BRplaysBtn">'
         +'<img src="http://cf.geekdo-images.com/images/pic2447320.png">'
       +'</a>'
