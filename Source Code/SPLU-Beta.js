@@ -237,6 +237,7 @@
   var SPLUplayData={};
   var SPLUplayFetch={};
   var SPLUplayFetchFail=0;
+  var SPLUplaysFiltersCount=0;
   
   function setObjectType(type){
     VoidInstantSearch({itemid:'0',uniqueid:'546e9ffd96dfc'});
@@ -1160,9 +1161,23 @@
   }
   
   function addPlaysFilter(){
-    tmpHTML='<div><select name="SPLU.FilterType"><option value="Location"/><option value="Game Name"/></select><input type="text" name="SPLU.FilterText"/>'; 
-    document.getElementById("SPLU.PlaysFilters").innerHTML+=tmpHTML;
-    //select.options[0]=new Option("All", "All", true, true);
+    var filter=document.getElementById("SPLU.SelectPlaysFilter").value;
+    var filterName="";
+    if(filter!="add" && filter!="---"){
+      SPLUplaysFiltersCount++;
+      if(filter=="playername"){filterName="Player";}
+      if(filter=="username"){filterName="User Name";}
+      if(filter=="gamename"){filterName="Game";}
+      if(filter=="location"){filterName="Location";}
+      
+      tmpHTML='<div id="SPLU.playsFiltersLine'+SPLUplaysFiltersCount+'">'
+      +'<a href="javascript:{void(0);}" onclick="javascript:{document.getElementById(\'SPLU.PlaysFilters\').removeChild(document.getElementById(\'SPLU.playsFiltersLine'+SPLUplaysFiltersCount+\'));}" style="color:red;margin:2px;">'
+      +'<img src="http://cf.geekdo-images.com/images/pic2346458.png">'
+      +'</a>'
+      +filterName+': <input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'"/>'
+      +'</div>'; 
+      document.getElementById("SPLU.PlaysFilters").innerHTML+=tmpHTML;
+    }
   }
   
   function showHidePlaysFilters(){
@@ -2049,7 +2064,18 @@
       +'<div id="SPLU.PlaysMenu" style="display:none;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysFilters();}"><img src="https://cf.geekdo-images.com/images/pic2477108.png"></a>'
       +'</div>'
-      +'<div id="SPLU.PlaysFilters" style="display:none;"></div>'
+      +'<div id="SPLU.PlaysFilters" style="border: 1px solid blue; border-radius: 5px; padding: 3px;">'
+        +'<div id="SPLU.PlaysFiltersCurrent"></div>'
+        +'<div>'
+          +'<select id="SPLU.SelectPlaysFilter" onChange="javascript:{addPlaysFilter();}">'
+            +'<option value="add">Add a Filter</option>'
+            +'<option value="---">---</option>'
+            +'<option value="playername">Player Name</option>'
+            +'<option value="username">User Name</option>'
+            +'<option value="gamename">Game Name</option>'
+          +'</select>'
+        +'</div>'
+      +'</div>'
       +'<div id="SPLU.PlaysList" style="overflow-y:auto; width:275px;"></div>';
   tmpDiv.innerHTML+=tmpHTML;
   BRlogPlays.appendChild(tmpDiv);
