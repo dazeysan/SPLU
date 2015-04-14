@@ -1065,6 +1065,7 @@
     if(SPLUplayData[tmpUser]["total"]==0){
       document.getElementById('SPLU.PlaysStatus').innerHTML='<div>No Plays Found.</div>';
       document.getElementById('SPLU.PlaysList').innerHTML='';
+      document.getElementById('SPLU.PlaysMenu').style.display='none';
     }else{
       var tmpHTML="";
       var display=true;
@@ -1104,6 +1105,7 @@
       }
       tmpHTML+='</div>';
       document.getElementById('SPLU.PlaysStatus').innerHTML=tmpHTML;
+      document.getElementById('SPLU.PlaysMenu').style.display='';
     }
   }
   
@@ -1161,6 +1163,14 @@
     tmpHTML='<div><select name="SPLU.FilterType"><option value="Location"/><option value="Game Name"/></select><input type="text" name="SPLU.FilterText"/>'; 
     document.getElementById("SPLU.PlaysFilters").innerHTML+=tmpHTML;
     //select.options[0]=new Option("All", "All", true, true);
+  }
+  
+  function showHidePlaysFilters(){
+    if(document.getElementById("SPLU.PlaysFilters").style.display=="none"){
+      document.getElementById("SPLU.PlaysFilters").style.display="";
+    }else{
+      document.getElementById("SPLU.PlaysFilters").style.display="none";
+    }
   }
   
   function loadPlay(id){
@@ -2022,13 +2032,25 @@
   BRlogPlays.id='BRlogPlays';
   BRlogPlays.setAttribute("style","display:none; background-color: #F1F8FB; padding: 13px;border:2px solid #249631;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:100px;");
   var tmpDiv=document.createElement('div');
-  var tmpHTML='<div id="hidePlaysButton" style="position: absolute; right: 0px; top: 2px;"><a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogPlays\').style.display=\'none\';}" style="border:2px solid #249631;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="http://cf.geekdo-images.com/images/pic2336662.png"></a></div>';
-  tmpHTML+='<span style="font-variant:small-caps; font-weight:bold;"><center>Logged Plays</center></span>';
-  tmpHTML+='<div><input type="text" id="SPLU.PlaysLogger" value="'+LoggedInAs+'" onClick="javascript:{listFetchedPlayers();}"/><a href="javascript:{void(0);}" onClick="javascript:{getRecentPlays(false);}">Get Recent</a> | <a href="javascript:{void(0);}" onClick="javascript:{getRecentPlays(true);}">Get All</a> | <a href="javascript:{void(0);}" onClick="javascript:{addPlaysFilter();}"><img src="https://cf.geekdo-images.com/images/pic2477108.png"></a></div>';
-  tmpHTML+='<div id="SPLU.PlaysPlayers" style="position: absolute; background-color: rgb(205, 237, 251); width: 126px; padding: 3px; border: 1px solid blue; display:none;">list</div>';
-  tmpHTML+='<div id="SPLU.PlaysStatus"></div>';
-  tmpHTML+='<div id="SPLU.PlaysFilters"></div>';
-  tmpHTML+='<div id="SPLU.PlaysList" style="overflow-y:auto; width:275px;"></div>';
+  var tmpHTML='<div id="hidePlaysButton" style="position: absolute; right: 0px; top: 2px;">'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogPlays\').style.display=\'none\';}" style="border:2px solid #249631;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="http://cf.geekdo-images.com/images/pic2336662.png"></a>'
+      +'</div>'
+      +'<span style="font-variant:small-caps; font-weight:bold;">'
+        +'<center>Logged Plays</center>'
+      +'</span>'
+      +'<div>'
+        +'<input type="text" id="SPLU.PlaysLogger" value="'+LoggedInAs+'" onClick="javascript:{listFetchedPlayers();}"/>'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{getRecentPlays(false);}">Get Recent</a>'
+        +' | '
+        +'<a href="javascript:{void(0);}" onClick="javascript:{getRecentPlays(true);}">Get All</a>'
+      +'</div>'
+      +'<div id="SPLU.PlaysPlayers" style="position: absolute; background-color: rgb(205, 237, 251); width: 126px; padding: 3px; border: 1px solid blue; display:none;">list</div>'
+      +'<div id="SPLU.PlaysStatus"></div>'
+      +'<div id="SPLU.PlaysMenu" style="display:none;">'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysFilters();}"><img src="https://cf.geekdo-images.com/images/pic2477108.png"></a>'
+      +'</div>'
+      +'<div id="SPLU.PlaysFilters" style="display:none;"></div>'
+      +'<div id="SPLU.PlaysList" style="overflow-y:auto; width:275px;"></div>';
   tmpDiv.innerHTML+=tmpHTML;
   BRlogPlays.appendChild(tmpDiv);
   
