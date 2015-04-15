@@ -1232,7 +1232,21 @@
             }
           }
         }
-      }      
+      }
+      if(filtertype=="excludeexpansions"){
+        for(i=0;i<plays.length;i++){
+          if(SPLUplayData[user][plays[i].id].getElementsByTagName("subtypes")[0]!==undefined){
+            var tmpTypes=SPLUplayData[user][plays[i].id].getElementsByTagName("subtypes")[0].getElementsByTagName("subtype");
+            for(t=0;t<tmpTypes.length;t++){
+              if(tmpTypes[t].getAttribute("value").toLowerCase().indexOf(lines[l].value.toLowerCase())>-1){
+                plays[i].matches--;
+                break;
+              }
+            }
+          }
+        }
+      }
+
     }
     return plays;
   }
@@ -1260,9 +1274,12 @@
       if(filter=="winner"){filterName="Winner";}
       if(filter=="new"){filterName="New";}
       
+      if(filter=="excludeexpansions"){
+        tmpHTML+='Expansions Excluded<input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" style="display:hidden;" value="expansion">';
+      }
+      
       if(filter=="objecttype"){
-        filterName="Type";
-        tmpHTML+=filterName+': <select name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" onChange="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value);}">'
+        tmpHTML+='Type: <select name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" onChange="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value);}">'
           +'<option value="boardgame">Board Game</option>'
           +'<option value="videogame">Video Game</option>'
           +'<option value="rpgitem">RPG Item</option>'
