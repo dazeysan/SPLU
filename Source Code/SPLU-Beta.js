@@ -1085,7 +1085,7 @@
       var tmpSortCount=0;
       var tmpLines=document.getElementsByName("SPLU.PlaysFiltersLine").length;
       for(i=0;i<tmpSort.length;i++){
-        if(tmpSort[i].matches==tmpLines){
+        if(tmpSort[i].matches==tmpLines || !SPLUplaysFilter.enabled){
           tmpSortCount++;
           tmpPlayId=tmpSort[i]["id"];
           tmpPlayDate=SPLUplayData[tmpUser][tmpPlayId].attributes.date.value;
@@ -1180,13 +1180,14 @@
       if(filter=="gamename"){filterName="Game";}
       if(filter=="location"){filterName="Location";}
       
-      tmpHTML='<div id="SPLU.playsFiltersLine'+SPLUplaysFiltersCount+'">'
-      +'<a href="javascript:{void(0);}" onclick="javascript:{document.getElementById(\'SPLU.PlaysFilters\').removeChild(document.getElementById(\'SPLU.playsFiltersLine'+SPLUplaysFiltersCount+'\'));}" style="color:red;margin:2px;">'
+      tmpHTML='<a href="javascript:{void(0);}" onclick="javascript:{document.getElementById(\'SPLU.PlaysFilters\').removeChild(document.getElementById(\'SPLU.playsFiltersLine'+SPLUplaysFiltersCount+'\'));}" style="color:red;margin:2px;">'
       +'<img src="http://cf.geekdo-images.com/images/pic2346458.png">'
       +'</a>'
-      +filterName+': <input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'"/>'
-      +'</div>'; 
-      document.getElementById("SPLU.PlaysFilters").innerHTML+=tmpHTML;
+      +filterName+': <input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'"/>'; 
+      var tmpDiv=document.createElement('div');
+      tmpDiv.id="SPLU.playsFiltersLine"+SPLUplaysFiltersCount;
+      tmpDiv.innerHTML=tmpHTML;
+      document.getElementById("SPLU.PlaysFilters").appendChild(tmpDiv);
     }
   }
   
