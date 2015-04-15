@@ -1703,7 +1703,7 @@
           +'</div>'
           +'<a href="javascript:{void(0);}" onClick="javascript:{showHideLocations();}" id="BRlocsBtn" style="padding-left:1px; vertical-align:middle;"><span id="SPLU.LocationButtonIconCollapse" style="display:inline-block;"><img src="http://cf.geekdo-images.com/images/pic2321002.png"></span><span id="SPLU.LocationButtonIconExpand" style="display:none;"><img src="http://cf.geekdo-images.com/images/pic2320964.png"></span></a>'
           +'<div style="display:inline-block; position:absolute; padding-top:2px;padding-left:4px;">'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{showLocationsPane(\'button\');}" id="showLocationsPaneBtn"><img src="https://cf.geekdo-images.com/images/pic2480328.png"></a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{showLocationsPane(\'button\');}" id="showLocationsPaneBtn"><img src="https://cf.geekdo-images.com/images/pic2480325.png"></a>'
           +'</div>'
           +'<br/>'
           +'<div id="SPLU.LocationList" style="">'
