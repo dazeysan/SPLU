@@ -1178,8 +1178,9 @@
       +filterName+': <input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'"/>'; 
       var tmpDiv=document.createElement('div');
       tmpDiv.id="SPLU.playsFiltersLine"+SPLUplaysFiltersCount;
+      tmpDiv.setAttribute("style","padding-top:2px;");
       tmpDiv.innerHTML=tmpHTML;
-      document.getElementById("SPLU.PlaysFilters").appendChild(tmpDiv);
+      document.getElementById("SPLU.PlaysFiltersCurrent").appendChild(tmpDiv);
     }
     document.getElementById("SPLU.SelectPlaysFilter").value="add";
   }
@@ -2069,7 +2070,6 @@
         +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysFilters();}"><img src="https://cf.geekdo-images.com/images/pic2477108.png"></a>'
       +'</div>'
       +'<div id="SPLU.PlaysFilters" style="border: 1px solid blue; border-radius: 5px; padding: 3px; display:none;">'
-        +'<div id="SPLU.PlaysFiltersCurrent"></div>'
         +'<div id="SPLU.PlaysFiltersStatus" style="float:right;"></div>'
         +'<div>'
           +'<select id="SPLU.SelectPlaysFilter" onChange="javascript:{addPlaysFilter();}">'
@@ -2080,6 +2080,10 @@
             +'<option value="gamename">Game Name</option>'
             +'<option value="location">Location</option>'
           +'</select>'
+        +'<div id="SPLU.PlaysFiltersCurrent"></div>'
+          +'<div style="float:right;margin-top:-20px;margin-right:5px;">'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{loadPlays(document.getElementById("SPLU.PlaysLogger").value);}">go</a>'
+          +'</div>'
         +'</div>'
       +'</div>'
       +'<div id="SPLU.PlaysList" style="overflow-y:auto; width:275px;"></div>';
