@@ -1119,14 +1119,14 @@
       var filtertype=lines[l].getAttribute("data-SPLU-filtertype");
       if(filtertype=="gamename"){
         for(i=0;i<plays.length;i++){
-          if(SPLUplayData[user][plays[i].id].getElementsByTagName("item")[0].attributes.name.value==lines[l].value){
+          if(SPLUplayData[user][plays[i].id].getElementsByTagName("item")[0].attributes.name.value.toLowerCase().indexOf(lines[l].value.toLowerCase())>-1){
             plays[i].matches++;
           }
         }
       }
       if(filtertype=="location"){
         for(i=0;i<plays.length;i++){
-          if(SPLUplayData[user][plays[i].id].getAttribute("location")==lines[l].value){
+          if(SPLUplayData[user][plays[i].id].getAttribute("location").toLowerCase().indexOf(lines[l].value.toLowerCase())>-1){
             plays[i].matches++;
           }
         }
@@ -1136,7 +1136,7 @@
           if(SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0]!==undefined){
             var tmpPlayers=SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
             for(p=0;p<tmpPlayers.length;p++){
-              if(tmpPlayers[p].getAttribute("name")==lines[l].value){
+              if(tmpPlayers[p].getAttribute("name").toLowerCase().indexOf(lines[l].value.toLowerCase())>-1){
                 plays[i].matches++;
                 break;
               }
@@ -1149,7 +1149,7 @@
           if(SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0]!==undefined){
             tmpPlayers=SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
             for(p=0;p<tmpPlayers.length;p++){
-              if(tmpPlayers[p].getAttribute("username")==lines[l].value){
+              if(tmpPlayers[p].getAttribute("username").toLowerCase().indexOf(lines[l].value.toLowerCase())>-1){
                 plays[i].matches++;
                 break;
               }
@@ -1158,7 +1158,6 @@
         }
       }
     }
-
     return plays;
   }
   
