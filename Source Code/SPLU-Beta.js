@@ -1172,7 +1172,7 @@
       if(filter=="gamename"){filterName="Game";}
       if(filter=="location"){filterName="Location";}
       
-      tmpHTML='<a href="javascript:{void(0);}" onclick="javascript:{document.getElementById(\'SPLU.PlaysFiltersCurrent\').removeChild(document.getElementById(\'SPLU.playsFiltersLine'+SPLUplaysFiltersCount+'\'));loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value);}" style="color:red;margin:2px;">'
+      tmpHTML='<a href="javascript:{void(0);}" onclick="javascript:{document.getElementById(\'SPLU.PlaysFiltersCurrent\').removeChild(document.getElementById(\'SPLU.playsFiltersLine'+SPLUplaysFiltersCount+'\'));loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value);addPlaysFilter();}" style="color:red;margin:2px;">'
       +'<img src="http://cf.geekdo-images.com/images/pic2346458.png">'
       +'</a>'
       +filterName+': <input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'"/>'; 
