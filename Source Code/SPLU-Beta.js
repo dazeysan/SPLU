@@ -1133,9 +1133,11 @@
       }
       if(filtertype=="comments"){
         for(i=0;i<plays.length;i++){
-          if(SPLUplayData[user][plays[i].id].getElementsByTagName("comments")[0].textContent.toLowerCase().indexOf(lines[l].value.toLowerCase())>-1){
-            plays[i].matches++;
-          }
+          if(SPLUplayData[user][plays[i].id].getElementsByTagName("comments")[0]!==undefined){
+            if(SPLUplayData[user][plays[i].id].getElementsByTagName("comments")[0].textContent.toLowerCase().indexOf(lines[l].value.toLowerCase())>-1){
+              plays[i].matches++;
+            }
+        }
         }
       }
 
