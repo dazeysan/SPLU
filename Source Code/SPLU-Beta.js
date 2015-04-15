@@ -1,4 +1,4 @@
-// SPLU 5.2.3 Beta
+// SPLU 5.2.5 Beta
 
   //Check if they aren't on a BGG site and alert them to that fact.
   if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -10,7 +10,7 @@
   var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
   //Check if the user is logged in to BGG, throw an error if not
   if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-  var SPLUversion="5.2.3";
+  var SPLUversion="5.2.5";
 
   function fixedEncodeURIComponent(str) {
     return encodeURIComponent(str).replace(/[!'()*]/g, function(c) {
@@ -1210,16 +1210,25 @@
     var filterName="";
     if(filter!="add" && filter!="---"){
       SPLUplaysFiltersCount++;
+      var tmpHTML='<a href="javascript:{void(0);}" onclick="javascript:{document.getElementById(\'SPLU.PlaysFiltersCurrent\').removeChild(document.getElementById(\'SPLU.playsFiltersLine'+SPLUplaysFiltersCount+'\'));loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value);addPlaysFilter();}" style="color:red;margin:2px;">'
+        +'<img src="http://cf.geekdo-images.com/images/pic2346458.png">'
+        +'</a>';
       if(filter=="playername"){filterName="Player";}
       if(filter=="username"){filterName="User Name";}
       if(filter=="gamename"){filterName="Game";}
       if(filter=="location"){filterName="Location";}
       if(filter=="comments"){filterName="Comments";}
       
-      tmpHTML='<a href="javascript:{void(0);}" onclick="javascript:{document.getElementById(\'SPLU.PlaysFiltersCurrent\').removeChild(document.getElementById(\'SPLU.playsFiltersLine'+SPLUplaysFiltersCount+'\'));loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value);addPlaysFilter();}" style="color:red;margin:2px;">'
-      +'<img src="http://cf.geekdo-images.com/images/pic2346458.png">'
-      +'</a>'
-      +filterName+': <input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" onKeyPress="eventFilterLineEnter(event)"/>'; 
+      if(filter=="objecttype"){
+        filterName="Type";
+        tmpHTML+=filterName+': <input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" style="display:none;"/>'
+          +'BGG | VGG | RPG'; 
+      }
+      
+      if(filter!="objecttype"){
+        tmpHTML+=filterName+': <input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" onKeyPress="eventFilterLineEnter(event)"/>'; 
+      }  
+      
       var tmpDiv=document.createElement('div');
       tmpDiv.id="SPLU.playsFiltersLine"+SPLUplaysFiltersCount;
       tmpDiv.setAttribute("style","padding-top:2px;");
@@ -2386,6 +2395,7 @@
             +'<option value="gamename">Game Name</option>'
             +'<option value="location">Location</option>'
             +'<option value="comments">Comments</option>'
+            +'<option value="objecttype">Type</option>'
           +'</select>'
         +'<div id="SPLU.PlaysFiltersCurrent"></div>'
           +'<div id="SPLU.PlaysFiltersGoBtn"style="float:right;margin-top:-20px;margin-right:5px;display:none;">'
@@ -2412,7 +2422,10 @@
         if(size % 2==1){
           tmpHTML+='<div style="display:table-row;">';
         } 
-        tmpHTML+='<div style="display:table-cell; max-width:110px; padding-top:10px;"><a href="javascript:{void(0);}" onClick="javascript:{chooseFavorite('+key+');}"><img src="'+SPLU.Favorites[key].thumbnail+'"></a><a href="javascript:{void(0);}" onClick="javascript:{deleteFavorite('+key+');}"><img src="http://cf.geekdo-images.com/images/pic2333696.png" style="vertical-align:top; position: relative; margin-left: -8px; margin-top: -8px;"/></a><br/>'+SPLU.Favorites[key].title+'</div>';
+        tmpHTML+='<div style="display:table-cell; max-width:110px; padding-top:10px;">'
+          +'<a href="javascript:{void(0);}" onClick="javascript:{chooseFavorite('+key+');}"><img src="'+SPLU.Favorites[key].thumbnail+'"></a>'
+          +'<a href="javascript:{void(0);}" onClick="javascript:{deleteFavorite('+key+');}"><img src="http://cf.geekdo-images.com/images/pic2333696.png" style="vertical-align:top; position: relative; margin-left: -8px; margin-top: -8px;"/></a>'
+          +'<br/>'+SPLU.Favorites[key].title+'</div>';
         if(size % 2==0){
           tmpHTML+='</div>';
         }
