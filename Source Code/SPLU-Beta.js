@@ -1181,6 +1181,7 @@
       tmpDiv.innerHTML=tmpHTML;
       document.getElementById("SPLU.PlaysFilters").appendChild(tmpDiv);
     }
+    document.getElementById("SPLU.SelectPlaysFilter").value="add";
   }
   
   function showHidePlaysFilters(){
