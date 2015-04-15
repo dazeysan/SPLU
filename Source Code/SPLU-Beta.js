@@ -1767,7 +1767,7 @@
       +'<div style="display:table-row;">'
         +'<div class="BRcells">'
           +'Players:<a href="javascript:{void(0);}" onClick="javascript:{showHidePlayers(false);}" id="SPLU.SavedNamesBtn" style="padding-left:1px;"><span id="SPLU.SavedNamesButtonIconCollapse" style="display:inline-block;"><img src="http://cf.geekdo-images.com/images/pic2321002.png"></span><span id="SPLU.SavedNamesButtonIconExpand" style="display:none;"><img src="http://cf.geekdo-images.com/images/pic2320964.png"></span></a>'
-          +'<a href="javascript:{void(0);}" onClick="javascript:{showPlayersPane(\'button\');}" id="showPlayersPaneBtn"><img src="https://cf.geekdo-images.com/images/pic2480228.png"></a>'
+          +'<a href="javascript:{void(0);}" onClick="javascript:{showPlayersPane(\'button\');}" id="showPlayersPaneBtn"><img src="https://cf.geekdo-images.com/images/pic2480328.png"></a>'
           +'<div style="display:inline;" id="SPLU.PlayerFilters">'
             +'<select id="SPLU.SelectFilter" onChange="javascript:{setFilter(\'choose\');}"></select>'
           +'</div>'
