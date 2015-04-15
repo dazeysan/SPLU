@@ -980,7 +980,7 @@
 
   function eventPlaysPlayerEnter(e){
     if(e.keyCode === 13){
-      getRecentPlays("false");
+      getRecentPlays(false);
     }
     return false;
   }
