@@ -1237,8 +1237,9 @@
         for(i=0;i<plays.length;i++){
           if(SPLUplayData[user][plays[i].id].getElementsByTagName("subtypes")[0]!==undefined){
             var tmpTypes=SPLUplayData[user][plays[i].id].getElementsByTagName("subtypes")[0].getElementsByTagName("subtype");
+            plays[i].matches++;
             for(t=0;t<tmpTypes.length;t++){
-              if(tmpTypes[t].getAttribute("value").toLowerCase().indexOf(lines[l].value.toLowerCase())>-1){
+              if(tmpTypes[t].getAttribute("value").toLowerCase().indexOf("expansion")>-1){
                 plays[i].matches--;
                 break;
               }
@@ -1275,7 +1276,7 @@
       if(filter=="new"){filterName="New";}
       
       if(filter=="excludeexpansions"){
-        tmpHTML+='Expansions Excluded<input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" style="display:hidden;" value="expansion">';
+        tmpHTML+='Expansions Excluded<input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" style="display:none;" value="expansion">';
       }
       
       if(filter=="objecttype"){
@@ -1286,7 +1287,7 @@
           +'</select>';
       }
       
-      if(filter!="objecttype"){
+      if(filter!="objecttype" && filter!="excludeexpansions"){
         tmpHTML+=filterName+': <input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" onKeyPress="eventFilterLineEnter(event)"/>'; 
       }  
       
@@ -1301,6 +1302,9 @@
       document.getElementById("SPLU.PlaysFiltersGoBtn").style.display="none";
     }else{
       document.getElementById("SPLU.PlaysFiltersGoBtn").style.display="";
+    }
+    if(filter=="excludeexpansions"){
+      loadPlays(document.getElementById('SPLU.PlaysLogger').value);
     }
   }
   
