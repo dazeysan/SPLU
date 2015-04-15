@@ -1171,6 +1171,13 @@
     return plays;
   }
   
+  function eventFilterLineEnter(e){
+    if(e.keyCode === 13){
+      loadPlays(document.getElementById('SPLU.PlaysLogger').value);
+    }
+    return false;
+  }
+  
   function addPlaysFilter(){
     var filter=document.getElementById("SPLU.SelectPlaysFilter").value;
     var filterName="";
