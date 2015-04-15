@@ -1172,7 +1172,7 @@
       if(filter=="gamename"){filterName="Game";}
       if(filter=="location"){filterName="Location";}
       
-      tmpHTML='<a href="javascript:{void(0);}" onclick="javascript:{document.getElementById(\'SPLU.PlaysFilters\').removeChild(document.getElementById(\'SPLU.playsFiltersLine'+SPLUplaysFiltersCount+'\'));}" style="color:red;margin:2px;">'
+      tmpHTML='<a href="javascript:{void(0);}" onclick="javascript:{document.getElementById(\'SPLU.PlaysFilters\').removeChild(document.getElementById(\'SPLU.playsFiltersLine'+SPLUplaysFiltersCount+'\'));loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value);}" style="color:red;margin:2px;">'
       +'<img src="http://cf.geekdo-images.com/images/pic2346458.png">'
       +'</a>'
       +filterName+': <input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'"/>'; 
@@ -1183,6 +1183,11 @@
       document.getElementById("SPLU.PlaysFiltersCurrent").appendChild(tmpDiv);
     }
     document.getElementById("SPLU.SelectPlaysFilter").value="add";
+    if(document.getElementsByName("SPLU.PlaysFiltersLine").length==0){
+      document.getElementById("SPLU.PlaysFiltersGoBtn").style.display="none";
+    }else{
+      document.getElementById("SPLU.PlaysFiltersGoBtn").style.display="";
+    }
   }
   
   function showHidePlaysFilters(){
@@ -2081,8 +2086,8 @@
             +'<option value="location">Location</option>'
           +'</select>'
         +'<div id="SPLU.PlaysFiltersCurrent"></div>'
-          +'<div style="float:right;margin-top:-20px;margin-right:5px;">'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{loadPlays(document.getElementById("SPLU.PlaysLogger").value);}">go</a>'
+          +'<div id="SPLU.PlaysFiltersGoBtn"style="float:right;margin-top:-20px;margin-right:5px;display:none;">'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value);}">go</a>'
           +'</div>'
         +'</div>'
       +'</div>'
