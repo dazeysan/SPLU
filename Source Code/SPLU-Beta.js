@@ -958,6 +958,13 @@
     parseDate(document.getElementById('playdateinput99'),$('playdate99'),$('playdatestatus99'));
   }
 
+  function eventPlaysPlayerEnter(e){
+    if(e.keyCode === 13){
+      getRecentPlays("false");
+    }
+    return false;
+  }
+
   function getRecentPlays(multiple){
     document.getElementById("SPLU.PlaysPlayers").style.display="none";
     tmpUser=document.getElementById("SPLU.PlaysLogger").value;
@@ -2081,7 +2088,7 @@
         +'<center>Logged Plays</center>'
       +'</span>'
       +'<div>'
-        +'<input type="text" id="SPLU.PlaysLogger" value="'+LoggedInAs+'" onClick="javascript:{listFetchedPlayers();}"/>'
+        +'<input type="text" id="SPLU.PlaysLogger" value="'+LoggedInAs+'" onClick="javascript:{listFetchedPlayers();}" onKeyPress="eventPlaysPlayerEnter(event);"/>'
         +'<a href="javascript:{void(0);}" onClick="javascript:{getRecentPlays(false);}">Get Recent</a>'
         +' | '
         +'<a href="javascript:{void(0);}" onClick="javascript:{getRecentPlays(true);}">Get All</a>'
