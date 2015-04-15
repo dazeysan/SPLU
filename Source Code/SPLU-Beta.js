@@ -232,7 +232,6 @@
   var SPLUplays={};
   var SPLUplay={};
   var SPLUobjecttype="";
-  var SPLUplaysFilter={enabled:false, username:"", playername:"", mindate:"", maxdate:"", location:"", gamename:""};
   var SPLUplaysPage=1;
   var SPLUplayData={};
   var SPLUplayFetch={};
@@ -1079,13 +1078,11 @@
         tmpSort.push({id:key,date:SPLUplayData[tmpUser][key].attributes.date.value});
       }
       tmpSort.sort(dynamicSortMultiple("-date", "id"));
-      if(SPLUplaysFilter.enabled){
-        tmpSort=filterPlays(tmpSort,tmpUser);
-      }
+      tmpSort=filterPlays(tmpSort,tmpUser);
       var tmpSortCount=0;
       var tmpLines=document.getElementsByName("SPLU.PlaysFiltersLine").length;
       for(i=0;i<tmpSort.length;i++){
-        if(tmpSort[i].matches==tmpLines || !SPLUplaysFilter.enabled){
+        if(tmpSort[i].matches==tmpLines){
           tmpSortCount++;
           tmpPlayId=tmpSort[i]["id"];
           tmpPlayDate=SPLUplayData[tmpUser][tmpPlayId].attributes.date.value;
@@ -1106,9 +1103,7 @@
         tmpHTML+='<a href="javascript:{void(0);}" onClick="javascript:{getPlays(\''+tmpUser+'\','+tmpCount+',false);}"> - Load next 100</a>';
       }
       tmpHTML+='</div>';
-      if(SPLUplaysFilter.enabled){
-        document.getElementById("SPLU.PlaysFiltersStatus").innerHTML='<div>Showing '+tmpSortCount+'</div>';
-      }
+      document.getElementById("SPLU.PlaysFiltersStatus").innerHTML='<div>Showing '+tmpSortCount+'</div>';
       tmpHTML+='</div>';
       document.getElementById('SPLU.PlaysStatus').innerHTML=tmpHTML;
       document.getElementById('SPLU.PlaysMenu').style.display='';
@@ -1116,13 +1111,11 @@
   }
   
   function filterPlays(plays,user){
-    window.tmpPlays=plays;
     for(i=0;i<plays.length;i++){
       plays[i].matches=0;
     }
     var lines=document.getElementsByName("SPLU.PlaysFiltersLine");
     for(l=0;l<lines.length;l++){
-      console.log(lines[l].value);
       var filtertype=lines[l].getAttribute("data-SPLU-filtertype");
       if(filtertype=="gamename"){
         for(i=0;i<plays.length;i++){
@@ -1139,7 +1132,6 @@
         }
       }
       if(filtertype=="playername"){
-        console.log("playername");
         for(i=0;i<plays.length;i++){
           if(SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0]!==undefined){
             var tmpPlayers=SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
