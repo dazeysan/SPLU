@@ -1207,6 +1207,20 @@
           }
         }
       }
+      if(filtertype=="winner"){
+        for(i=0;i<plays.length;i++){
+          if(SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0]!==undefined){
+            tmpPlayers=SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
+            for(p=0;p<tmpPlayers.length;p++){
+              if((tmpPlayers[p].getAttribute("username").toLowerCase().indexOf(lines[l].value.toLowerCase())>-1 || tmpPlayers[p].getAttribute("name").toLowerCase().indexOf(lines[l].value.toLowerCase())>-1) && tmpPlayers[p].getAttribute("win")==1){
+                plays[i].matches++;
+                break;
+              }
+            }
+          }
+        }
+      }
+      
     }
     return plays;
   }
@@ -1231,6 +1245,7 @@
       if(filter=="gamename"){filterName="Game";}
       if(filter=="location"){filterName="Location";}
       if(filter=="comments"){filterName="Comments";}
+      if(filter=="winner"){filterName="Winner";}
       
       if(filter=="objecttype"){
         filterName="Type";
@@ -2412,6 +2427,7 @@
             +'<option value="location">Location</option>'
             +'<option value="comments">Comments</option>'
             +'<option value="objecttype">Type</option>'
+            +'<option value="winner">Winner</option>'
           +'</select>'
         +'<div id="SPLU.PlaysFiltersCurrent"></div>'
           +'<div id="SPLU.PlaysFiltersGoBtn"style="float:right;margin-top:-20px;margin-right:5px;display:none;">'
