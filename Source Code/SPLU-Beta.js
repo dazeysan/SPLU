@@ -2075,7 +2075,7 @@
       +'<div id="SPLU.PlaysMenu" style="display:none;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysFilters();}"><img src="https://cf.geekdo-images.com/images/pic2477108.png"></a>'
       +'</div>'
-      +'<div id="SPLU.PlaysFilters" style="border: 1px solid blue; border-radius: 5px; padding: 3px;">'
+      +'<div id="SPLU.PlaysFilters" style="border: 1px solid blue; border-radius: 5px; padding: 3px; display:none;">'
         +'<div id="SPLU.PlaysFiltersCurrent"></div>'
         +'<div id="SPLU.PlaysFiltersStatus" style="float:right;"></div>'
         +'<div>'
