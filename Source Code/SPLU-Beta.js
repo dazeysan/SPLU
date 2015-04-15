@@ -2459,6 +2459,7 @@
             +'<option value="objecttype">Type</option>'
             +'<option value="winner">Winner</option>'
             +'<option value="new">New Player</option>'
+            +'<option value="excludeexpansions">No Expansions</option>'
           +'</select>'
         +'<div id="SPLU.PlaysFiltersCurrent"></div>'
           +'<div id="SPLU.PlaysFiltersGoBtn"style="float:right;margin-top:-20px;margin-right:5px;display:none;">'
