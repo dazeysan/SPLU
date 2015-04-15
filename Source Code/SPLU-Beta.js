@@ -1131,6 +1131,14 @@
           }
         }
       }
+      if(filtertype=="comments"){
+        for(i=0;i<plays.length;i++){
+          if(SPLUplayData[user][plays[i].id].getElementsByTagName("comments")[0].textContent.toLowerCase().indexOf(lines[l].value.toLowerCase())>-1){
+            plays[i].matches++;
+          }
+        }
+      }
+
       if(filtertype=="playername"){
         for(i=0;i<plays.length;i++){
           if(SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0]!==undefined){
@@ -2083,6 +2091,7 @@
             +'<option value="username">User Name</option>'
             +'<option value="gamename">Game Name</option>'
             +'<option value="location">Location</option>'
+            +'<option value="comments">Comments</option>'
           +'</select>'
         +'<div id="SPLU.PlaysFiltersCurrent"></div>'
           +'<div id="SPLU.PlaysFiltersGoBtn"style="float:right;margin-top:-20px;margin-right:5px;display:none;">'
