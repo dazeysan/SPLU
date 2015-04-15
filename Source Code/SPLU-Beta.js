@@ -766,6 +766,13 @@
     }
   }
 
+  function hideLocations(){
+    document.getElementById('SPLU.LocationList').style.display="none";
+    document.getElementById('SPLU.LocationButtonIconExpand').style.display="inline-block";
+    document.getElementById('SPLU.LocationButtonIconCollapse').style.display="none";
+    LocationList=false;
+  }
+  
   function showHideLocations(update){
     if(!LocationList){
       document.getElementById('SPLU.LocationList').style.display="block";
@@ -787,6 +794,14 @@
       }
     }
   }
+  
+  function hidePlayers(){
+    document.getElementById('SPLU.PlayerList').style.display="none";
+    document.getElementById('SPLU.SavedNamesButtonIconExpand').style.display="inline-block";
+    document.getElementById('SPLU.SavedNamesButtonIconCollapse').style.display="none";
+    PlayerList=false;
+  }
+  
   function showHidePlayers(update){
     if(!PlayerList){
       document.getElementById('SPLU.PlayerList').style.maxWidth=document.getElementById('BRlogMain').clientWidth-40+"px";
@@ -1235,7 +1250,8 @@
     }
     setDateField(tmpPlay.attributes.date.value);
     document.getElementById('quickplay_location99').value=tmpPlay.attributes.location.value;
-    showHideLocations();
+    hideLocations();
+    hidePlayers();
     document.getElementById('quickplay_quantity99').value=tmpPlay.attributes.quantity.value;
     document.getElementById('quickplay_duration99').value=tmpPlay.getAttribute("length");
     if(tmpPlay.getAttribute("incomplete")==1){document.getElementById('incomplete').checked=true;}
