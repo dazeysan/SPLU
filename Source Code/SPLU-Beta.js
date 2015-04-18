@@ -1,4 +1,4 @@
-// SPLU 5.2.5 Beta
+// SPLU 5.2.6 Beta
 
   //Check if they aren't on a BGG site and alert them to that fact.
   if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -10,7 +10,7 @@
   var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
   //Check if the user is logged in to BGG, throw an error if not
   if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-  var SPLUversion="5.2.5";
+  var SPLUversion="5.2.6";
 
   function fixedEncodeURIComponent(str) {
     return encodeURIComponent(str).replace(/[!'()*]/g, function(c) {
@@ -992,16 +992,24 @@
       SPLUplayFetch[tmpUser]=[];
     }
     SPLUplayFetch[tmpUser][1]=0;
-    getPlays(tmpUser, 1, multiple); 
+    getPlays(tmpUser, 1, multiple,0,0); 
   }
   
-  function getPlays(player,page,multiple){
-    console.log("getPlays("+player+", "+page+", "+multiple+")");
-    document.getElementById('SPLU.PlaysStatus').innerHTML="Fetching Page: "+page;
-    if(SPLUplayData[player]===undefined){
-      document.getElementById('SPLU.PlaysStatus').innerHTML+=" of ??";
-    } else {
-      document.getElementById('SPLU.PlaysStatus').innerHTML+=" of "+Math.ceil(SPLUplayData[player]["total"]/100);
+  function getPlays(player,page,multiple,gameid,date){
+    console.log("getPlays("+player+", "+page+", "+multiple+", "+gameid+", "+date+")");
+    var getString="";
+    if(page>0){
+      document.getElementById('SPLU.PlaysStatus').innerHTML="Fetching Page: "+page;
+      if(SPLUplayData[player]===undefined){
+        document.getElementById('SPLU.PlaysStatus').innerHTML+=" of ??";
+      } else {
+        document.getElementById('SPLU.PlaysStatus').innerHTML+=" of "+Math.ceil(SPLUplayData[player]["total"]/100);
+      }
+      getString="/xmlapi2/plays?username="+player+"&page="+page;
+    }else{
+      document.getElementById('SPLU.PlaysStatus').innerHTML="Fetching some of "+date;
+      page=1;
+      getString="/xmlapi2/plays?username="+player+"&id="+gameid+"&mindate="+date+"&maxdate="+date;
     }
     SPLUplaysPage=page;
     if(SPLUplays[player]===undefined){
@@ -1019,7 +1027,7 @@
         console.log("other status code, no getplays");
       }
     };
-    oReq.open("get","/xmlapi2/plays?username="+player+"&page="+SPLUplaysPage,true);
+    oReq.open("get",getString,true);
     oReq.send();
   }
   
@@ -1043,7 +1051,7 @@
         }
         if(SPLUplayFetch[player][i]==0){
           SPLUplayFetch[player][i]=-1;
-          window.setTimeout(function(){getPlays(player,i,true);},2500);
+          window.setTimeout(function(){getPlays(player,i,true,0,0);},2500);
           break;
         }
       }
@@ -1127,7 +1135,7 @@
       tmpHTML='<div><div>Loaded '+tmpCount+' of '+SPLUplayData[tmpUser]["total"];
       if(SPLUplayData[tmpUser]["total"]>(Object.keys(SPLUplayData[tmpUser]).length)-1){
         tmpCount=(Math.floor(tmpCount/100))+1;
-        tmpHTML+='<a href="javascript:{void(0);}" onClick="javascript:{getPlays(\''+tmpUser+'\','+tmpCount+',false);}"> - Load next 100</a>';
+        tmpHTML+='<a href="javascript:{void(0);}" onClick="javascript:{getPlays(\''+tmpUser+'\','+tmpCount+',false,0,0);}"> - Load next 100</a>';
       }
       tmpHTML+='</div>';
       document.getElementById("SPLU.PlaysFiltersStatus").innerHTML='<div>Showing '+tmpSortCount+'</div>';
