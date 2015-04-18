@@ -929,7 +929,7 @@
         insertBlank('BRresults');
         if(SPLUedit.submit){
           getPlays(LoggedInAs,0,false,SPLUedit.objectid,SPLUedit.playdate);
-          SPLUedit=0;
+          SPLUedit.submit=false;
         }
         saveExpansionPlays(action);
       }}).send();
