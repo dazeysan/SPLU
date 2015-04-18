@@ -928,7 +928,7 @@
         console.log(responseText);
         insertBlank('BRresults');
         if(SPLUedit.submit){
-          getPlays(player,page,multiple,gameid,date);
+          getPlays(LoggedInAs,0,false,SPLUedit.objectid,SPLUedit.playdate);
           SPLUedit=0;
         }
         saveExpansionPlays(action);
