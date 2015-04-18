@@ -1022,7 +1022,7 @@
       if(responseJSON.target.status==200){
         console.log("result 200 on page "+SPLUplaysPage);
         SPLUplays[player][page]=this.responseXML;
-        parsePlays(player,page,multiple);
+        parsePlays(player,page,multiple,gameid,date);
       }else{
         console.log("other status code, no getplays");
       }
@@ -1072,8 +1072,8 @@
     }
   }
   
-  function parsePlays(player,page,multiple){
-    console.log("parsePlays("+player+","+page+","+multiple+")");
+  function parsePlays(player,page,multiple,gameid,date){
+    console.log("parsePlays("+player+","+page+","+multiple+","+gameid+","+date+")");
     SPLUplayFetch[player][page]=1;
     if(SPLUplayData[player]===undefined){
       SPLUplayData[player]={};
@@ -1082,7 +1082,12 @@
       SPLUplayData[player]["total"]=0;
       multiple=false;
     }else{
-      SPLUplayData[player]["total"]=SPLUplays[player][page].getElementsByTagName("plays")[0].getAttribute("total");
+      if(gameid==0&&date==0){
+        SPLUplayData[player]["total"]=SPLUplays[player][page].getElementsByTagName("plays")[0].getAttribute("total");
+        SPLUplayData[player]["approximate"]=0;
+      }else{
+        SPLUplayData[player]["approximate"]=1;
+      }
     }
     for(i=0;i<SPLUplays[player][page].getElementsByTagName("play").length;i++){
       SPLUplayData[player][SPLUplays[player][page].getElementsByTagName("play")[i].id]=SPLUplays[player][page].getElementsByTagName("play")[i];
@@ -1107,7 +1112,7 @@
       var tmpSort=[];
       tmpHTML='<div id="SPLU.PlaysTable" style="display:table;">';
       for(key in SPLUplayData[tmpUser]){
-        if(key=="total"||SPLUplayData[tmpUser][key].attributes.date.value=="1452-04-15"){
+        if(key=="total"||key=="approximate"||SPLUplayData[tmpUser][key].attributes.date.value=="1452-04-15"){
           continue;
         }
         tmpSort.push({id:key,date:SPLUplayData[tmpUser][key].attributes.date.value});
@@ -1133,6 +1138,9 @@
       tmpCount=(Object.keys(SPLUplayData[tmpUser]).length)-1;
       document.getElementById('SPLU.PlaysList').innerHTML=tmpHTML;
       tmpHTML='<div><div>Loaded '+tmpCount+' of '+SPLUplayData[tmpUser]["total"];
+      if(SPLUplayData[tmpUser]["approximate"]==1){
+        tmpHTML+='*';
+      }
       if(SPLUplayData[tmpUser]["total"]>(Object.keys(SPLUplayData[tmpUser]).length)-1){
         tmpCount=(Math.floor(tmpCount/100))+1;
         tmpHTML+='<a href="javascript:{void(0);}" onClick="javascript:{getPlays(\''+tmpUser+'\','+tmpCount+',false,0,0);}"> - Load next 100</a>';
