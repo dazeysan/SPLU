@@ -242,6 +242,7 @@
   var SPLUplayFetch={};
   var SPLUplayFetchFail=0;
   var SPLUplaysFiltersCount=0;
+  var SPLUedit={};
   
   function setObjectType(type){
     VoidInstantSearch({itemid:'0',uniqueid:'546e9ffd96dfc'});
@@ -913,13 +914,25 @@
         value=inputs[n].value;
       }
       querystring+="&"+inputs[n].name+"="+encodeURIComponent(value);
+      SPLUedit[inputs[n].name]=encodeURIComponent(value);
     }
     if(action=="edit"){
       tmpID="&playid="+tmpPlay.id;
+      SPLUedit.submit=true;
     }
     querystring+="&comments="+encodeURIComponent(form["quickplay_comments99"].value);
     document.getElementById('BRresults').innerHTML="Saving...";
-    new Request.JSON({url:'/geekplay.php',data:'ajax=1&action=save&version=2&objecttype=thing'+tmpID+querystring,onComplete:function(responseJSON,responseText){window.resJ=responseJSON; document.getElementById('BRresults').innerHTML=responseJSON.html; console.log(responseText); insertBlank('BRresults'); saveExpansionPlays(action);}}).send();
+    new Request.JSON({url:'/geekplay.php',data:'ajax=1&action=save&version=2&objecttype=thing'+tmpID+querystring,onComplete:function(responseJSON,responseText){
+        window.resJ=responseJSON;
+        document.getElementById('BRresults').innerHTML=responseJSON.html;
+        console.log(responseText);
+        insertBlank('BRresults');
+        if(SPLUedit.submit){
+          getPlays(player,page,multiple,gameid,date);
+          SPLUedit=0;
+        }
+        saveExpansionPlays(action);
+      }}).send();
   }
   
   function saveGamePlay2(action){
@@ -1135,7 +1148,7 @@
         }
       }
       tmpHTML+='</div>';
-      tmpCount=(Object.keys(SPLUplayData[tmpUser]).length)-1;
+      tmpCount=(Object.keys(SPLUplayData[tmpUser]).length)-2;
       document.getElementById('SPLU.PlaysList').innerHTML=tmpHTML;
       tmpHTML='<div><div>Loaded '+tmpCount+' of '+SPLUplayData[tmpUser]["total"];
       if(SPLUplayData[tmpUser]["approximate"]==1){
