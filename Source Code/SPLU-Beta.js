@@ -1418,7 +1418,7 @@
         +'</div>';
     }
     tnpHTML+='</div>';
-    document.getElementById("SPLU.StatsContent")innerHTML+=tmpHTML;
+    document.getElementById("SPLU.StatsContent").innerHTML+=tmpHTML;
     
   }
   
