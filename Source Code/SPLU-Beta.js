@@ -1404,7 +1404,7 @@
         }
       }
     }
-    tmpHTML='<div style="display:table;">'
+    tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
         +'<div style="display:table-row;">'
           +'<div style="display:table-cell;">Player</div>'
           +'<div style="display:table-cell;">Plays</div>'
@@ -1413,12 +1413,27 @@
           +'<div style="display:table-cell;">Average</div>'
         +'</div>';
     for(key in SPLU.GameStats[gameid]["Players"]){
-      tmpHTML+='<div style="display:table-row;">'
-          +'<div style="display:table-cell;">'+key+'</div>'
-        +'</div>';
+      tmpAverage=SPLU.GameStats[gameid]["Players"][key]["TotalScore"]/SPLU.GameStats[gameid]["Players"][key]["TotalPlays"];
+      tmpAverage=tmpAverage.toFixed(2);
+      tmpHTML+='<div style="display:table-row;">';
+      tmpHTML+='<div style="display:table-cell;">'+key+'</div>';
+      tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[gameid]["Players"][key]["TotalPlays"]+'</div>';
+      var tmpBold="";
+      if(SPLU.GameStats[gameid]["Players"][key]["LowScore"]==SPLU.GameStats[gameid]["LowScore"]){
+        tmpBold="font-weight:bold;";
+      }
+      tmpHTML+='<div style="display:table-cell;"><a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLU.GameStats[gameid]["Players"][key]["LowScorePlay"]+');}"><span style="'+tmpBold+'">'+SPLU.GameStats[gameid]["Players"][key]["LowScore"]+'</span></a></div>';
+      tmpBold="";
+      if(SPLU.GameStats[gameid]["Players"][key]["HighScore"]==SPLU.GameStats[gameid]["HighScore"]){
+        tmpBold="font-weight:bold;";
+      }
+      tmpHTML+='<div style="display:table-cell;"><a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLU.GameStats[gameid]["Players"][key]["HighScorePlay"]+');}"><span style="'+tmpBold+'">'+SPLU.GameStats[gameid]["Players"][key]["HighScore"]+'</span></a></div>';
+      tmpBold="";
+      tmpHTML+='<div style="display:table-cell;">'+tmpAverage+'</div>';
+      tmpHTML+='</div>';
     }
-    tnpHTML+='</div>';
-    document.getElementById("SPLU.StatsContent").innerHTML+=tmpHTML;
+    tmpHTML+='</div>';
+    document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
     
   }
   
