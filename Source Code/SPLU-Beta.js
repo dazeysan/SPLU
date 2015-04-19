@@ -1344,6 +1344,66 @@
       document.getElementById("SPLU.PlaysFilters").style.display="none";
     }
   }
+
+  function getStatsGameScore(tmpUser,gameid){
+    SPLU.GameStats={};
+    SPLU.GameStats[gameid]={
+      "HighScore":-999999999,
+      "LowScore":999999999,
+      "TotalScore":0,
+      "TotalPlays":0
+    };
+    for(key in SPLUplayData[tmpUser]){
+      if(key=="total"||key=="approximate"||SPLUplayData[tmpUser][key].attributes.date.value=="1452-04-15"){
+        continue;
+      }
+      if(SPLUplayData[tmpUser][key].getElementsByTagName("item")[0].getAttribute("objectid")==gameid){
+        var tmpPlay=SPLUplayData[tmpUser][key].getAttribute("id");
+        var tmpPlayers=SPLUplayData[tmpUser][key].getElementsByTagName("players")[0].getElementsByTagName("player");
+        for(p=0;p<tmpPlayers.length;p++){
+          var tmpName="Unknown";
+          if(tmpPlayers[p].getAttribute("username")!=""){
+            tmpName=tmpPlayers[p].getAttribute("username");
+          }
+          if(tmpPlayers[p].getAttribute("name")!=""){
+            tmpName=tmpPlayers[p].getAttribute("name");
+          }
+          if(SPLU.GameStats[gameid][tmpName]===undefined){
+            SPLU.GameStats[gameid][tmpName]={
+              "HighScore":-999999999,
+              "LowScore":999999999,
+              "TotalScore":0,
+              "TotalPlays":0
+            };
+          }
+          var tmpScore=0;
+          if(tmpPlayers[p].getAttribute("score")!=""){
+            tmpScore=Number(tmpPlayers[p].getAttribute("score"));
+          }
+          if(tmpScore>SPLU.GameStats[gameid][tmpName]["HighScore"]){
+            SPLU.GameStats[gameid][tmpName]["HighScore"]=tmpScore;
+            SPLU.GameStats[gameid][tmpName]["HighScorePlay"]=tmpPlay;
+          }
+          if(tmpScore>SPLU.GameStats[gameid]["HighScore"]){
+            SPLU.GameStats[gameid]["HighScore"]=tmpScore;
+            SPLU.GameStats[gameid]["HighScorePlay"]=tmpPlay;
+          }
+          if(tmpScore<SPLU.GameStats[gameid][tmpName].LowScore){
+            SPLU.GameStats[gameid][tmpName]["LowScore"]=tmpScore;
+            SPLU.GameStats[gameid][tmpName]["LowScorePlay"]=tmpPlay;
+          }
+          if(tmpScore<SPLU.GameStats[gameid]["LowScore"]){
+            SPLU.GameStats[gameid]["LowScore"]=tmpScore;
+            SPLU.GameStats[gameid]["LowScorePlay"]=tmpPlay;
+          }
+          SPLU.GameStats[gameid][tmpName]["TotalScore"]+=tmpScore;
+          SPLU.GameStats[gameid][tmpName]["TotalPlays"]++;
+          SPLU.GameStats[gameid]["TotalScore"]+=tmpScore;
+          SPLU.GameStats[gameid]["TotalPlays"]++;
+        }
+      }
+    }
+  }
   
   function loadPlay(id){
 	  console.log(id);
@@ -2500,7 +2560,9 @@
           +'</div>'
         +'</div>'
       +'</div>'
-      +'<div id="SPLU.PlaysList" style="overflow-y:auto; width:275px;"></div>';
+      +'<div id="SPLU.PlaysList" style="overflow-y:auto; width:275px;"></div>'
+      +'<div id="SPLU.StatsFilters" style="display:none;">Stats</div>'
+      +'<div id="SPLU.StatsContent" style="display:none;"></div>';
   tmpDiv.innerHTML+=tmpHTML;
   BRlogPlays.appendChild(tmpDiv);
   
