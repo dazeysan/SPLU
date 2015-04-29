@@ -255,6 +255,7 @@
       document.getElementById('SPLU.SelectBGG').style.backgroundColor="#F8DF24";
       document.getElementById('SPLU.SelectVGG').style.backgroundColor="";
       document.getElementById('SPLU.SelectRPG').style.backgroundColor="";
+      document.getElementById('SPLU.SelectRPGItem').style.backgroundColor="";
     }
     if(type=="videogame"){
       SPLUobjecttype="videogame";
@@ -263,6 +264,16 @@
       document.getElementById('SPLU.SelectBGG').style.backgroundColor="";
       document.getElementById('SPLU.SelectVGG').style.backgroundColor="#F8DF24";
       document.getElementById('SPLU.SelectRPG').style.backgroundColor="";
+      document.getElementById('SPLU.SelectRPGItem').style.backgroundColor="";
+    }
+    if(type=="rpg"){
+      SPLUobjecttype="rpg";
+      document.getElementById('q546e9ffd96dfc').placeholder="enter RPG";
+      document.getElementById('expansionLoggingButton').style.display="none";
+      document.getElementById('SPLU.SelectBGG').style.backgroundColor="";
+      document.getElementById('SPLU.SelectVGG').style.backgroundColor="";
+      document.getElementById('SPLU.SelectRPG').style.backgroundColor="#F8DF24";
+      document.getElementById('SPLU.SelectRPGItem').style.backgroundColor="";
     }
     if(type=="rpgitem"){
       SPLUobjecttype="rpgitem";
@@ -270,7 +281,8 @@
       document.getElementById('expansionLoggingButton').style.display="none";
       document.getElementById('SPLU.SelectBGG').style.backgroundColor="";
       document.getElementById('SPLU.SelectVGG').style.backgroundColor="";
-      document.getElementById('SPLU.SelectRPG').style.backgroundColor="#F8DF24";
+      document.getElementById('SPLU.SelectRPG').style.backgroundColor="";
+      document.getElementById('SPLU.SelectRPGItem').style.backgroundColor="#F8DF24";
     }
   }
 
@@ -1948,7 +1960,8 @@
           +'<div id="SPLU.DomainButtons">'
             +'<a href="javascript:{void(0);}" onClick="javascript:{setObjectType(\'boardgame\');}" id="SPLU.SelectBGG" style="padding:0px 5px;border:1px solid black;">BGG</a>'
             +'<a href="javascript:{void(0);}" onClick="javascript:{setObjectType(\'videogame\');}" id="SPLU.SelectVGG" style="padding:0px 5px;border:1px solid black;">VGG</a>'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{setObjectType(\'rpgitem\');}" id="SPLU.SelectRPG" style="padding:0px 5px;border:1px solid black;">RPG</a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{setObjectType(\'rpg\');}" id="SPLU.SelectRPG" style="padding:0px 5px;border:1px solid black; border-right:none;">RPG</a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{setObjectType(\'rpgitem\');}" id="SPLU.SelectRPGItem" style="padding:0px 5px;border:1px solid black; border-left:none;">Item</a>'
           +'</div>'
           +'<input name="objectid" value="32946" id="objectid0" type="hidden"/>'
           +'<input style="margin:3px 0px 0px;" autocomplete="off" class="geekinput_medium" name="geekitemname" id="q546e9ffd96dfc" tabindex="60" placeholder="enter a game title" onClick="this.select();" onkeydown="return StartInstantSearch({event: event,itemid: \'0\',objecttype: SPLUobjecttype,onclick: \'\',extraonclick: \'\',uniqueid: \'546e9ffd96dfc\',formname: \'\',textareaname: \'\',inline: \'\',userobject: null} );" type="text">'
