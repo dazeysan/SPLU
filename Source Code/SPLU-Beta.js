@@ -1355,7 +1355,20 @@
     }else{
       document.getElementById("SPLU.PlaysFilters").style.display="none";
     }
+    document.getElementById("SPLU.StatsFilters").style.display="none";
+    document.getElementById("SPLU.StatsContent").style.display="none";
   }
+
+  function showHidePlaysStats(){
+    if(document.getElementById("SPLU.StatsFilters").style.display=="none"){
+      document.getElementById("SPLU.StatsFilters").style.display="";
+    }else{
+      document.getElementById("SPLU.StatsFilters").style.display="none";
+    }
+    document.getElementById("SPLU.PlaysFilters").style.display="none";
+    document.getElementById("SPLU.PlaysList").style.display="none";
+  }
+
 
   function getStatsGameScore(tmpUser,gameid){
     SPLU.GameStats={};
@@ -1960,8 +1973,8 @@
           +'<div id="SPLU.DomainButtons">'
             +'<a href="javascript:{void(0);}" onClick="javascript:{setObjectType(\'boardgame\');}" id="SPLU.SelectBGG" style="padding:0px 5px;border:1px solid black;">BGG</a>'
             +'<a href="javascript:{void(0);}" onClick="javascript:{setObjectType(\'videogame\');}" id="SPLU.SelectVGG" style="padding:0px 5px;border:1px solid black;">VGG</a>'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{setObjectType(\'rpg\');}" id="SPLU.SelectRPG" style="padding:0px 5px;border:1px solid black; border-right:dotted;">RPG</a>'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{setObjectType(\'rpgitem\');}" id="SPLU.SelectRPGItem" style="padding:0px 5px;border:1px solid black; border-left:dotted;">Item</a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{setObjectType(\'rpg\');}" id="SPLU.SelectRPG" style="padding:0px 5px;border:1px solid black; border-right:1px dotted black;">RPG</a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{setObjectType(\'rpgitem\');}" id="SPLU.SelectRPGItem" style="padding:0px 5px;border:1px solid black; border-left:1px dotted black;">Item</a>'
           +'</div>'
           +'<input name="objectid" value="32946" id="objectid0" type="hidden"/>'
           +'<input style="margin:3px 0px 0px;" autocomplete="off" class="geekinput_medium" name="geekitemname" id="q546e9ffd96dfc" tabindex="60" placeholder="enter a game title" onClick="this.select();" onkeydown="return StartInstantSearch({event: event,itemid: \'0\',objecttype: SPLUobjecttype,onclick: \'\',extraonclick: \'\',uniqueid: \'546e9ffd96dfc\',formname: \'\',textareaname: \'\',inline: \'\',userobject: null} );" type="text">'
@@ -2582,6 +2595,7 @@
       +'<div id="SPLU.PlaysStatus"></div>'
       +'<div id="SPLU.PlaysMenu" style="display:none;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysFilters();}"><img src="https://cf.geekdo-images.com/images/pic2477108.png"></a>'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysStats();}">St</a>'
       +'</div>'
       +'<div id="SPLU.PlaysFilters" style="border: 1px solid blue; border-radius: 5px; padding: 3px; display:none;">'
         +'<div id="SPLU.PlaysFiltersStatus" style="float:right;"></div>'
