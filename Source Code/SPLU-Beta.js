@@ -1352,24 +1352,35 @@
   function showHidePlaysFilters(){
     if(document.getElementById("SPLU.PlaysFilters").style.display=="none"){
       document.getElementById("SPLU.PlaysFilters").style.display="";
+      document.getElementById("SPLU.PlaysList").style.display="";
     }else{
       document.getElementById("SPLU.PlaysFilters").style.display="none";
+      document.getElementById("SPLU.PlaysList").style.display="none";
     }
-    document.getElementById("SPLU.StatsFilters").style.display="none";
+    document.getElementById("SPLU.StatsMenu").style.display="none";
     document.getElementById("SPLU.StatsContent").style.display="none";
   }
 
   function showHidePlaysStats(){
-    if(document.getElementById("SPLU.StatsFilters").style.display=="none"){
-      document.getElementById("SPLU.StatsFilters").style.display="";
+    if(document.getElementById("SPLU.StatsMenu").style.display=="none"){
+      document.getElementById("SPLU.StatsMenu").style.display="";
+      document.getElementById("SPLU.StatsContent").style.display="";
     }else{
-      document.getElementById("SPLU.StatsFilters").style.display="none";
+      document.getElementById("SPLU.StatsMenu").style.display="none";
+      document.getElementById("SPLU.StatsContent").style.display="none";
     }
     document.getElementById("SPLU.PlaysFilters").style.display="none";
     document.getElementById("SPLU.PlaysList").style.display="none";
   }
 
-
+  function loadStats(stat){
+    if(stat=="GameScore"){
+      tmpUser=document.getElementById('SPLU.PlaysLogger').value;
+      tmpGame=document.getElementById('objectid0').value;
+      getStatsGameScore(tmpUser, tmpGame);
+    }
+  }
+  
   function getStatsGameScore(tmpUser,gameid){
     SPLU.GameStats={};
     SPLU.GameStats[gameid]={
@@ -2620,7 +2631,9 @@
         +'</div>'
       +'</div>'
       +'<div id="SPLU.PlaysList" style="overflow-y:auto; width:275px;"></div>'
-      +'<div id="SPLU.StatsFilters" style="display:none;">Stats</div>'
+      +'<div id="SPLU.StatsMenu" style="display:none;">'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{loadStats(\'GameScore\');}">GameScore</a>'
+      +'</div>'
       +'<div id="SPLU.StatsContent" style="display:none;"></div>';
   tmpDiv.innerHTML+=tmpHTML;
   BRlogPlays.appendChild(tmpDiv);
