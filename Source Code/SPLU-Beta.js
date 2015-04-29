@@ -1375,8 +1375,8 @@
 
   function loadStats(stat){
     if(stat=="GameScore"){
-      tmpUser=document.getElementById('SPLU.PlaysLogger').value;
-      tmpGame=document.getElementById('objectid0').value;
+      var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
+      var tmpGame=document.getElementById('objectid0').value;
       getStatsGameScore(tmpUser, tmpGame);
     }
   }
@@ -1410,7 +1410,8 @@
               "HighScore":-999999999,
               "LowScore":999999999,
               "TotalScore":0,
-              "TotalPlays":0
+              "TotalPlays":0,
+              "TotalWins":0
             };
           }
           var tmpScore=0;
@@ -1437,6 +1438,9 @@
           SPLU.GameStats[gameid]["Players"][tmpName]["TotalPlays"]++;
           SPLU.GameStats[gameid]["TotalScore"]+=tmpScore;
           SPLU.GameStats[gameid]["TotalPlays"]++;
+          if(tmpPlayers[p].getAttribute("win")=="1"){
+            SPLU.GameStats[gameid]["Players"][tmpName]["TotalWins"]++;
+          }
         }
       }
     }
@@ -1444,6 +1448,7 @@
         +'<div style="display:table-row;">'
           +'<div style="display:table-cell;">Player</div>'
           +'<div style="display:table-cell;">Plays</div>'
+          +'<div style="display:table-cell;">Wins</div>'
           +'<div style="display:table-cell;">Low</div>'
           +'<div style="display:table-cell;">High</div>'
           +'<div style="display:table-cell;">Average</div>'
@@ -1454,6 +1459,7 @@
       tmpHTML+='<div style="display:table-row;">';
       tmpHTML+='<div style="display:table-cell;">'+key+'</div>';
       tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[gameid]["Players"][key]["TotalPlays"]+'</div>';
+      tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[gameid]["Players"][key]["TotalWins"]+'</div>';
       var tmpBold="";
       if(SPLU.GameStats[gameid]["Players"][key]["LowScore"]==SPLU.GameStats[gameid]["LowScore"]){
         tmpBold="font-weight:bold;";
