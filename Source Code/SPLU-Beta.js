@@ -1909,7 +1909,7 @@
     +'</div>'
     +'<div style="padding-top: 15px; padding-left: 8px;">'
       +'<a href="javascript:{void(0);}" onClick="javascript:{showSettingsPane(\'button\');}" id="BRshowHideBtn">'
-        +'<img serc="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/settings.png">'
+        +'<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/settings.png">'
       +'</a>'
     +'</div>'
     +'<div style="margin-top: 25px; padding-left: 8px;">'
