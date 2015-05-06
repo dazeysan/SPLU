@@ -53,7 +53,7 @@
             document.getElementById("SPLU.GroupsHeading").style.display="none";
           }
           if(key=="ExpansionDetails"){
-            document.getElementById("ExpansionDetailsCheck").checked=SPLU.Settings.ExpansionDetails.Include;
+            document.getElementById("SPLU.ExpansionDetailsCheck").checked=SPLU.Settings.ExpansionDetails.Include;
           }
         }
         if(SPLU.Settings[key].Reset){
