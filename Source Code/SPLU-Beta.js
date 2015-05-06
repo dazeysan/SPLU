@@ -1839,6 +1839,7 @@
           } else {
             querystring+="&objectid="+tmpExp[i].id;
             querystring+="&quantity="+document.getElementById('BRexpPlayQTY').value;
+            querystring+="&playdate="+document.getElementById('playdate99').value;
           }
           new Request.JSON({url:'/geekplay.php',data:'ajax=1&action=save&version=2&objecttype=thing'+querystring,onComplete:function(responseJSON,responseText){
             var results=document.getElementsByName('QPresults'+responseJSON.html.slice(29,responseJSON.html.indexOf("?")));
