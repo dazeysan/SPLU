@@ -28,7 +28,7 @@
         if(SPLU.Settings[key].Visible){
           document.getElementById("SPLU."+key+"Check").checked=true;
         }else{
-          if(key!="PopUpText" && key!="LocationList" && key!="WinComments" && key!="PlayerList" && key!="ExpansionQuantity" && key!="SortPlayers" && key!="SortGroups" && key!="PlayerGroups"){
+          if(key!="PopUpText" && key!="LocationList" && key!="WinComments" && key!="PlayerList" && key!="ExpansionQuantity" && key!="ExpansionDetails" && key!="SortPlayers" && key!="SortGroups" && key!="PlayerGroups"){
             if(key.slice(-6)=="Column"){
               document.getElementById('SPLU.'+key+'Header').style.display="none";
             }else{
@@ -51,6 +51,9 @@
           }
           if(key=="PlayerGroups"){
             document.getElementById("SPLU.GroupsHeading").style.display="none";
+          }
+          if(key=="ExpansionDetails"){
+            document.getElementById("ExpansionDetailsCheck").checked=SPLU.Settings.ExpansionDetails.Include;
           }
         }
         if(SPLU.Settings[key].Reset){
@@ -1834,8 +1837,8 @@
             querystring=querystring.replace("objectid="+SPLUgameID,"objectid="+tmpExp[i].id);
             querystring=querystring.replace("quantity="+document.getElementById('quickplay_quantity99').value,"quantity="+document.getElementById('BRexpPlayQTY').value);
           } else {
-            querystring+="objectid="+tmpExp[i].id;
-            querystring+="quantity="+document.getElementById('BRexpPlayQTY').value;
+            querystring+="&objectid="+tmpExp[i].id;
+            querystring+="&quantity="+document.getElementById('BRexpPlayQTY').value;
           }
           new Request.JSON({url:'/geekplay.php',data:'ajax=1&action=save&version=2&objecttype=thing'+querystring,onComplete:function(responseJSON,responseText){
             var results=document.getElementsByName('QPresults'+responseJSON.html.slice(29,responseJSON.html.indexOf("?")));
