@@ -870,7 +870,7 @@
         document.getElementById('SPLU.SettingsStatus').innerHTML=text;
         window.setTimeout(function(){ document.getElementById('SPLU.SettingsStatus').innerHTML="" }, 5000);
       }else{
-        document.getElementById('SPLU.SettingsStatus').innerHTML="<img style='vertical-align:bottom;padding-top:5px;' src='//cf.geekdo-static.com/mbs/mb_3264_0.gif'><span style='background-color:red;color:white;font-weight:bold;'>Error Code: "+responseJSON.target.status+"</span> Try saving again.";
+        document.getElementById('SPLU.SettingsStatus').innerHTML="<img style='vertical-align:bottom;padding-top:5px;' src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/alert.gif'><span style='background-color:red;color:white;font-weight:bold;'>Error Code: "+responseJSON.target.status+"</span> Try saving again.";
       }
     };
     xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
@@ -1700,7 +1700,7 @@
   
   function getExpansions(){
     SPLUprevGameID=SPLUgameID;
-    document.getElementById('SPLU.ExpansionPane').innerHTML="Loading Expansions...<img src='http://cf.geekdo-static.com/images/progress.gif'/>";
+    document.getElementById('SPLU.ExpansionPane').innerHTML="Loading Expansions...<img src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/progress.gif'/>";
     var oReq=new XMLHttpRequest();
     oReq.onload=loadExpansions;
     oReq.open("get","/xmlapi/boardgame/"+SPLUgameID,true);
@@ -1733,7 +1733,7 @@
 
   function getFamily(id){
     SPLUprevGameID=SPLUgameID;
-    document.getElementById('SPLU.FamilyPane').innerHTML="Loading Family Items...<img src='http://cf.geekdo-static.com/images/progress.gif'/>";
+    document.getElementById('SPLU.FamilyPane').innerHTML="Loading Family Items...<img src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/progress.gif'/>";
     SPLUfamilyID="-1";
     var name=document.getElementById('q546e9ffd96dfc').value;
     if(id==-1){
@@ -1932,10 +1932,10 @@
               +'<input id="playdateinput99" tabindex="10" style="width:75px;" type="text" onkeyup="parseDate(this,$(\'playdate99\'),$(\'playdatestatus99\') );" value="'+SPLUtoday+'" autocomplete="off" name="dateinput"/>'
             +'</div>'
             +'<div id="playdatestatus99" class="sf" style="font-style:italic; font-size:0;display:inline;">'
-              +'<img style="position:relative; top:3px; right:2px;" src="http://cf.geekdo-static.com/images/icons/silkicons/accept.png">'+SPLUtoday
+              +'<img style="position:relative; top:3px; right:2px;" src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/accept.png">'+SPLUtoday
             +'</div>'
             +'<div style="display:inline;">'
-              +'<a href="javascript:{void(0);}" onClick="javascript:{showHideCalendar();}"><img style="vertical-align:bottom;" src="//cf.geekdo-static.com/images/icons/silkicons/calendar_view_week.png"></a>'
+              +'<a href="javascript:{void(0);}" onClick="javascript:{showHideCalendar();}"><img style="vertical-align:bottom;" src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/calendar_view_week.png"></a>'
             +'</div>'
             +'<div id="SPLU.Calendar" style="position:absolute;z-index:600;display:none;">'
               +'C'
@@ -2139,12 +2139,12 @@
       +'</div>'
       +'<div class="BRcells" id="SPLUeditPlayDiv" style="display:none;">'
         +'<div>'
-          +'<a href="javascript:{void(0);}" onClick="javascript:{saveGamePlay(\'edit\');}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="EditGamePlayBtn" onMouseOver="makeSentence();" onMouseOut="hideSentence();"><img src="https://cf.geekdo-images.com/images/pic2476934.png" style="vertical-align: middle;">Submit Edits</a>'
+          +'<a href="javascript:{void(0);}" onClick="javascript:{saveGamePlay(\'edit\');}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="EditGamePlayBtn" onMouseOver="makeSentence();" onMouseOut="hideSentence();"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/submit_edits.png" style="vertical-align: middle;">Submit Edits</a>'
         +'</div>'
       +'</div>'
       +'<div class="BRcells" id="SPLUdeletePlayDiv" style="display:none;">'
         +'<div>'
-          +'<a href="javascript:{void(0);}" onClick="javascript:{deleteGamePlay();}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="DeleteGamePlayBtn";><img src="https://cf.geekdo-images.com/images/pic2476931.png" style="vertical-align: middle;"></a>'
+          +'<a href="javascript:{void(0);}" onClick="javascript:{deleteGamePlay();}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="DeleteGamePlayBtn";><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/delete_play.png" style="vertical-align: middle;"></a>'
         +'</div>'
       +'</div>'
       +'<div class="BRcells" id="SPLUresetFormDiv">'
@@ -2179,7 +2179,7 @@
   var tmpDiv=document.createElement('div');
   var tmpHTML='<div id="hideSettingsButton" style="position: absolute; right: 0px; top: 2px;">'
     +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlog\').style.minWidth=\'\';document.getElementById(\'BRlogSettings\').style.display=\'none\';}" style="border:2px solid black;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;">'
-    +'<img src="http://cf.geekdo-images.com/images/pic2336662.png">'
+    +'<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/close_pane.png">'
     +'</a>'
     +'</div>'
     +'<span style="font-variant:small-caps; font-weight:bold; font-size:13px;">'
@@ -2440,7 +2440,7 @@
   BRlogFavs.setAttribute("style","display:none; background-color: #FFAEC5; font-style:initial; color:black; padding: 13px;border:2px solid #F30F27;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:100px;");
   var tmpDiv=document.createElement('div');
   var tmpHTML='<div id="hideFavsButton" style="position: absolute; right: 0px; top: 2px;">'
-      +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogFavs\').style.display=\'none\';}" style="border:2px solid #F30F27;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="http://cf.geekdo-images.com/images/pic2336662.png"></a>'
+      +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogFavs\').style.display=\'none\';}" style="border:2px solid #F30F27;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/close_pane.png"></a>'
       +'</div>'
       +'<span style="font-variant:small-caps; font-weight:bold;">'
         +'<center>Favorites</center>'
@@ -2457,7 +2457,7 @@
   BRlogExpansions.setAttribute("style","display:none; background-color: #B269FB; font-style:initial; color:white; padding: 13px;border:2px solid blue;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:75px; max-width:250px;");
   var tmpDiv=document.createElement('div');
   var tmpHTML='<div id="hideExpansionsButton" style="position: absolute; right: 0px; top: 2px;">'
-      +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogExpansions\').style.display=\'none\';}" style="border:2px solid blue;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="http://cf.geekdo-images.com/images/pic2336662.png"></a>'
+      +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogExpansions\').style.display=\'none\';}" style="border:2px solid blue;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/close_pane.png"></a>'
       +'</div>'
       +'<form name="BRexpLogForm">'
         +'<center><b>Expansion Logging</b></center>'
@@ -2505,7 +2505,7 @@
   BRlogLocations.setAttribute("style","display:none; background-color: #F5C86C; padding: 13px;border:2px solid #249631;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:100px;");
   var tmpDiv=document.createElement('div');
   var tmpHTML='<div id="hideLocationsButton" style="position: absolute; right: 0px; top: 2px;">'
-      +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogLocations\').style.display=\'none\';}" style="border:2px solid #249631;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="http://cf.geekdo-images.com/images/pic2336662.png"></a>'
+      +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogLocations\').style.display=\'none\';}" style="border:2px solid #249631;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/close_pane.png"></a>'
       +'</div>'
       +'<span style="font-variant:small-caps; font-weight:bold;">'
       +'<center>Saved Locations</center>'
@@ -2525,7 +2525,7 @@
   BRlogPlayers.setAttribute("style","display:none; background-color: #F7FB6F; padding: 13px;border:2px solid #00F; border-radius:15px; box-shadow:10px 10px 5px #888; min-width:275px;");
   var tmpDiv=document.createElement('div');
   var tmpHTML='<div id="hidePlayersButton" style="position: absolute; right: 0px; top: 2px;">'
-      +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();showPlayersTab();document.getElementById(\'BRlogPlayers\').style.display=\'none\';}" style="border:2px solid #00F;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="http://cf.geekdo-images.com/images/pic2336662.png"></a>'
+      +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();showPlayersTab();document.getElementById(\'BRlogPlayers\').style.display=\'none\';}" style="border:2px solid #00F;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/close_pane.png"></a>'
       +'</div>'
       +'<span style="font-variant:small-caps; font-weight:bold;">'
       +'<center>Saved Players</center>'
@@ -2594,7 +2594,7 @@
       +'<a href="javascript:{void(0);}" onClick="javascript:{saveFilters();}" class="SPLUbuttons" style="margin-right:6px;color:black;" id="SavePlayerFilterBtn">Save Filters</a>'
       +'<div id="SPLU.fakeFilterBox" style="display:inline-block;padding:0px 2px; -moz-appearance:textfield; -webkit-appearance:textfield;">'
       +'<input type="text" id="SPLU.NewFilterName" placeholder="Add a new Filter" style="width:100px;border:none;"></input>'
-      +'<a href="javascript:{void(0);}" onClick="javascript:{addFilter();}" style="color:black;"><img src="//cf.geekdo-static.com/images/icons/silkicons/add.png"></a>'
+      +'<a href="javascript:{void(0);}" onClick="javascript:{addFilter();}" style="color:black;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/green_circle_plus.png"></a>'
       +'</div>'
       +'</div>'
       +'<div id="SPLU.FiltersStatus" style="display:inline;padding-left:5px;"></div>'
@@ -2603,7 +2603,7 @@
       +'<div style="padding-top:10px;"><a href="javascript:{void(0);}" onClick="javascript:{saveGroups();}" class="SPLUbuttons" style="margin-right:6px;color:black;" id="SavePlayerGroupsBtn">Save Groups</a>'
       +'<div id="SPLU.fakeGroupBox" style="display:inline-block;padding:0px 2px; -moz-appearance:textfield; -webkit-appearance:textfield;">'
       +'<input type="text" id="SPLU.NewGroupName" placeholder="Add a new Group" style="width:100px;border:none;"></input>'
-      +'<a href="javascript:{void(0);}" onClick="javascript:{addGroup();}" style="color:black;"><img src="//cf.geekdo-static.com/images/icons/silkicons/add.png"></a>'
+      +'<a href="javascript:{void(0);}" onClick="javascript:{addGroup();}" style="color:black;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/green_circle_plus.png"></a>'
       +'</div>'
       +'</div>'
       +'<div id="SPLU.GroupsStatus" style="display:inline;padding-left:5px;"></div>'
@@ -2616,7 +2616,7 @@
   BRlogPlays.setAttribute("style","display:none; background-color: #F1F8FB; padding: 13px;border:2px solid #249631;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:100px;");
   var tmpDiv=document.createElement('div');
   var tmpHTML='<div id="hidePlaysButton" style="position: absolute; right: 0px; top: 2px;">'
-        +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogPlays\').style.display=\'none\';}" style="border:2px solid #249631;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="http://cf.geekdo-images.com/images/pic2336662.png"></a>'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogPlays\').style.display=\'none\';}" style="border:2px solid #249631;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/close_pane.png"></a>'
       +'</div>'
       +'<span style="font-variant:small-caps; font-weight:bold;">'
         +'<center>Logged Plays</center>'
@@ -2630,7 +2630,7 @@
       +'<div id="SPLU.PlaysPlayers" style="position: absolute; background-color: rgb(205, 237, 251); width: 126px; padding: 3px; border: 1px solid blue; display:none;">list</div>'
       +'<div id="SPLU.PlaysStatus"></div>'
       +'<div id="SPLU.PlaysMenu" style="display:none;">'
-        +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysFilters();}"><img src="https://cf.geekdo-images.com/images/pic2477108.png"></a>'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysFilters();}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/filter.png"></a>'
         +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysStats();}">St</a>'
       +'</div>'
       +'<div id="SPLU.PlaysFilters" style="border: 1px solid blue; border-radius: 5px; padding: 3px; display:none;">'
@@ -2680,7 +2680,7 @@
         } 
         tmpHTML+='<div style="display:table-cell; max-width:110px; padding-top:10px;">'
           +'<a href="javascript:{void(0);}" onClick="javascript:{chooseFavorite('+key+');}"><img src="'+SPLU.Favorites[key].thumbnail+'"></a>'
-          +'<a href="javascript:{void(0);}" onClick="javascript:{deleteFavorite('+key+');}"><img src="http://cf.geekdo-images.com/images/pic2333696.png" style="vertical-align:top; position: relative; margin-left: -8px; margin-top: -8px;"/></a>'
+          +'<a href="javascript:{void(0);}" onClick="javascript:{deleteFavorite('+key+');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/red_circle_minus.png" style="vertical-align:top; position: relative; margin-left: -8px; margin-top: -8px;"/></a>'
           +'<br/>'+SPLU.Favorites[key].title+'</div>';
         if(size % 2==0){
           tmpHTML+='</div>';
@@ -2779,7 +2779,7 @@
         document.getElementById('SPLU.LocationsStatus').innerHTML="Saved";
         window.setTimeout(function(){document.getElementById('SPLU.LocationsStatus').innerHTML=""},3000);loadLocations();showLocationsPane("save");
       }else{
-        document.getElementById('SPLU.LocationsStatus').innerHTML="<img style='vertical-align:bottom;padding-top:5px;' src='//cf.geekdo-static.com/mbs/mb_3264_0.gif'><span style='background-color:red;color:white;font-weight:bold;'>Error Code: "+responseJSON.target.status+"</span> Try saving again.";
+        document.getElementById('SPLU.LocationsStatus').innerHTML="<img style='vertical-align:bottom;padding-top:5px;' src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/alert.gif'><span style='background-color:red;color:white;font-weight:bold;'>Error Code: "+responseJSON.target.status+"</span> Try saving again.";
       }
     };
     xmlhttp.open("POST","/geekplay.php",true);
@@ -2874,7 +2874,7 @@
         document.getElementById('SPLU.PlayersStatus').innerHTML="Saved";
         window.setTimeout(function(){document.getElementById('SPLU.PlayersStatus').innerHTML=""},3000);loadPlayers();showPlayersPane("save");
       }else{
-        document.getElementById('SPLU.PlayersStatus').innerHTML="<img style='vertical-align:bottom;padding-top:5px;' src='//cf.geekdo-static.com/mbs/mb_3264_0.gif'><span style='background-color:red;color:white;font-weight:bold;'>Error Code: "+responseJSON.target.status+"</span> Try saving again.";
+        document.getElementById('SPLU.PlayersStatus').innerHTML="<img style='vertical-align:bottom;padding-top:5px;' src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/alert.gif'><span style='background-color:red;color:white;font-weight:bold;'>Error Code: "+responseJSON.target.status+"</span> Try saving again.";
       }
     };
     xmlhttp.open("POST","/geekplay.php",true);
@@ -3005,7 +3005,7 @@
         document.getElementById('SPLU.FiltersStatus').innerHTML="Saved";
         window.setTimeout(function(){document.getElementById('SPLU.FiltersStatus').innerHTML=""},3000);
       }else{
-        document.getElementById('SPLU.FiltersStatus').innerHTML="<img style='vertical-align:bottom;padding-top:5px;' src='//cf.geekdo-static.com/mbs/mb_3264_0.gif'><span style='background-color:red;color:white;font-weight:bold;'>Error Code: "+responseJSON.target.status+"</span> Try saving again.";
+        document.getElementById('SPLU.FiltersStatus').innerHTML="<img style='vertical-align:bottom;padding-top:5px;' src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/alert.gif'><span style='background-color:red;color:white;font-weight:bold;'>Error Code: "+responseJSON.target.status+"</span> Try saving again.";
       }
     };
     xmlhttp.open("POST","/geekplay.php",true);
@@ -3077,7 +3077,7 @@
         document.getElementById('SPLU.GroupsStatus').innerHTML="Saved";
         window.setTimeout(function(){document.getElementById('SPLU.GroupsStatus').innerHTML=""},3000);
       }else{
-        document.getElementById('SPLU.GroupsStatus').innerHTML="<img style='vertical-align:bottom;padding-top:5px;' src='//cf.geekdo-static.com/mbs/mb_3264_0.gif'><span style='background-color:red;color:white;font-weight:bold;'>Error Code: "+responseJSON.target.status+"</span> Try saving again.";
+        document.getElementById('SPLU.GroupsStatus').innerHTML="<img style='vertical-align:bottom;padding-top:5px;' src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/alert.gif'><span style='background-color:red;color:white;font-weight:bold;'>Error Code: "+responseJSON.target.status+"</span> Try saving again.";
       }
     };
     xmlhttp.open("POST","/geekplay.php",true);
