@@ -999,7 +999,8 @@
     showHideEditButtons("hide");
     if(SPLU.Settings.DateField.Reset){setDateField(SPLUtoday);}
     if(SPLU.Settings.GameField.Reset){VoidInstantSearch({itemid:'0',uniqueid:'546e9ffd96dfc'});}
-    VoidInstantSearch({itemid:'0',uniqueid:'546e9ffd96dfc'});
+    //Don't do this or it clears the submit details.
+    //VoidInstantSearch({itemid:'0',uniqueid:'546e9ffd96dfc'});
   }
   
   function setDateField(date){
@@ -1392,8 +1393,16 @@
       "LowScore":999999999,
       "TotalScore":0,
       "TotalPlays":0,
-      "Players":{}
+      "Players":{},
+      "CountZero":true
     };
+    if(document.getElementById("SPLU.StatsCountZeroCheck")!==null){
+      if(document.getElementById("SPLU.StatsCountZeroCheck").checked){
+        SPLU.GameStats[gameid].CountZero=true;
+      }else{
+        SPLU.GameStats[gameid].CountZero=false;
+      }
+    }
     for(key in SPLUplayData[tmpUser]){
       if(key=="total"||key=="approximate"||SPLUplayData[tmpUser][key].attributes.date.value=="1452-04-15"){
         continue;
@@ -1422,21 +1431,23 @@
           if(tmpPlayers[p].getAttribute("score")!=""){
             tmpScore=Number(tmpPlayers[p].getAttribute("score"));
           }
-          if(tmpScore>SPLU.GameStats[gameid]["Players"][tmpName]["HighScore"]){
-            SPLU.GameStats[gameid]["Players"][tmpName]["HighScore"]=tmpScore;
-            SPLU.GameStats[gameid]["Players"][tmpName]["HighScorePlay"]=tmpPlay;
-          }
-          if(tmpScore>SPLU.GameStats[gameid]["HighScore"]){
-            SPLU.GameStats[gameid]["HighScore"]=tmpScore;
-            SPLU.GameStats[gameid]["HighScorePlay"]=tmpPlay;
-          }
-          if(tmpScore<SPLU.GameStats[gameid]["Players"][tmpName].LowScore){
-            SPLU.GameStats[gameid]["Players"][tmpName]["LowScore"]=tmpScore;
-            SPLU.GameStats[gameid]["Players"][tmpName]["LowScorePlay"]=tmpPlay;
-          }
-          if(tmpScore<SPLU.GameStats[gameid]["LowScore"]){
-            SPLU.GameStats[gameid]["LowScore"]=tmpScore;
-            SPLU.GameStats[gameid]["LowScorePlay"]=tmpPlay;
+          if(!SPLU.GameStats[gameid].CountZero && tmpScore==0){
+            if(tmpScore>SPLU.GameStats[gameid]["Players"][tmpName]["HighScore"]){
+              SPLU.GameStats[gameid]["Players"][tmpName]["HighScore"]=tmpScore;
+              SPLU.GameStats[gameid]["Players"][tmpName]["HighScorePlay"]=tmpPlay;
+            }
+            if(tmpScore>SPLU.GameStats[gameid]["HighScore"]){
+              SPLU.GameStats[gameid]["HighScore"]=tmpScore;
+              SPLU.GameStats[gameid]["HighScorePlay"]=tmpPlay;
+            }
+            if(tmpScore<SPLU.GameStats[gameid]["Players"][tmpName].LowScore){
+              SPLU.GameStats[gameid]["Players"][tmpName]["LowScore"]=tmpScore;
+              SPLU.GameStats[gameid]["Players"][tmpName]["LowScorePlay"]=tmpPlay;
+            }
+            if(tmpScore<SPLU.GameStats[gameid]["LowScore"]){
+              SPLU.GameStats[gameid]["LowScore"]=tmpScore;
+              SPLU.GameStats[gameid]["LowScorePlay"]=tmpPlay;
+            }
           }
           SPLU.GameStats[gameid]["Players"][tmpName]["TotalScore"]+=tmpScore;
           SPLU.GameStats[gameid]["Players"][tmpName]["TotalPlays"]++;
@@ -1449,6 +1460,9 @@
       }
     }
     tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
+        +'<div style="text-align:right;">'
+          +'<input type="checkbox" id="SPLU.StatsCountZeroCheck" onClick="javascript:{loadStats(\'GameScore\');}"/> Include 0 Scores'
+        +'</div>'
         +'<div style="display:table-row;">'
           +'<div style="display:table-cell;">Player</div>'
           +'<div style="display:table-cell;">Plays</div>'
@@ -1480,6 +1494,7 @@
     }
     tmpHTML+='</div>';
     document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
+    document.getElementById("SPLU.StatsCountZeroCheck").checked=SPLU.GameStats[gameid].CountZero;
     
   }
   
@@ -2412,7 +2427,7 @@
     +'<div style="display:table-cell; text-align:center;"></div>'
     +'</div>'
     +'<div style="display:table-row;">'
-    +'<div style="display:table-cell; text-align:right;">Log Detals with Expansions</div>'
+    +'<div style="display:table-cell; text-align:right;">Log Details with Expansions</div>'
     +'<div style="display:table-cell; text-align:center;">'
     +'<input type="checkbox" id="SPLU.ExpansionDetailsCheck" onclick="javascript:{if(document.getElementById(\'SPLU.ExpansionDetailsCheck\').checked){SPLU.Settings.ExpansionDetails.Include=true;}else{SPLU.Settings.ExpansionDetails.Include=false;};}"></input>'
     +'</div>'
