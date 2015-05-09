@@ -1392,6 +1392,10 @@
       var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
       getStatsBeginnersLuck(tmpUser);
     }
+    if(stat=="PlaysWins"){
+      var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
+      getStatsPlaysWins(tmpUser);
+    }
   }
   
   function getStatsGameScore(tmpUser,gameid){
@@ -1507,13 +1511,13 @@
         if(tmpPlayers[p].getAttribute("name")!=""){
           tmpName=tmpPlayers[p].getAttribute("name");
         }
-        if(SPLU.GameStats["Players"][tmpName]===undefined){
-          SPLU.GameStats["Players"][tmpName]={
+        if(SPLU.GameStats[tmpName]===undefined){
+          SPLU.GameStats[tmpName]={
             "TotalNewWins":0
           };
         }
         if(tmpPlayers[p].getAttribute("new")=="1" && tmpPlayers[p].getAttribute("win")=="1"){
-          SPLU.GameStats["Players"][tmpName]["TotalNewWins"]++;
+          SPLU.GameStats[tmpName]["TotalNewWins"]++;
         }
       }
     }
@@ -1522,16 +1526,64 @@
           +'<div style="display:table-cell;">Player</div>'
           +'<div style="display:table-cell;">New & Won</div>'
         +'</div>';
-    for(key in SPLU.GameStats["Players"]){
-      tmpHTML+='<div style="display:table-row;">';
-      tmpHTML+='<div style="display:table-cell;">'+key+'</div>';
-      tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats["Players"][key]["TotalNewWins"]+'</div>';
-      tmpHTML+='</div>';
+    for(key in SPLU.GameStats){
+      if(SPLU.GameStats[key]["TotalNewWins"]!=0){
+        tmpHTML+='<div style="display:table-row;">';
+        tmpHTML+='<div style="display:table-cell;">'+key+'</div>';
+        tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[key]["TotalNewWins"]+'</div>';
+        tmpHTML+='</div>';
+      }
     }
     tmpHTML+='</div>';
     document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
   }
 
+  function getStatsPlaysWins(tmpUser){
+    SPLU.GameStats={};
+    for(key in SPLUplayData[tmpUser]){
+      if(key=="total"||key=="approximate"||SPLUplayData[tmpUser][key].attributes.date.value=="1452-04-15"){
+        continue;
+      }
+      var tmpPlay=SPLUplayData[tmpUser][key].getAttribute("id");
+      var tmpPlayers=SPLUplayData[tmpUser][key].getElementsByTagName("players")[0].getElementsByTagName("player");
+      for(p=0;p<tmpPlayers.length;p++){
+        var tmpName="Unknown";
+        if(tmpPlayers[p].getAttribute("username")!=""){
+          tmpName=tmpPlayers[p].getAttribute("username");
+        }
+        if(tmpPlayers[p].getAttribute("name")!=""){
+          tmpName=tmpPlayers[p].getAttribute("name");
+        }
+        if(SPLU.GameStats[tmpName]===undefined){
+          SPLU.GameStats[tmpName]={
+            "TotalWins":0,
+            "TotalPlays":0
+          };
+        }
+        if(tmpPlayers[p].getAttribute("win")=="1"){
+          SPLU.GameStats[tmpName]["TotalWins"]++;
+        }
+        SPLU.GameStats[tmpName]["TotalPlays"]++;
+      }
+    }
+    tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
+        +'<div style="display:table-row;">'
+          +'<div style="display:table-cell;">Player</div>'
+          +'<div style="display:table-cell;">Plays</div>'
+          +'<div style="display:table-cell;">Wins</div>'
+        +'</div>';
+    for(key in SPLU.GameStats){
+      if(SPLU.GameStats[key]["TotalNewWins"]!=0){
+        tmpHTML+='<div style="display:table-row;">';
+        tmpHTML+='<div style="display:table-cell;">'+key+'</div>';
+        tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[key]["TotalPlays"]+'</div>';
+        tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[key]["TotalWins"]+'</div>';
+        tmpHTML+='</div>';
+      }
+    }
+    tmpHTML+='</div>';
+    document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
+  }
   
   function loadPlay(id){
 	  console.log(id);
@@ -2712,7 +2764,6 @@
           +'<option value="BeginnersLuck">Beginner\'s Luck</option>'
           +'<option value="PlaysWins">Wins</option>'
         +'</select>'
-        +'<a href="javascript:{void(0);}" onClick="javascript:{loadStats(\'GameScore\');}">GameScore</a>'
       +'</div>'
       +'<div id="SPLU.StatsContent" style="display:none;"></div>';
   tmpDiv.innerHTML+=tmpHTML;
