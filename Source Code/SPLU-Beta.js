@@ -1379,6 +1379,9 @@
   }
 
   function loadStats(stat){
+    if(stat=="choose"){
+      stat=document.getElementById("SPLU.SelectStat").value;
+    }
     if(stat=="GameScore"){
       var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
       var tmpGame=document.getElementById('objectid0').value;
@@ -2661,6 +2664,9 @@
       +'</div>'
       +'<div id="SPLU.PlaysList" style="overflow-y:auto; width:275px;"></div>'
       +'<div id="SPLU.StatsMenu" style="display:none;">'
+        +'Stat: <select id="SPLU.SelectStat" onChange="javascript:{loadStats(\'choose\');}">'
+          +'<option value="GameScore" selected>Game Scores</option>'
+        +'</select>'
         +'<a href="javascript:{void(0);}" onClick="javascript:{loadStats(\'GameScore\');}">GameScore</a>'
       +'</div>'
       +'<div id="SPLU.StatsContent" style="display:none;"></div>';
