@@ -1370,6 +1370,7 @@
     if(document.getElementById("SPLU.StatsMenu").style.display=="none"){
       document.getElementById("SPLU.StatsMenu").style.display="";
       document.getElementById("SPLU.StatsContent").style.display="";
+      loadStats("choose");
     }else{
       document.getElementById("SPLU.StatsMenu").style.display="none";
       document.getElementById("SPLU.StatsContent").style.display="none";
@@ -1386,6 +1387,10 @@
       var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
       var tmpGame=document.getElementById('objectid0').value;
       getStatsGameScore(tmpUser, tmpGame);
+    }
+    if(stat=="BeginnersLuck"){
+      var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
+      getStatsBeginnersLuck(tmpUser);
     }
   }
   
@@ -1453,9 +1458,6 @@
       }
     }
     tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
-        +'<div style="text-align:right;">'
-          +'<input type="checkbox" id="SPLU.StatsCountZeroCheck" onClick="javascript:{loadStats(\'GameScore\');}"/> Include 0 Scores'
-        +'</div>'
         +'<div style="display:table-row;">'
           +'<div style="display:table-cell;">Player</div>'
           +'<div style="display:table-cell;">Plays</div>'
@@ -1487,8 +1489,49 @@
     }
     tmpHTML+='</div>';
     document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
-    
   }
+  
+  function getStatsBeginnersLuck(tmpUser){
+    SPLU.GameStats={};
+    for(key in SPLUplayData[tmpUser]){
+      if(key=="total"||key=="approximate"||SPLUplayData[tmpUser][key].attributes.date.value=="1452-04-15"){
+        continue;
+      }
+      var tmpPlay=SPLUplayData[tmpUser][key].getAttribute("id");
+      var tmpPlayers=SPLUplayData[tmpUser][key].getElementsByTagName("players")[0].getElementsByTagName("player");
+      for(p=0;p<tmpPlayers.length;p++){
+        var tmpName="Unknown";
+        if(tmpPlayers[p].getAttribute("username")!=""){
+          tmpName=tmpPlayers[p].getAttribute("username");
+        }
+        if(tmpPlayers[p].getAttribute("name")!=""){
+          tmpName=tmpPlayers[p].getAttribute("name");
+        }
+        if(SPLU.GameStats["Players"][tmpName]===undefined){
+          SPLU.GameStats["Players"][tmpName]={
+            "TotalNewWins":0
+          };
+        }
+        if(tmpPlayers[p].getAttribute("new")=="1" && tmpPlayers[p].getAttribute("win")=="1"){
+          SPLU.GameStats["Players"][tmpName]["TotalNewWins"]++;
+        }
+      }
+    }
+    tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
+        +'<div style="display:table-row;">'
+          +'<div style="display:table-cell;">Player</div>'
+          +'<div style="display:table-cell;">New & Won</div>'
+        +'</div>';
+    for(key in SPLU.GameStats["Players"]){
+      tmpHTML+='<div style="display:table-row;">';
+      tmpHTML+='<div style="display:table-cell;">'+key+'</div>';
+      tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats["Players"][key]["TotalNewWins"]+'</div>';
+      tmpHTML+='</div>';
+    }
+    tmpHTML+='</div>';
+    document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
+  }
+
   
   function loadPlay(id){
 	  console.log(id);
@@ -2665,7 +2708,9 @@
       +'<div id="SPLU.PlaysList" style="overflow-y:auto; width:275px;"></div>'
       +'<div id="SPLU.StatsMenu" style="display:none;">'
         +'Stat: <select id="SPLU.SelectStat" onChange="javascript:{loadStats(\'choose\');}">'
-          +'<option value="GameScore" selected>Game Scores</option>'
+          +'<option value="GameScore" selected>Selected Game Scores</option>'
+          +'<option value="BeginnersLuck">Beginner\'s Luck</option>'
+          +'<option value="PlaysWins">Wins</option>'
         +'</select>'
         +'<a href="javascript:{void(0);}" onClick="javascript:{loadStats(\'GameScore\');}">GameScore</a>'
       +'</div>'
