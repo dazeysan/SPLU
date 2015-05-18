@@ -3246,9 +3246,9 @@
   listenerForPopText("BRplaysBtn","View/Edit Play History");
   listenerForPopText("ResetFormBtn","Clear All Fields");
   listenerForPopText("DeleteGamePlayBtn","Delete this Play");
-  listenerForPopText("statisticsicon","Basic Stats");
-  listenerForPopText("filtericon","Apply Filter to These Results");
-  listenerForPopText("floppydiskicon","Remember This Player");
+  //listenerForPopText("statisticsicon","Basic Stats");
+  //listenerForPopText("filtericon","Apply Filter to These Results");
+  //listenerForPopText("floppydiskicon","Remember This Player");
 
   var observer=new MutationObserver(function(){
     if(document.getElementById('selimage0').innerHTML.slice(0,4)=="<div"){
