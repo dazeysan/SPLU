@@ -1053,6 +1053,9 @@
         console.log("result 200 on page "+SPLUplaysPage);
         SPLUplays[player][page]=this.responseXML;
         parsePlays(player,page,multiple,gameid,date);
+        if(document.getElementById("SPLU.StatsContent").style.display!="none"){
+          loadStats("choose");
+        }
       }else{
         console.log("other status code, no getplays");
       }
@@ -2733,7 +2736,7 @@
       +'<div id="SPLU.PlaysStatus"></div>'
       +'<div id="SPLU.PlaysMenu" style="display:none;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysFilters();}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/filter.png"></a>'
-        +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysStats();}">St</a>'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysStats();}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/statistics.png"></a>'
       +'</div>'
       +'<div id="SPLU.PlaysFilters" style="border: 1px solid blue; border-radius: 5px; padding: 3px; display:none;">'
         +'<div id="SPLU.PlaysFiltersStatus" style="float:right;"></div>'
@@ -2765,7 +2768,7 @@
           +'<option value="PlaysWins">Wins</option>'
         +'</select>'
       +'</div>'
-      +'<div id="SPLU.StatsContent" style="display:none;"></div>';
+      +'<div id="SPLU.StatsContent" style="display:none;overflow-y: auto; width: 275px;"></div>';
   tmpDiv.innerHTML+=tmpHTML;
   BRlogPlays.appendChild(tmpDiv);
   
