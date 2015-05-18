@@ -1501,7 +1501,7 @@
   function getStatsBeginnersLuck(tmpUser){
     SPLU.GameStats={};
     for(key in SPLUplayData[tmpUser]){
-      if(key=="total"||key=="approximate"||SPLUplayData[tmpUser][key].attributes.date.value=="1452-04-15"){
+      if(key=="total"||key=="approximate"||SPLUplayData[tmpUser][key].attributes.date.value=="1452-04-15"||SPLUplayData[tmpUser][key].getElementsByTagName("players")[0]===undefined){
         continue;
       }
       var tmpPlay=SPLUplayData[tmpUser][key].getAttribute("id");
@@ -1544,7 +1544,7 @@
   function getStatsPlaysWins(tmpUser){
     SPLU.GameStats={};
     for(key in SPLUplayData[tmpUser]){
-      if(key=="total"||key=="approximate"||SPLUplayData[tmpUser][key].attributes.date.value=="1452-04-15"){
+    if(key=="total"||key=="approximate"||SPLUplayData[tmpUser][key].attributes.date.value=="1452-04-15"||SPLUplayData[tmpUser][key].getElementsByTagName("players")[0]===undefined){
         continue;
       }
       var tmpPlay=SPLUplayData[tmpUser][key].getAttribute("id");
@@ -2736,7 +2736,7 @@
       +'<div id="SPLU.PlaysStatus"></div>'
       +'<div id="SPLU.PlaysMenu" style="display:none;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysFilters();}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/filter.png"></a>'
-        +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysStats();}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/statistics.png"></a>'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysStats();}" style="padding-left:15px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/statistics.png"></a>'
       +'</div>'
       +'<div id="SPLU.PlaysFilters" style="border: 1px solid blue; border-radius: 5px; padding: 3px; display:none;">'
         +'<div id="SPLU.PlaysFiltersStatus" style="float:right;"></div>'
