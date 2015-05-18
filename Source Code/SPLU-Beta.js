@@ -1358,6 +1358,7 @@
   }
   
   function showHidePlaysFilters(){
+    document.getElementById("SPLU.PlaysList").style.maxHeight=(document.getElementById("BRlogPlays").clientHeight-122)+"px";
     if(document.getElementById("SPLU.PlaysFilters").style.display=="none"){
       document.getElementById("SPLU.PlaysFilters").style.display="";
       document.getElementById("SPLU.PlaysList").style.display="";
@@ -1370,6 +1371,7 @@
   }
 
   function showHidePlaysStats(){
+    document.getElementById("SPLU.StatsContent").style.maxHeight=(document.getElementById("BRlogPlays").clientHeight-115)+"px";
     if(document.getElementById("SPLU.StatsMenu").style.display=="none"){
       document.getElementById("SPLU.StatsMenu").style.display="";
       document.getElementById("SPLU.StatsContent").style.display="";
@@ -1464,18 +1466,22 @@
         }
       }
     }
-    tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
+    tmpHTML='<span style="font-style:italic;color:rgb(213, 85, 198);font-weight:bold;">'+document.getElementById("q546e9ffd96dfc").value+'</span>'
+    +'<div style="display:table; border-spacing:5px 2px; text-align:right;">'
         +'<div style="display:table-row;">'
-          +'<div style="display:table-cell;">Player</div>'
-          +'<div style="display:table-cell;">Plays</div>'
-          +'<div style="display:table-cell;">Wins</div>'
-          +'<div style="display:table-cell;">Low</div>'
-          +'<div style="display:table-cell;">High</div>'
-          +'<div style="display:table-cell;">Average</div>'
+          +'<div style="display:table-cell;font-weight:bold;">Player</div>'
+          +'<div style="display:table-cell;font-weight:bold;">Plays</div>'
+          +'<div style="display:table-cell;font-weight:bold;">Wins</div>'
+          +'<div style="display:table-cell;font-weight:bold;">Low</div>'
+          +'<div style="display:table-cell;font-weight:bold;">High</div>'
+          +'<div style="display:table-cell;font-weight:bold;">AvgPts</div>'
+          +'<div style="display:table-cell;font-weight:bold;">AvgWins</div>'
         +'</div>';
     for(key in SPLU.GameStats[gameid]["Players"]){
-      tmpAverage=SPLU.GameStats[gameid]["Players"][key]["TotalScore"]/SPLU.GameStats[gameid]["Players"][key]["TotalPlays"];
-      tmpAverage=tmpAverage.toFixed(2);
+      tmpAverageScore=SPLU.GameStats[gameid]["Players"][key]["TotalScore"]/SPLU.GameStats[gameid]["Players"][key]["TotalPlays"];
+      tmpAverageScore=tmpAverageScore.toFixed(2);
+      tmpAverageWins=(SPLU.GameStats[gameid]["Players"][key]["TotalWins"]/SPLU.GameStats[gameid]["Players"][key]["TotalPlays"])*100;
+      tmpAverageWins=tmpAverageWins.toFixed(2);
       tmpHTML+='<div style="display:table-row;">';
       tmpHTML+='<div style="display:table-cell;">'+key+'</div>';
       tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[gameid]["Players"][key]["TotalPlays"]+'</div>';
@@ -1491,7 +1497,8 @@
       }
       tmpHTML+='<div style="display:table-cell;"><a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLU.GameStats[gameid]["Players"][key]["HighScorePlay"]+');}"><span style="'+tmpBold+'">'+SPLU.GameStats[gameid]["Players"][key]["HighScore"]+'</span></a></div>';
       tmpBold="";
-      tmpHTML+='<div style="display:table-cell;">'+tmpAverage+'</div>';
+      tmpHTML+='<div style="display:table-cell;">'+tmpAverageScore+'</div>';
+      tmpHTML+='<div style="display:table-cell;">'+tmpAverageWins+'%</div>';
       tmpHTML+='</div>';
     }
     tmpHTML+='</div>';
@@ -1526,8 +1533,8 @@
     }
     tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
         +'<div style="display:table-row;">'
-          +'<div style="display:table-cell;">Player</div>'
-          +'<div style="display:table-cell;">New & Won</div>'
+          +'<div style="display:table-cell;font-weight:bold;">Player</div>'
+          +'<div style="display:table-cell;font-weight:bold;">New & Won</div>'
         +'</div>';
     for(key in SPLU.GameStats){
       if(SPLU.GameStats[key]["TotalNewWins"]!=0){
@@ -1571,16 +1578,20 @@
     }
     tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
         +'<div style="display:table-row;">'
-          +'<div style="display:table-cell;">Player</div>'
-          +'<div style="display:table-cell;">Plays</div>'
-          +'<div style="display:table-cell;">Wins</div>'
+          +'<div style="display:table-cell;font-weight:bold;">Player</div>'
+          +'<div style="display:table-cell;font-weight:bold;">Plays</div>'
+          +'<div style="display:table-cell;font-weight:bold;">Wins</div>'
+          +'<div style="display:table-cell;font-weight:bold;">Average</div>'
         +'</div>';
     for(key in SPLU.GameStats){
+      tmpAverage=(SPLU.GameStats[key]["TotalWins"]/SPLU.GameStats[key]["TotalPlays"])*100;
+      tmpAverage=tmpAverage.toFixed(2);
       if(SPLU.GameStats[key]["TotalNewWins"]!=0){
         tmpHTML+='<div style="display:table-row;">';
         tmpHTML+='<div style="display:table-cell;">'+key+'</div>';
         tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[key]["TotalPlays"]+'</div>';
         tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[key]["TotalWins"]+'</div>';
+        tmpHTML+='<div style="display:table-cell;">'+tmpAverage+'%</div>';
         tmpHTML+='</div>';
       }
     }
@@ -2768,7 +2779,7 @@
           +'<option value="PlaysWins">Wins</option>'
         +'</select>'
       +'</div>'
-      +'<div id="SPLU.StatsContent" style="display:none;overflow-y: auto; width: 275px;"></div>';
+      +'<div id="SPLU.StatsContent" style="display:none;overflow-y: auto; width: 315px;"></div>';
   tmpDiv.innerHTML+=tmpHTML;
   BRlogPlays.appendChild(tmpDiv);
   
