@@ -2265,7 +2265,7 @@
       +'</div>'
       +'<div class="BRcells" id="SPLUresetFormDiv">'
         +'<div>'
-          +'<a href="javascript:{void(0);}" onClick="javascript:{clearForm();}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="ResetFormBtn"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/clear_form.png" style="vertical-align: middle;"></a>'
+          +'<a href="javascript:{void(0);}" onClick="javascript:{clearForm();VoidInstantSearch({itemid:\'0\',uniqueid:\'546e9ffd96dfc\'});}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="ResetFormBtn"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/clear_form.png" style="vertical-align: middle;"></a>'
         +'</div>'
       +'</div>'
       +'<div class="BRcells">'
