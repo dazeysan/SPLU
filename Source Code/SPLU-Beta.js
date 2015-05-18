@@ -3243,12 +3243,12 @@
   listenerForPopText("showPlayersPaneBtn","Edit Players");
   listenerForPopText("showLocationsPaneBtn","Edit Locations");
   listenerForPopText("SPLU.SaveLocationButton","Save This Location");
-  listenerForPopText("BRplaysBtn","View/Edit Play History")
-  listenerForPopText("ResetFormBtn","Clear All Fields")
-  listenerForPopText("DeleteGamePlayBtn","Delete this Play")
-  listenerForPopText("statisticsicon","Basic Stats")
-  listenerForPopText("filtericon","Apply Filter to These Results")
-  listenerForPopText("floppydiskicon","Remember This Player")
+  listenerForPopText("BRplaysBtn","View/Edit Play History");
+  listenerForPopText("ResetFormBtn","Clear All Fields");
+  listenerForPopText("DeleteGamePlayBtn","Delete this Play");
+  listenerForPopText("statisticsicon","Basic Stats");
+  listenerForPopText("filtericon","Apply Filter to These Results");
+  listenerForPopText("floppydiskicon","Remember This Player");
 
   var observer=new MutationObserver(function(){
     if(document.getElementById('selimage0').innerHTML.slice(0,4)=="<div"){
