@@ -638,7 +638,7 @@
     tmpDiv.style.textAlign="center";
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerSaveColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<span style="padding-bottom:2px;"><a href="javascript:{void(0);}" onClick="javascript:{savePlayer('+NumOfPlayers+');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/save.png"></a></span>';
+    tmpDiv.innerHTML='<span style="padding-bottom:2px;"><a href="javascript:{void(0);}" onClick="javascript:{savePlayer('+NumOfPlayers+');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/save.png" id="floppydiskicon"></a></span>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
 
     if(NumOfPlayers==2){
@@ -2735,8 +2735,8 @@
       +'<div id="SPLU.PlaysPlayers" style="position: absolute; background-color: rgb(205, 237, 251); width: 126px; padding: 3px; border: 1px solid blue; display:none;">list</div>'
       +'<div id="SPLU.PlaysStatus"></div>'
       +'<div id="SPLU.PlaysMenu" style="display:none;">'
-        +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysFilters();}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/filter.png"></a>'
-        +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysStats();}" style="padding-left:15px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/statistics.png"></a>'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysFilters();}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/filter.png" id="filtericon"></a>'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysStats();}" style="padding-left:15px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/statistics.png" id="statisticsicon"></a>'
       +'</div>'
       +'<div id="SPLU.PlaysFilters" style="border: 1px solid blue; border-radius: 5px; padding: 3px; display:none;">'
         +'<div id="SPLU.PlaysFiltersStatus" style="float:right;"></div>'
@@ -3240,12 +3240,15 @@
   listenerForPopText("hideExpansionsButton","Shut this Drawer");
   listenerForPopText("hideFavsButton","Shut this Drawer");
   listenerForPopText("SPLU.SettingsReset","Reset all settings to default.  Close and re-open SPLU after clicking this.");
-  listenerForPopText("showPlayersPaneBtn","Edit All Players");
-  listenerForPopText("showLocationsPaneBtn","Edit All Locations");
+  listenerForPopText("showPlayersPaneBtn","Edit Players");
+  listenerForPopText("showLocationsPaneBtn","Edit Locations");
   listenerForPopText("SPLU.SaveLocationButton","Save This Location");
   listenerForPopText("BRplaysBtn","View/Edit Play History")
   listenerForPopText("ResetFormBtn","Clear All Fields")
   listenerForPopText("DeleteGamePlayBtn","Delete this Play")
+  listenerForPopText("statisticsicon","Basic Stats")
+  listenerForPopText("filtericon","Apply Filter to These Results")
+  listenerForPopText("floppydiskicon","Remember This Player")
 
   var observer=new MutationObserver(function(){
     if(document.getElementById('selimage0').innerHTML.slice(0,4)=="<div"){
