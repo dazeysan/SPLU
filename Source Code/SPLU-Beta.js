@@ -1296,6 +1296,17 @@
           }
         }
       }
+      if(filtertype=="begindate"){
+        var d1 = new Date(lines[l].value);
+        var d2 = new Date(lines[l].parentNode.children[2].value);
+        for(i=0;i<plays.length;i++){
+          var d3 = new Date(SPLUplayData[user][plays[i].id].getAttribute("date"));
+          console.log(d1+"||"+d2+"||"+d3);
+          if(d3 >= d1 && d3 <= d2){
+            plays[i].matches++;
+          }
+        }
+      }
 
     }
     return plays;
