@@ -1,4 +1,4 @@
-// SPLU 5.2.7 Beta
+// SPLU 5.3.0 Beta
 
   //Check if they aren't on a BGG site and alert them to that fact.
   if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -10,7 +10,7 @@
   var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
   //Check if the user is logged in to BGG, throw an error if not
   if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-  var SPLUversion="5.2.7";
+  var SPLUversion="5.3.0";
 
   function fixedEncodeURIComponent(str) {
     return encodeURIComponent(str).replace(/[!'()*]/g, function(c) {
@@ -203,11 +203,8 @@
           compareSPLU();
           SPLU.Version=SPLUversion;
           SPLUremote=SPLU;
-          xmlhttp=new XMLHttpRequest();
-          xmlhttp.onload=function(){console.log("Version Updated to "+SPLU.Version);finalSetup();};
-          xmlhttp.open("POST","/geekplay.php",true);
-          xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-          xmlhttp.send("version=2&objecttype=thing&objectid=98000&playid="+SPLUplayId+"&action=save&quantity=0&comments="+fixedEncodeURIComponent(JSON.stringify(SPLUremote))+"&playdate=1452-04-15&B1=Save");
+            finalSetup();
+          });
         }else{
           finalSetup();
         }
@@ -367,11 +364,9 @@
       }
       SPLU.Locations[tmpLoc]={"Name":encodeURIComponent(document.getElementById('quickplay_location99').value)};
       SPLUremote.Locations=SPLU.Locations;
-      xmlhttp=new XMLHttpRequest();
-      xmlhttp.onload=function(){loadLocations();};
-      xmlhttp.open("POST","/geekplay.php",true);
-      xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-      xmlhttp.send("version=2&objecttype=thing&objectid=98000&playid="+SPLUplayId+"&action=save&quantity=0&comments="+fixedEncodeURIComponent(JSON.stringify(SPLUremote))+"&playdate=1452-04-15&B1=Save");
+      saveSooty("BRresults","Thinking...","Saved",function(){
+        loadLocations();
+      });
     }
   }
   
@@ -395,11 +390,12 @@
       }
       SPLU.Players[(document.getElementsByName('players['+id+'][name]')[0].value.replace(/ /g,'').toLowerCase()+tmpPly)]={"Name":document.getElementsByName('players['+id+'][name]')[0].value,"Username":document.getElementsByName('players['+id+'][username]')[0].value,"Color":document.getElementsByName('players['+id+'][color]')[0].value,"SortOrder":"0"};
       SPLUremote.Players=SPLU.Players;
-      xmlhttp=new XMLHttpRequest();
-      xmlhttp.onload=function(){loadPlayers();if(document.getElementById('BRlogPlayers').style.display=="table-cell"){showPlayersPane("save");}};
-      xmlhttp.open("POST","/geekplay.php",true);
-      xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-      xmlhttp.send("version=2&objecttype=thing&objectid=98000&playid="+SPLUplayId+"&action=save&quantity=0&comments="+fixedEncodeURIComponent(JSON.stringify(SPLUremote))+"&playdate=1452-04-15&B1=Save");
+      saveSooty("BRresults","Thinking...","Saved",function(){
+        loadPlayers();
+        if(document.getElementById('BRlogPlayers').style.display=="table-cell"){
+          showPlayersPane("save");
+        }
+      });
     }
   }
   
@@ -678,7 +674,7 @@
     }
   }
   
-  function addFavorite(){
+  function saveFavorite(){
     var id=document.getElementById('objectid0').value;
     SPLU.Favorites[id]={
       "objectid":id,
@@ -855,19 +851,7 @@
     SPLU.Settings["CommentsField"]["Width"]=document.getElementById('quickplay_comments99').style.width;
     SPLU.Settings["CommentsField"]["Height"]=document.getElementById('quickplay_comments99').style.height;
     SPLUremote.Settings=SPLU.Settings;
-    xmlhttp=new XMLHttpRequest();
-    xmlhttp.open("POST","/geekplay.php",true);
-    xmlhttp.onload=function(responseJSON){
-      console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
-      if(responseJSON.target.status==200){
-        document.getElementById('SPLU.SettingsStatus').innerHTML=text;
-        window.setTimeout(function(){ document.getElementById('SPLU.SettingsStatus').innerHTML="" }, 5000);
-      }else{
-        document.getElementById('SPLU.SettingsStatus').innerHTML="<img style='vertical-align:bottom;padding-top:5px;' src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/alert.gif'><span style='background-color:red;color:white;font-weight:bold;'>Error Code: "+responseJSON.target.status+"</span> Try saving again.";
-      }
-    };
-    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    xmlhttp.send("version=2&objecttype=thing&objectid=98000&playid="+SPLUplayId+"&action=save&quantity=0&comments="+fixedEncodeURIComponent(JSON.stringify(SPLUremote))+"&playdate=1452-04-15&B1=Save");
+    saveSooty("SPLU.SettingsStatus","Thinking...",text,function(){});
   }
 
   function saveSooty(statusID, statusLoading, statusSuccess, onloadFunction){
@@ -1802,12 +1786,7 @@
     document.getElementById('SPLU.ExpansionsPaneStatus').innerHTML="Saving...";
     SPLU.Settings.ExpansionQuantity.Value=document.getElementById('BRexpPlayQTY').value;
     SPLUremote.Settings.ExpansionQuantity.Value=SPLU.Settings.ExpansionQuantity.Value;
-    xmlhttp=new XMLHttpRequest();
-    xmlhttp.onload=function(){document.getElementById('SPLU.ExpansionsPaneStatus').innerHTML="Saved";window.setTimeout(function(){document.getElementById('SPLU.ExpansionsPaneStatus').innerHTML=""},3000);};
-    xmlhttp.open("POST","/geekplay.php",true);
-    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    xmlhttp.send("version=2&objecttype=thing&objectid=98000&playid="+SPLUplayId+"&action=save&quantity=0&comments="+fixedEncodeURIComponent(JSON.stringify(SPLUremote))+"&playdate=1452-04-15&B1=Save");
-
+    saveSooty("SPLU.ExpansionsPaneStatus","Thinking...","Saved",function(){});
   }
   
   function loadExpansions(){
@@ -2167,7 +2146,7 @@
             +'<div style="display:table-cell; vertical-align:top;">'
               +'<div id="BRthumbButtons" style="display:none">'
                 +'<div style="padding-bottom:5px; padding-top:7px;">'
-                  +'<a href="javascript:{void(0);}" onClick="javascript:{addFavorite();}" id="favoritesAddToList" style="padding:4px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/add_to_favorites.png" border="0"></a>'
+                  +'<a href="javascript:{void(0);}" onClick="javascript:{saveFavorite();}" id="favoritesAddToList" style="padding:4px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/add_to_favorites.png" border="0"></a>'
                 +'</div>'
                 +'<div>'
                   +'<a javascript:{void(0);}" onClick="javascript:{SPLUgameID=document.getElementById(\'objectid0\').value;showExpansionsPane(\'button\');}" id="expansionLoggingButton" style="padding:4px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/log_expansion.png" border="0"></a>'
@@ -2915,19 +2894,11 @@
       }
     }
     SPLUremote.Locations=SPLU.Locations;
-    xmlhttp=new XMLHttpRequest();
-    xmlhttp.onload=function(responseJSON){
-      console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
-      if(responseJSON.target.status==200){
-        document.getElementById('SPLU.LocationsStatus').innerHTML="Saved";
-        window.setTimeout(function(){document.getElementById('SPLU.LocationsStatus').innerHTML=""},3000);loadLocations();showLocationsPane("save");
-      }else{
-        document.getElementById('SPLU.LocationsStatus').innerHTML="<img style='vertical-align:bottom;padding-top:5px;' src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/alert.gif'><span style='background-color:red;color:white;font-weight:bold;'>Error Code: "+responseJSON.target.status+"</span> Try saving again.";
-      }
-    };
-    xmlhttp.open("POST","/geekplay.php",true);
-    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    xmlhttp.send("version=2&objecttype=thing&objectid=98000&playid="+SPLUplayId+"&action=save&quantity=0&comments="+fixedEncodeURIComponent(JSON.stringify(SPLUremote))+"&playdate=1452-04-15&B1=Save");
+    saveSooty("SPLU.LocationsStatus","Thinking...","Saved",function(){
+      loadLocations();
+      showLocationsPane("save");
+    });
+
   }
   
   function showPlayersPane(source){
@@ -3010,19 +2981,10 @@
       }
     }
     SPLUremote.Players=SPLU.Players;
-    xmlhttp=new XMLHttpRequest();
-    xmlhttp.onload=function(responseJSON){
-      console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
-      if(responseJSON.target.status==200){
-        document.getElementById('SPLU.PlayersStatus').innerHTML="Saved";
-        window.setTimeout(function(){document.getElementById('SPLU.PlayersStatus').innerHTML=""},3000);loadPlayers();showPlayersPane("save");
-      }else{
-        document.getElementById('SPLU.PlayersStatus').innerHTML="<img style='vertical-align:bottom;padding-top:5px;' src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/alert.gif'><span style='background-color:red;color:white;font-weight:bold;'>Error Code: "+responseJSON.target.status+"</span> Try saving again.";
-      }
-    };
-    xmlhttp.open("POST","/geekplay.php",true);
-    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    xmlhttp.send("version=2&objecttype=thing&objectid=98000&playid="+SPLUplayId+"&action=save&quantity=0&comments="+fixedEncodeURIComponent(JSON.stringify(SPLUremote))+"&playdate=1452-04-15&B1=Save");
+    saveSooty("SPLU.PlayersStatus","Thinking...","Saved",function(){
+      loadPlayers();
+      showPlayersPane("save");
+    });
   }
   
   function deletePlayer(id){
@@ -3141,19 +3103,7 @@
     document.getElementById('SPLU.FiltersStatus').innerHTML="Thinking...";
     document.getElementById('SPLU.PlayersStatus').innerHTML="";
     SPLUremote.Filters=SPLU.Filters;
-    xmlhttp=new XMLHttpRequest();
-    xmlhttp.onload=function(responseJSON){
-      console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
-      if(responseJSON.target.status==200){
-        document.getElementById('SPLU.FiltersStatus').innerHTML="Saved";
-        window.setTimeout(function(){document.getElementById('SPLU.FiltersStatus').innerHTML=""},3000);
-      }else{
-        document.getElementById('SPLU.FiltersStatus').innerHTML="<img style='vertical-align:bottom;padding-top:5px;' src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/alert.gif'><span style='background-color:red;color:white;font-weight:bold;'>Error Code: "+responseJSON.target.status+"</span> Try saving again.";
-      }
-    };
-    xmlhttp.open("POST","/geekplay.php",true);
-    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    xmlhttp.send("version=2&objecttype=thing&objectid=98000&playid="+SPLUplayId+"&action=save&quantity=0&comments="+fixedEncodeURIComponent(JSON.stringify(SPLUremote))+"&playdate=1452-04-15&B1=Save");
+    saveSooty("SPLU.FiltersStatus","Thinking...","Saved",function(){});
   }
 
   function deleteFilter(){
@@ -3213,19 +3163,7 @@
     document.getElementById('SPLU.GroupsStatus').innerHTML="Thinking...";
     document.getElementById('SPLU.PlayersStatus').innerHTML="";
     SPLUremote.Groups=SPLU.Groups;
-    xmlhttp=new XMLHttpRequest();
-    xmlhttp.onload=function(responseJSON){
-      console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
-      if(responseJSON.target.status==200){
-        document.getElementById('SPLU.GroupsStatus').innerHTML="Saved";
-        window.setTimeout(function(){document.getElementById('SPLU.GroupsStatus').innerHTML=""},3000);
-      }else{
-        document.getElementById('SPLU.GroupsStatus').innerHTML="<img style='vertical-align:bottom;padding-top:5px;' src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/alert.gif'><span style='background-color:red;color:white;font-weight:bold;'>Error Code: "+responseJSON.target.status+"</span> Try saving again.";
-      }
-    };
-    xmlhttp.open("POST","/geekplay.php",true);
-    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    xmlhttp.send("version=2&objecttype=thing&objectid=98000&playid="+SPLUplayId+"&action=save&quantity=0&comments="+fixedEncodeURIComponent(JSON.stringify(SPLUremote))+"&playdate=1452-04-15&B1=Save");
+    saveSooty("SPLU.GroupsStatus","Thinking...","Saved",function(){});
   }
 
   function insertGroup(group){
