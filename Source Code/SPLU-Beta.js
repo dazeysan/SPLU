@@ -1333,6 +1333,10 @@
       if(filter=="winner"){filterName="Winner";}
       if(filter=="new"){filterName="New";}
       
+      if(filter=="daterange"){
+        tmpHTML+='Begin:<input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="begindate" onKeyPress="eventFilterLineEnter(event)"/> End:<input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="enddate" onKeyPress="eventFilterLineEnter(event)"/>';
+      }
+      
       if(filter=="excludeexpansions"){
         tmpHTML+='Expansions Excluded<input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" style="display:none;" value="expansion">';
       }
@@ -1345,7 +1349,7 @@
           +'</select>';
       }
       
-      if(filter!="objecttype" && filter!="excludeexpansions"){
+      if(filter!="objecttype" && filter!="excludeexpansions" && filter!="daterange"){
         tmpHTML+=filterName+': <input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" onKeyPress="eventFilterLineEnter(event)"/>'; 
       }  
       
@@ -2761,10 +2765,11 @@
             +'<option value="---" disabled>---</option>'
             +'<option value="playername">Player Name</option>'
             +'<option value="username">User Name</option>'
-            +'<option value="gamename">Game Name</option>'
+            +'<option value="gamename">Game</option>'
             +'<option value="location">Location</option>'
             +'<option value="comments">Comments</option>'
             +'<option value="objecttype">Type</option>'
+            +'<option value="daterange">Date Range</option>'
             +'<option value="winner">Winner</option>'
             +'<option value="new">New Player</option>'
             +'<option value="excludeexpansions">No Expansions</option>'
