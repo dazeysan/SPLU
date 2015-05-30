@@ -1301,6 +1301,7 @@
           var d3 = new Date(SPLUplayData[user][plays[i].id].getAttribute("date"));
           console.log(d1+"||"+d2+"||"+d3);
           if(d3 >= d1 && d3 <= d2){
+            console.log("matches");
             plays[i].matches++;
           }
         }
@@ -1334,7 +1335,7 @@
       if(filter=="new"){filterName="New";}
       
       if(filter=="daterange"){
-        tmpHTML+='Begin:<input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="begindate" onKeyPress="eventFilterLineEnter(event)"/> End:<input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="enddate" onKeyPress="eventFilterLineEnter(event)"/>';
+        tmpHTML+='Begin:<input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="begindate" onKeyPress="eventFilterLineEnter(event)" style="width:70px;"/> End:<input type="text" name="SPLU.PlaysFiltersLine2" data-SPLU-FilterType="enddate" onKeyPress="eventFilterLineEnter(event)" style="width:70px;"/>';
       }
       
       if(filter=="excludeexpansions"){
