@@ -203,6 +203,8 @@
           compareSPLU();
           SPLU.Version=SPLUversion;
           SPLUremote=SPLU;
+          tmp="Version Updated to "+SPLU.Version;
+          saveSooty("BRresults","Updating Version...",tmp,function(){
             finalSetup();
           });
         }else{
