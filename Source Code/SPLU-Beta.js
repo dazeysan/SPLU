@@ -688,17 +688,11 @@
       "objecttype":SPLUobjecttype
     };
     SPLUremote.Favorites[id]=SPLU.Favorites[id];
-    xmlhttp=new XMLHttpRequest();
-    xmlhttp.open("POST","/geekplay.php",true);
-    xmlhttp.onload=function(){
-      document.getElementById('SPLU.GameStatus').innerHTML="Added";
-      window.setTimeout(function(){ document.getElementById('SPLU.GameStatus').innerHTML=""}, 2000);
+    saveSooty("SPLU.GameStatus","Thinking...","Added",function(){
       if (document.getElementById('BRlogFavs').style.display=="table-cell") {
         showFavsPane("add");
       }
-    };
-    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    xmlhttp.send("version=2&objecttype=thing&objectid=98000&playid="+SPLUplayId+"&action=save&quantity=0&comments="+fixedEncodeURIComponent(JSON.stringify(SPLUremote))+"&playdate=1452-04-15&B1=Save");
+    });
   }
   
   function chooseFavorite(id){
@@ -710,14 +704,13 @@
   }
   
   function deleteFavorite(id){
-      delete SPLU.Favorites[id];
-      delete SPLUremote.Favorites[id];
-      xmlhttp=new XMLHttpRequest();
-      xmlhttp.open("POST","/geekplay.php",true);
-      xmlhttp.onload=function(){showFavsPane("delete");};
-      xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-      xmlhttp.send("version=2&objecttype=thing&objectid=98000&playid="+SPLUplayId+"&action=save&quantity=0&comments="+fixedEncodeURIComponent(JSON.stringify(SPLUremote))+"&playdate=1452-04-15&B1=Save");
-    }
+    delete SPLU.Favorites[id];
+    delete SPLUremote.Favorites[id];
+    saveSooty("SPLU.GameStatus","Thinking...","Deleted",function(){
+      showFavsPane("delete");
+    });
+
+  }
   
   function deletePlayerRow(row){
     document.getElementById('SPLUplayerRows').removeChild(document.getElementById('SPLU.PlayerRow'+row));
@@ -877,6 +870,25 @@
     xmlhttp.send("version=2&objecttype=thing&objectid=98000&playid="+SPLUplayId+"&action=save&quantity=0&comments="+fixedEncodeURIComponent(JSON.stringify(SPLUremote))+"&playdate=1452-04-15&B1=Save");
   }
 
+  function saveSooty(statusID, statusLoading, statusSuccess, onloadFunction){
+    console.log("saveSooty()");
+    xmlhttp=new XMLHttpRequest();
+    xmlhttp.open("POST","/geekplay.php",true);
+    xmlhttp.onload=function(responseJSON){
+      console.log("onload()");
+      if(responseJSON.target.status==200){
+        document.getElementById(statusID).innerHTML=statusSuccess;
+        window.setTimeout(function(){ document.getElementById(statusID).innerHTML=""}, 3000);
+        onloadFunction();
+      }else{
+        document.getElementById(statusID).innerHTML="<img style='vertical-align:bottom;padding-top:5px;' src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/alert.gif'><span style='background-color:red;color:white;font-weight:bold;'>Error Code: "+responseJSON.target.status+"</span>";
+      }
+    };
+    document.getElementById(statusID).innerHTML=statusLoading;
+    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xmlhttp.send("version=2&objecttype=thing&objectid=98000&playid="+SPLUplayId+"&action=save&quantity=0&comments="+fixedEncodeURIComponent(JSON.stringify(SPLUremote))+"&playdate=1452-04-15&B1=Save");
+  }
+  
   function insertLocation(location){
     document.getElementById(('quickplay_location99')).value=decodeURIComponent(SPLU.Locations[location].Name);
     showHideLocations();
