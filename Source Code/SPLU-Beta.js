@@ -2261,7 +2261,7 @@
       +'</div>'
       +'<div class="BRcells">'
         +'<div>'
-          +'<a href="javascript:{void(0);}" onClick="javascript:{saveGamePlay(\'dupe\');}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="SaveGamePlayBtnDupe" onMouseOver="makeSentence();" onMouseOut="hideSentence();"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/submit_edits.png" style="vertical-align: middle; margin-right:4px;">Submit & Duplicate</a>'
+          +'<a href="javascript:{void(0);}" onClick="javascript:{saveGamePlay(\'dupe\');}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="SaveGamePlayBtnDupe" onMouseOver="makeSentence();" onMouseOut="hideSentence();"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/submit_duplicate.png" style="vertical-align: middle; margin-right:4px;">Submit & Duplicate</a>'
         +'</div>'
       +'</div>'
       +'<div class="BRcells" id="SPLUeditPlayDiv" style="display:none;">'
