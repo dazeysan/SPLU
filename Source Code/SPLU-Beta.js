@@ -1805,17 +1805,28 @@
     document.getElementById('SPLU.FamilyPane').innerHTML="";
     document.getElementById('BRexpPlayQTY').value=SPLU.Settings.ExpansionQuantity.Value;
     document.getElementById('SPLU.ExpansionDetailsCheck').checked=SPLU.Settings.ExpansionDetails.Include;
+    tmpLinks=this.responseXML.getElementsByTagName("link");
     SPLUfamilyList=[];
-    SPLUfamilyList=this.responseXML.getElementsByTagName("boardgamefamily");
-    if(!this.responseXML.getElementsByTagName('boardgameexpansion').length){
+    BRexpList=[];
+    for(i=0;i<tmpLinks.length;i++){
+      if(tmpLinks[i].getAttribute("type")=="boardgameexpansion"){
+        BRexpList.push(tmpLinks[i]);
+      }
+      if(tmpLinks[i].getAttribute("type")=="boardgamefamily"){
+        SPLUfamilyList.push(tmpLinks[i]);
+      }
+    }
+    //SPLUfamilyList=this.responseXML.getElementsByTagName("boardgamefamily");
+    //if(!this.responseXML.getElementsByTagName('boardgameexpansion').length){
+    if(!BRexpList.length){
       document.getElementById('SPLU.ExpansionPane').innerHTML+='<div>No Expansions Found.</div>';
     }else{
-      BRexpList=this.responseXML.getElementsByTagName("boardgameexpansion");
+      //BRexpList=this.responseXML.getElementsByTagName("boardgameexpansion");
       var tmpHTML="";
       tmpHTML+='<div style="display:table;">';
       for(i=0;i<BRexpList.length;i++){
-        tmpExpID=BRexpList[i].getAttribute("objectid");
-        tmpExpName=BRexpList[i].textContent;
+        tmpExpID=BRexpList[i].id;
+        tmpExpName=BRexpList[i].getAttribute("value");
         tmpHTML+='<div style="display:table-row;"><div style="display:table-cell;"><input type="checkbox" id="'+tmpExpID+'" class="BRexpLogBox" data-tab="expansion"/> '+tmpExpName+'</div><div style="display:table-cell; width:50px;" id="QPresultsExp'+tmpExpID+'" name="QPresults'+tmpExpID+'"></div></div>';
       }
       tmpHTML+='</div>';
@@ -1828,7 +1839,7 @@
     document.getElementById('SPLU.ExpansionPane').innerHTML="Loading Expansions...<img src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/progress.gif'/>";
     var oReq=new XMLHttpRequest();
     oReq.onload=loadExpansions;
-    oReq.open("get","/xmlapi/boardgame/"+SPLUgameID,true);
+    oReq.open("get","/xmlapi2/thing?type=boardgame&id="+SPLUgameID,true);
     oReq.send();
   }
 
@@ -1863,8 +1874,8 @@
     var name=document.getElementById('q546e9ffd96dfc').value;
     if(id==-1){
       for(i=0;i<SPLUfamilyList.length;i++){
-        if(SPLUfamilyList[i].textContent==name||SPLUfamilyList[i].textContent==name.slice(0,name.indexOf(":"))){
-          SPLUfamilyID=SPLUfamilyList[i].getAttribute('objectid');
+        if(SPLUfamilyList[i].getAttribute("value")==name||SPLUfamilyList[i].getAttribute("value")==name.slice(0,name.indexOf(":"))){
+          SPLUfamilyID=SPLUfamilyList[i].id;
         }
       }
     }else{
@@ -1875,7 +1886,7 @@
       if(SPLUfamilyList.length>=1){
         tmpHTML+="Please choose from the following Families:<br/>";
         for(var i=0;i<SPLUfamilyList.length;i++){
-          tmpHTML+='&nbsp;-&nbsp;<a href="javascript:{void(0);}" onClick="javascript:{fetchFamily(\''+SPLUfamilyList[0].getAttribute('objectid')+'\');}">'+SPLUfamilyList[i].textContent+'</a><br/>';
+          tmpHTML+='&nbsp;-&nbsp;<a href="javascript:{void(0);}" onClick="javascript:{fetchFamily(\''+SPLUfamilyList[0].id+'\');}">'+SPLUfamilyList[i].getAttribute("value")+'</a><br/>';
         }
       }
       document.getElementById('SPLU.FamilyPane').innerHTML=tmpHTML;
