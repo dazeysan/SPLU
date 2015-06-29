@@ -1254,10 +1254,20 @@
         for(i=0;i<plays.length;i++){
           if(SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0]!==undefined){
             tmpPlayers=SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
-            for(p=0;p<tmpPlayers.length;p++){
-              if(tmpPlayers[p].getAttribute("username").toLowerCase().indexOf(lines[l].value.toLowerCase())>-1){
-                plays[i].matches++;
-                break;
+            if(lines[l].value.slice(0,1)=="!"){
+              plays[i].matches++;
+              for(p=0;p<tmpPlayers.length;p++){
+                if(tmpPlayers[p].getAttribute("username").toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())>-1){
+                  plays[i].matches--;
+                  break;
+                }
+              }
+            } else {
+              for(p=0;p<tmpPlayers.length;p++){
+                if(tmpPlayers[p].getAttribute("username").toLowerCase().indexOf(lines[l].value.toLowerCase())>-1){
+                  plays[i].matches++;
+                  break;
+                }
               }
             }
           }
