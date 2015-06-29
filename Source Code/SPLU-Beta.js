@@ -1200,7 +1200,11 @@
       }
       if(filtertype=="location"){
         for(i=0;i<plays.length;i++){
-          if(SPLUplayData[user][plays[i].id].getAttribute("location").toLowerCase().indexOf(lines[l].value.toLowerCase())>-1){
+          if(SPLUplayData[user][plays[i].id].getAttribute("location").slice(0,1)=="!"){
+            if(SPLUplayData[user][plays[i].id].getAttribute("location").toLowerCase().indexOf(lines[l].value.toLowerCase())==-1){
+              plays[i].matches++;
+            }
+          } else if(SPLUplayData[user][plays[i].id].getAttribute("location").toLowerCase().indexOf(lines[l].value.toLowerCase())>-1){
             plays[i].matches++;
           }
         }
