@@ -1194,7 +1194,7 @@
       if(filtertype=="gamename"){
         for(i=0;i<plays.length;i++){
           if(lines[l].value.slice(0,1)=="!"){
-            if(SPLUplayData[user][plays[i].id].getElementsByTagName("item")[0].attributes.name.value.toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())>==-1){
+            if(SPLUplayData[user][plays[i].id].getElementsByTagName("item")[0].attributes.name.value.toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())==-1){
               plays[i].matches++;
             }
           } else if(SPLUplayData[user][plays[i].id].getElementsByTagName("item")[0].attributes.name.value.toLowerCase().indexOf(lines[l].value.toLowerCase())>-1){
