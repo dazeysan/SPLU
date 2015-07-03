@@ -1,4 +1,4 @@
-// SPLU 5.3.0 Beta
+// SPLU 5.3.1 Beta
 
   //Check if they aren't on a BGG site and alert them to that fact.
   if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -10,7 +10,7 @@
   var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
   //Check if the user is logged in to BGG, throw an error if not
   if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-  var SPLUversion="5.3.0";
+  var SPLUversion="5.3.1";
 
   function fixedEncodeURIComponent(str) {
     return encodeURIComponent(str).replace(/[!'()*]/g, function(c) {
@@ -109,6 +109,7 @@
       "SummaryTextField":{"Visible":true},
       "PopUpText":{"Visible":true},
       "WinComments":{"Visible":false},
+      "ExpansionComments":{"Visible":false},
       "DomainButtons":{"Visible":false},
       "ExpansionQuantity":{"Value":".1"},
       "ExpansionDetails":{"Include":true},
@@ -676,16 +677,18 @@
     }
   }
   
-  function ExpansionListComment(){
+  function expansionListComment(){
     var comment="";
     var expansions=document.getElementsByClassName('BRexpLogBox');
     for(i=0;i<expansions.length;i++){
       if(expansions[i].checked){
-        comment+=expansions[i].getAttribute("data-SPLU-ExpName")+"\n";
+        comment+="-"+expansions[i].getAttribute("data-SPLU-ExpName")+"\n";
       }
     }
     if(comment!=""){
-      document.getElementById("quickplay_comments99").value="Played with the following Expansions:\n"+comment;
+      document.getElementById("quickplay_comments99").value="Played with the following expansions:\n"+comment;
+    }else{
+      document.getElementById("quickplay_comments99").value="";
     }
   }
   
@@ -1903,7 +1906,7 @@
       for(i=0;i<BRexpList.length;i++){
         tmpExpID=BRexpList[i].id;
         tmpExpName=BRexpList[i].getAttribute("value");
-        tmpHTML+='<div style="display:table-row;"><div style="display:table-cell;"><input type="checkbox" id="'+tmpExpID+'" class="BRexpLogBox" data-tab="expansion" data-SPLU-ExpName="'+tmpExpName+'"/> '+tmpExpName+'</div><div style="display:table-cell; width:50px;" id="QPresultsExp'+tmpExpID+'" name="QPresults'+tmpExpID+'"></div></div>';
+        tmpHTML+='<div style="display:table-row;"><div style="display:table-cell;"><input type="checkbox" id="'+tmpExpID+'" class="BRexpLogBox" data-tab="expansion" data-SPLU-ExpName="'+tmpExpName+'" onClick="javascript:{if(SPLU.Settings.ExpansionComments.Visible){expansionListComment();}}"/> '+tmpExpName+'</div><div style="display:table-cell; width:50px;" id="QPresultsExp'+tmpExpID+'" name="QPresults'+tmpExpID+'"></div></div>';
       }
       tmpHTML+='</div>';
       document.getElementById('SPLU.ExpansionPane').innerHTML+=tmpHTML;
