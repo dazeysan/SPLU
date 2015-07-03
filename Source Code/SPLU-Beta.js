@@ -1390,11 +1390,11 @@
       if(filter=="new"){filterName="New";}
       
       if(filter=="playercount"){
-        tmpHTML+='Player Count:<select name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="playercount">'
+        tmpHTML+='Player Count:<select name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="playercount" onChange="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value);}">'
         +'<option value="eq">Exactly</option>'
         +'<option value="lt">Less Than</option>'
         +'<option value="gt">Greater Than</option>'
-        +'<input type="text" name="SPLU.PlaysFiltersLine2" data-SPLU-FilterType="playercountvalue" onKeyPress="eventFilterLineEnter(event)" style="width:25px;"/>';
+        +' <input type="text" name="SPLU.PlaysFiltersLine2" data-SPLU-FilterType="playercountvalue" onKeyPress="eventFilterLineEnter(event)" style="width:25px;"/>';
       }
       
       if(filter=="daterange"){
