@@ -676,6 +676,19 @@
     }
   }
   
+  function ExpansionListComment(){
+    var comment="";
+    var expansions=document.getElementsByClassName('BRexpLogBox');
+    for(i=0;i<expansions.length;i++){
+      if(expansions[i].checked){
+        comment+=expansions[i].getAttribute("data-SPLU-ExpName")+"\n";
+      }
+    }
+    if(comment!=""){
+      document.getElementById("quickplay_comments99").value="Played with the following Expansions:\n"+comment;
+    }
+  }
+  
   function saveFavorite(){
     var id=document.getElementById('objectid0').value;
     SPLU.Favorites[id]={
@@ -1890,7 +1903,7 @@
       for(i=0;i<BRexpList.length;i++){
         tmpExpID=BRexpList[i].id;
         tmpExpName=BRexpList[i].getAttribute("value");
-        tmpHTML+='<div style="display:table-row;"><div style="display:table-cell;"><input type="checkbox" id="'+tmpExpID+'" class="BRexpLogBox" data-tab="expansion"/> '+tmpExpName+'</div><div style="display:table-cell; width:50px;" id="QPresultsExp'+tmpExpID+'" name="QPresults'+tmpExpID+'"></div></div>';
+        tmpHTML+='<div style="display:table-row;"><div style="display:table-cell;"><input type="checkbox" id="'+tmpExpID+'" class="BRexpLogBox" data-tab="expansion" data-SPLU-ExpName="'+tmpExpName+'"/> '+tmpExpName+'</div><div style="display:table-cell; width:50px;" id="QPresultsExp'+tmpExpID+'" name="QPresults'+tmpExpID+'"></div></div>';
       }
       tmpHTML+='</div>';
       document.getElementById('SPLU.ExpansionPane').innerHTML+=tmpHTML;
