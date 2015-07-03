@@ -28,7 +28,7 @@
         if(SPLU.Settings[key].Visible){
           document.getElementById("SPLU."+key+"Check").checked=true;
         }else{
-          if(key!="PopUpText" && key!="LocationList" && key!="WinComments" && key!="PlayerList" && key!="ExpansionQuantity" && key!="ExpansionDetails" && key!="SortPlayers" && key!="SortGroups" && key!="PlayerGroups"){
+          if(key!="PopUpText" && key!="LocationList" && key!="WinComments" && key!="ExpansionComments" && key!="PlayerList" && key!="ExpansionQuantity" && key!="ExpansionDetails" && key!="SortPlayers" && key!="SortGroups" && key!="PlayerGroups"){
             if(key.slice(-6)=="Column"){
               document.getElementById('SPLU.'+key+'Header').style.display="none";
             }else{
@@ -1939,7 +1939,7 @@
       for(i=0;i<BRexpList.length;i++){
         tmpExpID=BRexpList[i].getAttribute("id");
         tmpExpName=BRexpList[i].getAttribute("value");
-        tmpHTML+='<div style="display:table-row;"><div style="display:table-cell;"><input type="checkbox" id="'+tmpExpID+'" class="BRexpLogBox" data-tab="family"/> '+tmpExpName+'</div><div style="display:table-cell; width:50px;" id="QPresultsFam'+tmpExpID+'" name="QPresults'+tmpExpID+'"></div></div>';
+        tmpHTML+='<div style="display:table-row;"><div style="display:table-cell;"><input type="checkbox" id="'+tmpExpID+'" class="BRexpLogBox" data-tab="family" data-SPLU-ExpName="'+tmpExpName+'" onClick="javascript:{if(SPLU.Settings.ExpansionComments.Visible){expansionListComment();}}"/> '+tmpExpName+'</div><div style="display:table-cell; width:50px;" id="QPresultsFam'+tmpExpID+'" name="QPresults'+tmpExpID+'"></div></div>';
       }
       tmpHTML+='</div>';
       document.getElementById('SPLU.FamilyPane').innerHTML+=tmpHTML;
@@ -2002,6 +2002,9 @@
     var tmpExp=document.getElementsByClassName('BRexpLogBox');
     for(i=0;i<tmpExp.length;i++){
       tmpExp[i].checked=false;
+    }
+    if(SPLU.Settings.ExpansionComments.Visible){
+      expansionListComment();
     }
   }
 
@@ -3335,6 +3338,9 @@
     document.getElementById('SPLU.FamilyHeading').style.borderTop="";
     SPLUexpansionsLoaded=false;
     SPLUfamilyLoaded=false;
+    if(SPLU.Settings.ExpansionComments.Visible){
+      expansionListComment();
+    }
   });
   observer.observe(document.getElementById('selimage0'),{childList: true});
 
