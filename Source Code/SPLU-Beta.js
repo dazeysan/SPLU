@@ -1342,9 +1342,25 @@
         for(i=0;i<plays.length;i++){
           if(SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0]!==undefined){
             var tmpPlayers=SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
-            if(tmpPlayers.length==lines[l].value){
-              plays[i].matches++;
+            if(lines[l].value=="eq"){
+              if(tmpPlayers.length==lines[l].parentNode.children[2].value){
+                plays[i].matches++;
+                break;
+              }
             }
+            if(lines[l].value=="lt"){
+              if(tmpPlayers.length>lines[l].parentNode.children[2].value){
+                plays[i].matches++;
+                break;
+              }
+            }
+            if(lines[l].value=="gt"){
+              if(tmpPlayers.length<lines[l].parentNode.children[2].value){
+                plays[i].matches++;
+                break;
+              }
+            }
+
           }
         }
       }
@@ -1375,7 +1391,14 @@
       if(filter=="comments"){filterName="Comments";}
       if(filter=="winner"){filterName="Winner";}
       if(filter=="new"){filterName="New";}
-      if(filter=="playercount"){filterName="Player Count";}
+      
+      if(filter=="playercount"){
+        tmpHTML+='Player Count:<select name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="playercount">'
+        +'<option value="eq">Exactly</option>'
+        +'<option value="lt">Less Than</option>'
+        +'<option value="gt">Greater Than</option>'
+        +'<input type="text" name="SPLU.PlaysFiltersLine2" data-SPLU-FilterType="playercountvalue" onKeyPress="eventFilterLineEnter(event)" style="width:70px;"/>';
+      }
       
       if(filter=="daterange"){
         tmpHTML+='Begin:<input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="begindate" onKeyPress="eventFilterLineEnter(event)" style="width:70px;"/> End:<input type="text" name="SPLU.PlaysFiltersLine2" data-SPLU-FilterType="enddate" onKeyPress="eventFilterLineEnter(event)" style="width:70px;"/>';
