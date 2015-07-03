@@ -1345,19 +1345,16 @@
             if(lines[l].value=="eq"){
               if(tmpPlayers.length==lines[l].parentNode.children[2].value){
                 plays[i].matches++;
-                break;
               }
             }
             if(lines[l].value=="lt"){
-              if(tmpPlayers.length>lines[l].parentNode.children[2].value){
+              if(tmpPlayers.length<lines[l].parentNode.children[2].value){
                 plays[i].matches++;
-                break;
               }
             }
             if(lines[l].value=="gt"){
-              if(tmpPlayers.length<lines[l].parentNode.children[2].value){
+              if(tmpPlayers.length>lines[l].parentNode.children[2].value){
                 plays[i].matches++;
-                break;
               }
             }
 
@@ -1397,7 +1394,7 @@
         +'<option value="eq">Exactly</option>'
         +'<option value="lt">Less Than</option>'
         +'<option value="gt">Greater Than</option>'
-        +'<input type="text" name="SPLU.PlaysFiltersLine2" data-SPLU-FilterType="playercountvalue" onKeyPress="eventFilterLineEnter(event)" style="width:70px;"/>';
+        +'<input type="text" name="SPLU.PlaysFiltersLine2" data-SPLU-FilterType="playercountvalue" onKeyPress="eventFilterLineEnter(event)" style="width:25px;"/>';
       }
       
       if(filter=="daterange"){
