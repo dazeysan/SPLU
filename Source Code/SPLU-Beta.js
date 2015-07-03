@@ -1416,7 +1416,7 @@
           +'</select>';
       }
       
-      if(filter!="objecttype" && filter!="excludeexpansions" && filter!="daterange"){
+      if(filter!="objecttype" && filter!="excludeexpansions" && filter!="daterange" && filter!="playercount"){
         tmpHTML+=filterName+': <input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" onKeyPress="eventFilterLineEnter(event)"/>'; 
       }  
       
