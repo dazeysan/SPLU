@@ -685,10 +685,10 @@
         comment+="-"+expansions[i].getAttribute("data-SPLU-ExpName")+"\n";
       }
     }
+    var CommentBox=document.getElementById("quickplay_comments99");
+    CommentBox.value=CommentBox.value.slice(0,CommentBox.value.indexOf("Played with the following expansions:")).trim();
     if(comment!=""){
-      document.getElementById("quickplay_comments99").value="Played with the following expansions:\n"+comment;
-    }else{
-      document.getElementById("quickplay_comments99").value="";
+      CommentBox.value+="\n\nPlayed with the following expansions:\n"+comment;
     }
   }
   
