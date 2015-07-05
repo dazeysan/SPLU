@@ -1650,12 +1650,12 @@
 
   function getStatsPlaysWins(tmpUser){
     SPLU.GameStats={};
-    for(key in SPLUplayData[tmpUser]){
-    if(key=="total"||key=="approximate"||SPLUplayData[tmpUser][key].attributes.date.value=="1452-04-15"||SPLUplayData[tmpUser][key].getElementsByTagName("players")[0]===undefined){
+    for(i=0;i<SPLUlistOfPlays.length;i++){
+      if(SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getElementsByTagName("players")[0]===undefined){
         continue;
       }
-      var tmpPlay=SPLUplayData[tmpUser][key].getAttribute("id");
-      var tmpPlayers=SPLUplayData[tmpUser][key].getElementsByTagName("players")[0].getElementsByTagName("player");
+      var tmpPlay=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getAttribute("id");
+      var tmpPlayers=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
       for(p=0;p<tmpPlayers.length;p++){
         var tmpName="Unknown";
         if(tmpPlayers[p].getAttribute("username")!=""){
