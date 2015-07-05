@@ -247,6 +247,7 @@
   var SPLUplayFetchFail=0;
   var SPLUplaysFiltersCount=0;
   var SPLUedit={};
+  var SPLUlistOfPlays=[];
   
   function setObjectType(type){
     VoidInstantSearch({itemid:'0',uniqueid:'546e9ffd96dfc'});
@@ -1156,22 +1157,22 @@
     }else{
       var tmpHTML="";
       var display=true;
-      var tmpSort=[];
+      SPLUlistOfPlays=[];
       tmpHTML='<div id="SPLU.PlaysTable" style="display:table;">';
       for(key in SPLUplayData[tmpUser]){
         if(key=="total"||key=="approximate"||SPLUplayData[tmpUser][key].attributes.date.value=="1452-04-15"){
           continue;
         }
-        tmpSort.push({id:key,date:SPLUplayData[tmpUser][key].attributes.date.value});
+        SPLUlistOfPlays.push({id:key,date:SPLUplayData[tmpUser][key].attributes.date.value});
       }
-      tmpSort.sort(dynamicSortMultiple("-date", "id"));
-      tmpSort=filterPlays(tmpSort,tmpUser);
+      SPLUlistOfPlays.sort(dynamicSortMultiple("-date", "id"));
+      SPLUlistOfPlays=filterPlays(SPLUlistOfPlays,tmpUser);
       var tmpSortCount=0;
       var tmpLines=document.getElementsByName("SPLU.PlaysFiltersLine").length;
-      for(i=0;i<tmpSort.length;i++){
-        if(tmpSort[i].matches==tmpLines){
+      for(i=0;i<SPLUlistOfPlays.length;i++){
+        if(SPLUlistOfPlays[i].matches==tmpLines){
           tmpSortCount++;
-          tmpPlayId=tmpSort[i]["id"];
+          tmpPlayId=SPLUlistOfPlays[i]["id"];
           tmpPlayDate=SPLUplayData[tmpUser][tmpPlayId].attributes.date.value;
           tmpPlayGame=SPLUplayData[tmpUser][tmpPlayId].getElementsByTagName("item")[0].attributes.name.value;
           tmpDecoration="";
@@ -1379,7 +1380,14 @@
       }
 
     }
-    return plays;
+    var tmpLines=document.getElementsByName("SPLU.PlaysFiltersLine").length;
+    var playskeep=[];
+    for(i=0;i<plays.length;i++){
+      if(plays[i].matches==tmpLines){
+        playskeep.push(plays[i]);
+      }
+    }
+    return playskeep;
   }
   
   function eventFilterLineEnter(e){
@@ -1600,12 +1608,11 @@
   
   function getStatsBeginnersLuck(tmpUser){
     SPLU.GameStats={};
-    for(key in SPLUplayData[tmpUser]){
-      if(key=="total"||key=="approximate"||SPLUplayData[tmpUser][key].attributes.date.value=="1452-04-15"||SPLUplayData[tmpUser][key].getElementsByTagName("players")[0]===undefined){
+    for(i=0;i<SPLUlistOfPlays.length;i++){
+      if(SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getElementsByTagName("players")[0]===undefined){
         continue;
       }
-      var tmpPlay=SPLUplayData[tmpUser][key].getAttribute("id");
-      var tmpPlayers=SPLUplayData[tmpUser][key].getElementsByTagName("players")[0].getElementsByTagName("player");
+      var tmpPlayers=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
       for(p=0;p<tmpPlayers.length;p++){
         var tmpName="Unknown";
         if(tmpPlayers[p].getAttribute("username")!=""){
