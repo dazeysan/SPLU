@@ -925,8 +925,6 @@
     });
   }
   
-  //This should be at the bottom but is up here to deal with splitting the code to save it in a geeklist.
-  //Could probably rearrange it if we're going to load from GitHub directly.
   function finalSetup(){
     loadPlayers();  
     loadLocations();    
@@ -939,7 +937,7 @@
             if(key.slice(-6)=="Column"){
               document.getElementById('SPLU.'+key+'Header').style.display="none";
             }else{
-              document.getElementById('SPLU.'+key).style.display="none";
+              try{document.getElementById('SPLU.'+key).style.display="none";}
             }
           }
           if(key=="LocationList"){
