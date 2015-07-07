@@ -6,7 +6,7 @@
       throw new Error("You aren't on a BGG site.");
     }
     //Check if SPLU is already open, throw an error if not
-    if(document.getElementById('BRlog')){throw new Error("SPLU Already Running");}
+    if(document.getElementById('SPLUwindow')){throw new Error("SPLU Already Running");}
     var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
@@ -91,7 +91,7 @@
     BRlogRow.setAttribute("style","display:table-row;");
       
     var BRlogDiv=document.createElement('div');
-    BRlogDiv.id='BRlog';
+    BRlogDiv.id='SPLUwindow';
     BRlogDiv.setAttribute("style","display:table-cell; background-color: #A4DFF3; padding: 13px;border:2px solid blue;border-radius:15px; box-shadow:10px 10px 5px #888;");
     
     var BRlogForm=document.createElement('form');
@@ -2633,7 +2633,7 @@
   
   function makeSentence(){
     if(!SPLU.Settings.SummaryTextField.Visible){return;}
-    document.getElementById('SPLU.SummaryTextField').style.maxWidth=document.getElementById('BRlog').clientWidth-40+"px";
+    document.getElementById('SPLU.SummaryTextField').style.maxWidth=document.getElementById('SPLUwindow').clientWidth-40+"px";
     document.getElementById('SPLU.SummaryTextField').style.display="block";
     var SPLUtodayDate=new Date(SPLUtoday);
     var SPLUselectedDate=new Date(document.getElementById('playdate99').value);
@@ -2994,12 +2994,12 @@
   
   function showSettingsPane(source){
     if(source=="button"&&document.getElementById('BRlogSettings').style.display=="table-cell"){
-      document.getElementById('BRlog').style.minWidth="";
+      document.getElementById('SPLUwindow').style.minWidth="";
       document.getElementById('BRlogSettings').style.display="none";
       return;
     }
     hidePanes();
-    document.getElementById('BRlog').style.minWidth="610px";
+    document.getElementById('SPLUwindow').style.minWidth="610px";
     document.getElementById('BRlogSettings').style.display="table-cell";
   }
   
@@ -3352,7 +3352,7 @@
   
   function hidePanes(){
     document.getElementById('BRlogSettings').style.display="none";
-    document.getElementById('BRlog').style.minWidth="";
+    document.getElementById('SPLUwindow').style.minWidth="";
     document.getElementById('BRlogFavs').style.display="none";
     document.getElementById('BRlogExpansions').style.display="none";
     document.getElementById('BRlogLocations').style.display="none";
