@@ -930,36 +930,40 @@
     loadLocations();    
     for (var key in SPLU.Settings) {
       if (SPLU.Settings.hasOwnProperty(key)) {
-        if(SPLU.Settings[key].Visible){
-          document.getElementById("SPLU."+key+"Check").checked=true;
-        }else{
-          if(key!="PopUpText" && key!="LocationList" && key!="WinComments" && key!="ExpansionComments" && key!="PlayerList" && key!="ExpansionQuantity" && key!="ExpansionDetails" && key!="SortPlayers" && key!="SortGroups" && key!="PlayerGroups"){
-            if(key.slice(-6)=="Column"){
-              document.getElementById('SPLU.'+key+'Header').style.display="none";
-            }else{
-              try{document.getElementById('SPLU.'+key).style.display="none";}catch(err){}
+        try{
+          if(SPLU.Settings[key].Visible){
+            document.getElementById("SPLU."+key+"Check").checked=true;
+          }else{
+            if(key!="PopUpText" && key!="LocationList" && key!="WinComments" && key!="ExpansionComments" && key!="PlayerList" && key!="ExpansionQuantity" && key!="ExpansionDetails" && key!="SortPlayers" && key!="SortGroups" && key!="PlayerGroups"){
+              if(key.slice(-6)=="Column"){
+                document.getElementById('SPLU.'+key+'Header').style.display="none";
+              }else{
+                document.getElementById('SPLU.'+key).style.display="none";
+              }
+            }
+            if(key=="LocationList"){
+              document.getElementById('SPLU.LocationList').style.display="none"; LocationList=false;
+              document.getElementById('SPLU.LocationButtonIconExpand').style.display="inline-block";
+              document.getElementById('SPLU.LocationButtonIconCollapse').style.display="none";
+            }
+            if(key=="PlayerList"){
+              showHidePlayers();
+            }
+            if(key=="SortPlayers"&&SPLU.Settings[key].Order=="Alpha"){
+              document.getElementById("SPLU.SortPlayersAlphaCheck").checked=true;
+            }
+            if(key=="PlayerFilters"){
+              document.getElementById("SPLU.FiltersHeading").style.display="none";
+            }
+            if(key=="PlayerGroups"){
+              document.getElementById("SPLU.GroupsHeading").style.display="none";
+            }
+            if(key=="ExpansionDetails"){
+              document.getElementById("SPLU.ExpansionDetailsCheck").checked=SPLU.Settings.ExpansionDetails.Include;
             }
           }
-          if(key=="LocationList"){
-            document.getElementById('SPLU.LocationList').style.display="none"; LocationList=false;
-            document.getElementById('SPLU.LocationButtonIconExpand').style.display="inline-block";
-            document.getElementById('SPLU.LocationButtonIconCollapse').style.display="none";
-          }
-          if(key=="PlayerList"){
-            showHidePlayers();
-          }
-          if(key=="SortPlayers"&&SPLU.Settings[key].Order=="Alpha"){
-            document.getElementById("SPLU.SortPlayersAlphaCheck").checked=true;
-          }
-          if(key=="PlayerFilters"){
-            document.getElementById("SPLU.FiltersHeading").style.display="none";
-          }
-          if(key=="PlayerGroups"){
-            document.getElementById("SPLU.GroupsHeading").style.display="none";
-          }
-          if(key=="ExpansionDetails"){
-            document.getElementById("SPLU.ExpansionDetailsCheck").checked=SPLU.Settings.ExpansionDetails.Include;
-          }
+        }catch(err){
+          console.log(err)
         }
         if(SPLU.Settings[key].Reset){
           document.getElementById("SPLU."+key+"Reset").checked=true;
