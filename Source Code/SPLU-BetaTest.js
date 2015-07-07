@@ -1,6 +1,5 @@
 // SPLU 5.3.1 Beta
 
-  function initSPLU(){
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
       alert("You must be on a BGG website to run SPLU.");
@@ -46,7 +45,8 @@
     var SPLUplaysFiltersCount=0;
     var SPLUedit={};
     var SPLUlistOfPlays=[];
-    
+
+  function initSPLU(){
     tmpDiv=document.createElement('div');
     tmpDiv.id="SPLU.popText";
     tmpDiv.style.visibility="hidden";
