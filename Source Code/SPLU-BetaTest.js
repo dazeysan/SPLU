@@ -46,6 +46,25 @@
     var SPLUedit={};
     var SPLUlistOfPlays=[];
 
+    var observer=new MutationObserver(function(){
+      if(document.getElementById('selimage0').innerHTML.slice(0,4)=="<div"){
+        document.getElementById('BRthumbButtons').style.display="none";
+      }else{
+        document.getElementById('BRthumbButtons').style.display="block";
+      }
+      document.getElementById('BRresults').innerHTML='';
+      document.getElementById('SPLU.ExpansionPane').innerHTML='';
+      document.getElementById('SPLU.FamilyPane').innerHTML='';
+      document.getElementById('BRlogExpansions').style.display="none";
+      document.getElementById('SPLU.ExpansionsHeading').style.borderTop="2px solid blue";
+      document.getElementById('SPLU.FamilyHeading').style.borderTop="";
+      SPLUexpansionsLoaded=false;
+      SPLUfamilyLoaded=false;
+      if(SPLU.Settings.ExpansionComments.Visible){
+        expansionListComment();
+      }
+    });
+
   function initSPLU(){
     tmpDiv=document.createElement('div');
     tmpDiv.id="SPLU.popText";
@@ -893,24 +912,6 @@
     //listenerForPopText("filtericon","Apply Filter to These Results");
     //listenerForPopText("floppydiskicon","Remember This Player");
 
-    var observer=new MutationObserver(function(){
-      if(document.getElementById('selimage0').innerHTML.slice(0,4)=="<div"){
-        document.getElementById('BRthumbButtons').style.display="none";
-      }else{
-        document.getElementById('BRthumbButtons').style.display="block";
-      }
-      document.getElementById('BRresults').innerHTML='';
-      document.getElementById('SPLU.ExpansionPane').innerHTML='';
-      document.getElementById('SPLU.FamilyPane').innerHTML='';
-      document.getElementById('BRlogExpansions').style.display="none";
-      document.getElementById('SPLU.ExpansionsHeading').style.borderTop="2px solid blue";
-      document.getElementById('SPLU.FamilyHeading').style.borderTop="";
-      SPLUexpansionsLoaded=false;
-      SPLUfamilyLoaded=false;
-      if(SPLU.Settings.ExpansionComments.Visible){
-        expansionListComment();
-      }
-    });
     observer.observe(document.getElementById('selimage0'),{childList: true});
 
     fetchSaveData();
