@@ -937,7 +937,7 @@
             if(key.slice(-6)=="Column"){
               document.getElementById('SPLU.'+key+'Header').style.display="none";
             }else{
-              try{document.getElementById('SPLU.'+key).style.display="none";}
+              try{document.getElementById('SPLU.'+key).style.display="none";}catch(err){}
             }
           }
           if(key=="LocationList"){
