@@ -2604,6 +2604,9 @@ function getStatsLocations(tmpUser){
         +'<div style="display:table-cell;font-weight:bold;">Plays</div>'
       +'</div>';
   for(i=0;i<tmpLocs2.length;i++){
+    if(tmpLocs2[i].location==""){
+      tmpLocs2[i].location="&lt;Blank&gt;";
+    }
     tmpHTML+='<div style="display:table-row;">';
     tmpHTML+='<div style="display:table-cell;">'+tmpLocs2[i].location+'</div>';
     tmpHTML+='<div style="display:table-cell;">'+tmpLocs2[i].count+'</div>';
