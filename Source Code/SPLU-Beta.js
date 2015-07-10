@@ -866,6 +866,7 @@
             +'<option value="GameScore" selected>Selected Game Scores</option>'
             +'<option value="BeginnersLuck">Beginner\'s Luck</option>'
             +'<option value="PlaysWins">Wins</option>'
+            +'<option value="Locations">Locations</option>'
           +'</select>'
         +'</div>'
         +'<div id="SPLU.StatsContent" style="display:none;overflow-y: auto; width: 315px;"></div>';
@@ -2379,6 +2380,10 @@
       var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
       getStatsPlaysWins(tmpUser);
     }
+    if(stat=="Locations"){
+      var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
+      getStatsLocations(tmpUser);
+    }
   }
   
   function getStatsGameScore(tmpUser,gameid){
@@ -2575,6 +2580,38 @@
     tmpHTML+='</div>';
     document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
   }
+  
+function getStatsLocations(tmpUser){
+  tmpLocs=[];
+  tmpLocs2=[];
+  for(i=0;i<SPLUlistOfPlays.length;i++){
+    var loc=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getAttribute("location");
+    if(tmpLocs[loc]===undefined){
+      tmpLocs[loc]=1
+    }else{
+      tmpLocs[loc]++;
+    }
+  }
+  for(key in tmpLocs){
+    if (tmpLocs.hasOwnProperty(key)) {
+      tmpLocs2.push({location:key,count:tmpLocs[key]});
+    }
+  }
+  tmpLocs2.sort(dynamicSortMultiple("location"));
+  tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
+      +'<div style="display:table-row;">'
+        +'<div style="display:table-cell;font-weight:bold;">Location</div>'
+        +'<div style="display:table-cell;font-weight:bold;">Plays</div>'
+      +'</div>';
+  for(i=0;i<tmpLocs2.length;i++){
+    tmpHTML+='<div style="display:table-row;">';
+    tmpHTML+='<div style="display:table-cell;">'+tmpLocs2[i].location+'</div>';
+    tmpHTML+='<div style="display:table-cell;">'+tmpLocs2[i].count+'</div>';
+    tmpHTML+='</div>';
+  }
+  tmpHTML+='</div>';
+  document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
+}
   
   function loadPlay(id){
 	  console.log(id);
