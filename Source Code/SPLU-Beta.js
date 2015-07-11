@@ -2631,7 +2631,7 @@ function getStatsLocations(tmpUser){
     }
     tmpHTML+='<div style="display:table-row;">';
     tmpHTML+='<div style="display:table-cell;">'+tmpLocs2[i].location+'</div>';
-    tmpHTML+='<div style="display:table-cell;">'+tmpLocs2[i].count+'</div>';
+    tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'location\',\''+tmpLocs2[i].location+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+tmpLocs2[i].count+'</a></div>';
     tmpHTML+='</div>';
   }
   tmpHTML+='</div>';
