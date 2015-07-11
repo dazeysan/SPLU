@@ -2099,8 +2099,16 @@
       }
       if(filtertype=="location"){
         for(i=0;i<plays.length;i++){
-          if(lines[l].value.slice(0,1)=="!"){
+          if(lines[l].value.slice(0,2)=="!="){
+            if(SPLUplayData[user][plays[i].id].getAttribute("location")!=lines[l].value.slice(2)){
+              plays[i].matches++;
+            }
+          } else if(lines[l].value.slice(0,1)=="!"){
             if(SPLUplayData[user][plays[i].id].getAttribute("location").toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())==-1){
+              plays[i].matches++;
+            }
+          } else if(lines[l].value.slice(0,1)=="="){
+            if(SPLUplayData[user][plays[i].id].getAttribute("location")==lines[l].value.slice(1)){
               plays[i].matches++;
             }
           } else if(SPLUplayData[user][plays[i].id].getAttribute("location").toLowerCase().indexOf(lines[l].value.toLowerCase())>-1){
@@ -2626,12 +2634,13 @@ function getStatsLocations(tmpUser){
         +'<div style="display:table-cell;font-weight:bold;">Plays</div>'
       +'</div>';
   for(i=0;i<tmpLocs2.length;i++){
+    tmpFilterLoc=tmpLocs2[i].location;
     if(tmpLocs2[i].location==""){
       tmpLocs2[i].location="&lt;Blank&gt;";
     }
     tmpHTML+='<div style="display:table-row;">';
     tmpHTML+='<div style="display:table-cell;">'+tmpLocs2[i].location+'</div>';
-    tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'location\',\''+tmpLocs2[i].location+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+tmpLocs2[i].count+'</a></div>';
+    tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'location\',\'='+tmpFilterLoc+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+tmpLocs2[i].count+'</a></div>';
     tmpHTML+='</div>';
   }
   tmpHTML+='</div>';
