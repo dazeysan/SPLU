@@ -839,7 +839,7 @@
         +'<div id="SPLU.PlaysFilters" style="border: 1px solid blue; border-radius: 5px; padding: 3px; display:none;">'
           +'<div id="SPLU.PlaysFiltersStatus" style="float:right;"></div>'
           +'<div>'
-            +'<select id="SPLU.SelectPlaysFilter" onChange="javascript:{addPlaysFilter();}">'
+            +'<select id="SPLU.SelectPlaysFilter" onChange="javascript:{addPlaysFilter(\'GUI\',\'\');}">'
               +'<option value="add">Add a Filter</option>'
               +'<option value="---" disabled>---</option>'
               +'<option value="playername">Player Name</option>'
@@ -2295,12 +2295,14 @@
     return false;
   }
   
-  function addPlaysFilter(){
-    var filter=document.getElementById("SPLU.SelectPlaysFilter").value;
+  function addPlaysFilter(filter,filterVal){
+    if(filter=="GUI"){
+      filter=document.getElementById("SPLU.SelectPlaysFilter").value;
+    }
     var filterName="";
-    if(filter!="add" && filter!="---"){
+    if(filter!="add" && filter!="---" && filter!="DEL"){
       SPLUplaysFiltersCount++;
-      var tmpHTML='<a href="javascript:{void(0);}" onclick="javascript:{document.getElementById(\'SPLU.PlaysFiltersCurrent\').removeChild(document.getElementById(\'SPLU.playsFiltersLine'+SPLUplaysFiltersCount+'\'));loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value);addPlaysFilter();}" style="color:red;margin:2px;">'
+      var tmpHTML='<a href="javascript:{void(0);}" onclick="javascript:{document.getElementById(\'SPLU.PlaysFiltersCurrent\').removeChild(document.getElementById(\'SPLU.playsFiltersLine'+SPLUplaysFiltersCount+'\'));loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value);addPlaysFilter(\'DEL\',\'\');}" style="color:red;margin:2px;">'
         +'<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/delete_row_small.png">'
         +'</a>';
       if(filter=="playername"){filterName="Player";}
@@ -2336,7 +2338,7 @@
       }
       
       if(filter!="objecttype" && filter!="excludeexpansions" && filter!="daterange" && filter!="playercount"){
-        tmpHTML+=filterName+': <input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" onKeyPress="eventFilterLineEnter(event)"/>'; 
+        tmpHTML+=filterName+': <input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" onKeyPress="eventFilterLineEnter(event)" value="'+filterVal+'"/>'; 
       }  
       
       var tmpDiv=document.createElement('div');
@@ -2351,7 +2353,7 @@
     }else{
       document.getElementById("SPLU.PlaysFiltersGoBtn").style.display="";
     }
-    if(filter=="excludeexpansions"){
+    if(filter=="excludeexpansions" || filterVal!=""){
       loadPlays(document.getElementById('SPLU.PlaysLogger').value);
     }
   }
@@ -2607,7 +2609,7 @@ function getStatsLocations(tmpUser){
   for(i=0;i<SPLUlistOfPlays.length;i++){
     var loc=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getAttribute("location");
     if(tmpLocs[loc]===undefined){
-      tmpLocs[loc]=1
+      tmpLocs[loc]=1;
     }else{
       tmpLocs[loc]++;
     }
