@@ -2640,6 +2640,8 @@ function getStatsLocations(tmpUser){
       +'</div>';
   for(i=0;i<tmpLocs2.length;i++){
     tmpFilterLoc=tmpLocs2[i].location;
+    tmpFilterLoc=tmpFilterLoc.replace("'","\\'");
+    tmpFilterLoc=tmpFilterLoc.replace('"','\\"');
     if(tmpLocs2[i].location==""){
       tmpLocs2[i].location="&lt;Blank&gt;";
     }
