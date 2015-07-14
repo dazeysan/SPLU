@@ -2371,7 +2371,6 @@
   }
   
   function showHidePlaysFilters(){
-    SPLUhistoryOpened++;
     document.getElementById("SPLU.PlaysList").style.maxHeight=(document.getElementById("BRlogPlays").clientHeight-122)+"px";
     if(document.getElementById("SPLU.PlaysFilters").style.display=="none"){
       document.getElementById("SPLU.PlaysFilters").style.display="";
@@ -2382,9 +2381,6 @@
     }
     document.getElementById("SPLU.StatsMenu").style.display="none";
     document.getElementById("SPLU.StatsContent").style.display="none";
-    if(SPLUhistoryOpened==1){
-      getRecentPlays(false);
-    }
   }
 
   function showHidePlaysStats(){
@@ -3099,6 +3095,7 @@ function getStatsLocations(tmpUser){
   }
 
   function showPlaysPane(source){
+    SPLUhistoryOpened++;    
     if(source=="button"&&document.getElementById('BRlogPlays').style.display=="table-cell"){
       document.getElementById('BRlogPlays').style.display="none";
       return;
@@ -3106,6 +3103,9 @@ function getStatsLocations(tmpUser){
     hidePanes();
     document.getElementById('SPLU.PlaysList').style.height=document.getElementById('BRlogMain').clientHeight-155+"px";
     document.getElementById('BRlogPlays').style.display="table-cell";
+    if(SPLUhistoryOpened==1){
+      getRecentPlays(false);
+    }
   }
   
   function showLocationsPane(source){
