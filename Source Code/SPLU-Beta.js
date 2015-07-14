@@ -1713,7 +1713,7 @@
   }
   
   function showHidePlayers(update,action){
-    if(!PlayerList && action!="show"){
+    if(!PlayerList || action=="show"){
       document.getElementById('SPLU.PlayerList').style.maxWidth=document.getElementById('BRlogMain').clientWidth-40+"px";
       document.getElementById('SPLU.PlayerList').style.display="block";
       document.getElementById('SPLU.SavedNamesButtonIconExpand').style.display="none";
