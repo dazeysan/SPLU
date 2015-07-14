@@ -45,6 +45,7 @@
     var SPLUplaysFiltersCount=0;
     var SPLUedit={};
     var SPLUlistOfPlays=[];
+    var SPLUhistoryOpened=0;
 
     var observer=new MutationObserver(function(){
       if(document.getElementById('selimage0').innerHTML.slice(0,4)=="<div"){
@@ -1829,6 +1830,9 @@
       tmpID="&playid="+tmpPlay.id;
       SPLUedit.submit=true;
     }
+    if(SPLUhistoryOpened>0){
+      SPLUedit.submit=true;
+    }
     querystring+="&comments="+encodeURIComponent(form["quickplay_comments99"].value);
     document.getElementById('BRresults').innerHTML="Saving...";
     new Request.JSON({url:'/geekplay.php',data:'ajax=1&action=save&version=2&objecttype=thing'+tmpID+querystring,onComplete:function(responseJSON,responseText){
@@ -2367,6 +2371,7 @@
   }
   
   function showHidePlaysFilters(){
+    SPLUhistoryOpened++;
     document.getElementById("SPLU.PlaysList").style.maxHeight=(document.getElementById("BRlogPlays").clientHeight-122)+"px";
     if(document.getElementById("SPLU.PlaysFilters").style.display=="none"){
       document.getElementById("SPLU.PlaysFilters").style.display="";
@@ -2377,6 +2382,9 @@
     }
     document.getElementById("SPLU.StatsMenu").style.display="none";
     document.getElementById("SPLU.StatsContent").style.display="none";
+    if(SPLUhistoryOpened==1){
+      getRecentPlays(false);
+    }
   }
 
   function showHidePlaysStats(){
