@@ -248,7 +248,7 @@
       +'<div style="display:table;">'
         +'<div style="display:table-row;">'
           +'<div class="BRcells">'
-            +'Players:<a href="javascript:{void(0);}" onClick="javascript:{showHidePlayers(false);}" id="SPLU.SavedNamesBtn" style="padding-left:1px;"><span id="SPLU.SavedNamesButtonIconCollapse" style="display:inline-block;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/arrow_up.png"></span><span id="SPLU.SavedNamesButtonIconExpand" style="display:none;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/arrow_down.png"></span></a>'
+            +'Players:<a href="javascript:{void(0);}" onClick="javascript:{showHidePlayers(false,\'reset\');}" id="SPLU.SavedNamesBtn" style="padding-left:1px;"><span id="SPLU.SavedNamesButtonIconCollapse" style="display:inline-block;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/arrow_up.png"></span><span id="SPLU.SavedNamesButtonIconExpand" style="display:none;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/arrow_down.png"></span></a>'
             +'<a href="javascript:{void(0);}" onClick="javascript:{showPlayersPane(\'button\');}" id="showPlayersPaneBtn" style="padding-right:5px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/players.png"></a>'
             +'<div style="display:inline;" id="SPLU.PlayerFilters">'
               +'<select id="SPLU.SelectFilter" onChange="javascript:{setFilter(\'choose\');}"></select>'
@@ -949,7 +949,7 @@
               document.getElementById('SPLU.LocationButtonIconCollapse').style.display="none";
             }
             if(key=="PlayerList"){
-              showHidePlayers();
+              showHidePlayers(false,"reset");
             }
             if(key=="SortPlayers"&&SPLU.Settings[key].Order=="Alpha"){
               document.getElementById("SPLU.SortPlayersAlphaCheck").checked=true;
@@ -1327,7 +1327,7 @@
   function setFilter(src){
     if(src=="choose"){
       SPLUcurrentFilter=document.getElementById('SPLU.SelectFilter').value;
-      showHidePlayers(true);
+      showHidePlayers(false,"show");
     }else if(src=="delete" || src=="hide"){
       SPLUcurrentFilter="All";
     }else{
@@ -1712,8 +1712,8 @@
     PlayerList=false;
   }
   
-  function showHidePlayers(update){
-    if(!PlayerList){
+  function showHidePlayers(update,action){
+    if(!PlayerList && action!="show"){
       document.getElementById('SPLU.PlayerList').style.maxWidth=document.getElementById('BRlogMain').clientWidth-40+"px";
       document.getElementById('SPLU.PlayerList').style.display="block";
       document.getElementById('SPLU.SavedNamesButtonIconExpand').style.display="none";
@@ -1884,7 +1884,7 @@
       showHideLocations(false);
     }
     if(SPLU.Settings.PlayerList.Visible&&!PlayerList){
-      showHidePlayers(false);
+      showHidePlayers(false,"reset");
     }
     document.getElementById('quickplay_comments99').value="";
     document.getElementById('quickplay_quantity99').value="1";
