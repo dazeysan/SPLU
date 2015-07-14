@@ -3101,7 +3101,7 @@ function getStatsLocations(tmpUser){
       return;
     }
     hidePanes();
-    document.getElementById('SPLU.PlaysList').style.maxheight=document.getElementById('BRlogMain').clientHeight-155+"px";
+    document.getElementById("SPLU.PlaysList").style.maxHeight=(document.getElementById("BRlogPlays").clientHeight-122)+"px";
     document.getElementById('BRlogPlays').style.display="table-cell";
     if(SPLUhistoryOpened==1){
       getRecentPlays(false);
