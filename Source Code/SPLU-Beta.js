@@ -1327,6 +1327,7 @@
   function setFilter(src){
     if(src=="choose"){
       SPLUcurrentFilter=document.getElementById('SPLU.SelectFilter').value;
+      showHidePlayers(true);
     }else if(src=="delete" || src=="hide"){
       SPLUcurrentFilter="All";
     }else{
