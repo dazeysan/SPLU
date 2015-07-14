@@ -2108,7 +2108,7 @@
               plays[i].matches++;
             }
           } else if(lines[l].value.slice(0,1)=="!"){
-            if(SPLUplayData[user][plays[i].id].getAttribute("location").toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())==-1){
+            if((SPLUplayData[user][plays[i].id].getAttribute("location").toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())==-1) || SPLUplayData[user][plays[i].id].getAttribute("location")==""){
               plays[i].matches++;
             }
           } else if(lines[l].value.slice(0,1)=="="){
@@ -2200,7 +2200,7 @@
             if(lines[l].value.slice(0,1)=="!"){
               plays[i].matches++;
               for(p=0;p<tmpPlayers.length;p++){
-                if((tmpPlayers[p].getAttribute("username").toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())>-1 || tmpPlayers[p].getAttribute("name").toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())>-1) && tmpPlayers[p].getAttribute("win")==1){
+                if((tmpPlayers[p].getAttribute("username").toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())>-1 && tmpPlayers[p].getAttribute("win")==1) || (tmpPlayers[p].getAttribute("name").toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())>-1 && tmpPlayers[p].getAttribute("win")==1)){
                   plays[i].matches--;
                   break;
                 }
