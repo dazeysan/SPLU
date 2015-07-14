@@ -2047,7 +2047,7 @@
         }
         SPLUlistOfPlays.push({id:key,date:SPLUplayData[tmpUser][key].attributes.date.value});
       }
-      SPLUlistOfPlays.sort(dynamicSortMultiple("-date", "id"));
+      SPLUlistOfPlays.sort(dynamicSortMultiple("-date", "-id"));
       SPLUlistOfPlays=filterPlays(SPLUlistOfPlays,tmpUser);
       var tmpSortCount=0;
       var tmpLines=document.getElementsByName("SPLU.PlaysFiltersLine").length;
