@@ -2548,7 +2548,7 @@
         tmpHTML+='<div style="display:table-row;">';
         tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["Players"][key]["Name"]+'</div>';
         tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+SPLU.GameStats[keyGame]["Players"][key]["Name"]+'\');addPlaysFilter(\'gamename\',\'='+tmpGame+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLU.GameStats[keyGame]["Players"][key]["TotalPlays"]+'</a></div>';
-        tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["Players"][key]["TotalWins"]+'</div>';
+        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'winner\',\''+SPLU.GameStats[keyGame]["Players"][key]["Name"]+'\');addPlaysFilter(\'gamename\',\'='+tmpGame+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLU.GameStats[keyGame]["Players"][key]["TotalWins"]+'</a></div>';
         var tmpBold="";
         if(SPLU.GameStats[keyGame]["Players"][key]["LowScore"]==SPLU.GameStats[keyGame]["LowScore"]){
           tmpBold="font-weight:bold;";
@@ -2603,7 +2603,7 @@
       if(SPLU.GameStats[key]["TotalNewWins"]!=0){
         tmpHTML+='<div style="display:table-row;">';
         tmpHTML+='<div style="display:table-cell;">'+key+'</div>';
-        tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[key]["TotalNewWins"]+'</div>';
+        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+key+'\');addPlaysFilter(\'winner\',\''+key+'\');addPlaysFilter(\'new\',\''+key+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLU.GameStats[key]["TotalNewWins"]+'</a></div>';
         tmpHTML+='</div>';
       }
     }
@@ -2652,8 +2652,8 @@
       if(SPLU.GameStats[key]["TotalNewWins"]!=0){
         tmpHTML+='<div style="display:table-row;">';
         tmpHTML+='<div style="display:table-cell;">'+key+'</div>';
-        tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[key]["TotalPlays"]+'</div>';
-        tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[key]["TotalWins"]+'</div>';
+        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+key+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLU.GameStats[key]["TotalPlays"]+'</a></div>';
+        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+key+'\');addPlaysFilter(\'winner\',\''+key+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLU.GameStats[key]["TotalWins"]+'</a></div>';
         tmpHTML+='<div style="display:table-cell;">'+tmpAverage+'%</div>';
         tmpHTML+='</div>';
       }
