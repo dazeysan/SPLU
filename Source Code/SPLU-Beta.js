@@ -2420,6 +2420,10 @@
     }
   }
 
+  function isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+  }
+  
   function getStatsScoresByGame(tmpUser){
     document.getElementById("SPLU.StatsContent").innerHTML="Thinking...";
     SPLU.GameStats={};
@@ -2468,7 +2472,7 @@
           };
         }
         var tmpScore=0;
-        if(tmpPlayers[p].getAttribute("score")!=""){
+        if(tmpPlayers[p].getAttribute("score")!="" && isNumeric(tmpPlayers[p].getAttribute("score"))){
           tmpScore=Number(tmpPlayers[p].getAttribute("score"));
         }
         if(tmpScore>SPLU.GameStats[tmpGame]["Players"][tmpNameID]["HighScore"]){
