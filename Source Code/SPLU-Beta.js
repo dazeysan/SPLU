@@ -2433,7 +2433,6 @@
         continue;
       }
       var tmpGame=tmpPlay.getElementsByTagName("item")[0].getAttribute("objectid");
-      console.log(tmpGame);
       if(SPLU.GameStats[tmpGame]===undefined){
         SPLU.GameStats[tmpGame]={
           "HighScore":-999999999,
@@ -2460,7 +2459,6 @@
           tmpName=tmpPlayers[p].getAttribute("name");
           tmpNameID+=tmpPlayers[p].getAttribute("name");
         }
-        console.log(tmpNameID);
         if(SPLU.GameStats[tmpGame]["Players"][tmpNameID]===undefined){
           SPLU.GameStats[tmpGame]["Players"][tmpNameID]={
             "HighScore":-999999999,
@@ -2503,7 +2501,6 @@
 
     tmpHTML="";
     for(keyGame in SPLU.GameStats){
-      console.log("Disp-"+keyGame);
       tmpHTML+='<span style="font-style:italic;color:rgb(213, 85, 198);font-weight:bold;">'+SPLU.GameStats[keyGame].Game+'</span>'
       +'<div style="display:table; border-spacing:5px 2px; text-align:right; padding-bottom:10px;">'
           +'<div style="display:table-row;">'
