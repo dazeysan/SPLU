@@ -2093,8 +2093,16 @@
       var filtertype=lines[l].getAttribute("data-SPLU-filtertype");
       if(filtertype=="gamename"){
         for(i=0;i<plays.length;i++){
-          if(lines[l].value.slice(0,1)=="!"){
+          if(lines[l].value.slice(0,2)=="!="){
+            if(SPLUplayData[user][plays[i].id].getElementsByTagName("item")[0].attributes.name.value!=lines[l].value.slice(2)){
+              plays[i].matches++;
+            }
+          } else if(lines[l].value.slice(0,1)=="!"){
             if(SPLUplayData[user][plays[i].id].getElementsByTagName("item")[0].attributes.name.value.toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())==-1){
+              plays[i].matches++;
+            }
+          } else if(lines[l].value.slice(0,1)=="="){
+            if(SPLUplayData[user][plays[i].id].getElementsByTagName("item")[0].attributes.name.value==lines[l].value.slice(1)){
               plays[i].matches++;
             }
           } else if(SPLUplayData[user][plays[i].id].getElementsByTagName("item")[0].attributes.name.value.toLowerCase().indexOf(lines[l].value.toLowerCase())>-1){
@@ -2139,11 +2147,28 @@
         for(i=0;i<plays.length;i++){
           if(SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0]!==undefined){
             var tmpPlayers=SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
-            if(lines[l].value.slice(0,1)=="!"){
+            if(lines[l].value.slice(0,2)=="!="){
+              var tmpMatch=0;
+              for(p=0;p<tmpPlayers.length;p++){
+                if(tmpPlayers[p].getAttribute("name")==lines[l].value.slice(2)){
+                  tmpMatch++;
+                }
+              }
+              if(tmpMatch==0){
+                plays[i].matches++;
+              }
+            } else if(lines[l].value.slice(0,1)=="!"){
               plays[i].matches++;
               for(p=0;p<tmpPlayers.length;p++){
                 if(tmpPlayers[p].getAttribute("name").toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())>-1){
                   plays[i].matches--;
+                  break;
+                }
+              }
+            } else if(lines[l].value.slice(0,1)=="="){
+              for(p=0;p<tmpPlayers.length;p++){
+                if(tmpPlayers[p].getAttribute("name")==lines[l].value.slice(1)){
+                  plays[i].matches++;
                   break;
                 }
               }
@@ -2519,7 +2544,7 @@
         tmpAverageWins=tmpAverageWins.toFixed(2);
         tmpHTML+='<div style="display:table-row;">';
         tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["Players"][key]["Name"]+'</div>';
-        tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["Players"][key]["TotalPlays"]+'</div>';
+        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+SPLU.GameStats[keyGame]["Players"][key]["Name"]+'\');addPlaysFilter(\'gamename\',\'='+SPLU.GameStats[keyGame].Game+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLU.GameStats[keyGame]["Players"][key]["TotalPlays"]+'</a></div>';
         tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["Players"][key]["TotalWins"]+'</div>';
         var tmpBold="";
         if(SPLU.GameStats[keyGame]["Players"][key]["LowScore"]==SPLU.GameStats[keyGame]["LowScore"]){
