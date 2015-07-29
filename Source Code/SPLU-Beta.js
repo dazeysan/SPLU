@@ -1312,7 +1312,7 @@
       }
     }
     BRplayersDiv.innerHTML+='<div style="padding: 5px 2px 0px 0px; float: left;"><a href="javascript:{void(0);}" onClick="javascript:{insertPlayer(-1);}" onMouseDown="javascript:{this.style.backgroundColor=\'#eff708\';}" onMouseUp="javascript:{this.style.backgroundColor=\'#A4DFF3\';}" style="border:1px dotted;padding:0px 2px;">Other</a></div>';
-    if(SPLUcurrentFilter=="All"&&SPLU.Settings["PlayerGroups"].Visible){
+    if(SPLU.Settings["PlayerGroups"].Visible){
       var groups=[];
       if(SPLU.Settings.SortGroups.Order=="Alpha"){
         groups=Object.keys(SPLU.Groups).sort();
@@ -1321,7 +1321,9 @@
       }
       for(key=0;key<groups.length;key++){
         BRtmpName=decodeURIComponent(groups[key]);
-        BRplayersDiv.innerHTML+='<div style="padding: 5px 2px 0px 0px; float: left;"><a href="javascript:{void(0);}" onClick="javascript:{insertGroup(\''+groups[key]+'\');}" onMouseDown="javascript:{this.style.backgroundColor=\'#eff708\';}" onMouseUp="javascript:{this.style.backgroundColor=\'#A4DFF3\';}" style="border:1px solid black;padding:0px 2px;">'+BRtmpName+'</a></div>';
+        if(SPLUcurrentFilter=="All" || SPLU.Filters[SPLUcurrentFilter].indexOf("group-"+groups[key])!=-1){
+          BRplayersDiv.innerHTML+='<div style="padding: 5px 2px 0px 0px; float: left;"><a href="javascript:{void(0);}" onClick="javascript:{insertGroup(\''+groups[key]+'\');}" onMouseDown="javascript:{this.style.backgroundColor=\'#eff708\';}" onMouseUp="javascript:{this.style.backgroundColor=\'#A4DFF3\';}" style="border:1px solid black;padding:0px 2px;">'+BRtmpName+'</a></div>';
+        }
       }
     }
   }
@@ -1338,6 +1340,7 @@
         SPLUcurrentFilter="All";
       }
     }
+	//Make the Filters tab show the currently selected filter
     var checks=document.getElementsByName('SPLUfilterChecks');
     for(i=0;i<checks.length;i++){
       if(SPLUcurrentFilter=="All"){
