@@ -991,8 +991,10 @@
     loadGroups();
     SPLUcalendar = new YAHOO.widget.Calendar('SPLU.Calendar');
     var tmp=new Date();
-    SPLUcalendar.cfg.setProperty("maxdate",tmp);
-    SPLUcalendar.selectEvent.subscribe(function(){setDateField(SPLUcalendar.getSelectedDates()[0].toISOString().slice(0,SPLUcalendar.getSelectedDates()[0].toISOString().indexOf("T")));showHideCalendar();});
+	var tmp2=new Date();
+	tmp2.setMinutes(tmp.getMinutes()-tmp.getTimezoneOffset())
+    SPLUcalendar.cfg.setProperty("maxdate",tmp2);
+    SPLUcalendar.selectEvent.subscribe(function(){tmp3=new Date();selectedDate=new Date(tmp3.setMinutes(SPLUcalendar.getSelectedDates()[0].getMinutes()-tmp3.getTimezoneOffset()));setDateField(selectedDate.toISOString().slice(0,selectedDate.toISOString().indexOf("T")));showHideCalendar();});
     document.getElementById('q546e9ffd96dfc').value=getGameTitle();
     
   }
