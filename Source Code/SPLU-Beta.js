@@ -618,7 +618,14 @@
       +'<div style="display:table-row;">'
       +'<div style="display:table-cell; text-align:right;">Log Details with Expansions</div>'
       +'<div style="display:table-cell; text-align:center;">'
-      +'<input type="checkbox" id="SPLU.ExpansionDetailsCheck" onclick="javascript:{if(document.getElementById(\'SPLU.ExpansionDetailsCheck\').checked){SPLU.Settings.ExpansionDetails.Include=true;}else{SPLU.Settings.ExpansionDetails.Include=false;};}"></input>'
+      +'<input type="checkbox" id="SPLU.ExpansionDetailsCheck" onclick="javascript:{if(document.getElementById(\'SPLU.ExpansionDetailsCheck\').checked){SPLU.Settings.ExpansionDetails.Include=true;}else{SPLU.Settings.ExpansionDetails.Include=false;}}"></input>'
+      +'</div>'
+      +'<div style="display:table-cell; text-align:center;"></div>'
+      +'</div>'
+      +'<div style="display:table-row;" class="SPLUsettingAltRows">'
+      +'<div style="display:table-cell; text-align:right;">List Expansions in Comments</div>'
+      +'<div style="display:table-cell; text-align:center;">'
+      +'<input type="checkbox" id="SPLU.ExpansionCommentsCheck" onclick="javascript:{if(document.getElementById(\'SPLU.ExpansionCommentsCheck\').checked){SPLU.Settings.ExpansionComments.Visible=true;}else{SPLU.Settings.ExpansionComments.Visible=false;}}"></input>'
       +'</div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
@@ -1026,6 +1033,7 @@
       "DomainButtons":{"Visible":false},
       "ExpansionQuantity":{"Value":".1"},
       "ExpansionDetails":{"Include":true},
+      "ExpansionComments":{"Visible":false},
       "SortPlayers":{"Order":"none"},
       "SortGroups":{"Order":"none"},
       "PlayerFilters":{"Visible":false},
@@ -1340,7 +1348,7 @@
         SPLUcurrentFilter="All";
       }
     }
-	//Make the Filters tab show the currently selected filter
+    //Make the Filters tab show the currently selected filter
     var checks=document.getElementsByName('SPLUfilterChecks');
     for(i=0;i<checks.length;i++){
       if(SPLUcurrentFilter=="All"){
