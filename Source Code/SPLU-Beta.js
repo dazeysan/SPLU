@@ -961,6 +961,9 @@
             if(key=="SortPlayers"&&SPLU.Settings[key].Order=="Alpha"){
               document.getElementById("SPLU.SortPlayersAlphaCheck").checked=true;
             }
+            if(key=="SortGroups"&&SPLU.Settings[key].Order=="Alpha"){
+              document.getElementById("SPLU.SortGroupsAlphaCheck").checked=true;
+            }
             if(key=="PlayerFilters"){
               document.getElementById("SPLU.FiltersHeading").style.display="none";
             }
