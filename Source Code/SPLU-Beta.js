@@ -871,9 +871,9 @@
         +'<div id="SPLU.PlaysList" style="overflow-y:auto; width:275px;"></div>'
         +'<div id="SPLU.StatsMenu" style="display:none;">'
           +'Stat: <select id="SPLU.SelectStat" onChange="javascript:{loadStats(\'choose\');}">'
-            +'<option value="PlaysWins">Wins</option>'
+            +'<option value="PlaysWins" selected>Wins</option>'
             +'<option value="BeginnersLuck">Beginner\'s Luck</option>'
-            +'<option value="GameScore" selected>Scores By Game</option>'
+            +'<option value="GameScore">Scores By Game</option>'
             +'<option value="Locations">Locations</option>'
           +'</select>'
         +'</div>'
@@ -2418,7 +2418,7 @@
   }
   
   function showHidePlaysFilters(){
-    document.getElementById("SPLU.PlaysList").style.maxHeight=(document.getElementById("BRlogPlays").clientHeight-122)+"px";
+    document.getElementById("SPLU.PlaysList").style.maxHeight=(document.getElementById("SPLUwindow").clientHeight-122)+"px";
     if(document.getElementById("SPLU.PlaysFilters").style.display=="none"){
       document.getElementById("SPLU.PlaysFilters").style.display="";
       document.getElementById("SPLU.PlaysList").style.display="";
@@ -2431,7 +2431,7 @@
   }
 
   function showHidePlaysStats(){
-    document.getElementById("SPLU.StatsContent").style.maxHeight=(document.getElementById("BRlogPlays").clientHeight-115)+"px";
+    document.getElementById("SPLU.StatsContent").style.maxHeight=(document.getElementById("SPLUwindow").clientHeight-115)+"px";
     if(document.getElementById("SPLU.StatsMenu").style.display=="none"){
       document.getElementById("SPLU.StatsMenu").style.display="";
       document.getElementById("SPLU.StatsContent").style.display="";
@@ -3171,7 +3171,7 @@ function getStatsLocations(tmpUser){
       return;
     }
     hidePanes();
-    document.getElementById("SPLU.PlaysList").style.maxHeight=(document.getElementById("BRlogPlays").clientHeight-122)+"px";
+    document.getElementById("SPLU.PlaysList").style.maxHeight=(document.getElementById("SPLUwindow").clientHeight-122)+"px";
     document.getElementById('BRlogPlays').style.display="table-cell";
     if(SPLUhistoryOpened==1){
       getRecentPlays(false);
