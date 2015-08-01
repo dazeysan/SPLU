@@ -1588,7 +1588,10 @@
       }
     }
     var CommentBox=document.getElementById("quickplay_comments99");
-    CommentBox.value=CommentBox.value.slice(0,1+CommentBox.value.indexOf("Played with the following expansions:")).trim();
+    var tmp=CommentBox.value.indexOf("Played with the following expansions:");
+    if(tmp!=-1){
+      CommentBox.value=CommentBox.value.slice(0,CommentBox.value.indexOf("Played with the following expansions:")).trim();
+    }
     if(comment!=""){
       CommentBox.value+="\n\nPlayed with the following expansions:\n"+comment;
     }
