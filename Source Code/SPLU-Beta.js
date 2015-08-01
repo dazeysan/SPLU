@@ -1310,16 +1310,18 @@
       }
       players=tmpPlayers;
     }
-    for(key=0;key<players.length;key++){
-      if (SPLU.Players.hasOwnProperty(players[key])) {
-        BRtmpName=decodeURIComponent(SPLU.Players[players[key]].Name);
-        if(SPLU.Players[players[key]].Name==""){
-          BRtmpName=decodeURIComponent(SPLU.Players[players[key]].Username);
+    if(SPLUcurrentFilter!="Groups"){
+      for(key=0;key<players.length;key++){
+        if (SPLU.Players.hasOwnProperty(players[key])) {
+          BRtmpName=decodeURIComponent(SPLU.Players[players[key]].Name);
+          if(SPLU.Players[players[key]].Name==""){
+            BRtmpName=decodeURIComponent(SPLU.Players[players[key]].Username);
+          }
+          BRplayersDiv.innerHTML+='<div style="padding: 5px 2px 0px 0px; float: left;"><a href="javascript:{void(0);}" onClick="javascript:{insertPlayer(\''+players[key]+'\');}" onMouseDown="javascript:{this.style.backgroundColor=\'#eff708\';}" onMouseUp="javascript:{this.style.backgroundColor=\'#A4DFF3\';}" style="border:1px dotted green;padding:0px 2px;">'+BRtmpName+'</a></div>';
         }
-        BRplayersDiv.innerHTML+='<div style="padding: 5px 2px 0px 0px; float: left;"><a href="javascript:{void(0);}" onClick="javascript:{insertPlayer(\''+players[key]+'\');}" onMouseDown="javascript:{this.style.backgroundColor=\'#eff708\';}" onMouseUp="javascript:{this.style.backgroundColor=\'#A4DFF3\';}" style="border:1px dotted green;padding:0px 2px;">'+BRtmpName+'</a></div>';
       }
+      BRplayersDiv.innerHTML+='<div style="padding: 5px 2px 0px 0px; float: left;"><a href="javascript:{void(0);}" onClick="javascript:{insertPlayer(-1);}" onMouseDown="javascript:{this.style.backgroundColor=\'#eff708\';}" onMouseUp="javascript:{this.style.backgroundColor=\'#A4DFF3\';}" style="border:1px dotted;padding:0px 2px;">Other</a></div>';
     }
-    BRplayersDiv.innerHTML+='<div style="padding: 5px 2px 0px 0px; float: left;"><a href="javascript:{void(0);}" onClick="javascript:{insertPlayer(-1);}" onMouseDown="javascript:{this.style.backgroundColor=\'#eff708\';}" onMouseUp="javascript:{this.style.backgroundColor=\'#A4DFF3\';}" style="border:1px dotted;padding:0px 2px;">Other</a></div>';
     if(SPLU.Settings["PlayerGroups"].Visible){
       var groups=[];
       if(SPLU.Settings.SortGroups.Order=="Alpha"){
@@ -1329,7 +1331,7 @@
       }
       for(key=0;key<groups.length;key++){
         BRtmpName=decodeURIComponent(groups[key]);
-        if(SPLUcurrentFilter=="All" || SPLU.Filters[SPLUcurrentFilter].indexOf("group-"+groups[key])!=-1){
+        if(SPLUcurrentFilter=="All" || SPLUcurrentFilter=="Groups" || SPLU.Filters[SPLUcurrentFilter].indexOf("group-"+groups[key])!=-1){
           BRplayersDiv.innerHTML+='<div style="padding: 5px 2px 0px 0px; float: left;"><a href="javascript:{void(0);}" onClick="javascript:{insertGroup(\''+groups[key]+'\');}" onMouseDown="javascript:{this.style.backgroundColor=\'#eff708\';}" onMouseUp="javascript:{this.style.backgroundColor=\'#A4DFF3\';}" style="border:1px solid black;padding:0px 2px;">'+BRtmpName+'</a></div>';
         }
       }
@@ -1351,7 +1353,7 @@
     //Make the Filters tab show the currently selected filter
     var checks=document.getElementsByName('SPLUfilterChecks');
     for(i=0;i<checks.length;i++){
-      if(SPLUcurrentFilter=="All"){
+      if(SPLUcurrentFilter=="All"||SPLUcurrentFilter=="Groups"){
         checks[i].checked=false;
         continue;
       }
@@ -1386,19 +1388,25 @@
     if(SPLUcurrentFilter=="All"){
       select.options[0]=new Option("All", "All", true, true);
       select2.options[0]=new Option("---", "---", true, true);
+      select.options[1]=new Option("All Groups", "Groups", true, false);
+    }else if(SPLUcurrentFilter=="Groups"){
+      select.options[0]=new Option("All", "All", true, false);
+      select2.options[0]=new Option("---", "---", true, false);
+      select.options[1]=new Option("All Groups", "Groups", true, true);
     }else{
       select.options[0]=new Option("All", "All", true, false);
       select2.options[0]=new Option("---", "---", true, false);
+      select.options[1]=new Option("All Groups", "Groups", true, false);
     }
-    var i=1;
+    var i=2;
     for(var key in SPLU.Filters){
       if (SPLU.Filters.hasOwnProperty(key)) {
         if(SPLUcurrentFilter==key){
           select.options[i]=new Option(key, key, false, true);
-          select2.options[i]=new Option(key, key, false, true);
+          select2.options[i-1]=new Option(key, key, false, true);
         }else{
           select.options[i]=new Option(key, key, false, false);
-          select2.options[i]=new Option(key, key, false, false);
+          select2.options[i-1]=new Option(key, key, false, false);
         }
         i++;
       }
