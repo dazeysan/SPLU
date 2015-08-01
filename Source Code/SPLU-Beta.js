@@ -61,9 +61,6 @@
       document.getElementById('SPLU.FamilyHeading').style.borderTop="";
       SPLUexpansionsLoaded=false;
       SPLUfamilyLoaded=false;
-      if(SPLU.Settings.ExpansionComments.Visible){
-        expansionListComment();
-      }
     });
 
   function initSPLU(){
@@ -1591,7 +1588,7 @@
       }
     }
     var CommentBox=document.getElementById("quickplay_comments99");
-    CommentBox.value=CommentBox.value.slice(0,CommentBox.value.indexOf("Played with the following expansions:")).trim();
+    CommentBox.value=CommentBox.value.slice(0,1+CommentBox.value.indexOf("Played with the following expansions:")).trim();
     if(comment!=""){
       CommentBox.value+="\n\nPlayed with the following expansions:\n"+comment;
     }
