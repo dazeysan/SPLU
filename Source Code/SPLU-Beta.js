@@ -2478,6 +2478,11 @@
       if(tmpPlay.deleted){
         continue;
       }
+      try{
+        var tmpPlayers=tmpPlay.getElementsByTagName("players")[0].getElementsByTagName("player");
+      } catch(err) {
+        continue;
+      }
       var tmpGame=tmpPlay.getElementsByTagName("item")[0].getAttribute("objectid");
       if(SPLU.GameStats[tmpGame]===undefined){
         SPLU.GameStats[tmpGame]={
@@ -2488,11 +2493,6 @@
           "Players":{},
           "Game":tmpPlay.getElementsByTagName("item")[0].getAttribute("name")
         };
-      }
-      try{
-        var tmpPlayers=tmpPlay.getElementsByTagName("players")[0].getElementsByTagName("player");
-      } catch(err) {
-        continue;
       }
       for(p=0;p<tmpPlayers.length;p++){
         var tmpName="Unknown";
