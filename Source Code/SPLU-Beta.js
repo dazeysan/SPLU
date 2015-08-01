@@ -1301,7 +1301,7 @@
     }else{
       players=Object.keys(SPLU.Players);
     }
-    if(SPLUcurrentFilter!="All"){
+    if(SPLUcurrentFilter!="All" && SPLUcurrentFilter!="Groups"){
       var tmpPlayers=[];
       for(i=0;i<players.length;i++){
         if(SPLU.Filters[SPLUcurrentFilter].indexOf(players[i])!=-1){
