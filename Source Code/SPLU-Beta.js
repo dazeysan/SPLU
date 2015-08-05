@@ -2048,7 +2048,9 @@
       SPLUplayData[player][SPLUplays[player][page].getElementsByTagName("play")[i].id]=SPLUplays[player][page].getElementsByTagName("play")[i];
     }
     if(!multiple){
-      loadPlays(player);
+      if(player==document.getElementById("SPLU.PlaysLogger").value){
+        loadPlays(player);
+      }
     }else{
       getAllPlays(player);
     }
@@ -2596,7 +2598,7 @@
   function getStatsBeginnersLuck(tmpUser){
     SPLU.GameStats={};
     for(i=0;i<SPLUlistOfPlays.length;i++){
-      if(SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getElementsByTagName("players")[0]===undefined){
+      if(SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getElementsByTagName("players")[0]===undefined || SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].deleted){
         continue;
       }
       var tmpPlayers=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
@@ -2638,7 +2640,7 @@
   function getStatsPlaysWins(tmpUser){
     SPLU.GameStats={};
     for(i=0;i<SPLUlistOfPlays.length;i++){
-      if(SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getElementsByTagName("players")[0]===undefined){
+      if(SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getElementsByTagName("players")[0]===undefined || SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].deleted){
         continue;
       }
       var tmpPlay=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getAttribute("id");
@@ -2690,6 +2692,9 @@ function getStatsLocations(tmpUser){
   tmpLocs=[];
   tmpLocs2=[];
   for(i=0;i<SPLUlistOfPlays.length;i++){
+    if(SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].deleted){
+      continue;
+    }
     var loc=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getAttribute("location");
     if(tmpLocs[loc]===undefined){
       tmpLocs[loc]=1;
