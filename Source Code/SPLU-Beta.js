@@ -3079,7 +3079,7 @@ function getStatsLocations(tmpUser){
                 continue;
               }
               if(inputs[n].type=='checkbox'){
-                if(inputs[n].id=='nowinstats' && SPLU.Settings.ExpansionWinStats.Enabled){
+                if(inputs[n].name=='nowinstats' && SPLU.Settings.ExpansionWinStats.Enabled){
                   value=1;
                 }else{
                   if(inputs[n].checked){
@@ -3097,6 +3097,9 @@ function getStatsLocations(tmpUser){
             querystring=querystring.replace("objectid="+SPLUgameID,"objectid="+tmpExp[i].id);
             querystring=querystring.replace("quantity="+document.getElementById('quickplay_quantity99').value,"quantity="+document.getElementById('BRexpPlayQTY').value);
           } else {
+            if(SPLU.Settings.ExpansionWinStats.Enabled){
+              querystring+="&nowinstats=1";
+            }
             querystring+="&objectid="+tmpExp[i].id;
             querystring+="&quantity="+document.getElementById('BRexpPlayQTY').value;
             querystring+="&playdate="+document.getElementById('playdate99').value;
