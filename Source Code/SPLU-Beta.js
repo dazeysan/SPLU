@@ -2496,6 +2496,8 @@
           "LowScore":999999999,
           "TotalScore":0,
           "TotalPlays":0,
+          "TotalWins":0,
+          "WinScoreSum":0,
           "Players":{},
           "Game":tmpPlay.getElementsByTagName("item")[0].getAttribute("name")
         };
@@ -2547,23 +2549,33 @@
         SPLU.GameStats[tmpGame]["TotalPlays"]++;
         if(tmpPlayers[p].getAttribute("win")=="1"){
           SPLU.GameStats[tmpGame]["Players"][tmpNameID]["TotalWins"]++;
+          if(tmpScore>0){
+            SPLU.GameStats[tmpGame]["TotalWins"]++;
+            SPLU.GameStats[tmpGame]["WinScoreSum"]+=tmpScore;
+          }
         }
       }
     }
 
     tmpHTML="";
     for(keyGame in SPLU.GameStats){
+      tmpAverageWinScore=0;
+      if(SPLU.GameStats[keyGame]["WinScoreSum"]!=0){
+        tmpAverageWinScore=SPLU.GameStats[keyGame]["WinScoreSum"]/SPLU.GameStats[keyGame]["TotalWins"];
+        tmpAverageWinScore=tmpAverageWinScore.toFixed(2);
+      }
       tmpHTML+='<span style="font-style:italic;color:rgb(213, 85, 198);font-weight:bold;">'+SPLU.GameStats[keyGame].Game+'</span>'
+      +'<br/><span style="margin-left:5px;">Average Winning Points: '+tmpAverageWinScore+'</span>'
       +'<div style="display:table; border-spacing:5px 2px; text-align:right; padding-bottom:10px;">'
-          +'<div style="display:table-row;">'
-            +'<div style="display:table-cell;font-weight:bold;">Player</div>'
-            +'<div style="display:table-cell;font-weight:bold;">Plays</div>'
-            +'<div style="display:table-cell;font-weight:bold;">Wins</div>'
-            +'<div style="display:table-cell;font-weight:bold;">Low</div>'
-            +'<div style="display:table-cell;font-weight:bold;">High</div>'
-            +'<div style="display:table-cell;font-weight:bold;">AvgPts</div>'
-            +'<div style="display:table-cell;font-weight:bold;">AvgWins</div>'
-          +'</div>';
+        +'<div style="display:table-row;">'
+          +'<div style="display:table-cell;font-weight:bold;">Player</div>'
+          +'<div style="display:table-cell;font-weight:bold;">Plays</div>'
+          +'<div style="display:table-cell;font-weight:bold;">Wins</div>'
+          +'<div style="display:table-cell;font-weight:bold;">Low</div>'
+          +'<div style="display:table-cell;font-weight:bold;">High</div>'
+          +'<div style="display:table-cell;font-weight:bold;">AvgPts</div>'
+          +'<div style="display:table-cell;font-weight:bold;">AvgWins</div>'
+        +'</div>';
       for(key in SPLU.GameStats[keyGame]["Players"]){
         tmpAverageScore=SPLU.GameStats[keyGame]["Players"][key]["TotalScore"]/SPLU.GameStats[keyGame]["Players"][key]["TotalPlays"];
         tmpAverageScore=tmpAverageScore.toFixed(2);
