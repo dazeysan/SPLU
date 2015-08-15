@@ -870,7 +870,7 @@
           +'Stat: <select id="SPLU.SelectStat" onChange="javascript:{loadStats(\'choose\');}">'
             +'<option value="PlaysWins" selected>Wins</option>'
             +'<option value="BeginnersLuck">Beginner\'s Luck</option>'
-            +'<option value="GameScore">Scores By Game</option>'
+            +'<option value="GameDetails">Game Details</option>'
             +'<option value="Locations">Locations</option>'
           +'</select>'
         +'</div>'
@@ -2454,9 +2454,9 @@
     if(stat=="choose"){
       stat=document.getElementById("SPLU.SelectStat").value;
     }
-    if(stat=="GameScore"){
+    if(stat=="GameDetails"){
       var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
-      getStatsScoresByGame(tmpUser);
+      getStatsGameDetails(tmpUser);
     }
     if(stat=="BeginnersLuck"){
       var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
@@ -2476,7 +2476,7 @@
     return !isNaN(parseFloat(n)) && isFinite(n);
   }
   
-  function getStatsScoresByGame(tmpUser){
+  function getStatsGameDetails(tmpUser){
     document.getElementById("SPLU.StatsContent").innerHTML="Thinking...";
     SPLU.GameStats={};
     for(i=0;i<SPLUlistOfPlays.length;i++){
