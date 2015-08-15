@@ -2498,9 +2498,16 @@
           "TotalPlays":0,
           "TotalWins":0,
           "WinScoreSum":0,
+          "TotalDurations":0,
+          "DurationSum":0,
           "Players":{},
           "Game":tmpPlay.getElementsByTagName("item")[0].getAttribute("name")
         };
+      }
+      var tmpDuration=Number(tmpPlay.getAttribute("length"));
+      if(tmpDuration>0){
+        SPLU.GameStats[tmpGame]["TotalDurations"]++;
+        SPLU.GameStats[tmpGame]["DurationSum"]+=tmpDuration;
       }
       for(p=0;p<tmpPlayers.length;p++){
         var tmpName="Unknown";
@@ -2560,13 +2567,19 @@
     tmpHTML="";
     for(keyGame in SPLU.GameStats){
       tmpAverageWinScore=0;
+      tmpHTML+='<span style="font-style:italic;color:rgb(213, 85, 198);font-weight:bold;">'+SPLU.GameStats[keyGame].Game+'</span>';
       if(SPLU.GameStats[keyGame]["WinScoreSum"]!=0){
         tmpAverageWinScore=SPLU.GameStats[keyGame]["WinScoreSum"]/SPLU.GameStats[keyGame]["TotalWins"];
         tmpAverageWinScore=tmpAverageWinScore.toFixed(2);
+        tmpHTML+='<br/><span style="margin-left:5px;">Avg. Winning Points: '+tmpAverageWinScore+' based on '+SPLU.GameStats[keyGame]["TotalWins"]+' plays.</span>';
       }
-      tmpHTML+='<span style="font-style:italic;color:rgb(213, 85, 198);font-weight:bold;">'+SPLU.GameStats[keyGame].Game+'</span>'
-      +'<br/><span style="margin-left:5px;">Average Winning Points: '+tmpAverageWinScore+'</span>'
-      +'<div style="display:table; border-spacing:5px 2px; text-align:right; padding-bottom:10px;">'
+      tmpAverageDuration=0;
+      if(SPLU.GameStats[keyGame]["DurationSum"]>0){
+        tmpAverageDuration=SPLU.GameStats[keyGame]["DurationSum"]/SPLU.GameStats[keyGame]["TotalDurations"];
+        tmpAverageDuration=tmpAverageDuration.toFixed(2);
+        tmpHTML+='<br/><span style="margin-left:5px;">Avg. Duration: '+tmpAverageDuration+' based on '+SPLU.GameStats[keyGame]["TotalDurations"]+' plays.</span>';
+      }
+      tmpHTML+='<div style="display:table; border-spacing:5px 2px; text-align:right; padding-bottom:10px;">'
         +'<div style="display:table-row;">'
           +'<div style="display:table-cell;font-weight:bold;">Player</div>'
           +'<div style="display:table-cell;font-weight:bold;">Plays</div>'
