@@ -2498,8 +2498,12 @@
           "TotalPlays":0,
           "TotalWins":0,
           "WinScoreSum":0,
+          "WinHighScore":-999999999,
+          "WinLowScore":999999999,
           "TotalDurations":0,
           "DurationSum":0,
+          "DurationHigh":-999999999,
+          "DurationLow":999999999,
           "Players":{},
           "Game":tmpPlay.getElementsByTagName("item")[0].getAttribute("name")
         };
@@ -2508,6 +2512,12 @@
       if(tmpDuration>0){
         SPLU.GameStats[tmpGame]["TotalDurations"]++;
         SPLU.GameStats[tmpGame]["DurationSum"]+=tmpDuration;
+        if(tmpDuration>SPLU.GameStats[tmpGame]["DurationHigh"]){
+          SPLU.GameStats[tmpGame]["DurationHigh"]=tmpDuration;
+        }
+        if(tmpDuration<SPLU.GameStats[tmpGame]["DurationLow"]){
+          SPLU.GameStats[tmpGame]["DurationLow"]=tmpDuration;
+        }
       }
       for(p=0;p<tmpPlayers.length;p++){
         var tmpName="Unknown";
@@ -2559,6 +2569,12 @@
           if(tmpScore>0){
             SPLU.GameStats[tmpGame]["TotalWins"]++;
             SPLU.GameStats[tmpGame]["WinScoreSum"]+=tmpScore;
+            if(tmpScore>SPLU.GameStats[tmpGame]["WinHighScore"]){
+              SPLU.GameStats[tmpGame]["WinHighScore"]=tmpScore;
+            }
+            if(tmpScore<SPLU.GameStats[tmpGame]["WinLowScore"]){
+              SPLU.GameStats[tmpGame]["WinLowScore"]=tmpScore;
+            }
           }
         }
       }
@@ -2567,17 +2583,42 @@
     tmpHTML="";
     for(keyGame in SPLU.GameStats){
       tmpAverageWinScore=0;
+      tmpAverageDuration=0;
       tmpHTML+='<span style="font-style:italic;color:rgb(213, 85, 198);font-weight:bold;">'+SPLU.GameStats[keyGame].Game+'</span>';
       if(SPLU.GameStats[keyGame]["WinScoreSum"]!=0){
         tmpAverageWinScore=SPLU.GameStats[keyGame]["WinScoreSum"]/SPLU.GameStats[keyGame]["TotalWins"];
         tmpAverageWinScore=tmpAverageWinScore.toFixed(2);
-        tmpHTML+='<br/><span style="margin-left:5px;">Avg. Winning Points: '+tmpAverageWinScore+' based on '+SPLU.GameStats[keyGame]["TotalWins"]+' plays.</span>';
       }
-      tmpAverageDuration=0;
       if(SPLU.GameStats[keyGame]["DurationSum"]>0){
         tmpAverageDuration=SPLU.GameStats[keyGame]["DurationSum"]/SPLU.GameStats[keyGame]["TotalDurations"];
         tmpAverageDuration=tmpAverageDuration.toFixed(2);
-        tmpHTML+='<br/><span style="margin-left:5px;">Avg. Duration: '+tmpAverageDuration+' based on '+SPLU.GameStats[keyGame]["TotalDurations"]+' plays.</span>';
+      }
+      if(tmpAverageWinScore>0 || tmpAverageDuration>0){
+      tmpHTML+='<div style="display:table; border-spacing:5px 2px; text-align:right; padding-bottom:10px;">'
+        +'<div style="display:table-row;">'
+          +'<div style="display:table-cell;font-weight:bold;">Stat</div>'
+          +'<div style="display:table-cell;font-weight:bold;">Avg</div>'
+          +'<div style="display:table-cell;font-weight:bold;">Low</div>'
+          +'<div style="display:table-cell;font-weight:bold;">High</div>'
+          +'<div style="display:table-cell;font-weight:bold;">Plays</div>'
+        +'</div>';
+        if(tmpAverageWinScore>0){
+          tmpHTML+='<div style="display:table-row;">';
+          tmpHTML+='<div style="display:table-cell;">Winning Score</div>';
+          tmpHTML+='<div style="display:table-cell;">'+tmpAverageWinScore+'</div>';
+          tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["WinLowScore"]+'</div>';
+          tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["WinHighScore"]+'</div>';
+          tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["TotalWins"]+'</div></div>';
+        }
+        if(tmpAverageDuration>0){
+          tmpHTML+='<div style="display:table-row;">';
+          tmpHTML+='<div style="display:table-cell;">Duration</div>';
+          tmpHTML+='<div style="display:table-cell;">'+tmpAverageDuration+'</div>';
+          tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["DurationLow"]+'</div>';
+          tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["DurationHigh"]+'</div>';
+          tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["TotalDurations"]+'</div></div>';
+        }
+        tmpHTML+='</div>';
       }
       tmpHTML+='<div style="display:table; border-spacing:5px 2px; text-align:right; padding-bottom:10px;">'
         +'<div style="display:table-row;">'
