@@ -2944,21 +2944,20 @@ else{
         if(document.getElementById('quickplay_duration99').value==1){
           sentence+=" minute.";
         }else{
-		if(document.getElementById('quickplay_duration99').value<5){
-          sentence+=" whole";
-          }
 		sentence+=" minutes.";
-        }
       }  
       if(document.getElementById('quickplay_quantity99').value>1){
         sentence+=" Each game lasted ";
         sentence+=document.getElementById('quickplay_duration99').value;
         sentence+=" minutes.";
-      }
-if(PlayerCount==1&&NumOfPlayers!=1){
+         }
+    }
+
+    }
+
+      if(PlayerCount==1&&NumOfPlayers!=1){
       sentence+=" Nicely done!";
-    }
-    }
+}
     document.getElementById('SPLU.SummaryTextField').innerHTML=sentence;
   }  
   function hideSentence(){
