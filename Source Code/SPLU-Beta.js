@@ -2861,16 +2861,11 @@ function getStatsLocations(tmpUser){
     var SPLUselectedDate=new Date(document.getElementById('playdate99').value);
     var sentence="";
     sentence="You are logging ";
-    if(document.getElementById('quickplay_quantity99').value==1){
-      sentence+="a " 
-    if (&& PlayerCount==1&&NumOfPlayers!=1){
-      sentence+="solo";  
+    if(document.getElementById('quickplay_quantity99').value==1 && ){
+      sentence+="a play of ";  
     }else{
       sentence+=document.getElementById('quickplay_quantity99').value;  
-      if (PlayerCount==1&&NumOfPlayers!=1){
-      sentence+="solo";
-      }
-    sentence+=" plays of ";
+      sentence+=" plays of ";
     }
     sentence+=document.getElementById('q546e9ffd96dfc').value;
     sentence+=", which you played";
@@ -2898,9 +2893,6 @@ function getStatsLocations(tmpUser){
       sentence+=".";
     }else{
       sentence+=".";
-    }
-    if(PlayerCount==1&&NumOfPlayers!=1){
-      sentence+=" There was only one player.";
     }
     if(PlayerCount>1){
       sentence+=" There were ";
