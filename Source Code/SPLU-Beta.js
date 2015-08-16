@@ -2853,7 +2853,7 @@ function getStatsLocations(tmpUser){
     }
   }
   
-    function makeSentence(){
+  function makeSentence(){
     if(!SPLU.Settings.SummaryTextField.Visible){return;}
     document.getElementById('SPLU.SummaryTextField').style.maxWidth=document.getElementById('SPLUwindow').clientWidth-40+"px";
     document.getElementById('SPLU.SummaryTextField').style.display="block";
@@ -2862,19 +2862,9 @@ function getStatsLocations(tmpUser){
     var sentence="";
     sentence="You are logging ";
     if(document.getElementById('quickplay_quantity99').value==1){
-      sentence+="a ";
-	if(PlayerCount==1&&NumOfPlayers!=1){
-	  sentence+="solo ";
-    }
-    if(document.getElementById('quickplay_quantity99').value==1){
-     sentence+="play of ";  
-      }
-	}
-else{
-      sentence+=document.getElementById('quickplay_quantity99').value;
-	if(PlayerCount==1&&NumOfPlayers!=1){
-	  sentence+=" solo ";
-    }
+      sentence+="a play of ";  
+    }else{
+      sentence+=document.getElementById('quickplay_quantity99').value;  
       sentence+=" plays of ";
     }
     sentence+=document.getElementById('q546e9ffd96dfc').value;
@@ -2904,7 +2894,9 @@ else{
     }else{
       sentence+=".";
     }
-    
+    if(PlayerCount==1&&NumOfPlayers!=1){
+      sentence+=" There was only one player.";
+    }
     if(PlayerCount>1){
       sentence+=" There were ";
       sentence+=PlayerCount;
@@ -2937,17 +2929,13 @@ else{
       if(document.getElementById('quickplay_quantity99').value==1){
         sentence+=" The game lasted ";
         sentence+=document.getElementById('quickplay_duration99').value;
-
         if(document.getElementById('quickplay_duration99').value<5){
           sentence+=" whole";
         }
         if(document.getElementById('quickplay_duration99').value==1){
           sentence+=" minute.";
         }else{
-		if(document.getElementById('quickplay_duration99').value<5){
-          sentence+=" whole";
-          }
-		sentence+=" minutes.";
+          sentence+=" minutes.";
         }
       }  
       if(document.getElementById('quickplay_quantity99').value>1){
@@ -2955,11 +2943,9 @@ else{
         sentence+=document.getElementById('quickplay_duration99').value;
         sentence+=" minutes.";
       }
-if(PlayerCount==1&&NumOfPlayers!=1){
-      sentence+=" Nicely done!";
-    }
     }
     document.getElementById('SPLU.SummaryTextField').innerHTML=sentence;
+  }
   
   function hideSentence(){
     document.getElementById('SPLU.SummaryTextField').style.display="none";
