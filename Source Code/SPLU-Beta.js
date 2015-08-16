@@ -11,6 +11,7 @@
     var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
+    initSPLU();
     
   function initSPLU(){
     var SPLUversion="5.3.3";
@@ -3608,4 +3609,4 @@ else{
     document.getElementById('BRlogPlays').style.display="none";
   }
   
-initSPLU();
+
