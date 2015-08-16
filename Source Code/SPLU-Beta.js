@@ -21,7 +21,7 @@
     var PlayerList=true;
     
     var tmp=new Date();
-    var SPLUtoday=tmp.getFullYear()+"-"+(tmp.getMonth()+1)+"-"+tmp.getDate();
+    var SPLUtoday=tmp.toISOString().slice(0,10);
     var SPLUgameID=0;
     var SPLUgameTitle="";
     var SPLUprevGameID=-1;
