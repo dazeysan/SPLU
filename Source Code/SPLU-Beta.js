@@ -66,6 +66,7 @@
 
   function initSPLU(){
     NumOfPlayers=0;
+    PlayerCount=0;
     tmpDiv=document.createElement('div');
     tmpDiv.id="SPLU.popText";
     tmpDiv.style.visibility="hidden";
@@ -923,8 +924,6 @@
     observer.observe(document.getElementById('selimage0'),{childList: true});
 
     fetchSaveData();
-    
-    
   }
   
   function fixedEncodeURIComponent(str) {
