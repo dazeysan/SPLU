@@ -12,9 +12,7 @@
     //Check if the user is logged in to BGG, throw an error if not
     if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
     var SPLUversion="5.3.3";
-    initSPLU();
 
-  function initSPLU(){
     var SPLU={};
     var SPLUplayId="";
 
@@ -66,6 +64,8 @@
       SPLUfamilyLoaded=false;
     });
 
+  function initSPLU(){
+    NumOfPlayers=0;
     tmpDiv=document.createElement('div');
     tmpDiv.id="SPLU.popText";
     tmpDiv.style.visibility="hidden";
@@ -3608,4 +3608,5 @@ else{
     document.getElementById('BRlogPlays').style.display="none";
   }
   
+  initSPLU();
 
