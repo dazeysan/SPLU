@@ -2862,15 +2862,10 @@ function getStatsLocations(tmpUser){
     var sentence="";
     sentence="You are logging ";
     if(document.getElementById('quickplay_quantity99').value==1){
-      sentence+="a " 
-    if (&& PlayerCount==1&&NumOfPlayers!=1){
-      sentence+="solo";  
+      sentence+="a play of ";  
     }else{
       sentence+=document.getElementById('quickplay_quantity99').value;  
-      if (PlayerCount==1&&NumOfPlayers!=1){
-      sentence+="solo";
-      }
-    sentence+=" plays of ";
+      sentence+=" plays of ";
     }
     sentence+=document.getElementById('q546e9ffd96dfc').value;
     sentence+=", which you played";
