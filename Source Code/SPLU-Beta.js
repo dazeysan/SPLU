@@ -11,7 +11,7 @@
     var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.3.3";
+    var SPLUversion="5.3.4";
 
     var SPLU={};
     var SPLUplayId="";
@@ -171,13 +171,13 @@
             +'<span style="font-size:xx-small;">Incomplete: </span>'
             +'<input type="checkbox" id="incomplete" name="incomplete" value="1" tabindex="45" />'
           +'</div>'
-          +'<div id="SPLU.NoWinStatsField" style="width:80px;">'
+          +'<div id="SPLU.NoWinStatsField" style="margin-bottom:5px;width:80px;">'
             +'<span style="font-size:xx-small;">No Win Stats: </span>'
             +'<input type="checkbox" id="nowinstats" name="nowinstats" value="1" tabindex="47" />'
           +'</div>'
           +'<div id="SPLU.TwitterField" style="width:80px;">'
             +'<span style="font-size:xx-small;">Tweet This: </span>'
-            +'<input type="checkbox" id="twitter" name="twitter" value="1" tabindex="47" />'
+            +'<input type="checkbox" id="twitter" name="twitter" value="1" tabindex="49" />'
           +'</div>'
         +'</div>'
         +'<div class="BRcells">'
@@ -463,6 +463,15 @@
       +'</div>'
       +'</div>'
       +'<div style="display:table-row;" class="SPLUsettingAltRows">'
+      +'<div style="display:table-cell; text-align:right;">Post to Twitter</div>'
+      +'<div style="display:table-cell; text-align:center;">'
+      +'<input type="checkbox" id="SPLU.TwitterFieldCheck" onclick="javascript:{showHide(\'TwitterField\');}"></input>'
+      +'</div>'
+      +'<div style="display:table-cell; text-align:center;">'
+      +'<input type="checkbox" id="SPLU.TwitterFieldReset" onclick="javascript:{SPLU.Settings.TwitterField.Reset=document.getElementById(\'SPLU.TwitterFieldReset\').checked;}"></input>'
+      +'</div>'
+      +'</div>'
+      +'<div style="display:table-row;" class="SPLUsettingAltRows">'
       +'<div style="display:table-cell; text-align:right;">Comments</div>'
       +'<div style="display:table-cell; text-align:center;">'
       +'<input type="checkbox" id="SPLU.CommentsFieldCheck" onclick="javascript:{showHide(\'CommentsField\');}"></input>'
@@ -630,6 +639,13 @@
       +'<div style="display:table-cell; text-align:right;">List Expansions in Comments</div>'
       +'<div style="display:table-cell; text-align:center;">'
       +'<input type="checkbox" id="SPLU.ExpansionCommentsCheck" onclick="javascript:{if(document.getElementById(\'SPLU.ExpansionCommentsCheck\').checked){SPLU.Settings.ExpansionComments.Visible=true;}else{SPLU.Settings.ExpansionComments.Visible=false;}}"></input>'
+      +'</div>'
+      +'<div style="display:table-cell; text-align:center;"></div>'
+      +'</div>'
+      +'<div style="display:table-row;">'
+      +'<div style="display:table-cell; text-align:right;">Tweeting on by default</div>'
+      +'<div style="display:table-cell; text-align:center;">'
+      +'<input type="checkbox" id="SPLU.TwitterEnabledCheck" onclick="javascript:{if(document.getElementById(\'SPLU.TwitterEnabledCheck\').checked){SPLU.Settings.Twitter.Enabled=true;}else{SPLU.Settings.Twitter.Enabled=false;}}"></input>'
       +'</div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
@@ -975,6 +991,10 @@
             if(key=="ExpansionDetails"){
               document.getElementById("SPLU.ExpansionDetailsCheck").checked=SPLU.Settings.ExpansionDetails.Include;
             }
+            if(key=="Twitter"){
+              document.getElementById("SPLU.TwitterEnabledCheck").checked=SPLU.Settings.ExpansionDetails.Include;
+              document.getElementById("twitter").checked=SPLU.Settings.ExpansionDetails.Include;
+            }
           }
         }catch(err){
           console.log(err)
@@ -1042,7 +1062,8 @@
       "SortPlayers":{"Order":"none"},
       "SortGroups":{"Order":"none"},
       "PlayerFilters":{"Visible":false},
-      "PlayerGroups":{"Visible":false}
+      "PlayerGroups":{"Visible":false},
+      "Twitter":{"Enabled":false,"Visible":false,"Reset":true}
     }
   }
   
