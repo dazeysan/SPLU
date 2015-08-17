@@ -465,7 +465,7 @@
       +'</div>'
       +'</div>'
       +'<div style="display:table-row;" class="SPLUsettingAltRows">'
-      +'<div style="display:table-cell; text-align:right;">Post to Twitter</div>'
+      +'<div style="display:table-cell; text-align:right;">Tweet This</div>'
       +'<div style="display:table-cell; text-align:center;">'
       +'<input type="checkbox" id="SPLU.TwitterFieldCheck" onclick="javascript:{showHide(\'TwitterField\');}"></input>'
       +'</div>'
@@ -993,10 +993,10 @@
             if(key=="ExpansionDetails"){
               document.getElementById("SPLU.ExpansionDetailsCheck").checked=SPLU.Settings.ExpansionDetails.Include;
             }
-            if(key=="TwitterField"){
-              document.getElementById("SPLU.TwitterEnabledCheck").checked=SPLU.Settings.TwitterField.Include;
-              document.getElementById("twitter").checked=SPLU.Settings.TwitterField.Include;
-            }
+          }
+          if(key=="TwitterField"){
+            document.getElementById("SPLU.TwitterEnabledCheck").checked=SPLU.Settings.TwitterField.Enabled;
+            document.getElementById("twitter").checked=SPLU.Settings.TwitterField.Enabled;
           }
         }catch(err){
           console.log(err)
@@ -1921,6 +1921,7 @@
       if(SPLU.Settings.IncompleteField.Reset){document.getElementById('incomplete').checked=false;}
       if(SPLU.Settings.NoWinStatsField.Reset){document.getElementById('nowinstats').checked=false;}
       if(SPLU.Settings.CommentsField.Reset){document.getElementById('quickplay_comments99').value="";}
+      if(SPLU.Settings.TwitterField.Reset){document.getElementById("twitter").checked=SPLU.Settings.TwitterField.Enabled;}
     }
     if(action=="none"||action=="delete"){
       clearForm();
@@ -1949,6 +1950,7 @@
     showHideEditButtons("hide");
     if(SPLU.Settings.DateField.Reset){setDateField(SPLUtoday);}
     if(SPLU.Settings.GameField.Reset){VoidInstantSearch({itemid:'0',uniqueid:'546e9ffd96dfc'});}
+    document.getElementById("twitter").checked=SPLU.Settings.TwitterField.Enabled;
     //Don't do this or it clears the submit details.
     //VoidInstantSearch({itemid:'0',uniqueid:'546e9ffd96dfc'});
   }
