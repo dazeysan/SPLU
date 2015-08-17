@@ -21,8 +21,9 @@
     var LocationList=true;
     var PlayerList=true;
     
-    var tmp=new Date();
-    var SPLUtoday=tmp.toISOString().slice(0,10);
+    tmp=new Date();
+    var SPLUtodayDate=new Date(tmp.setMinutes(tmp.getMinutes()-tmp.getTimezoneOffset()));
+    var SPLUtoday=SPLUtodayDate.toISOString().slice(0,10);
     var SPLUgameID=0;
     var SPLUgameTitle="";
     var SPLUprevGameID=-1;
@@ -100,15 +101,15 @@
     BRlogForm.name='myform';
     BRlogDiv.appendChild(BRlogForm);
     
-    var SPLUtempDate=new Date();
-    var todayText=SPLUtempDate.toDateString().slice(0,3);
-    var todayDate=SPLUtempDate.getFullYear()+"-"+(SPLUtempDate.getMonth()+1)+"-"+(SPLUtempDate.toDateString().slice(8,10));
+    SPLUtempDate=SPLUtodayDate;
+    todayText=SPLUtempDate.toDateString().slice(0,3);
+    todayDate=SPLUtempDate.toISOString().slice(0,10);
     SPLUtempDate.setTime(SPLUtempDate.getTime()-86400000);
     yesterdayText=SPLUtempDate.toDateString().slice(0,3);
-    yesterdayDate=SPLUtempDate.getFullYear()+"-"+(SPLUtempDate.getMonth()+1)+"-"+(SPLUtempDate.toDateString().slice(8,10));
+    yesterdayDate=SPLUtempDate.toISOString().slice(0,10);
     SPLUtempDate.setTime(SPLUtempDate.getTime()-86400000);
     daybeforeText=SPLUtempDate.toDateString().slice(0,3);
-    daybeforeDate=SPLUtempDate.getFullYear()+"-"+(SPLUtempDate.getMonth()+1)+"-"+(SPLUtempDate.toDateString().slice(8,10));
+    daybeforeDate=SPLUtempDate.toISOString().slice(0,10);
     
     var tmpDiv=document.createElement('div');
     var tmpHTML='<div style="float:right;margin-left:-20px; margin-right:-15px; margin-top:-13px;">'
@@ -1023,8 +1024,8 @@
     loadGroups();
     SPLUcalendar = new YAHOO.widget.Calendar('SPLU.Calendar');
     var tmp=new Date();
-	var tmp2=new Date();
-	tmp2.setMinutes(tmp.getMinutes()-tmp.getTimezoneOffset())
+    var tmp2=new Date();
+    tmp2.setMinutes(tmp.getMinutes()-tmp.getTimezoneOffset())
     SPLUcalendar.cfg.setProperty("maxdate",tmp2);
     SPLUcalendar.selectEvent.subscribe(function(){tmp3=new Date();selectedDate=new Date(SPLUcalendar.getSelectedDates()[0].setMinutes(SPLUcalendar.getSelectedDates()[0].getMinutes()-tmp3.getTimezoneOffset()));setDateField(selectedDate.toISOString().slice(0,selectedDate.toISOString().indexOf("T")));showHideCalendar();});
     document.getElementById('q546e9ffd96dfc').value=getGameTitle();
@@ -2883,7 +2884,6 @@ function getStatsLocations(tmpUser){
     if(!SPLU.Settings.SummaryTextField.Visible){return;}
     document.getElementById('SPLU.SummaryTextField').style.maxWidth=document.getElementById('SPLUwindow').clientWidth-40+"px";
     document.getElementById('SPLU.SummaryTextField').style.display="block";
-    var SPLUtodayDate=new Date(SPLUtoday);
     var SPLUselectedDate=new Date(document.getElementById('playdate99').value);
     var sentence="";
     sentence="You are logging ";
