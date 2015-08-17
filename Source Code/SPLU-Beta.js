@@ -645,7 +645,7 @@
       +'<div style="display:table-row;">'
       +'<div style="display:table-cell; text-align:right;">Tweeting on by default</div>'
       +'<div style="display:table-cell; text-align:center;">'
-      +'<input type="checkbox" id="SPLU.TwitterEnabledCheck" onclick="javascript:{if(document.getElementById(\'SPLU.TwitterEnabledCheck\').checked){SPLU.Settings.Twitter.Enabled=true;}else{SPLU.Settings.Twitter.Enabled=false;}}"></input>'
+      +'<input type="checkbox" id="SPLU.TwitterEnabledCheck" onclick="javascript:{if(document.getElementById(\'SPLU.TwitterEnabledCheck\').checked){SPLU.Settings.TwitterField.Enabled=true;document.getElementById(\'twitter\').checked=true;}else{SPLU.Settings.TwitterField.Enabled=false;document.getElementById(\'twitter\').checked=false;}}"></input>'
       +'</div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
