@@ -2878,7 +2878,7 @@ function getStatsLocations(tmpUser){
       document.getElementById("SPLU.PlaysPlayers").style.display="";
     }
   }
-
+  
   function makeSentence(){
     if(!SPLU.Settings.SummaryTextField.Visible){return;}
     document.getElementById('SPLU.SummaryTextField').style.maxWidth=document.getElementById('SPLUwindow').clientWidth-40+"px";
@@ -2917,12 +2917,9 @@ else{
           if((SPLUtodayDate.getTime()-SPLUselectedDate.getTime())>3155673600000){
             sentence+=" <span style='background-color:yellow; color:black; font-weight:bold;'>BEFORE YOU WERE BORN</span>";
           }else{
-			if((SPLUtodayDate.getTime()-SPLUselectedDate.getTime())>315567360000){
-            sentence+=" <span style='background-color:yellow; color:black; font-weight:bold;'>OVER A DECADE AGO</span>";
-			}else{
             sentence+=" on ";
             sentence+=document.getElementById('playdate99').value;
-          }}
+          }
         }
       }
     }
@@ -2988,9 +2985,6 @@ else{
       sentence+=" Nicely done!";
 }
     document.getElementById('SPLU.SummaryTextField').innerHTML=sentence;
-  }  
-  
-
   }  
   function hideSentence(){
     document.getElementById('SPLU.SummaryTextField').style.display="none";
