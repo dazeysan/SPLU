@@ -179,7 +179,7 @@
           +'</div>'
           +'<div id="SPLU.TwitterField" style="width:80px;">'
             +'<span style="font-size:xx-small;">Tweet This: </span>'
-            +'<input type="checkbox" id="twitter" name="twitter" value="1" tabindex="49" />'
+            +'<input type="checkbox" id="twitter" name="twitter" value="1" tabindex="49" onClick="javascript:{setTwitterIcons();}"/>'
           +'</div>'
         +'</div>'
         +'<div class="BRcells">'
@@ -1894,6 +1894,7 @@
     if(action=="edit"){
       tmpID="&playid="+tmpPlay.id;
       SPLUedit.submit=true;
+      querystring=querystring.replace("twitter=1","twitter=0");
     }
     if(SPLUhistoryOpened>0){
       SPLUedit.submit=true;
