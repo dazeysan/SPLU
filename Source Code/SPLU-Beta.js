@@ -24,6 +24,7 @@
     tmp=new Date();
     var SPLUtodayDate=new Date(tmp.setMinutes(tmp.getMinutes()-tmp.getTimezoneOffset()));
     var SPLUtoday=SPLUtodayDate.toISOString().slice(0,10);
+    var SPLUtodayDateZero=new Date(SPLUtoday);
     var SPLUgameID=0;
     var SPLUgameTitle="";
     var SPLUprevGameID=-1;
@@ -2889,18 +2890,17 @@ function getStatsLocations(tmpUser){
     sentence="You are logging ";
     if(document.getElementById('quickplay_quantity99').value==1){
       sentence+="a ";
-	if(PlayerCount==1&&NumOfPlayers!=1){
-	  sentence+="solo ";
-    }
-    if(document.getElementById('quickplay_quantity99').value==1){
-     sentence+="play of ";  
+      if(PlayerCount==1&&NumOfPlayers!=1){
+        sentence+="solo ";
       }
-	}
-else{
+      if(document.getElementById('quickplay_quantity99').value==1){
+        sentence+="play of ";  
+      }
+    }else{
       sentence+=document.getElementById('quickplay_quantity99').value;
-	if(PlayerCount==1&&NumOfPlayers!=1){
-	  sentence+=" solo ";
-    }
+      if(PlayerCount==1&&NumOfPlayers!=1){
+        sentence+=" solo ";
+      }
       sentence+=" plays of ";
     }
     sentence+=document.getElementById('q546e9ffd96dfc').value;
@@ -2908,25 +2908,26 @@ else{
     if(document.getElementById('playdateinput99').value==SPLUtoday){
       sentence+=" today";
     }else{
-      if((SPLUtodayDate.getTime()-86400000)==SPLUselectedDate.getTime()){
+      if((SPLUtodayDateZero.getTime()-86400000)==SPLUselectedDate.getTime()){
         sentence+=" yesterday";
       }else{
-        if(SPLUtodayDate.getTime()<SPLUselectedDate.getTime()){
+        if(SPLUtodayDateZero.getTime()<SPLUselectedDate.getTime()){
           sentence+=" <span style='background-color:red; color:white; font-weight:bold;'>IN THE FUTURE</span>";
         }else{
-          if((SPLUtodayDate.getTime()-SPLUselectedDate.getTime())>3155673600000){
+          if((SPLUtodayDateZero.getTime()-SPLUselectedDate.getTime())>3155673600000){
             sentence+=" <span style='background-color:yellow; color:black; font-weight:bold;'>BEFORE YOU WERE BORN</span>";
           }else{
-			if((SPLUtodayDate.getTime()-SPLUselectedDate.getTime())>315567360000){
-            sentence+=" <span style='background-color:yellow; color:black; font-weight:bold;'>OVER A DECADE AGO</span>";
-			}else{
-			if((SPLUtodayDate.getTime()-SPLUselectedDate.getTime())>31556735999){
-            sentence+=" <span style='background-color:yellow; color:black; font-weight:bold;'>OVER A YEAR AGO</span>";
-
-			}else{
-            sentence+=" on ";
-            sentence+=document.getElementById('playdate99').value;
-          }}}
+            if((SPLUtodayDateZero.getTime()-SPLUselectedDate.getTime())>315567360000){
+              sentence+=" <span style='background-color:yellow; color:black; font-weight:bold;'>OVER A DECADE AGO</span>";
+            }else{
+              if((SPLUtodayDateZero.getTime()-SPLUselectedDate.getTime())>31556735999){
+                sentence+=" <span style='background-color:yellow; color:black; font-weight:bold;'>OVER A YEAR AGO</span>";
+              }else{
+                sentence+=" on ";
+                sentence+=document.getElementById('playdate99').value;
+              }
+            }
+          }
         }
       }
     }
@@ -2937,13 +2938,11 @@ else{
     }else{
       sentence+=".";
     }
-    
     if(PlayerCount>1){
       sentence+=" There were ";
       sentence+=PlayerCount;
       sentence+=" players";
     }
-    
     getWinners();
     if(SPLUwinners.length==0&&PlayerCount>1){
       sentence+=".";
@@ -2977,23 +2976,21 @@ else{
         if(document.getElementById('quickplay_duration99').value==1){
           sentence+=" minute.";
         }else{
-		sentence+=" minutes.";
-      }  
-      if(document.getElementById('quickplay_quantity99').value>1){
-        sentence+=" Each game lasted ";
-        sentence+=document.getElementById('quickplay_duration99').value;
-        sentence+=" minutes.";
-         }
+          sentence+=" minutes.";
+        }  
+        if(document.getElementById('quickplay_quantity99').value>1){
+          sentence+=" Each game lasted ";
+          sentence+=document.getElementById('quickplay_duration99').value;
+          sentence+=" minutes.";
+        }
+      }
     }
-
-    }
-
-      if(PlayerCount==1&&NumOfPlayers!=1){
+    if(PlayerCount==1&&NumOfPlayers!=1){
       sentence+=" Nicely done!";
-}
-
+    }
     document.getElementById('SPLU.SummaryTextField').innerHTML=sentence;
-  }  
+  }
+  
   function hideSentence(){
     document.getElementById('SPLU.SummaryTextField').style.display="none";
   }
