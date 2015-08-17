@@ -992,8 +992,8 @@
               document.getElementById("SPLU.ExpansionDetailsCheck").checked=SPLU.Settings.ExpansionDetails.Include;
             }
             if(key=="TwitterField"){
-              document.getElementById("SPLU.TwitterEnabledCheck").checked=SPLU.Settings.ExpansionDetails.Include;
-              document.getElementById("twitter").checked=SPLU.Settings.ExpansionDetails.Include;
+              document.getElementById("SPLU.TwitterEnabledCheck").checked=SPLU.Settings.TwitterField.Include;
+              document.getElementById("twitter").checked=SPLU.Settings.TwitterField.Include;
             }
           }
         }catch(err){
