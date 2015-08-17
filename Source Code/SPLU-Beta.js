@@ -2917,9 +2917,16 @@ else{
           if((SPLUtodayDate.getTime()-SPLUselectedDate.getTime())>3155673600000){
             sentence+=" <span style='background-color:yellow; color:black; font-weight:bold;'>BEFORE YOU WERE BORN</span>";
           }else{
+			if((SPLUtodayDate.getTime()-SPLUselectedDate.getTime())>315567360000){
+            sentence+=" <span style='background-color:yellow; color:black; font-weight:bold;'>OVER A DECADE AGO</span>";
+			}else{
+			if((SPLUtodayDate.getTime()-SPLUselectedDate.getTime())>31556735999){
+            sentence+=" <span style='background-color:yellow; color:black; font-weight:bold;'>OVER A YEAR AGO</span>";
+
+			}else{
             sentence+=" on ";
             sentence+=document.getElementById('playdate99').value;
-          }
+          }}}
         }
       }
     }
@@ -2984,6 +2991,7 @@ else{
       if(PlayerCount==1&&NumOfPlayers!=1){
       sentence+=" Nicely done!";
 }
+
     document.getElementById('SPLU.SummaryTextField').innerHTML=sentence;
   }  
   function hideSentence(){
