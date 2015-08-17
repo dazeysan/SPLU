@@ -339,12 +339,12 @@
       +'<div style="display:table-row;">'
         +'<div class="BRcells">'
           +'<div>'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{saveGamePlay(\'none\');}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="SaveGamePlayBtn" onMouseOver="makeSentence();" onMouseOut="hideSentence();"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/submit.png" style="vertical-align: middle; margin-right:1px;">Submit</a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{saveGamePlay(\'none\');}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="SaveGamePlayBtn" onMouseOver="makeSentence();" onMouseOut="hideSentence();"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/submit.png" style="vertical-align: middle; margin-right:1px;">Submit<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/twitter-black.png" class="SPLUtwitterIcon" style="vertical-align: middle; margin-left:5px;display:none"></a>'
           +'</div>'
         +'</div>'
         +'<div class="BRcells">'
           +'<div>'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{saveGamePlay(\'dupe\');}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="SaveGamePlayBtnDupe" onMouseOver="makeSentence();" onMouseOut="hideSentence();"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/submit_duplicate.png" style="vertical-align: middle; margin-right:4px;">Submit & Duplicate</a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{saveGamePlay(\'dupe\');}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="SaveGamePlayBtnDupe" onMouseOver="makeSentence();" onMouseOut="hideSentence();"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/submit_duplicate.png" style="vertical-align: middle; margin-right:4px;">Submit & Duplicate<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/twitter-black.png" class="SPLUtwitterIcon" style="vertical-align: middle; margin-left:5px;display:none"></a>'
           +'</div>'
         +'</div>'
         +'<div class="BRcells" id="SPLUeditPlayDiv" style="display:none;">'
@@ -647,7 +647,7 @@
       +'<div style="display:table-row;">'
       +'<div style="display:table-cell; text-align:right;">Tweeting on by default</div>'
       +'<div style="display:table-cell; text-align:center;">'
-      +'<input type="checkbox" id="SPLU.TwitterEnabledCheck" onclick="javascript:{if(document.getElementById(\'SPLU.TwitterEnabledCheck\').checked){SPLU.Settings.TwitterField.Enabled=true;document.getElementById(\'twitter\').checked=true;}else{SPLU.Settings.TwitterField.Enabled=false;document.getElementById(\'twitter\').checked=false;}}"></input>'
+      +'<input type="checkbox" id="SPLU.TwitterEnabledCheck" onclick="javascript:{if(document.getElementById(\'SPLU.TwitterEnabledCheck\').checked){SPLU.Settings.TwitterField.Enabled=true;document.getElementById(\'twitter\').checked=true;}else{SPLU.Settings.TwitterField.Enabled=false;document.getElementById(\'twitter\').checked=false;};setTwitterIcons();}"></input>'
       +'</div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
@@ -997,6 +997,7 @@
           if(key=="TwitterField"){
             document.getElementById("SPLU.TwitterEnabledCheck").checked=SPLU.Settings.TwitterField.Enabled;
             document.getElementById("twitter").checked=SPLU.Settings.TwitterField.Enabled;
+            setTwitterIcons();
           }
         }catch(err){
           console.log(err)
@@ -1031,6 +1032,17 @@
     SPLUcalendar.selectEvent.subscribe(function(){tmp3=new Date();selectedDate=new Date(SPLUcalendar.getSelectedDates()[0].setMinutes(SPLUcalendar.getSelectedDates()[0].getMinutes()-tmp3.getTimezoneOffset()));setDateField(selectedDate.toISOString().slice(0,selectedDate.toISOString().indexOf("T")));showHideCalendar();});
     document.getElementById('q546e9ffd96dfc').value=getGameTitle();
     
+  }
+  
+  function setTwitterIcons(){
+    var tmpIcons=document.getElementsByClassName('SPLUtwitterIcon');
+    var tmpDisplay="none";
+    if(document.getElementById("twitter").checked){
+      tmpDisplay="";
+    }
+    for(i=0;i<tmpIcons.length;i++){
+      tmpIcons[i].style.display=tmpDisplay;
+    }
   }
   
   function resetSettings(){
@@ -1921,7 +1933,7 @@
       if(SPLU.Settings.IncompleteField.Reset){document.getElementById('incomplete').checked=false;}
       if(SPLU.Settings.NoWinStatsField.Reset){document.getElementById('nowinstats').checked=false;}
       if(SPLU.Settings.CommentsField.Reset){document.getElementById('quickplay_comments99').value="";}
-      if(SPLU.Settings.TwitterField.Reset){document.getElementById("twitter").checked=SPLU.Settings.TwitterField.Enabled;}
+      if(SPLU.Settings.TwitterField.Reset){document.getElementById("twitter").checked=SPLU.Settings.TwitterField.Enabled;setTwitterIcons();}
     }
     if(action=="none"||action=="delete"){
       clearForm();
@@ -1951,6 +1963,7 @@
     if(SPLU.Settings.DateField.Reset){setDateField(SPLUtoday);}
     if(SPLU.Settings.GameField.Reset){VoidInstantSearch({itemid:'0',uniqueid:'546e9ffd96dfc'});}
     document.getElementById("twitter").checked=SPLU.Settings.TwitterField.Enabled;
+    setTwitterIcons();
     //Don't do this or it clears the submit details.
     //VoidInstantSearch({itemid:'0',uniqueid:'546e9ffd96dfc'});
   }
