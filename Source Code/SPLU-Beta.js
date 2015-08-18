@@ -976,7 +976,7 @@
               document.getElementById('SPLU.LocationButtonIconCollapse').style.display="none";
             }
             if(key=="PlayerList"){
-              showHidePlayers(false,"reset");
+              hidePlayers();
             }
             if(key=="SortPlayers"&&SPLU.Settings[key].Order=="Alpha"){
               document.getElementById("SPLU.SortPlayersAlphaCheck").checked=true;
