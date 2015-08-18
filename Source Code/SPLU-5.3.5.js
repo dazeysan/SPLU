@@ -1,4 +1,4 @@
-// SPLU 5.3.6 Beta
+// SPLU 5.3.5 Beta
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -11,7 +11,7 @@
     var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.3.6";
+    var SPLUversion="5.3.5";
 
     var SPLU={};
     var SPLUplayId="";
@@ -964,7 +964,7 @@
           if(SPLU.Settings[key].Visible){
             document.getElementById("SPLU."+key+"Check").checked=true;
           }else{
-            if(key!="PopUpText" && key!="LocationList" && key!="WinComments" && key!="ExpansionComments" && key!="PlayerList" && key!="ExpansionQuantity" && key!="ExpansionDetails" && key!="SortPlayers" && key!="SortGroups" && key!="PlayerGroups" && key!="ExpansionWinStats"){
+            if(key!="PopUpText" && key!="LocationList" && key!="WinComments" && key!="ExpansionComments" && key!="PlayerList" && key!="ExpansionQuantity" && key!="ExpansionDetails" && key!="SortPlayers" && key!="SortGroups" && key!="PlayerGroups"){
               if(key.slice(-6)=="Column"){
                 document.getElementById('SPLU.'+key+'Header').style.display="none";
               }else{
@@ -1078,8 +1078,7 @@
       "SortGroups":{"Order":"none"},
       "PlayerFilters":{"Visible":false},
       "PlayerGroups":{"Visible":false},
-      "TwitterField":{"Enabled":false,"Visible":false,"Reset":true},
-      "ExpansionWinStats":{"Enabled":false}
+      "TwitterField":{"Enabled":false,"Visible":false,"Reset":true}
     }
   }
   
