@@ -1,4 +1,4 @@
-// SPLU 5.3.5 Beta
+// SPLU 5.3.1 Beta
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -7,11 +7,10 @@
     }
     //Check if SPLU is already open, throw an error if not
     if(document.getElementById('SPLUwindow')){throw new Error("SPLU Already Running");}
-
     var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.3.5";
+    var SPLUversion="5.3.1";
 
     var SPLU={};
     var SPLUplayId="";
@@ -21,10 +20,8 @@
     var LocationList=true;
     var PlayerList=true;
     
-    tmp=new Date();
-    var SPLUtodayDate=new Date(tmp.setMinutes(tmp.getMinutes()-tmp.getTimezoneOffset()));
-    var SPLUtoday=SPLUtodayDate.toISOString().slice(0,10);
-    var SPLUtodayDateZero=new Date(SPLUtoday);
+    var tmp=new Date();
+    var SPLUtoday=tmp.getFullYear()+"-"+(tmp.getMonth()+1)+"-"+tmp.getDate();
     var SPLUgameID=0;
     var SPLUgameTitle="";
     var SPLUprevGameID=-1;
@@ -48,7 +45,6 @@
     var SPLUplaysFiltersCount=0;
     var SPLUedit={};
     var SPLUlistOfPlays=[];
-    var SPLUhistoryOpened=0;
 
     var observer=new MutationObserver(function(){
       if(document.getElementById('selimage0').innerHTML.slice(0,4)=="<div"){
@@ -64,12 +60,12 @@
       document.getElementById('SPLU.FamilyHeading').style.borderTop="";
       SPLUexpansionsLoaded=false;
       SPLUfamilyLoaded=false;
+      if(SPLU.Settings.ExpansionComments.Visible){
+        expansionListComment();
+      }
     });
 
   function initSPLU(){
-    NumOfPlayers=0;
-    PlayerCount=0;
-    SPLUhistoryOpened=0;
     tmpDiv=document.createElement('div');
     tmpDiv.id="SPLU.popText";
     tmpDiv.style.visibility="hidden";
@@ -103,15 +99,15 @@
     BRlogForm.name='myform';
     BRlogDiv.appendChild(BRlogForm);
     
-    SPLUtempDate=SPLUtodayDate;
-    todayText=SPLUtempDate.toDateString().slice(0,3);
-    todayDate=SPLUtempDate.toISOString().slice(0,10);
+    var SPLUtempDate=new Date();
+    var todayText=SPLUtempDate.toDateString().slice(0,3);
+    var todayDate=SPLUtempDate.getFullYear()+"-"+(SPLUtempDate.getMonth()+1)+"-"+(SPLUtempDate.toDateString().slice(8,10));
     SPLUtempDate.setTime(SPLUtempDate.getTime()-86400000);
     yesterdayText=SPLUtempDate.toDateString().slice(0,3);
-    yesterdayDate=SPLUtempDate.toISOString().slice(0,10);
+    yesterdayDate=SPLUtempDate.getFullYear()+"-"+(SPLUtempDate.getMonth()+1)+"-"+(SPLUtempDate.toDateString().slice(8,10));
     SPLUtempDate.setTime(SPLUtempDate.getTime()-86400000);
     daybeforeText=SPLUtempDate.toDateString().slice(0,3);
-    daybeforeDate=SPLUtempDate.toISOString().slice(0,10);
+    daybeforeDate=SPLUtempDate.getFullYear()+"-"+(SPLUtempDate.getMonth()+1)+"-"+(SPLUtempDate.toDateString().slice(8,10));
     
     var tmpDiv=document.createElement('div');
     var tmpHTML='<div style="float:right;margin-left:-20px; margin-right:-15px; margin-top:-13px;">'
@@ -174,13 +170,9 @@
             +'<span style="font-size:xx-small;">Incomplete: </span>'
             +'<input type="checkbox" id="incomplete" name="incomplete" value="1" tabindex="45" />'
           +'</div>'
-          +'<div id="SPLU.NoWinStatsField" style="margin-bottom:5px;width:80px;">'
+          +'<div id="SPLU.NoWinStatsField" style="width:80px;">'
             +'<span style="font-size:xx-small;">No Win Stats: </span>'
             +'<input type="checkbox" id="nowinstats" name="nowinstats" value="1" tabindex="47" />'
-          +'</div>'
-          +'<div id="SPLU.TwitterField" style="width:80px;">'
-            +'<span style="font-size:xx-small;">Tweet This: </span>'
-            +'<input type="checkbox" id="twitter" name="twitter" value="1" tabindex="49" onClick="javascript:{setTwitterIcons();}"/>'
           +'</div>'
         +'</div>'
         +'<div class="BRcells">'
@@ -255,7 +247,7 @@
       +'<div style="display:table;">'
         +'<div style="display:table-row;">'
           +'<div class="BRcells">'
-            +'Players:<a href="javascript:{void(0);}" onClick="javascript:{showHidePlayers(false,\'reset\');}" id="SPLU.SavedNamesBtn" style="padding-left:1px;"><span id="SPLU.SavedNamesButtonIconCollapse" style="display:inline-block;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/arrow_up.png"></span><span id="SPLU.SavedNamesButtonIconExpand" style="display:none;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/arrow_down.png"></span></a>'
+            +'Players:<a href="javascript:{void(0);}" onClick="javascript:{showHidePlayers(false);}" id="SPLU.SavedNamesBtn" style="padding-left:1px;"><span id="SPLU.SavedNamesButtonIconCollapse" style="display:inline-block;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/arrow_up.png"></span><span id="SPLU.SavedNamesButtonIconExpand" style="display:none;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/arrow_down.png"></span></a>'
             +'<a href="javascript:{void(0);}" onClick="javascript:{showPlayersPane(\'button\');}" id="showPlayersPaneBtn" style="padding-right:5px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/players.png"></a>'
             +'<div style="display:inline;" id="SPLU.PlayerFilters">'
               +'<select id="SPLU.SelectFilter" onChange="javascript:{setFilter(\'choose\');}"></select>'
@@ -340,12 +332,12 @@
       +'<div style="display:table-row;">'
         +'<div class="BRcells">'
           +'<div>'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{saveGamePlay(\'none\');}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="SaveGamePlayBtn" onMouseOver="makeSentence();" onMouseOut="hideSentence();"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/submit.png" style="vertical-align: middle; margin-right:1px;">Submit<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/twitter-black.png" class="SPLUtwitterIcon" style="vertical-align: middle; margin-left:5px;display:none"></a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{saveGamePlay(\'none\');}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="SaveGamePlayBtn" onMouseOver="makeSentence();" onMouseOut="hideSentence();"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/submit.png" style="vertical-align: middle; margin-right:1px;">Submit</a>'
           +'</div>'
         +'</div>'
         +'<div class="BRcells">'
           +'<div>'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{saveGamePlay(\'dupe\');}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="SaveGamePlayBtnDupe" onMouseOver="makeSentence();" onMouseOut="hideSentence();"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/submit_duplicate.png" style="vertical-align: middle; margin-right:4px;">Submit & Duplicate<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/twitter-black.png" class="SPLUtwitterIcon" style="vertical-align: middle; margin-left:5px;display:none"></a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{saveGamePlay(\'dupe\');}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="SaveGamePlayBtnDupe" onMouseOver="makeSentence();" onMouseOut="hideSentence();"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/submit_duplicate.png" style="vertical-align: middle; margin-right:4px;">Submit & Duplicate</a>'
           +'</div>'
         +'</div>'
         +'<div class="BRcells" id="SPLUeditPlayDiv" style="display:none;">'
@@ -389,7 +381,7 @@
     BRlogSettings.setAttribute("style","display:none; background-color: #80FE86; padding: 13px;border:2px solid black;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:75px;");
     var tmpDiv=document.createElement('div');
     var tmpHTML='<div id="hideSettingsButton" style="position: absolute; right: 0px; top: 2px;">'
-      +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogMain\').style.minWidth=\'\';document.getElementById(\'BRlogSettings\').style.display=\'none\';}" style="border:2px solid black;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;">'
+      +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlog\').style.minWidth=\'\';document.getElementById(\'BRlogSettings\').style.display=\'none\';}" style="border:2px solid black;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;">'
       +'<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/close_pane.png">'
       +'</a>'
       +'</div>'
@@ -466,15 +458,6 @@
       +'</div>'
       +'</div>'
       +'<div style="display:table-row;" class="SPLUsettingAltRows">'
-      +'<div style="display:table-cell; text-align:right;">Tweet This</div>'
-      +'<div style="display:table-cell; text-align:center;">'
-      +'<input type="checkbox" id="SPLU.TwitterFieldCheck" onclick="javascript:{showHide(\'TwitterField\');}"></input>'
-      +'</div>'
-      +'<div style="display:table-cell; text-align:center;">'
-      +'<input type="checkbox" id="SPLU.TwitterFieldReset" onclick="javascript:{SPLU.Settings.TwitterField.Reset=document.getElementById(\'SPLU.TwitterFieldReset\').checked;}"></input>'
-      +'</div>'
-      +'</div>'
-      +'<div style="display:table-row;">'
       +'<div style="display:table-cell; text-align:right;">Comments</div>'
       +'<div style="display:table-cell; text-align:center;">'
       +'<input type="checkbox" id="SPLU.CommentsFieldCheck" onclick="javascript:{showHide(\'CommentsField\');}"></input>'
@@ -483,7 +466,7 @@
       +'<input type="checkbox" id="SPLU.CommentsFieldReset" onclick="javascript:{SPLU.Settings.CommentsField.Reset=document.getElementById(\'SPLU.CommentsFieldReset\').checked;}"></input>'
       +'</div>'
       +'</div>'
-      +'<div style="display:table-row;" class="SPLUsettingAltRows">'
+      +'<div style="display:table-row;">'
       +'<div style="display:table-cell; text-align:right;">Game</div>'
       +'<div style="display:table-cell; text-align:center;">'
       +'<input type="checkbox" id="SPLU.GameFieldCheck" onclick="javascript:{showHide(\'GameField\');}"></input>'
@@ -634,21 +617,7 @@
       +'<div style="display:table-row;">'
       +'<div style="display:table-cell; text-align:right;">Log Details with Expansions</div>'
       +'<div style="display:table-cell; text-align:center;">'
-      +'<input type="checkbox" id="SPLU.ExpansionDetailsCheck" onclick="javascript:{if(document.getElementById(\'SPLU.ExpansionDetailsCheck\').checked){SPLU.Settings.ExpansionDetails.Include=true;}else{SPLU.Settings.ExpansionDetails.Include=false;}}"></input>'
-      +'</div>'
-      +'<div style="display:table-cell; text-align:center;"></div>'
-      +'</div>'
-      +'<div style="display:table-row;" class="SPLUsettingAltRows">'
-      +'<div style="display:table-cell; text-align:right;">List Expansions in Comments</div>'
-      +'<div style="display:table-cell; text-align:center;">'
-      +'<input type="checkbox" id="SPLU.ExpansionCommentsCheck" onclick="javascript:{if(document.getElementById(\'SPLU.ExpansionCommentsCheck\').checked){SPLU.Settings.ExpansionComments.Visible=true;}else{SPLU.Settings.ExpansionComments.Visible=false;}}"></input>'
-      +'</div>'
-      +'<div style="display:table-cell; text-align:center;"></div>'
-      +'</div>'
-      +'<div style="display:table-row;">'
-      +'<div style="display:table-cell; text-align:right;">Tweeting on by default</div>'
-      +'<div style="display:table-cell; text-align:center;">'
-      +'<input type="checkbox" id="SPLU.TwitterEnabledCheck" onclick="javascript:{if(document.getElementById(\'SPLU.TwitterEnabledCheck\').checked){SPLU.Settings.TwitterField.Enabled=true;document.getElementById(\'twitter\').checked=true;}else{SPLU.Settings.TwitterField.Enabled=false;document.getElementById(\'twitter\').checked=false;};setTwitterIcons();}"></input>'
+      +'<input type="checkbox" id="SPLU.ExpansionDetailsCheck" onclick="javascript:{if(document.getElementById(\'SPLU.ExpansionDetailsCheck\').checked){SPLU.Settings.ExpansionDetails.Include=true;}else{SPLU.Settings.ExpansionDetails.Include=false;};}"></input>'
       +'</div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
@@ -870,7 +839,7 @@
         +'<div id="SPLU.PlaysFilters" style="border: 1px solid blue; border-radius: 5px; padding: 3px; display:none;">'
           +'<div id="SPLU.PlaysFiltersStatus" style="float:right;"></div>'
           +'<div>'
-            +'<select id="SPLU.SelectPlaysFilter" onChange="javascript:{addPlaysFilter(\'GUI\',\'\');}">'
+            +'<select id="SPLU.SelectPlaysFilter" onChange="javascript:{addPlaysFilter();}">'
               +'<option value="add">Add a Filter</option>'
               +'<option value="---" disabled>---</option>'
               +'<option value="playername">Player Name</option>'
@@ -894,10 +863,9 @@
         +'<div id="SPLU.PlaysList" style="overflow-y:auto; width:275px;"></div>'
         +'<div id="SPLU.StatsMenu" style="display:none;">'
           +'Stat: <select id="SPLU.SelectStat" onChange="javascript:{loadStats(\'choose\');}">'
-            +'<option value="PlaysWins" selected>Wins</option>'
+            +'<option value="GameScore" selected>Selected Game Scores</option>'
             +'<option value="BeginnersLuck">Beginner\'s Luck</option>'
-            +'<option value="GameDetails">Game Details</option>'
-            +'<option value="Locations">Locations</option>'
+            +'<option value="PlaysWins">Wins</option>'
           +'</select>'
         +'</div>'
         +'<div id="SPLU.StatsContent" style="display:none;overflow-y: auto; width: 315px;"></div>';
@@ -947,6 +915,8 @@
     observer.observe(document.getElementById('selimage0'),{childList: true});
 
     fetchSaveData();
+    
+    
   }
   
   function fixedEncodeURIComponent(str) {
@@ -977,13 +947,10 @@
               document.getElementById('SPLU.LocationButtonIconCollapse').style.display="none";
             }
             if(key=="PlayerList"){
-              hidePlayers();
+              showHidePlayers();
             }
             if(key=="SortPlayers"&&SPLU.Settings[key].Order=="Alpha"){
               document.getElementById("SPLU.SortPlayersAlphaCheck").checked=true;
-            }
-            if(key=="SortGroups"&&SPLU.Settings[key].Order=="Alpha"){
-              document.getElementById("SPLU.SortGroupsAlphaCheck").checked=true;
             }
             if(key=="PlayerFilters"){
               document.getElementById("SPLU.FiltersHeading").style.display="none";
@@ -994,11 +961,6 @@
             if(key=="ExpansionDetails"){
               document.getElementById("SPLU.ExpansionDetailsCheck").checked=SPLU.Settings.ExpansionDetails.Include;
             }
-          }
-          if(key=="TwitterField"){
-            document.getElementById("SPLU.TwitterEnabledCheck").checked=SPLU.Settings.TwitterField.Enabled;
-            document.getElementById("twitter").checked=SPLU.Settings.TwitterField.Enabled;
-            setTwitterIcons();
           }
         }catch(err){
           console.log(err)
@@ -1027,23 +989,10 @@
     loadGroups();
     SPLUcalendar = new YAHOO.widget.Calendar('SPLU.Calendar');
     var tmp=new Date();
-    var tmp2=new Date();
-    tmp2.setMinutes(tmp.getMinutes()-tmp.getTimezoneOffset())
-    SPLUcalendar.cfg.setProperty("maxdate",tmp2);
-    SPLUcalendar.selectEvent.subscribe(function(){tmp3=new Date();selectedDate=new Date(SPLUcalendar.getSelectedDates()[0].setMinutes(SPLUcalendar.getSelectedDates()[0].getMinutes()-tmp3.getTimezoneOffset()));setDateField(selectedDate.toISOString().slice(0,selectedDate.toISOString().indexOf("T")));showHideCalendar();});
+    SPLUcalendar.cfg.setProperty("maxdate",tmp);
+    SPLUcalendar.selectEvent.subscribe(function(){setDateField(SPLUcalendar.getSelectedDates()[0].toISOString().slice(0,SPLUcalendar.getSelectedDates()[0].toISOString().indexOf("T")));showHideCalendar();});
     document.getElementById('q546e9ffd96dfc').value=getGameTitle();
     
-  }
-  
-  function setTwitterIcons(){
-    var tmpIcons=document.getElementsByClassName('SPLUtwitterIcon');
-    var tmpDisplay="none";
-    if(document.getElementById("twitter").checked){
-      tmpDisplay="";
-    }
-    for(i=0;i<tmpIcons.length;i++){
-      tmpIcons[i].style.display=tmpDisplay;
-    }
   }
   
   function resetSettings(){
@@ -1073,12 +1022,10 @@
       "DomainButtons":{"Visible":false},
       "ExpansionQuantity":{"Value":".1"},
       "ExpansionDetails":{"Include":true},
-      "ExpansionComments":{"Visible":false},
       "SortPlayers":{"Order":"none"},
       "SortGroups":{"Order":"none"},
       "PlayerFilters":{"Visible":false},
-      "PlayerGroups":{"Visible":false},
-      "TwitterField":{"Enabled":false,"Visible":false,"Reset":true}
+      "PlayerGroups":{"Visible":false}
     }
   }
   
@@ -1342,7 +1289,7 @@
     }else{
       players=Object.keys(SPLU.Players);
     }
-    if(SPLUcurrentFilter!="All" && SPLUcurrentFilter!="Groups"){
+    if(SPLUcurrentFilter!="All"){
       var tmpPlayers=[];
       for(i=0;i<players.length;i++){
         if(SPLU.Filters[SPLUcurrentFilter].indexOf(players[i])!=-1){
@@ -1351,19 +1298,17 @@
       }
       players=tmpPlayers;
     }
-    if(SPLUcurrentFilter!="Groups"){
-      for(key=0;key<players.length;key++){
-        if (SPLU.Players.hasOwnProperty(players[key])) {
-          BRtmpName=decodeURIComponent(SPLU.Players[players[key]].Name);
-          if(SPLU.Players[players[key]].Name==""){
-            BRtmpName=decodeURIComponent(SPLU.Players[players[key]].Username);
-          }
-          BRplayersDiv.innerHTML+='<div style="padding: 5px 2px 0px 0px; float: left;"><a href="javascript:{void(0);}" onClick="javascript:{insertPlayer(\''+players[key]+'\');}" onMouseDown="javascript:{this.style.backgroundColor=\'#eff708\';}" onMouseUp="javascript:{this.style.backgroundColor=\'#A4DFF3\';}" style="border:1px dotted green;padding:0px 2px;">'+BRtmpName+'</a></div>';
+    for(key=0;key<players.length;key++){
+      if (SPLU.Players.hasOwnProperty(players[key])) {
+        BRtmpName=decodeURIComponent(SPLU.Players[players[key]].Name);
+        if(SPLU.Players[players[key]].Name==""){
+          BRtmpName=decodeURIComponent(SPLU.Players[players[key]].Username);
         }
+        BRplayersDiv.innerHTML+='<div style="padding: 5px 2px 0px 0px; float: left;"><a href="javascript:{void(0);}" onClick="javascript:{insertPlayer(\''+players[key]+'\');}" onMouseDown="javascript:{this.style.backgroundColor=\'#eff708\';}" onMouseUp="javascript:{this.style.backgroundColor=\'#A4DFF3\';}" style="border:1px dotted green;padding:0px 2px;">'+BRtmpName+'</a></div>';
       }
-      BRplayersDiv.innerHTML+='<div style="padding: 5px 2px 0px 0px; float: left;"><a href="javascript:{void(0);}" onClick="javascript:{insertPlayer(-1);}" onMouseDown="javascript:{this.style.backgroundColor=\'#eff708\';}" onMouseUp="javascript:{this.style.backgroundColor=\'#A4DFF3\';}" style="border:1px dotted;padding:0px 2px;">Other</a></div>';
     }
-    if(SPLU.Settings["PlayerGroups"].Visible){
+    BRplayersDiv.innerHTML+='<div style="padding: 5px 2px 0px 0px; float: left;"><a href="javascript:{void(0);}" onClick="javascript:{insertPlayer(-1);}" onMouseDown="javascript:{this.style.backgroundColor=\'#eff708\';}" onMouseUp="javascript:{this.style.backgroundColor=\'#A4DFF3\';}" style="border:1px dotted;padding:0px 2px;">Other</a></div>';
+    if(SPLUcurrentFilter=="All"&&SPLU.Settings["PlayerGroups"].Visible){
       var groups=[];
       if(SPLU.Settings.SortGroups.Order=="Alpha"){
         groups=Object.keys(SPLU.Groups).sort();
@@ -1372,9 +1317,7 @@
       }
       for(key=0;key<groups.length;key++){
         BRtmpName=decodeURIComponent(groups[key]);
-        if(SPLUcurrentFilter=="All" || SPLUcurrentFilter=="Groups" || SPLU.Filters[SPLUcurrentFilter].indexOf("group-"+groups[key])!=-1){
-          BRplayersDiv.innerHTML+='<div style="padding: 5px 2px 0px 0px; float: left;"><a href="javascript:{void(0);}" onClick="javascript:{insertGroup(\''+groups[key]+'\');}" onMouseDown="javascript:{this.style.backgroundColor=\'#eff708\';}" onMouseUp="javascript:{this.style.backgroundColor=\'#A4DFF3\';}" style="border:1px solid black;padding:0px 2px;">'+BRtmpName+'</a></div>';
-        }
+        BRplayersDiv.innerHTML+='<div style="padding: 5px 2px 0px 0px; float: left;"><a href="javascript:{void(0);}" onClick="javascript:{insertGroup(\''+groups[key]+'\');}" onMouseDown="javascript:{this.style.backgroundColor=\'#eff708\';}" onMouseUp="javascript:{this.style.backgroundColor=\'#A4DFF3\';}" style="border:1px solid black;padding:0px 2px;">'+BRtmpName+'</a></div>';
       }
     }
   }
@@ -1382,7 +1325,6 @@
   function setFilter(src){
     if(src=="choose"){
       SPLUcurrentFilter=document.getElementById('SPLU.SelectFilter').value;
-      showHidePlayers(false,"show");
     }else if(src=="delete" || src=="hide"){
       SPLUcurrentFilter="All";
     }else{
@@ -1391,10 +1333,9 @@
         SPLUcurrentFilter="All";
       }
     }
-    //Make the Filters tab show the currently selected filter
     var checks=document.getElementsByName('SPLUfilterChecks');
     for(i=0;i<checks.length;i++){
-      if(SPLUcurrentFilter=="All"||SPLUcurrentFilter=="Groups"){
+      if(SPLUcurrentFilter=="All"){
         checks[i].checked=false;
         continue;
       }
@@ -1429,25 +1370,19 @@
     if(SPLUcurrentFilter=="All"){
       select.options[0]=new Option("All", "All", true, true);
       select2.options[0]=new Option("---", "---", true, true);
-      select.options[1]=new Option("All Groups", "Groups", true, false);
-    }else if(SPLUcurrentFilter=="Groups"){
-      select.options[0]=new Option("All", "All", true, false);
-      select2.options[0]=new Option("---", "---", true, false);
-      select.options[1]=new Option("All Groups", "Groups", true, true);
     }else{
       select.options[0]=new Option("All", "All", true, false);
       select2.options[0]=new Option("---", "---", true, false);
-      select.options[1]=new Option("All Groups", "Groups", true, false);
     }
-    var i=2;
+    var i=1;
     for(var key in SPLU.Filters){
       if (SPLU.Filters.hasOwnProperty(key)) {
         if(SPLUcurrentFilter==key){
           select.options[i]=new Option(key, key, false, true);
-          select2.options[i-1]=new Option(key, key, false, true);
+          select2.options[i]=new Option(key, key, false, true);
         }else{
           select.options[i]=new Option(key, key, false, false);
-          select2.options[i-1]=new Option(key, key, false, false);
+          select2.options[i]=new Option(key, key, false, false);
         }
         i++;
       }
@@ -1629,10 +1564,7 @@
       }
     }
     var CommentBox=document.getElementById("quickplay_comments99");
-    var tmp=CommentBox.value.indexOf("Played with the following expansions:");
-    if(tmp!=-1){
-      CommentBox.value=CommentBox.value.slice(0,CommentBox.value.indexOf("Played with the following expansions:")).trim();
-    }
+    CommentBox.value=CommentBox.value.slice(0,CommentBox.value.indexOf("Played with the following expansions:")).trim();
     if(comment!=""){
       CommentBox.value+="\n\nPlayed with the following expansions:\n"+comment;
     }
@@ -1777,8 +1709,8 @@
     PlayerList=false;
   }
   
-  function showHidePlayers(update,action){
-    if(!PlayerList || action=="show"){
+  function showHidePlayers(update){
+    if(!PlayerList){
       document.getElementById('SPLU.PlayerList').style.maxWidth=document.getElementById('BRlogMain').clientWidth-40+"px";
       document.getElementById('SPLU.PlayerList').style.display="block";
       document.getElementById('SPLU.SavedNamesButtonIconExpand').style.display="none";
@@ -1895,10 +1827,6 @@
     if(action=="edit"){
       tmpID="&playid="+tmpPlay.id;
       SPLUedit.submit=true;
-      querystring=querystring.replace("twitter=1","twitter=0");
-    }
-    if(SPLUhistoryOpened>0){
-      SPLUedit.submit=true;
     }
     querystring+="&comments="+encodeURIComponent(form["quickplay_comments99"].value);
     document.getElementById('BRresults').innerHTML="Saving...";
@@ -1935,7 +1863,6 @@
       if(SPLU.Settings.IncompleteField.Reset){document.getElementById('incomplete').checked=false;}
       if(SPLU.Settings.NoWinStatsField.Reset){document.getElementById('nowinstats').checked=false;}
       if(SPLU.Settings.CommentsField.Reset){document.getElementById('quickplay_comments99').value="";}
-      if(SPLU.Settings.TwitterField.Reset){document.getElementById("twitter").checked=SPLU.Settings.TwitterField.Enabled;setTwitterIcons();}
     }
     if(action=="none"||action=="delete"){
       clearForm();
@@ -1951,7 +1878,7 @@
       showHideLocations(false);
     }
     if(SPLU.Settings.PlayerList.Visible&&!PlayerList){
-      showHidePlayers(false,"reset");
+      showHidePlayers(false);
     }
     document.getElementById('quickplay_comments99').value="";
     document.getElementById('quickplay_quantity99').value="1";
@@ -1964,8 +1891,6 @@
     showHideEditButtons("hide");
     if(SPLU.Settings.DateField.Reset){setDateField(SPLUtoday);}
     if(SPLU.Settings.GameField.Reset){VoidInstantSearch({itemid:'0',uniqueid:'546e9ffd96dfc'});}
-    document.getElementById("twitter").checked=SPLU.Settings.TwitterField.Enabled;
-    setTwitterIcons();
     //Don't do this or it clears the submit details.
     //VoidInstantSearch({itemid:'0',uniqueid:'546e9ffd96dfc'});
   }
@@ -2093,9 +2018,7 @@
       SPLUplayData[player][SPLUplays[player][page].getElementsByTagName("play")[i].id]=SPLUplays[player][page].getElementsByTagName("play")[i];
     }
     if(!multiple){
-      if(player==document.getElementById("SPLU.PlaysLogger").value){
-        loadPlays(player);
-      }
+      loadPlays(player);
     }else{
       getAllPlays(player);
     }
@@ -2119,7 +2042,7 @@
         }
         SPLUlistOfPlays.push({id:key,date:SPLUplayData[tmpUser][key].attributes.date.value});
       }
-      SPLUlistOfPlays.sort(dynamicSortMultiple("-date", "-id"));
+      SPLUlistOfPlays.sort(dynamicSortMultiple("-date", "id"));
       SPLUlistOfPlays=filterPlays(SPLUlistOfPlays,tmpUser);
       var tmpSortCount=0;
       var tmpLines=document.getElementsByName("SPLU.PlaysFiltersLine").length;
@@ -2164,16 +2087,8 @@
       var filtertype=lines[l].getAttribute("data-SPLU-filtertype");
       if(filtertype=="gamename"){
         for(i=0;i<plays.length;i++){
-          if(lines[l].value.slice(0,2)=="!="){
-            if(SPLUplayData[user][plays[i].id].getElementsByTagName("item")[0].attributes.name.value!=lines[l].value.slice(2)){
-              plays[i].matches++;
-            }
-          } else if(lines[l].value.slice(0,1)=="!"){
+          if(lines[l].value.slice(0,1)=="!"){
             if(SPLUplayData[user][plays[i].id].getElementsByTagName("item")[0].attributes.name.value.toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())==-1){
-              plays[i].matches++;
-            }
-          } else if(lines[l].value.slice(0,1)=="="){
-            if(SPLUplayData[user][plays[i].id].getElementsByTagName("item")[0].attributes.name.value==lines[l].value.slice(1)){
               plays[i].matches++;
             }
           } else if(SPLUplayData[user][plays[i].id].getElementsByTagName("item")[0].attributes.name.value.toLowerCase().indexOf(lines[l].value.toLowerCase())>-1){
@@ -2183,16 +2098,8 @@
       }
       if(filtertype=="location"){
         for(i=0;i<plays.length;i++){
-          if(lines[l].value.slice(0,2)=="!="){
-            if(SPLUplayData[user][plays[i].id].getAttribute("location")!=lines[l].value.slice(2)){
-              plays[i].matches++;
-            }
-          } else if(lines[l].value.slice(0,1)=="!"){
-            if((SPLUplayData[user][plays[i].id].getAttribute("location").toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())==-1) || SPLUplayData[user][plays[i].id].getAttribute("location")==""){
-              plays[i].matches++;
-            }
-          } else if(lines[l].value.slice(0,1)=="="){
-            if(SPLUplayData[user][plays[i].id].getAttribute("location")==lines[l].value.slice(1)){
+          if(lines[l].value.slice(0,1)=="!"){
+            if(SPLUplayData[user][plays[i].id].getAttribute("location").toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())==-1){
               plays[i].matches++;
             }
           } else if(SPLUplayData[user][plays[i].id].getAttribute("location").toLowerCase().indexOf(lines[l].value.toLowerCase())>-1){
@@ -2218,28 +2125,11 @@
         for(i=0;i<plays.length;i++){
           if(SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0]!==undefined){
             var tmpPlayers=SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
-            if(lines[l].value.slice(0,2)=="!="){
-              var tmpMatch=0;
-              for(p=0;p<tmpPlayers.length;p++){
-                if(tmpPlayers[p].getAttribute("name")==lines[l].value.slice(2)){
-                  tmpMatch++;
-                }
-              }
-              if(tmpMatch==0){
-                plays[i].matches++;
-              }
-            } else if(lines[l].value.slice(0,1)=="!"){
+            if(lines[l].value.slice(0,1)=="!"){
               plays[i].matches++;
               for(p=0;p<tmpPlayers.length;p++){
                 if(tmpPlayers[p].getAttribute("name").toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())>-1){
                   plays[i].matches--;
-                  break;
-                }
-              }
-            } else if(lines[l].value.slice(0,1)=="="){
-              for(p=0;p<tmpPlayers.length;p++){
-                if(tmpPlayers[p].getAttribute("name")==lines[l].value.slice(1)){
-                  plays[i].matches++;
                   break;
                 }
               }
@@ -2294,20 +2184,10 @@
         for(i=0;i<plays.length;i++){
           if(SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0]!==undefined){
             tmpPlayers=SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
-            if(lines[l].value.slice(0,1)=="!"){
-              plays[i].matches++;
-              for(p=0;p<tmpPlayers.length;p++){
-                if((tmpPlayers[p].getAttribute("username").toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())>-1 && tmpPlayers[p].getAttribute("win")==1) || (tmpPlayers[p].getAttribute("name").toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())>-1 && tmpPlayers[p].getAttribute("win")==1)){
-                  plays[i].matches--;
-                  break;
-                }
-              }
-            } else {
-              for(p=0;p<tmpPlayers.length;p++){
-                if((tmpPlayers[p].getAttribute("username").toLowerCase().indexOf(lines[l].value.toLowerCase())>-1 || tmpPlayers[p].getAttribute("name").toLowerCase().indexOf(lines[l].value.toLowerCase())>-1) && tmpPlayers[p].getAttribute("win")==1){
-                  plays[i].matches++;
-                  break;
-                }
+            for(p=0;p<tmpPlayers.length;p++){
+              if((tmpPlayers[p].getAttribute("username").toLowerCase().indexOf(lines[l].value.toLowerCase())>-1 || tmpPlayers[p].getAttribute("name").toLowerCase().indexOf(lines[l].value.toLowerCase())>-1) && tmpPlayers[p].getAttribute("win")==1){
+                plays[i].matches++;
+                break;
               }
             }
           }
@@ -2317,20 +2197,10 @@
         for(i=0;i<plays.length;i++){
           if(SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0]!==undefined){
             tmpPlayers=SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
-            if(lines[l].value.slice(0,1)=="!"){
-              plays[i].matches++;
-              for(p=0;p<tmpPlayers.length;p++){
-                if((tmpPlayers[p].getAttribute("username").toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())>-1 && tmpPlayers[p].getAttribute("new")==1)||(tmpPlayers[p].getAttribute("name").toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())>-1 && tmpPlayers[p].getAttribute("new")==1)){
-                  plays[i].matches--;
-                  break;
-                }
-              }
-            } else {
-              for(p=0;p<tmpPlayers.length;p++){
-                if((tmpPlayers[p].getAttribute("username").toLowerCase().indexOf(lines[l].value.toLowerCase())>-1 || tmpPlayers[p].getAttribute("name").toLowerCase().indexOf(lines[l].value.toLowerCase())>-1) && tmpPlayers[p].getAttribute("new")==1){
-                  plays[i].matches++;
-                  break;
-                }
+            for(p=0;p<tmpPlayers.length;p++){
+              if((tmpPlayers[p].getAttribute("username").toLowerCase().indexOf(lines[l].value.toLowerCase())>-1 || tmpPlayers[p].getAttribute("name").toLowerCase().indexOf(lines[l].value.toLowerCase())>-1) && tmpPlayers[p].getAttribute("new")==1){
+                plays[i].matches++;
+                break;
               }
             }
           }
@@ -2364,25 +2234,24 @@
       }
       if(filtertype=="playercount"){
         for(i=0;i<plays.length;i++){
-          if(SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0]===undefined){
-            var tmpCount=0;
-          }else{
-            var tmpCount=SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player").length;
-          }
-          if(lines[l].value=="eq"){
-            if(tmpCount==lines[l].parentNode.children[2].value){
-              plays[i].matches++;
+          if(SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0]!==undefined){
+            var tmpPlayers=SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
+            if(lines[l].value=="eq"){
+              if(tmpPlayers.length==lines[l].parentNode.children[2].value){
+                plays[i].matches++;
+              }
             }
-          }
-          if(lines[l].value=="lt"){
-            if(tmpCount<lines[l].parentNode.children[2].value){
-              plays[i].matches++;
+            if(lines[l].value=="lt"){
+              if(tmpPlayers.length<lines[l].parentNode.children[2].value){
+                plays[i].matches++;
+              }
             }
-          }
-          if(lines[l].value=="gt"){
-            if(tmpCount>lines[l].parentNode.children[2].value){
-              plays[i].matches++;
+            if(lines[l].value=="gt"){
+              if(tmpPlayers.length>lines[l].parentNode.children[2].value){
+                plays[i].matches++;
+              }
             }
+
           }
         }
       }
@@ -2405,14 +2274,12 @@
     return false;
   }
   
-  function addPlaysFilter(filter,filterVal){
-    if(filter=="GUI"){
-      filter=document.getElementById("SPLU.SelectPlaysFilter").value;
-    }
+  function addPlaysFilter(){
+    var filter=document.getElementById("SPLU.SelectPlaysFilter").value;
     var filterName="";
-    if(filter!="add" && filter!="---" && filter!="DEL"){
+    if(filter!="add" && filter!="---"){
       SPLUplaysFiltersCount++;
-      var tmpHTML='<a href="javascript:{void(0);}" onclick="javascript:{document.getElementById(\'SPLU.PlaysFiltersCurrent\').removeChild(document.getElementById(\'SPLU.playsFiltersLine'+SPLUplaysFiltersCount+'\'));loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value);addPlaysFilter(\'DEL\',\'\');}" style="color:red;margin:2px;">'
+      var tmpHTML='<a href="javascript:{void(0);}" onclick="javascript:{document.getElementById(\'SPLU.PlaysFiltersCurrent\').removeChild(document.getElementById(\'SPLU.playsFiltersLine'+SPLUplaysFiltersCount+'\'));loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value);addPlaysFilter();}" style="color:red;margin:2px;">'
         +'<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/delete_row_small.png">'
         +'</a>';
       if(filter=="playername"){filterName="Player";}
@@ -2432,7 +2299,7 @@
       }
       
       if(filter=="daterange"){
-        tmpHTML+='Begin:<input type="text" style="font-size:8pt;width:70px;" placeholder="YYYY-MM-DD" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="begindate" onKeyPress="eventFilterLineEnter(event)"/> End:<input type="text" style="font-size:8pt;width:70px;" placeholder="YYYY-MM-DD" name="SPLU.PlaysFiltersLine2" data-SPLU-FilterType="enddate" onKeyPress="eventFilterLineEnter(event)"/>';
+        tmpHTML+='Begin:<input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="begindate" onKeyPress="eventFilterLineEnter(event)" style="width:70px;"/> End:<input type="text" name="SPLU.PlaysFiltersLine2" data-SPLU-FilterType="enddate" onKeyPress="eventFilterLineEnter(event)" style="width:70px;"/>';
       }
       
       if(filter=="excludeexpansions"){
@@ -2448,7 +2315,7 @@
       }
       
       if(filter!="objecttype" && filter!="excludeexpansions" && filter!="daterange" && filter!="playercount"){
-        tmpHTML+=filterName+': <input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" onKeyPress="eventFilterLineEnter(event)" value="'+filterVal+'"/>'; 
+        tmpHTML+=filterName+': <input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" onKeyPress="eventFilterLineEnter(event)"/>'; 
       }  
       
       var tmpDiv=document.createElement('div');
@@ -2463,13 +2330,13 @@
     }else{
       document.getElementById("SPLU.PlaysFiltersGoBtn").style.display="";
     }
-    if(filter=="excludeexpansions" || filterVal!=""){
+    if(filter=="excludeexpansions"){
       loadPlays(document.getElementById('SPLU.PlaysLogger').value);
     }
   }
   
   function showHidePlaysFilters(){
-    document.getElementById("SPLU.PlaysList").style.maxHeight=(document.getElementById("SPLUwindow").clientHeight-122)+"px";
+    document.getElementById("SPLU.PlaysList").style.maxHeight=(document.getElementById("BRlogPlays").clientHeight-122)+"px";
     if(document.getElementById("SPLU.PlaysFilters").style.display=="none"){
       document.getElementById("SPLU.PlaysFilters").style.display="";
       document.getElementById("SPLU.PlaysList").style.display="";
@@ -2482,7 +2349,7 @@
   }
 
   function showHidePlaysStats(){
-    document.getElementById("SPLU.StatsContent").style.maxHeight=(document.getElementById("SPLUwindow").clientHeight-115)+"px";
+    document.getElementById("SPLU.StatsContent").style.maxHeight=(document.getElementById("BRlogPlays").clientHeight-115)+"px";
     if(document.getElementById("SPLU.StatsMenu").style.display=="none"){
       document.getElementById("SPLU.StatsMenu").style.display="";
       document.getElementById("SPLU.StatsContent").style.display="";
@@ -2499,9 +2366,10 @@
     if(stat=="choose"){
       stat=document.getElementById("SPLU.SelectStat").value;
     }
-    if(stat=="GameDetails"){
+    if(stat=="GameScore"){
       var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
-      getStatsGameDetails(tmpUser);
+      var tmpGame=document.getElementById('objectid0').value;
+      getStatsGameScore(tmpUser, tmpGame);
     }
     if(stat=="BeginnersLuck"){
       var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
@@ -2511,174 +2379,73 @@
       var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
       getStatsPlaysWins(tmpUser);
     }
-    if(stat=="Locations"){
-      var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
-      getStatsLocations(tmpUser);
-    }
-  }
-
-  function isNumeric(n) {
-    return !isNaN(parseFloat(n)) && isFinite(n);
   }
   
-  function getStatsGameDetails(tmpUser){
-    document.getElementById("SPLU.StatsContent").innerHTML="Thinking...";
+  function getStatsGameScore(tmpUser,gameid){
     SPLU.GameStats={};
-    for(i=0;i<SPLUlistOfPlays.length;i++){
-      var tmpPlay=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id];
-      if(tmpPlay.deleted){
+    SPLU.GameStats[gameid]={
+      "HighScore":-999999999,
+      "LowScore":999999999,
+      "TotalScore":0,
+      "TotalPlays":0,
+      "Players":{}
+    };
+    for(key in SPLUplayData[tmpUser]){
+      if(key=="total"||key=="approximate"||SPLUplayData[tmpUser][key].attributes.date.value=="1452-04-15"){
         continue;
       }
-      try{
-        var tmpPlayers=tmpPlay.getElementsByTagName("players")[0].getElementsByTagName("player");
-      } catch(err) {
-        continue;
-      }
-      var tmpGame=tmpPlay.getElementsByTagName("item")[0].getAttribute("objectid");
-      if(SPLU.GameStats[tmpGame]===undefined){
-        SPLU.GameStats[tmpGame]={
-          "HighScore":-999999999,
-          "LowScore":999999999,
-          "TotalScore":0,
-          "TotalPlays":0,
-          "TotalWins":0,
-          "WinScoreSum":0,
-          "WinHighScore":-999999999,
-          "WinLowScore":999999999,
-          "TotalDurations":0,
-          "DurationSum":0,
-          "DurationHigh":-999999999,
-          "DurationLow":999999999,
-          "Players":{},
-          "Game":tmpPlay.getElementsByTagName("item")[0].getAttribute("name")
-        };
-      }
-      var tmpDuration=Number(tmpPlay.getAttribute("length"));
-      if(tmpDuration>0){
-        SPLU.GameStats[tmpGame]["TotalDurations"]++;
-        SPLU.GameStats[tmpGame]["DurationSum"]+=tmpDuration;
-        if(tmpDuration>SPLU.GameStats[tmpGame]["DurationHigh"]){
-          SPLU.GameStats[tmpGame]["DurationHigh"]=tmpDuration;
-        }
-        if(tmpDuration<SPLU.GameStats[tmpGame]["DurationLow"]){
-          SPLU.GameStats[tmpGame]["DurationLow"]=tmpDuration;
-        }
-      }
-      for(p=0;p<tmpPlayers.length;p++){
-        var tmpName="Unknown";
-        var tmpNameID="";
-        if(tmpPlayers[p].getAttribute("username")!=""){
-          tmpName=tmpPlayers[p].getAttribute("username");
-          tmpNameID=tmpPlayers[p].getAttribute("username");
-        }
-        if(tmpPlayers[p].getAttribute("name")!=""){
-          tmpName=tmpPlayers[p].getAttribute("name");
-          tmpNameID+=tmpPlayers[p].getAttribute("name");
-        }
-        if(SPLU.GameStats[tmpGame]["Players"][tmpNameID]===undefined){
-          SPLU.GameStats[tmpGame]["Players"][tmpNameID]={
-            "HighScore":-999999999,
-            "LowScore":999999999,
-            "TotalScore":0,
-            "TotalPlays":0,
-            "TotalWins":0,
-            "Name":tmpName
-          };
-        }
-        var tmpScore=0;
-        if(tmpPlayers[p].getAttribute("score")!="" && isNumeric(tmpPlayers[p].getAttribute("score"))){
-          tmpScore=Number(tmpPlayers[p].getAttribute("score"));
-        }
-        if(tmpScore>SPLU.GameStats[tmpGame]["Players"][tmpNameID]["HighScore"]){
-          SPLU.GameStats[tmpGame]["Players"][tmpNameID]["HighScore"]=tmpScore;
-          SPLU.GameStats[tmpGame]["Players"][tmpNameID]["HighScorePlay"]=tmpPlay;
-        }
-        if(tmpScore>SPLU.GameStats[tmpGame]["HighScore"]){
-          SPLU.GameStats[tmpGame]["HighScore"]=tmpScore;
-          SPLU.GameStats[tmpGame]["HighScorePlay"]=tmpPlay;
-        }
-        if(tmpScore<SPLU.GameStats[tmpGame]["Players"][tmpNameID].LowScore){
-          SPLU.GameStats[tmpGame]["Players"][tmpNameID]["LowScore"]=tmpScore;
-          SPLU.GameStats[tmpGame]["Players"][tmpNameID]["LowScorePlay"]=tmpPlay;
-        }
-        if(tmpScore<SPLU.GameStats[tmpGame]["LowScore"]){
-          SPLU.GameStats[tmpGame]["LowScore"]=tmpScore;
-          SPLU.GameStats[tmpGame]["LowScorePlay"]=tmpPlay;
-        }
-        SPLU.GameStats[tmpGame]["Players"][tmpNameID]["TotalScore"]+=tmpScore;
-        SPLU.GameStats[tmpGame]["Players"][tmpNameID]["TotalPlays"]++;
-        SPLU.GameStats[tmpGame]["TotalScore"]+=tmpScore;
-        SPLU.GameStats[tmpGame]["TotalPlays"]++;
-        if(tmpPlayers[p].getAttribute("win")=="1"){
-          SPLU.GameStats[tmpGame]["Players"][tmpNameID]["TotalWins"]++;
-          if(tmpScore>0){
-            SPLU.GameStats[tmpGame]["TotalWins"]++;
-            SPLU.GameStats[tmpGame]["WinScoreSum"]+=tmpScore;
-            if(tmpScore>SPLU.GameStats[tmpGame]["WinHighScore"]){
-              SPLU.GameStats[tmpGame]["WinHighScore"]=tmpScore;
-            }
-            if(tmpScore<SPLU.GameStats[tmpGame]["WinLowScore"]){
-              SPLU.GameStats[tmpGame]["WinLowScore"]=tmpScore;
-            }
+      if(SPLUplayData[tmpUser][key].getElementsByTagName("item")[0].getAttribute("objectid")==gameid){
+        var tmpPlay=SPLUplayData[tmpUser][key].getAttribute("id");
+        var tmpPlayers=SPLUplayData[tmpUser][key].getElementsByTagName("players")[0].getElementsByTagName("player");
+        for(p=0;p<tmpPlayers.length;p++){
+          var tmpName="Unknown";
+          if(tmpPlayers[p].getAttribute("username")!=""){
+            tmpName=tmpPlayers[p].getAttribute("username");
+          }
+          if(tmpPlayers[p].getAttribute("name")!=""){
+            tmpName=tmpPlayers[p].getAttribute("name");
+          }
+          if(SPLU.GameStats[gameid]["Players"][tmpName]===undefined){
+            SPLU.GameStats[gameid]["Players"][tmpName]={
+              "HighScore":-999999999,
+              "LowScore":999999999,
+              "TotalScore":0,
+              "TotalPlays":0,
+              "TotalWins":0
+            };
+          }
+          var tmpScore=0;
+          if(tmpPlayers[p].getAttribute("score")!=""){
+            tmpScore=Number(tmpPlayers[p].getAttribute("score"));
+          }
+          if(tmpScore>SPLU.GameStats[gameid]["Players"][tmpName]["HighScore"]){
+            SPLU.GameStats[gameid]["Players"][tmpName]["HighScore"]=tmpScore;
+            SPLU.GameStats[gameid]["Players"][tmpName]["HighScorePlay"]=tmpPlay;
+          }
+          if(tmpScore>SPLU.GameStats[gameid]["HighScore"]){
+            SPLU.GameStats[gameid]["HighScore"]=tmpScore;
+            SPLU.GameStats[gameid]["HighScorePlay"]=tmpPlay;
+          }
+          if(tmpScore<SPLU.GameStats[gameid]["Players"][tmpName].LowScore){
+            SPLU.GameStats[gameid]["Players"][tmpName]["LowScore"]=tmpScore;
+            SPLU.GameStats[gameid]["Players"][tmpName]["LowScorePlay"]=tmpPlay;
+          }
+          if(tmpScore<SPLU.GameStats[gameid]["LowScore"]){
+            SPLU.GameStats[gameid]["LowScore"]=tmpScore;
+            SPLU.GameStats[gameid]["LowScorePlay"]=tmpPlay;
+          }
+          SPLU.GameStats[gameid]["Players"][tmpName]["TotalScore"]+=tmpScore;
+          SPLU.GameStats[gameid]["Players"][tmpName]["TotalPlays"]++;
+          SPLU.GameStats[gameid]["TotalScore"]+=tmpScore;
+          SPLU.GameStats[gameid]["TotalPlays"]++;
+          if(tmpPlayers[p].getAttribute("win")=="1"){
+            SPLU.GameStats[gameid]["Players"][tmpName]["TotalWins"]++;
           }
         }
       }
     }
-
-    tmpHTML="";
-    for(keyGame in SPLU.GameStats){
-      tmpAverageAllScore=0;
-      tmpAverageWinScore=0;
-      tmpAverageDuration=0;
-      tmpHTML+='<span style="font-style:italic;color:rgb(213, 85, 198);font-weight:bold;">'+SPLU.GameStats[keyGame].Game+'</span>';
-      if(SPLU.GameStats[keyGame]["TotalScore"]!=0){
-        tmpAverageAllScore=SPLU.GameStats[keyGame]["TotalScore"]/SPLU.GameStats[keyGame]["TotalPlays"];
-        tmpAverageAllScore=tmpAverageAllScore.toFixed(2);
-      }
-      if(SPLU.GameStats[keyGame]["WinScoreSum"]!=0){
-        tmpAverageWinScore=SPLU.GameStats[keyGame]["WinScoreSum"]/SPLU.GameStats[keyGame]["TotalWins"];
-        tmpAverageWinScore=tmpAverageWinScore.toFixed(2);
-      }
-      if(SPLU.GameStats[keyGame]["DurationSum"]>0){
-        tmpAverageDuration=SPLU.GameStats[keyGame]["DurationSum"]/SPLU.GameStats[keyGame]["TotalDurations"];
-        tmpAverageDuration=tmpAverageDuration.toFixed(0);
-      }
-      if(tmpAverageAllScore>0 || tmpAverageWinScore>0 || tmpAverageDuration>0){
-      tmpHTML+='<div style="display:table; border-spacing:5px 2px; text-align:right; padding-bottom:10px;">'
-        +'<div style="display:table-row;">'
-          +'<div style="display:table-cell;font-weight:bold;">Stat</div>'
-          +'<div style="display:table-cell;font-weight:bold;">Avg</div>'
-          +'<div style="display:table-cell;font-weight:bold;">Low</div>'
-          +'<div style="display:table-cell;font-weight:bold;">High</div>'
-          +'<div style="display:table-cell;font-weight:bold;">Plays</div>'
-        +'</div>';
-        if(tmpAverageAllScore>0){
-          tmpHTML+='<div style="display:table-row;">';
-          tmpHTML+='<div style="display:table-cell;">All Scores</div>';
-          tmpHTML+='<div style="display:table-cell;">'+tmpAverageAllScore+'</div>';
-          tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["LowScore"]+'</div>';
-          tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["HighScore"]+'</div>';
-          tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["TotalPlays"]+'</div></div>';
-        }
-        if(tmpAverageWinScore>0){
-          tmpHTML+='<div style="display:table-row;">';
-          tmpHTML+='<div style="display:table-cell;">Winning Scores</div>';
-          tmpHTML+='<div style="display:table-cell;">'+tmpAverageWinScore+'</div>';
-          tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["WinLowScore"]+'</div>';
-          tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["WinHighScore"]+'</div>';
-          tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["TotalWins"]+'</div></div>';
-        }
-        if(tmpAverageDuration>0){
-          tmpHTML+='<div style="display:table-row;">';
-          tmpHTML+='<div style="display:table-cell;">Duration</div>';
-          tmpHTML+='<div style="display:table-cell;">'+tmpAverageDuration+' min</div>';
-          tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["DurationLow"]+'</div>';
-          tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["DurationHigh"]+'</div>';
-          tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["TotalDurations"]+'</div></div>';
-        }
-        tmpHTML+='</div>';
-      }
-      tmpHTML+='<div style="display:table; border-spacing:5px 2px; text-align:right; padding-bottom:10px;">'
+    tmpHTML='<span style="font-style:italic;color:rgb(213, 85, 198);font-weight:bold;">'+document.getElementById("q546e9ffd96dfc").value+'</span>'
+    +'<div style="display:table; border-spacing:5px 2px; text-align:right;">'
         +'<div style="display:table-row;">'
           +'<div style="display:table-cell;font-weight:bold;">Player</div>'
           +'<div style="display:table-cell;font-weight:bold;">Plays</div>'
@@ -2688,42 +2455,38 @@
           +'<div style="display:table-cell;font-weight:bold;">AvgPts</div>'
           +'<div style="display:table-cell;font-weight:bold;">AvgWins</div>'
         +'</div>';
-      for(key in SPLU.GameStats[keyGame]["Players"]){
-        tmpAverageScore=SPLU.GameStats[keyGame]["Players"][key]["TotalScore"]/SPLU.GameStats[keyGame]["Players"][key]["TotalPlays"];
-        tmpAverageScore=tmpAverageScore.toFixed(2);
-        tmpAverageWins=(SPLU.GameStats[keyGame]["Players"][key]["TotalWins"]/SPLU.GameStats[keyGame]["Players"][key]["TotalPlays"])*100;
-        tmpAverageWins=tmpAverageWins.toFixed(2);
-        tmpGame=SPLU.GameStats[keyGame].Game;
-        tmpGame=tmpGame.replace("'","\\'");
-        tmpGame=tmpGame.replace('"','\\"');
-        tmpHTML+='<div style="display:table-row;">';
-        tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["Players"][key]["Name"]+'</div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+SPLU.GameStats[keyGame]["Players"][key]["Name"]+'\');addPlaysFilter(\'gamename\',\'='+tmpGame+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLU.GameStats[keyGame]["Players"][key]["TotalPlays"]+'</a></div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'winner\',\''+SPLU.GameStats[keyGame]["Players"][key]["Name"]+'\');addPlaysFilter(\'gamename\',\'='+tmpGame+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLU.GameStats[keyGame]["Players"][key]["TotalWins"]+'</a></div>';
-        var tmpBold="";
-        if(SPLU.GameStats[keyGame]["Players"][key]["LowScore"]==SPLU.GameStats[keyGame]["LowScore"]){
-          tmpBold="font-weight:bold;";
-        }
-        tmpHTML+='<div style="display:table-cell;"><a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLU.GameStats[keyGame]["Players"][key]["LowScorePlay"].id+');}"><span style="'+tmpBold+'">'+SPLU.GameStats[keyGame]["Players"][key]["LowScore"]+'</span></a></div>';
-        tmpBold="";
-        if(SPLU.GameStats[keyGame]["Players"][key]["HighScore"]==SPLU.GameStats[keyGame]["HighScore"]){
-          tmpBold="font-weight:bold;";
-        }
-        tmpHTML+='<div style="display:table-cell;"><a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLU.GameStats[keyGame]["Players"][key]["HighScorePlay"].id+');}"><span style="'+tmpBold+'">'+SPLU.GameStats[keyGame]["Players"][key]["HighScore"]+'</span></a></div>';
-        tmpBold="";
-        tmpHTML+='<div style="display:table-cell;">'+tmpAverageScore+'</div>';
-        tmpHTML+='<div style="display:table-cell;">'+tmpAverageWins+'%</div>';
-        tmpHTML+='</div>';
+    for(key in SPLU.GameStats[gameid]["Players"]){
+      tmpAverageScore=SPLU.GameStats[gameid]["Players"][key]["TotalScore"]/SPLU.GameStats[gameid]["Players"][key]["TotalPlays"];
+      tmpAverageScore=tmpAverageScore.toFixed(2);
+      tmpAverageWins=(SPLU.GameStats[gameid]["Players"][key]["TotalWins"]/SPLU.GameStats[gameid]["Players"][key]["TotalPlays"])*100;
+      tmpAverageWins=tmpAverageWins.toFixed(2);
+      tmpHTML+='<div style="display:table-row;">';
+      tmpHTML+='<div style="display:table-cell;">'+key+'</div>';
+      tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[gameid]["Players"][key]["TotalPlays"]+'</div>';
+      tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[gameid]["Players"][key]["TotalWins"]+'</div>';
+      var tmpBold="";
+      if(SPLU.GameStats[gameid]["Players"][key]["LowScore"]==SPLU.GameStats[gameid]["LowScore"]){
+        tmpBold="font-weight:bold;";
       }
+      tmpHTML+='<div style="display:table-cell;"><a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLU.GameStats[gameid]["Players"][key]["LowScorePlay"]+');}"><span style="'+tmpBold+'">'+SPLU.GameStats[gameid]["Players"][key]["LowScore"]+'</span></a></div>';
+      tmpBold="";
+      if(SPLU.GameStats[gameid]["Players"][key]["HighScore"]==SPLU.GameStats[gameid]["HighScore"]){
+        tmpBold="font-weight:bold;";
+      }
+      tmpHTML+='<div style="display:table-cell;"><a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLU.GameStats[gameid]["Players"][key]["HighScorePlay"]+');}"><span style="'+tmpBold+'">'+SPLU.GameStats[gameid]["Players"][key]["HighScore"]+'</span></a></div>';
+      tmpBold="";
+      tmpHTML+='<div style="display:table-cell;">'+tmpAverageScore+'</div>';
+      tmpHTML+='<div style="display:table-cell;">'+tmpAverageWins+'%</div>';
       tmpHTML+='</div>';
     }
+    tmpHTML+='</div>';
     document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
   }
   
   function getStatsBeginnersLuck(tmpUser){
     SPLU.GameStats={};
     for(i=0;i<SPLUlistOfPlays.length;i++){
-      if(SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getElementsByTagName("players")[0]===undefined || SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].deleted){
+      if(SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getElementsByTagName("players")[0]===undefined){
         continue;
       }
       var tmpPlayers=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
@@ -2754,7 +2517,7 @@
       if(SPLU.GameStats[key]["TotalNewWins"]!=0){
         tmpHTML+='<div style="display:table-row;">';
         tmpHTML+='<div style="display:table-cell;">'+key+'</div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+key+'\');addPlaysFilter(\'winner\',\''+key+'\');addPlaysFilter(\'new\',\''+key+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLU.GameStats[key]["TotalNewWins"]+'</a></div>';
+        tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[key]["TotalNewWins"]+'</div>';
         tmpHTML+='</div>';
       }
     }
@@ -2765,7 +2528,7 @@
   function getStatsPlaysWins(tmpUser){
     SPLU.GameStats={};
     for(i=0;i<SPLUlistOfPlays.length;i++){
-      if(SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getElementsByTagName("players")[0]===undefined || SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].deleted){
+      if(SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getElementsByTagName("players")[0]===undefined){
         continue;
       }
       var tmpPlay=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getAttribute("id");
@@ -2803,8 +2566,8 @@
       if(SPLU.GameStats[key]["TotalNewWins"]!=0){
         tmpHTML+='<div style="display:table-row;">';
         tmpHTML+='<div style="display:table-cell;">'+key+'</div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+key+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLU.GameStats[key]["TotalPlays"]+'</a></div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+key+'\');addPlaysFilter(\'winner\',\''+key+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLU.GameStats[key]["TotalWins"]+'</a></div>';
+        tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[key]["TotalPlays"]+'</div>';
+        tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[key]["TotalWins"]+'</div>';
         tmpHTML+='<div style="display:table-cell;">'+tmpAverage+'%</div>';
         tmpHTML+='</div>';
       }
@@ -2812,47 +2575,6 @@
     tmpHTML+='</div>';
     document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
   }
-  
-function getStatsLocations(tmpUser){
-  tmpLocs=[];
-  tmpLocs2=[];
-  for(i=0;i<SPLUlistOfPlays.length;i++){
-    if(SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].deleted){
-      continue;
-    }
-    var loc=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getAttribute("location");
-    if(tmpLocs[loc]===undefined){
-      tmpLocs[loc]=1;
-    }else{
-      tmpLocs[loc]++;
-    }
-  }
-  for(key in tmpLocs){
-    if (tmpLocs.hasOwnProperty(key)) {
-      tmpLocs2.push({location:key,count:tmpLocs[key]});
-    }
-  }
-  tmpLocs2.sort(dynamicSortMultiple("location"));
-  tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
-      +'<div style="display:table-row;">'
-        +'<div style="display:table-cell;font-weight:bold;">Location</div>'
-        +'<div style="display:table-cell;font-weight:bold;">Plays</div>'
-      +'</div>';
-  for(i=0;i<tmpLocs2.length;i++){
-    tmpFilterLoc=tmpLocs2[i].location;
-    tmpFilterLoc=tmpFilterLoc.replace("'","\\'");
-    tmpFilterLoc=tmpFilterLoc.replace('"','\\"');
-    if(tmpLocs2[i].location==""){
-      tmpLocs2[i].location="&lt;Blank&gt;";
-    }
-    tmpHTML+='<div style="display:table-row;">';
-    tmpHTML+='<div style="display:table-cell;">'+tmpLocs2[i].location+'</div>';
-    tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'location\',\'='+tmpFilterLoc+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+tmpLocs2[i].count+'</a></div>';
-    tmpHTML+='</div>';
-  }
-  tmpHTML+='</div>';
-  document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
-}
   
   function loadPlay(id){
 	  console.log(id);
@@ -2915,22 +2637,14 @@ function getStatsLocations(tmpUser){
     if(!SPLU.Settings.SummaryTextField.Visible){return;}
     document.getElementById('SPLU.SummaryTextField').style.maxWidth=document.getElementById('SPLUwindow').clientWidth-40+"px";
     document.getElementById('SPLU.SummaryTextField').style.display="block";
+    var SPLUtodayDate=new Date(SPLUtoday);
     var SPLUselectedDate=new Date(document.getElementById('playdate99').value);
     var sentence="";
     sentence="You are logging ";
     if(document.getElementById('quickplay_quantity99').value==1){
-      sentence+="a ";
-      if(PlayerCount==1&&NumOfPlayers!=1){
-        sentence+="solo ";
-      }
-      if(document.getElementById('quickplay_quantity99').value==1){
-        sentence+="play of ";  
-      }
+      sentence+="a play of ";  
     }else{
-      sentence+=document.getElementById('quickplay_quantity99').value;
-      if(PlayerCount==1&&NumOfPlayers!=1){
-        sentence+=" solo ";
-      }
+      sentence+=document.getElementById('quickplay_quantity99').value;  
       sentence+=" plays of ";
     }
     sentence+=document.getElementById('q546e9ffd96dfc').value;
@@ -2938,25 +2652,17 @@ function getStatsLocations(tmpUser){
     if(document.getElementById('playdateinput99').value==SPLUtoday){
       sentence+=" today";
     }else{
-      if((SPLUtodayDateZero.getTime()-86400000)==SPLUselectedDate.getTime()){
+      if((SPLUtodayDate.getTime()-86400000)==SPLUselectedDate.getTime()){
         sentence+=" yesterday";
       }else{
-        if(SPLUtodayDateZero.getTime()<SPLUselectedDate.getTime()){
+        if(SPLUtodayDate.getTime()<SPLUselectedDate.getTime()){
           sentence+=" <span style='background-color:red; color:white; font-weight:bold;'>IN THE FUTURE</span>";
         }else{
-          if((SPLUtodayDateZero.getTime()-SPLUselectedDate.getTime())>3155673600000){
+          if((SPLUtodayDate.getTime()-SPLUselectedDate.getTime())>3155673600000){
             sentence+=" <span style='background-color:yellow; color:black; font-weight:bold;'>BEFORE YOU WERE BORN</span>";
           }else{
-            if((SPLUtodayDateZero.getTime()-SPLUselectedDate.getTime())>315567360000){
-              sentence+=" <span style='background-color:yellow; color:black; font-weight:bold;'>OVER A DECADE AGO</span>";
-            }else{
-              if((SPLUtodayDateZero.getTime()-SPLUselectedDate.getTime())>31556735999){
-                sentence+=" <span style='background-color:yellow; color:black; font-weight:bold;'>OVER A YEAR AGO</span>";
-              }else{
-                sentence+=" on ";
-                sentence+=document.getElementById('playdate99').value;
-              }
-            }
+            sentence+=" on ";
+            sentence+=document.getElementById('playdate99').value;
           }
         }
       }
@@ -2968,11 +2674,15 @@ function getStatsLocations(tmpUser){
     }else{
       sentence+=".";
     }
+    if(PlayerCount==1&&NumOfPlayers!=1){
+      sentence+=" There was only one player.";
+    }
     if(PlayerCount>1){
       sentence+=" There were ";
       sentence+=PlayerCount;
       sentence+=" players";
     }
+    
     getWinners();
     if(SPLUwinners.length==0&&PlayerCount>1){
       sentence+=".";
@@ -2999,7 +2709,6 @@ function getStatsLocations(tmpUser){
       if(document.getElementById('quickplay_quantity99').value==1){
         sentence+=" The game lasted ";
         sentence+=document.getElementById('quickplay_duration99').value;
-
         if(document.getElementById('quickplay_duration99').value<5){
           sentence+=" whole";
         }
@@ -3007,16 +2716,13 @@ function getStatsLocations(tmpUser){
           sentence+=" minute.";
         }else{
           sentence+=" minutes.";
-        }  
-        if(document.getElementById('quickplay_quantity99').value>1){
-          sentence+=" Each game lasted ";
-          sentence+=document.getElementById('quickplay_duration99').value;
-          sentence+=" minutes.";
         }
+      }  
+      if(document.getElementById('quickplay_quantity99').value>1){
+        sentence+=" Each game lasted ";
+        sentence+=document.getElementById('quickplay_duration99').value;
+        sentence+=" minutes.";
       }
-    }
-    if(PlayerCount==1&&NumOfPlayers!=1){
-      sentence+=" Nicely done!";
     }
     document.getElementById('SPLU.SummaryTextField').innerHTML=sentence;
   }
@@ -3219,14 +2925,10 @@ function getStatsLocations(tmpUser){
                 continue;
               }
               if(inputs[n].type=='checkbox'){
-                if(inputs[n].name=='nowinstats' && SPLU.Settings.ExpansionWinStats.Enabled){
+                if(inputs[n].checked){
                   value=1;
                 }else{
-                  if(inputs[n].checked){
-                    value=1;
-                  }else{
-                    value=0;
-                  }
+                  value=0;
                 }
               }else{
                 value=inputs[n].value;
@@ -3237,9 +2939,6 @@ function getStatsLocations(tmpUser){
             querystring=querystring.replace("objectid="+SPLUgameID,"objectid="+tmpExp[i].id);
             querystring=querystring.replace("quantity="+document.getElementById('quickplay_quantity99').value,"quantity="+document.getElementById('BRexpPlayQTY').value);
           } else {
-            if(SPLU.Settings.ExpansionWinStats.Enabled){
-              querystring+="&nowinstats=1";
-            }
             querystring+="&objectid="+tmpExp[i].id;
             querystring+="&quantity="+document.getElementById('BRexpPlayQTY').value;
             querystring+="&playdate="+document.getElementById('playdate99').value;
@@ -3283,7 +2982,7 @@ function getStatsLocations(tmpUser){
         } 
         tmpHTML+='<div style="display:table-cell; max-width:110px; padding-top:10px;">'
           +'<a href="javascript:{void(0);}" onClick="javascript:{chooseFavorite('+key+');}"><img src="'+SPLU.Favorites[key].thumbnail+'"></a>'
-          +'<a href="javascript:{void(0);}" onClick="javascript:{deleteFavorite('+key+');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/red_circle_x.png" style="vertical-align:top; position: relative; margin-left: -8px; margin-top: -8px;"/></a>'
+          +'<a href="javascript:{void(0);}" onClick="javascript:{deleteFavorite('+key+');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/red_circle_minus.png" style="vertical-align:top; position: relative; margin-left: -8px; margin-top: -8px;"/></a>'
           +'<br/>'+SPLU.Favorites[key].title+'</div>';
         if(size % 2==0){
           tmpHTML+='</div>';
@@ -3321,17 +3020,13 @@ function getStatsLocations(tmpUser){
   }
 
   function showPlaysPane(source){
-    SPLUhistoryOpened++;    
     if(source=="button"&&document.getElementById('BRlogPlays').style.display=="table-cell"){
       document.getElementById('BRlogPlays').style.display="none";
       return;
     }
     hidePanes();
-    document.getElementById("SPLU.PlaysList").style.maxHeight=(document.getElementById("SPLUwindow").clientHeight-122)+"px";
+    document.getElementById('SPLU.PlaysList').style.height=document.getElementById('BRlogMain').clientHeight-155+"px";
     document.getElementById('BRlogPlays').style.display="table-cell";
-    if(SPLUhistoryOpened==1){
-      getRecentPlays(false);
-    }
   }
   
   function showLocationsPane(source){
@@ -3667,5 +3362,4 @@ function getStatsLocations(tmpUser){
     document.getElementById('BRlogPlays').style.display="none";
   }
   
-  initSPLU();
-
+initSPLU();
