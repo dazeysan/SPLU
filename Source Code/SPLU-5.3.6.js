@@ -1,4 +1,4 @@
-// SPLU 5.3.7 Beta
+// SPLU 5.3.6 Beta
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -11,7 +11,7 @@
     var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.3.7";
+    var SPLUversion="5.3.6";
 
     var SPLU={};
     var SPLUplayId="";
@@ -957,8 +957,7 @@
   
   function finalSetup(){
     loadPlayers();  
-    loadLocations();
-    delete SPLU.GameStats;
+    loadLocations();    
     for (var key in SPLU.Settings) {
       if (SPLU.Settings.hasOwnProperty(key)) {
         try{
@@ -2525,7 +2524,7 @@
   
   function getStatsGameDetails(tmpUser){
     document.getElementById("SPLU.StatsContent").innerHTML="Thinking...";
-    SPLUgameStats={};
+    SPLU.GameStats={};
     for(i=0;i<SPLUlistOfPlays.length;i++){
       var tmpPlay=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id];
       if(tmpPlay.deleted){
@@ -2537,8 +2536,8 @@
         continue;
       }
       var tmpGame=tmpPlay.getElementsByTagName("item")[0].getAttribute("objectid");
-      if(SPLUgameStats[tmpGame]===undefined){
-        SPLUgameStats[tmpGame]={
+      if(SPLU.GameStats[tmpGame]===undefined){
+        SPLU.GameStats[tmpGame]={
           "HighScore":-999999999,
           "LowScore":999999999,
           "TotalScore":0,
@@ -2557,13 +2556,13 @@
       }
       var tmpDuration=Number(tmpPlay.getAttribute("length"));
       if(tmpDuration>0){
-        SPLUgameStats[tmpGame]["TotalDurations"]++;
-        SPLUgameStats[tmpGame]["DurationSum"]+=tmpDuration;
-        if(tmpDuration>SPLUgameStats[tmpGame]["DurationHigh"]){
-          SPLUgameStats[tmpGame]["DurationHigh"]=tmpDuration;
+        SPLU.GameStats[tmpGame]["TotalDurations"]++;
+        SPLU.GameStats[tmpGame]["DurationSum"]+=tmpDuration;
+        if(tmpDuration>SPLU.GameStats[tmpGame]["DurationHigh"]){
+          SPLU.GameStats[tmpGame]["DurationHigh"]=tmpDuration;
         }
-        if(tmpDuration<SPLUgameStats[tmpGame]["DurationLow"]){
-          SPLUgameStats[tmpGame]["DurationLow"]=tmpDuration;
+        if(tmpDuration<SPLU.GameStats[tmpGame]["DurationLow"]){
+          SPLU.GameStats[tmpGame]["DurationLow"]=tmpDuration;
         }
       }
       for(p=0;p<tmpPlayers.length;p++){
@@ -2577,8 +2576,8 @@
           tmpName=tmpPlayers[p].getAttribute("name");
           tmpNameID+=tmpPlayers[p].getAttribute("name");
         }
-        if(SPLUgameStats[tmpGame]["Players"][tmpNameID]===undefined){
-          SPLUgameStats[tmpGame]["Players"][tmpNameID]={
+        if(SPLU.GameStats[tmpGame]["Players"][tmpNameID]===undefined){
+          SPLU.GameStats[tmpGame]["Players"][tmpNameID]={
             "HighScore":-999999999,
             "LowScore":999999999,
             "TotalScore":0,
@@ -2591,36 +2590,36 @@
         if(tmpPlayers[p].getAttribute("score")!="" && isNumeric(tmpPlayers[p].getAttribute("score"))){
           tmpScore=Number(tmpPlayers[p].getAttribute("score"));
         }
-        if(tmpScore>SPLUgameStats[tmpGame]["Players"][tmpNameID]["HighScore"]){
-          SPLUgameStats[tmpGame]["Players"][tmpNameID]["HighScore"]=tmpScore;
-          SPLUgameStats[tmpGame]["Players"][tmpNameID]["HighScorePlay"]=tmpPlay;
+        if(tmpScore>SPLU.GameStats[tmpGame]["Players"][tmpNameID]["HighScore"]){
+          SPLU.GameStats[tmpGame]["Players"][tmpNameID]["HighScore"]=tmpScore;
+          SPLU.GameStats[tmpGame]["Players"][tmpNameID]["HighScorePlay"]=tmpPlay;
         }
-        if(tmpScore>SPLUgameStats[tmpGame]["HighScore"]){
-          SPLUgameStats[tmpGame]["HighScore"]=tmpScore;
-          SPLUgameStats[tmpGame]["HighScorePlay"]=tmpPlay;
+        if(tmpScore>SPLU.GameStats[tmpGame]["HighScore"]){
+          SPLU.GameStats[tmpGame]["HighScore"]=tmpScore;
+          SPLU.GameStats[tmpGame]["HighScorePlay"]=tmpPlay;
         }
-        if(tmpScore<SPLUgameStats[tmpGame]["Players"][tmpNameID].LowScore){
-          SPLUgameStats[tmpGame]["Players"][tmpNameID]["LowScore"]=tmpScore;
-          SPLUgameStats[tmpGame]["Players"][tmpNameID]["LowScorePlay"]=tmpPlay;
+        if(tmpScore<SPLU.GameStats[tmpGame]["Players"][tmpNameID].LowScore){
+          SPLU.GameStats[tmpGame]["Players"][tmpNameID]["LowScore"]=tmpScore;
+          SPLU.GameStats[tmpGame]["Players"][tmpNameID]["LowScorePlay"]=tmpPlay;
         }
-        if(tmpScore<SPLUgameStats[tmpGame]["LowScore"]){
-          SPLUgameStats[tmpGame]["LowScore"]=tmpScore;
-          SPLUgameStats[tmpGame]["LowScorePlay"]=tmpPlay;
+        if(tmpScore<SPLU.GameStats[tmpGame]["LowScore"]){
+          SPLU.GameStats[tmpGame]["LowScore"]=tmpScore;
+          SPLU.GameStats[tmpGame]["LowScorePlay"]=tmpPlay;
         }
-        SPLUgameStats[tmpGame]["Players"][tmpNameID]["TotalScore"]+=tmpScore;
-        SPLUgameStats[tmpGame]["Players"][tmpNameID]["TotalPlays"]++;
-        SPLUgameStats[tmpGame]["TotalScore"]+=tmpScore;
-        SPLUgameStats[tmpGame]["TotalPlays"]++;
+        SPLU.GameStats[tmpGame]["Players"][tmpNameID]["TotalScore"]+=tmpScore;
+        SPLU.GameStats[tmpGame]["Players"][tmpNameID]["TotalPlays"]++;
+        SPLU.GameStats[tmpGame]["TotalScore"]+=tmpScore;
+        SPLU.GameStats[tmpGame]["TotalPlays"]++;
         if(tmpPlayers[p].getAttribute("win")=="1"){
-          SPLUgameStats[tmpGame]["Players"][tmpNameID]["TotalWins"]++;
+          SPLU.GameStats[tmpGame]["Players"][tmpNameID]["TotalWins"]++;
           if(tmpScore>0){
-            SPLUgameStats[tmpGame]["TotalWins"]++;
-            SPLUgameStats[tmpGame]["WinScoreSum"]+=tmpScore;
-            if(tmpScore>SPLUgameStats[tmpGame]["WinHighScore"]){
-              SPLUgameStats[tmpGame]["WinHighScore"]=tmpScore;
+            SPLU.GameStats[tmpGame]["TotalWins"]++;
+            SPLU.GameStats[tmpGame]["WinScoreSum"]+=tmpScore;
+            if(tmpScore>SPLU.GameStats[tmpGame]["WinHighScore"]){
+              SPLU.GameStats[tmpGame]["WinHighScore"]=tmpScore;
             }
-            if(tmpScore<SPLUgameStats[tmpGame]["WinLowScore"]){
-              SPLUgameStats[tmpGame]["WinLowScore"]=tmpScore;
+            if(tmpScore<SPLU.GameStats[tmpGame]["WinLowScore"]){
+              SPLU.GameStats[tmpGame]["WinLowScore"]=tmpScore;
             }
           }
         }
@@ -2628,21 +2627,21 @@
     }
 
     tmpHTML="";
-    for(keyGame in SPLUgameStats){
+    for(keyGame in SPLU.GameStats){
       tmpAverageAllScore=0;
       tmpAverageWinScore=0;
       tmpAverageDuration=0;
-      tmpHTML+='<span style="font-style:italic;color:rgb(213, 85, 198);font-weight:bold;">'+SPLUgameStats[keyGame].Game+'</span>';
-      if(SPLUgameStats[keyGame]["TotalScore"]!=0){
-        tmpAverageAllScore=SPLUgameStats[keyGame]["TotalScore"]/SPLUgameStats[keyGame]["TotalPlays"];
+      tmpHTML+='<span style="font-style:italic;color:rgb(213, 85, 198);font-weight:bold;">'+SPLU.GameStats[keyGame].Game+'</span>';
+      if(SPLU.GameStats[keyGame]["TotalScore"]!=0){
+        tmpAverageAllScore=SPLU.GameStats[keyGame]["TotalScore"]/SPLU.GameStats[keyGame]["TotalPlays"];
         tmpAverageAllScore=tmpAverageAllScore.toFixed(2);
       }
-      if(SPLUgameStats[keyGame]["WinScoreSum"]!=0){
-        tmpAverageWinScore=SPLUgameStats[keyGame]["WinScoreSum"]/SPLUgameStats[keyGame]["TotalWins"];
+      if(SPLU.GameStats[keyGame]["WinScoreSum"]!=0){
+        tmpAverageWinScore=SPLU.GameStats[keyGame]["WinScoreSum"]/SPLU.GameStats[keyGame]["TotalWins"];
         tmpAverageWinScore=tmpAverageWinScore.toFixed(2);
       }
-      if(SPLUgameStats[keyGame]["DurationSum"]>0){
-        tmpAverageDuration=SPLUgameStats[keyGame]["DurationSum"]/SPLUgameStats[keyGame]["TotalDurations"];
+      if(SPLU.GameStats[keyGame]["DurationSum"]>0){
+        tmpAverageDuration=SPLU.GameStats[keyGame]["DurationSum"]/SPLU.GameStats[keyGame]["TotalDurations"];
         tmpAverageDuration=tmpAverageDuration.toFixed(0);
       }
       if(tmpAverageAllScore>0 || tmpAverageWinScore>0 || tmpAverageDuration>0){
@@ -2658,25 +2657,25 @@
           tmpHTML+='<div style="display:table-row;">';
           tmpHTML+='<div style="display:table-cell;">All Scores</div>';
           tmpHTML+='<div style="display:table-cell;">'+tmpAverageAllScore+'</div>';
-          tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["LowScore"]+'</div>';
-          tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["HighScore"]+'</div>';
-          tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["TotalPlays"]+'</div></div>';
+          tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["LowScore"]+'</div>';
+          tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["HighScore"]+'</div>';
+          tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["TotalPlays"]+'</div></div>';
         }
         if(tmpAverageWinScore>0){
           tmpHTML+='<div style="display:table-row;">';
           tmpHTML+='<div style="display:table-cell;">Winning Scores</div>';
           tmpHTML+='<div style="display:table-cell;">'+tmpAverageWinScore+'</div>';
-          tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["WinLowScore"]+'</div>';
-          tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["WinHighScore"]+'</div>';
-          tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["TotalWins"]+'</div></div>';
+          tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["WinLowScore"]+'</div>';
+          tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["WinHighScore"]+'</div>';
+          tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["TotalWins"]+'</div></div>';
         }
         if(tmpAverageDuration>0){
           tmpHTML+='<div style="display:table-row;">';
           tmpHTML+='<div style="display:table-cell;">Duration</div>';
           tmpHTML+='<div style="display:table-cell;">'+tmpAverageDuration+' min</div>';
-          tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["DurationLow"]+'</div>';
-          tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["DurationHigh"]+'</div>';
-          tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["TotalDurations"]+'</div></div>';
+          tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["DurationLow"]+'</div>';
+          tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["DurationHigh"]+'</div>';
+          tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["TotalDurations"]+'</div></div>';
         }
         tmpHTML+='</div>';
       }
@@ -2690,28 +2689,28 @@
           +'<div style="display:table-cell;font-weight:bold;">AvgPts</div>'
           +'<div style="display:table-cell;font-weight:bold;">AvgWins</div>'
         +'</div>';
-      for(key in SPLUgameStats[keyGame]["Players"]){
-        tmpAverageScore=SPLUgameStats[keyGame]["Players"][key]["TotalScore"]/SPLUgameStats[keyGame]["Players"][key]["TotalPlays"];
+      for(key in SPLU.GameStats[keyGame]["Players"]){
+        tmpAverageScore=SPLU.GameStats[keyGame]["Players"][key]["TotalScore"]/SPLU.GameStats[keyGame]["Players"][key]["TotalPlays"];
         tmpAverageScore=tmpAverageScore.toFixed(2);
-        tmpAverageWins=(SPLUgameStats[keyGame]["Players"][key]["TotalWins"]/SPLUgameStats[keyGame]["Players"][key]["TotalPlays"])*100;
+        tmpAverageWins=(SPLU.GameStats[keyGame]["Players"][key]["TotalWins"]/SPLU.GameStats[keyGame]["Players"][key]["TotalPlays"])*100;
         tmpAverageWins=tmpAverageWins.toFixed(2);
-        tmpGame=SPLUgameStats[keyGame].Game;
+        tmpGame=SPLU.GameStats[keyGame].Game;
         tmpGame=tmpGame.replace("'","\\'");
         tmpGame=tmpGame.replace('"','\\"');
         tmpHTML+='<div style="display:table-row;">';
-        tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["Players"][key]["Name"]+'</div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+SPLUgameStats[keyGame]["Players"][key]["Name"]+'\');addPlaysFilter(\'gamename\',\'='+tmpGame+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLUgameStats[keyGame]["Players"][key]["TotalPlays"]+'</a></div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'winner\',\''+SPLUgameStats[keyGame]["Players"][key]["Name"]+'\');addPlaysFilter(\'gamename\',\'='+tmpGame+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLUgameStats[keyGame]["Players"][key]["TotalWins"]+'</a></div>';
+        tmpHTML+='<div style="display:table-cell;">'+SPLU.GameStats[keyGame]["Players"][key]["Name"]+'</div>';
+        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+SPLU.GameStats[keyGame]["Players"][key]["Name"]+'\');addPlaysFilter(\'gamename\',\'='+tmpGame+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLU.GameStats[keyGame]["Players"][key]["TotalPlays"]+'</a></div>';
+        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'winner\',\''+SPLU.GameStats[keyGame]["Players"][key]["Name"]+'\');addPlaysFilter(\'gamename\',\'='+tmpGame+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLU.GameStats[keyGame]["Players"][key]["TotalWins"]+'</a></div>';
         var tmpBold="";
-        if(SPLUgameStats[keyGame]["Players"][key]["LowScore"]==SPLUgameStats[keyGame]["LowScore"]){
+        if(SPLU.GameStats[keyGame]["Players"][key]["LowScore"]==SPLU.GameStats[keyGame]["LowScore"]){
           tmpBold="font-weight:bold;";
         }
-        tmpHTML+='<div style="display:table-cell;"><a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLUgameStats[keyGame]["Players"][key]["LowScorePlay"].id+');}"><span style="'+tmpBold+'">'+SPLUgameStats[keyGame]["Players"][key]["LowScore"]+'</span></a></div>';
+        tmpHTML+='<div style="display:table-cell;"><a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLU.GameStats[keyGame]["Players"][key]["LowScorePlay"].id+');}"><span style="'+tmpBold+'">'+SPLU.GameStats[keyGame]["Players"][key]["LowScore"]+'</span></a></div>';
         tmpBold="";
-        if(SPLUgameStats[keyGame]["Players"][key]["HighScore"]==SPLUgameStats[keyGame]["HighScore"]){
+        if(SPLU.GameStats[keyGame]["Players"][key]["HighScore"]==SPLU.GameStats[keyGame]["HighScore"]){
           tmpBold="font-weight:bold;";
         }
-        tmpHTML+='<div style="display:table-cell;"><a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLUgameStats[keyGame]["Players"][key]["HighScorePlay"].id+');}"><span style="'+tmpBold+'">'+SPLUgameStats[keyGame]["Players"][key]["HighScore"]+'</span></a></div>';
+        tmpHTML+='<div style="display:table-cell;"><a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLU.GameStats[keyGame]["Players"][key]["HighScorePlay"].id+');}"><span style="'+tmpBold+'">'+SPLU.GameStats[keyGame]["Players"][key]["HighScore"]+'</span></a></div>';
         tmpBold="";
         tmpHTML+='<div style="display:table-cell;">'+tmpAverageScore+'</div>';
         tmpHTML+='<div style="display:table-cell;">'+tmpAverageWins+'%</div>';
@@ -2723,7 +2722,7 @@
   }
   
   function getStatsBeginnersLuck(tmpUser){
-    SPLUgameStats={};
+    SPLU.GameStats={};
     for(i=0;i<SPLUlistOfPlays.length;i++){
       if(SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getElementsByTagName("players")[0]===undefined || SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].deleted){
         continue;
@@ -2737,13 +2736,13 @@
         if(tmpPlayers[p].getAttribute("name")!=""){
           tmpName=tmpPlayers[p].getAttribute("name");
         }
-        if(SPLUgameStats[tmpName]===undefined){
-          SPLUgameStats[tmpName]={
+        if(SPLU.GameStats[tmpName]===undefined){
+          SPLU.GameStats[tmpName]={
             "TotalNewWins":0
           };
         }
         if(tmpPlayers[p].getAttribute("new")=="1" && tmpPlayers[p].getAttribute("win")=="1"){
-          SPLUgameStats[tmpName]["TotalNewWins"]++;
+          SPLU.GameStats[tmpName]["TotalNewWins"]++;
         }
       }
     }
@@ -2752,11 +2751,11 @@
           +'<div style="display:table-cell;font-weight:bold;">Player</div>'
           +'<div style="display:table-cell;font-weight:bold;">New & Won</div>'
         +'</div>';
-    for(key in SPLUgameStats){
-      if(SPLUgameStats[key]["TotalNewWins"]!=0){
+    for(key in SPLU.GameStats){
+      if(SPLU.GameStats[key]["TotalNewWins"]!=0){
         tmpHTML+='<div style="display:table-row;">';
         tmpHTML+='<div style="display:table-cell;">'+key+'</div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+key+'\');addPlaysFilter(\'winner\',\''+key+'\');addPlaysFilter(\'new\',\''+key+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLUgameStats[key]["TotalNewWins"]+'</a></div>';
+        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+key+'\');addPlaysFilter(\'winner\',\''+key+'\');addPlaysFilter(\'new\',\''+key+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLU.GameStats[key]["TotalNewWins"]+'</a></div>';
         tmpHTML+='</div>';
       }
     }
@@ -2765,7 +2764,7 @@
   }
 
   function getStatsPlaysWins(tmpUser){
-    SPLUgameStats={};
+    SPLU.GameStats={};
     for(i=0;i<SPLUlistOfPlays.length;i++){
       if(SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getElementsByTagName("players")[0]===undefined || SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].deleted){
         continue;
@@ -2780,16 +2779,16 @@
         if(tmpPlayers[p].getAttribute("name")!=""){
           tmpName=tmpPlayers[p].getAttribute("name");
         }
-        if(SPLUgameStats[tmpName]===undefined){
-          SPLUgameStats[tmpName]={
+        if(SPLU.GameStats[tmpName]===undefined){
+          SPLU.GameStats[tmpName]={
             "TotalWins":0,
             "TotalPlays":0
           };
         }
         if(tmpPlayers[p].getAttribute("win")=="1"){
-          SPLUgameStats[tmpName]["TotalWins"]++;
+          SPLU.GameStats[tmpName]["TotalWins"]++;
         }
-        SPLUgameStats[tmpName]["TotalPlays"]++;
+        SPLU.GameStats[tmpName]["TotalPlays"]++;
       }
     }
     tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
@@ -2799,14 +2798,14 @@
           +'<div style="display:table-cell;font-weight:bold;">Wins</div>'
           +'<div style="display:table-cell;font-weight:bold;">Average</div>'
         +'</div>';
-    for(key in SPLUgameStats){
-      tmpAverage=(SPLUgameStats[key]["TotalWins"]/SPLUgameStats[key]["TotalPlays"])*100;
+    for(key in SPLU.GameStats){
+      tmpAverage=(SPLU.GameStats[key]["TotalWins"]/SPLU.GameStats[key]["TotalPlays"])*100;
       tmpAverage=tmpAverage.toFixed(2);
-      if(SPLUgameStats[key]["TotalNewWins"]!=0){
+      if(SPLU.GameStats[key]["TotalNewWins"]!=0){
         tmpHTML+='<div style="display:table-row;">';
         tmpHTML+='<div style="display:table-cell;">'+key+'</div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+key+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLUgameStats[key]["TotalPlays"]+'</a></div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+key+'\');addPlaysFilter(\'winner\',\''+key+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLUgameStats[key]["TotalWins"]+'</a></div>';
+        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+key+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLU.GameStats[key]["TotalPlays"]+'</a></div>';
+        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+key+'\');addPlaysFilter(\'winner\',\''+key+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLU.GameStats[key]["TotalWins"]+'</a></div>';
         tmpHTML+='<div style="display:table-cell;">'+tmpAverage+'%</div>';
         tmpHTML+='</div>';
       }
