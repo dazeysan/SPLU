@@ -70,7 +70,6 @@
     NumOfPlayers=0;
     PlayerCount=0;
     SPLUhistoryOpened=0;
-    SPLU.GameStats={};
     tmpDiv=document.createElement('div');
     tmpDiv.id="SPLU.popText";
     tmpDiv.style.visibility="hidden";
@@ -958,7 +957,8 @@
   
   function finalSetup(){
     loadPlayers();  
-    loadLocations();    
+    loadLocations();
+    delete SPLU.GameStats;
     for (var key in SPLU.Settings) {
       if (SPLU.Settings.hasOwnProperty(key)) {
         try{
