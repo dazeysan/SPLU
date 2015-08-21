@@ -911,7 +911,7 @@
             +'<option value="GameDetails">Game Details</option>'
             +'<option value="Locations">Locations</option>'
           +'</select>'
-          +'<span id="SPLUcsvDownload" style="margin-left:50px;">'
+          +'<span id="SPLUcsvDownload" style="margin-left:50px;vertical-align:top;">'
             +'<a href="javascript:{void(0);}" onClick="javascript:{SPLUdownloadText(\'SPLU-Export.csv\',SPLUcsv);}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/save-csv.png""></a>'
           +'</span>'
         +'</div>'
@@ -2587,6 +2587,7 @@
     if(stat=="PlaysWins"){
       var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
       getStatsPlaysWins(tmpUser);
+      document.getElementById('SPLUcsvDownload').style.display="";
     }
     if(stat=="Locations"){
       var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
@@ -2886,6 +2887,7 @@
           +'<div style="display:table-cell;font-weight:bold;">Wins</div>'
           +'<div style="display:table-cell;font-weight:bold;">Average</div>'
         +'</div>';
+    SPLUcsv='"Player","Play Count","Wins","Average"\r\n';
     for(key in SPLUgameStats){
       tmpAverage=(SPLUgameStats[key]["TotalWins"]/SPLUgameStats[key]["TotalPlays"])*100;
       tmpAverage=tmpAverage.toFixed(2);
@@ -2896,6 +2898,7 @@
         tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+key+'\');addPlaysFilter(\'winner\',\''+key+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLUgameStats[key]["TotalWins"]+'</a></div>';
         tmpHTML+='<div style="display:table-cell;">'+tmpAverage+'%</div>';
         tmpHTML+='</div>';
+        SPLUcsv+='"'+key+'","'+SPLUgameStats[key]["TotalPlays"]+'","'+SPLUgameStats[key]["TotalWins"]+'","'+tmpAverage+'"\r\n';
       }
     }
     tmpHTML+='</div>';
