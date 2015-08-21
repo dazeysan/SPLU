@@ -813,6 +813,8 @@
         +'</center>'
         +'</div>'
         +'</div>'
+        +'<div id="SPLUgroupsFilterRow" style="display:none;">'
+        +'</div>'
         +'</div>'
         +'<div style="display:table;">'
         +'<div style="display:table-row;">'
@@ -3499,7 +3501,7 @@ function getStatsLocations(tmpUser){
     }
     var groups=[];
     var tmpCount=SPLUplayerCount;
-    if(SPLU.Settings.SortPlayers.Order=="Alpha"){
+    if(SPLU.Settings.SortGroups.Order=="Alpha"){
       groups = Object.keys(SPLU.Groups).sort();
     }else{
       groups = Object.keys(SPLU.Groups);
@@ -3513,13 +3515,13 @@ function getStatsLocations(tmpUser){
         }else{
           tmp="";
         }
-        tmpHTML+="<div style='display:table-row;'>";
+        tmpHTML+="<div style='display:table-row;' id='SPLUgroupsFilterRow'>";
         tmpHTML+="<div style='display:table-cell; display:none;'></div>";
         tmpHTML+="<div style='display:table-cell;padding-right:2px; display:none;'></div>";
         tmpHTML+="<div style='display:table-cell;padding-right:2px; display:none;'></div>";
         tmpHTML+="<div style='display:table-cell;padding-right:2px; display:none;'></div>";
         tmpHTML+="<div style='display:none;width:22px;' name='SPLUplayerStaticColumn'></div>";
-        tmpHTML+="<div style='display:none;width:84px;"+tmp+"' name='SPLUplayerStaticColumn'>"+decodeURIComponent(SPLU.Groups[groups[key]].Name)+"</div>";
+        tmpHTML+="<div style='display:none;width:84px;"+tmp+"' name='SPLUplayerStaticColumn'>"+decodeURIComponent(groups[key])+"</div>";
         tmpHTML+="<div style='display:none;width:84px;"+tmp+"' name='SPLUplayerStaticColumn'></div>";
         tmpHTML+="<div style='display:none;width:64px;"+tmp+"' name='SPLUplayerFilterColumn'><center><input type='checkbox' name='SPLUfilterChecks' style='vertical-align:middle;' value='group-"+groups[key]+"' onClick='javascript:{updateFilters(this);}'></input></center></div>";
         tmpHTML+="<div style='display:none;width:64px;"+tmp+"' name='SPLUplayerGroupColumn'></div>";
@@ -3614,6 +3616,7 @@ function getStatsLocations(tmpUser){
     document.getElementById('SPLU.GroupsPaneControls').style.display="none";
     document.getElementById('SPLU.FiltersDeleteCell').style.display="";
     document.getElementById('SPLU.GroupsDeleteCell').style.display="none";
+    document.getElementById('SPLUgroupsFilterRow').style.display="table-row";
     setFilter("choose");
   }
 
@@ -3632,6 +3635,7 @@ function getStatsLocations(tmpUser){
     document.getElementById('SPLU.GroupsPaneControls').style.display="none";
     document.getElementById('SPLU.FiltersDeleteCell').style.display="none";
     document.getElementById('SPLU.GroupsDeleteCell').style.display="none";
+    document.getElementById('SPLUgroupsFilterRow').style.display="none";
   }
   
   function showGroupsTab(){
@@ -3649,6 +3653,7 @@ function getStatsLocations(tmpUser){
     document.getElementById('SPLU.GroupsPaneControls').style.display="";
     document.getElementById('SPLU.FiltersDeleteCell').style.display="none";
     document.getElementById('SPLU.GroupsDeleteCell').style.display="";
+    document.getElementById('SPLUgroupsFilterRow').style.display="none";
     setGroup();
   }
 
