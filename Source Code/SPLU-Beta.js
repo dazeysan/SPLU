@@ -1022,7 +1022,7 @@
     document.getElementById('quickplay_comments99').style.width=SPLU.Settings['CommentsField']['Width'];
     document.getElementById('quickplay_comments99').style.height=SPLU.Settings['CommentsField']['Height'];
     
-    setPlayers();
+    setPlayers("reset");
     getGameID();
     loadFilters();
     loadGroups();
