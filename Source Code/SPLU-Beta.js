@@ -3515,7 +3515,7 @@ function getStatsLocations(tmpUser){
         }else{
           tmp="";
         }
-        tmpHTML+="<div style='display:table-row;' id='SPLUgroupsFilterRow'>";
+        tmpHTML+="<div style='display:table-row;' name='SPLUgroupsFilterRow'>";
         tmpHTML+="<div style='display:table-cell; display:none;'></div>";
         tmpHTML+="<div style='display:table-cell;padding-right:2px; display:none;'></div>";
         tmpHTML+="<div style='display:table-cell;padding-right:2px; display:none;'></div>";
@@ -3601,6 +3601,13 @@ function getStatsLocations(tmpUser){
     }
   }
   
+  function setGroupsFilterRow(value){
+    tmp=document.getElementsByName('SPLUgroupsFilterRow');
+    for(i=0;i<tmp.length;i++){
+      tmp[i].style.display=value;
+    }
+  }
+
   function showFiltersTab(){
     setPlayerPaneColumn('SPLUplayerEditColumn','none');
     setPlayerPaneColumn('SPLUplayerGroupColumn','none');
@@ -3616,7 +3623,7 @@ function getStatsLocations(tmpUser){
     document.getElementById('SPLU.GroupsPaneControls').style.display="none";
     document.getElementById('SPLU.FiltersDeleteCell').style.display="";
     document.getElementById('SPLU.GroupsDeleteCell').style.display="none";
-    document.getElementById('SPLUgroupsFilterRow').style.display="table-row";
+    setGroupsFilterRow('table-row');
     setFilter("choose");
   }
 
@@ -3635,7 +3642,7 @@ function getStatsLocations(tmpUser){
     document.getElementById('SPLU.GroupsPaneControls').style.display="none";
     document.getElementById('SPLU.FiltersDeleteCell').style.display="none";
     document.getElementById('SPLU.GroupsDeleteCell').style.display="none";
-    document.getElementById('SPLUgroupsFilterRow').style.display="none";
+    setGroupsFilterRow('none');
   }
   
   function showGroupsTab(){
@@ -3653,7 +3660,7 @@ function getStatsLocations(tmpUser){
     document.getElementById('SPLU.GroupsPaneControls').style.display="";
     document.getElementById('SPLU.FiltersDeleteCell').style.display="none";
     document.getElementById('SPLU.GroupsDeleteCell').style.display="";
-    document.getElementById('SPLUgroupsFilterRow').style.display="none";
+    setGroupsFilterRow('none');
     setGroup();
   }
 
