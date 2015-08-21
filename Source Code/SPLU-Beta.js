@@ -911,6 +911,9 @@
             +'<option value="GameDetails">Game Details</option>'
             +'<option value="Locations">Locations</option>'
           +'</select>'
+          +'<span id="SPLUcsvDownload" style="margin-left:50px;">'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{download(\'SPLU-Export.csv\',\'SPLUcsv\');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/save-csv.png""></a>'
+          +'</span>'
         +'</div>'
         +'<div id="SPLU.StatsContent" style="display:none;overflow-y: auto; width: 315px;"></div>';
     tmpDiv.innerHTML+=tmpHTML;
@@ -2569,6 +2572,7 @@
   }
 
   function loadStats(stat){
+    document.getElementById('SPLUcsvDownload').style.display="none";
     if(stat=="choose"){
       stat=document.getElementById("SPLU.SelectStat").value;
     }
@@ -2587,12 +2591,24 @@
     if(stat=="Locations"){
       var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
       getStatsLocations(tmpUser);
+      document.getElementById('SPLUcsvDownload').style.display="";
     }
   }
 
   function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
   }
+  
+function download(filename, text) {
+  //From Stackoverflow
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+  element.style.display = 'none';
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element);
+}
   
   function getStatsGameDetails(tmpUser){
     document.getElementById("SPLU.StatsContent").innerHTML="Thinking...";
@@ -2911,11 +2927,12 @@ function getStatsLocations(tmpUser){
         +'<div style="display:table-cell;font-weight:bold;">Location</div>'
         +'<div style="display:table-cell;font-weight:bold;">Plays</div>'
       +'</div>';
-  SPLUcsv='"Location","Play Count"';
+  SPLUcsv='"Location","Play Count"\r\n';
   for(i=0;i<tmpLocs2.length;i++){
     tmpFilterLoc=tmpLocs2[i].location;
     tmpFilterLoc=tmpFilterLoc.replace("'","\\'");
     tmpFilterLoc=tmpFilterLoc.replace('"','\\"');
+    SPLUcsv+='"'+tmpLocs2[i].location+'","'+tmpLocs2[i].count+'"\r\n';
     if(tmpLocs2[i].location==""){
       tmpLocs2[i].location="&lt;Blank&gt;";
     }
