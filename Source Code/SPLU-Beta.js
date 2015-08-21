@@ -1023,8 +1023,8 @@
     document.getElementById('quickplay_comments99').style.height=SPLU.Settings['CommentsField']['Height'];
     
     tmpName=SPLU.Settings.DefaultPlayer.Name;
-    if(tmpName!="<none>"){
-      if(tmpName=="<blank>"){
+    if(tmpName!="-none-"){
+      if(tmpName=="-blank-"){
         insertPlayer(-1);
       }
       if(tmpName.slice(0,6)=="group-"){
@@ -1091,7 +1091,7 @@
       "PlayerGroups":{"Visible":false},
       "TwitterField":{"Enabled":false,"Visible":false,"Reset":true},
       "ExpansionWinStats":{"Enabled":false},
-      "DefaultPlayer":{"Name":"<blank>"}
+      "DefaultPlayer":{"Name":"-blank-"}
     }
   }
   
