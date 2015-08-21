@@ -2911,6 +2911,7 @@ function getStatsLocations(tmpUser){
         +'<div style="display:table-cell;font-weight:bold;">Location</div>'
         +'<div style="display:table-cell;font-weight:bold;">Plays</div>'
       +'</div>';
+  SPLUcsv='"Location","Play Count"';
   for(i=0;i<tmpLocs2.length;i++){
     tmpFilterLoc=tmpLocs2[i].location;
     tmpFilterLoc=tmpFilterLoc.replace("'","\\'");
