@@ -3497,6 +3497,35 @@ function getStatsLocations(tmpUser){
         tmpHTML+="</div>";
       }
     }
+    var groups=[];
+    var tmpCount=SPLUplayerCount;
+    if(SPLU.Settings.SortPlayers.Order=="Alpha"){
+      groups = Object.keys(SPLU.Groups).sort();
+    }else{
+      groups = Object.keys(SPLU.Groups);
+    }
+    for(var key=0;key<groups.length;key++){
+      var tmp="";
+      if (SPLU.Groups.hasOwnProperty(groups[key])) {
+        tmpCount++;
+        if(tmpCount % 2==1){
+          tmp="background-color:#E5EA3C;";
+        }else{
+          tmp="";
+        }
+        tmpHTML+="<div style='display:table-row;'>";
+        tmpHTML+="<div style='display:table-cell; display:none;'></div>";
+        tmpHTML+="<div style='display:table-cell;padding-right:2px; display:none;'></div>";
+        tmpHTML+="<div style='display:table-cell;padding-right:2px; display:none;'></div>";
+        tmpHTML+="<div style='display:table-cell;padding-right:2px; display:none;'></div>";
+        tmpHTML+="<div style='display:none;width:22px;' name='SPLUplayerStaticColumn'></div>";
+        tmpHTML+="<div style='display:none;width:84px;"+tmp+"' name='SPLUplayerStaticColumn'>"+decodeURIComponent(SPLU.Groups[groups[key]].Name)+"</div>";
+        tmpHTML+="<div style='display:none;width:84px;"+tmp+"' name='SPLUplayerStaticColumn'></div>";
+        tmpHTML+="<div style='display:none;width:64px;"+tmp+"' name='SPLUplayerFilterColumn'><center><input type='checkbox' name='SPLUfilterChecks' style='vertical-align:middle;' value='group-"+groups[key]+"' onClick='javascript:{updateFilters(this);}'></input></center></div>";
+        tmpHTML+="<div style='display:none;width:64px;"+tmp+"' name='SPLUplayerGroupColumn'></div>";
+        tmpHTML+="</div>";
+      }
+    }
     tmpHTML+='</div>';
     document.getElementById('SPLU.PlayersList').innerHTML=tmpHTML;
     addPlayer();
