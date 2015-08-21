@@ -1052,11 +1052,12 @@
       if(tmpName!="-none-"){
         if(tmpName=="-blank-"){
           insertPlayer(-1);
-        }
-        if(tmpName.slice(0,6)=="group-"){
-          insertGroup(tmpName.slice(6));
         } else {
-          insertPlayer(tmpName);
+          if(tmpName.slice(0,6)=="group-"){
+            insertGroup(tmpName.slice(6));
+          } else {
+            insertPlayer(tmpName);
+          }
         }
       }
     }
