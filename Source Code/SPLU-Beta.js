@@ -652,7 +652,6 @@
       +'</div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
-      +'</div>'
       +'<div style="display:table-row;" class="SPLUsettingAltRows">'
       +'<div style="display:table-cell; text-align:right;">Default Player</div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
@@ -662,6 +661,7 @@
       +'<div style="display:table-cell; text-align:right;"><select id="SPLU.SelectDefaultPlayer" onChange="javascript:{SPLU.Settings.DefaultPlayer.Name=document.getElementById(\'SPLU.SelectDefaultPlayer\').value;}"></select></div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
+      +'</div>'
       +'</div>'
       +'<div style="display:table; padding-top:15px;">'
       +'<div style="display:table-row;">'
@@ -1518,12 +1518,12 @@
       select.options[1]=new Option("-blank-", "-blank-", false, false);
     }
     var i=2;
-    for(var key in SPLU.Filters){
-      if (SPLU.Filters.hasOwnProperty(key)) {
+    for(var key in SPLU.Players){
+      if (SPLU.Players.hasOwnProperty(key)) {
         if(tmpName==key){
-          select.options[i]=new Option(key, key, false, true);
+          select.options[i]=new Option(decodeURIComponent(SPLU.Players[key].Name), key, false, true);
         }else{
-          select.options[i]=new Option(key, key, false, false);
+          select.options[i]=new Option(decodeURIComponent(SPLU.Players[key].Name), key, false, false);
         }
         i++;
       }
@@ -1531,9 +1531,9 @@
     for(var key in SPLU.Groups){
       if (SPLU.Groups.hasOwnProperty(key)) {
         if(tmpName=="group-"+key){
-          select.options[i]=new Option(key, key, false, true);
+          select.options[i]=new Option(key, "group-"+key, false, true);
         }else{
-          select.options[i]=new Option(key, key, false, false);
+          select.options[i]=new Option(key, "group-"+key, false, false);
         }
         i++;
       }
