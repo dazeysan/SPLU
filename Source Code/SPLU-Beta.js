@@ -2929,6 +2929,7 @@ function getStatsLocations(tmpUser){
   
   function loadPlay(id){
 	  console.log(id);
+    SPLUprevGameID=0;
     clearForm("clear");
     tmpPlay=SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][id];
     console.log("Found");
