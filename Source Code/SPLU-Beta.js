@@ -653,6 +653,16 @@
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
       +'</div>'
+      +'<div style="display:table-row;" class="SPLUsettingAltRows">'
+      +'<div style="display:table-cell; text-align:right;">Default Player</div>'
+      +'<div style="display:table-cell; text-align:center;"></div>'
+      +'<div style="display:table-cell; text-align:center;"></div>'
+      +'</div>'
+      +'<div style="display:table-row;" class="SPLUsettingAltRows">'
+      +'<div style="display:table-cell; text-align:right;"><select id="SPLU.SelectDefaultPlayer" onChange="javascript:{SPLU.Settings.DefaultPlayer.Name=document.getElementById(\'SPLU.SelectDefaultPlayer\').value;}"></select></div>'
+      +'<div style="display:table-cell; text-align:center;"></div>'
+      +'<div style="display:table-cell; text-align:center;"></div>'
+      +'</div>'
       +'<div style="display:table; padding-top:15px;">'
       +'<div style="display:table-row;">'
       +'<div style="display:table-cell; padding-right:10px;">'
@@ -938,7 +948,7 @@
     listenerForPopText("showLocationsPaneBtn","Edit Locations");
     listenerForPopText("SPLU.SaveLocationButton","Save This Location");
     listenerForPopText("BRplaysBtn","View/Edit Play History");
-    listenerForPopText("ResetFormBtn","Clear All Fields");
+    listenerForPopText("ResetFormBtn","Reset All Fields");
     listenerForPopText("DeleteGamePlayBtn","Delete this Play");
     //listenerForPopText("statisticsicon","Basic Stats");
     //listenerForPopText("filtericon","Apply Filter to These Results");
@@ -1026,6 +1036,7 @@
     getGameID();
     loadFilters();
     loadGroups();
+    loadDefaultPlayersList();
     SPLUcalendar = new YAHOO.widget.Calendar('SPLU.Calendar');
     var tmp=new Date();
     var tmp2=new Date();
@@ -1483,6 +1494,43 @@
     for(var key in SPLU.Groups){
       if (SPLU.Groups.hasOwnProperty(key)) {
         if(SPLUcurrentGroup==key){
+          select.options[i]=new Option(key, key, false, true);
+        }else{
+          select.options[i]=new Option(key, key, false, false);
+        }
+        i++;
+      }
+    }
+  }
+  
+  function loadDefaultPlayersList(){
+    select=document.getElementById('SPLU.SelectDefaultPlayer');
+    tmpName=SPLU.Settings.DefaultPlayer.Name;
+    select.options.length=0;
+    if(tmpName=="-none-"){
+      select.options[0]=new Option("-none-", "-none-", false, true);
+    } else {
+      select.options[0]=new Option("-none-", "-none-", false, false);
+    }
+    if(tmpName=="-blank-"){
+      select.options[1]=new Option("-blank-", "-blank-", false, true);
+    } else {
+      select.options[1]=new Option("-blank-", "-blank-", false, false);
+    }
+    var i=2;
+    for(var key in SPLU.Filters){
+      if (SPLU.Filters.hasOwnProperty(key)) {
+        if(tmpName==key){
+          select.options[i]=new Option(key, key, false, true);
+        }else{
+          select.options[i]=new Option(key, key, false, false);
+        }
+        i++;
+      }
+    }
+    for(var key in SPLU.Groups){
+      if (SPLU.Groups.hasOwnProperty(key)) {
+        if(tmpName=="group-"+key){
           select.options[i]=new Option(key, key, false, true);
         }else{
           select.options[i]=new Option(key, key, false, false);
@@ -3326,6 +3374,7 @@ function getStatsLocations(tmpUser){
     hidePanes();
     document.getElementById('SPLUwindow').style.minWidth="610px";
     document.getElementById('BRlogSettings').style.display="table-cell";
+    loadDefaultPlayersList();
   }
   
   function showExpansionsPane(source){
