@@ -360,7 +360,7 @@
         +'</div>'
         +'<div class="BRcells" id="SPLUresetFormDiv">'
           +'<div>'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{clearForm();VoidInstantSearch({itemid:\'0\',uniqueid:\'546e9ffd96dfc\'});}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="ResetFormBtn"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/clear_form.png" style="vertical-align: middle;"></a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{clearForm(\'reset\');VoidInstantSearch({itemid:\'0\',uniqueid:\'546e9ffd96dfc\'});}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="ResetFormBtn"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/clear_form.png" style="vertical-align: middle;"></a>'
           +'</div>'
         +'</div>'
         +'<div class="BRcells">'
@@ -1022,18 +1022,7 @@
     document.getElementById('quickplay_comments99').style.width=SPLU.Settings['CommentsField']['Width'];
     document.getElementById('quickplay_comments99').style.height=SPLU.Settings['CommentsField']['Height'];
     
-    tmpName=SPLU.Settings.DefaultPlayer.Name;
-    if(tmpName!="-none-"){
-      if(tmpName=="-blank-"){
-        insertPlayer(-1);
-      }
-      if(tmpName.slice(0,6)=="group-"){
-        insertGroup(tmpName.slice(6));
-      } else {
-        insertPlayer(tmpName);
-      }
-    }
-    
+    setPlayers();
     getGameID();
     loadFilters();
     loadGroups();
@@ -1044,6 +1033,25 @@
     SPLUcalendar.cfg.setProperty("maxdate",tmp2);
     SPLUcalendar.selectEvent.subscribe(function(){tmp3=new Date();selectedDate=new Date(SPLUcalendar.getSelectedDates()[0].setMinutes(SPLUcalendar.getSelectedDates()[0].getMinutes()-tmp3.getTimezoneOffset()));setDateField(selectedDate.toISOString().slice(0,selectedDate.toISOString().indexOf("T")));showHideCalendar();});
     document.getElementById('q546e9ffd96dfc').value=getGameTitle();
+  }
+  
+  function setPlayers(action){
+    tmpName=SPLU.Settings.DefaultPlayer.Name;
+    if(action=="reset"){
+      if(tmpName!="-none-"){
+        if(tmpName=="-blank-"){
+          insertPlayer(-1);
+        }
+        if(tmpName.slice(0,6)=="group-"){
+          insertGroup(tmpName.slice(6));
+        } else {
+          insertPlayer(tmpName);
+        }
+      }
+    }
+    if(action=="blank"){
+      insertPlayer(-1);
+    }
   }
   
   function setTwitterIcons(){
@@ -1952,11 +1960,11 @@
       if(SPLU.Settings.TwitterField.Reset){document.getElementById("twitter").checked=SPLU.Settings.TwitterField.Enabled;setTwitterIcons();}
     }
     if(action=="none"||action=="delete"){
-      clearForm();
+      clearForm("reset");
     }
   }
 
-  function clearForm(){
+  function clearForm(action){
     while(document.getElementsByClassName('SPLUrows').length>0){
       removePlayerRow(document.getElementsByClassName('SPLUrows')[0].parentNode.id.slice(14));
     }
@@ -1974,7 +1982,7 @@
     document.getElementById('nowinstats').checked=false;
     NumOfPlayers=0;
     PlayerCount=0;
-    insertPlayer(-1);
+    setPlayers(action);
     showHideEditButtons("hide");
     if(SPLU.Settings.DateField.Reset){setDateField(SPLUtoday);}
     if(SPLU.Settings.GameField.Reset){VoidInstantSearch({itemid:'0',uniqueid:'546e9ffd96dfc'});}
@@ -2870,7 +2878,7 @@ function getStatsLocations(tmpUser){
   
   function loadPlay(id){
 	  console.log(id);
-    clearForm();
+    clearForm("clear");
     tmpPlay=SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][id];
     console.log("Found");
     if(tmpPlay.getElementsByTagName("players")[0]!==undefined){
