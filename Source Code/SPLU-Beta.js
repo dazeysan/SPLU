@@ -1,4 +1,4 @@
-// SPLU 5.3.8 Beta
+// SPLU 5.3.9 Beta
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -11,7 +11,7 @@
     var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.3.8";
+    var SPLUversion="5.3.9";
 
     var SPLU={};
     var SPLUplayId="";
@@ -1021,7 +1021,19 @@
     }
     document.getElementById('quickplay_comments99').style.width=SPLU.Settings['CommentsField']['Width'];
     document.getElementById('quickplay_comments99').style.height=SPLU.Settings['CommentsField']['Height'];
-    insertPlayer(-1);
+    
+    tmpName=SPLU.Settings.DefaultPlayer.Name;
+    if(tmpName!="<none>"){
+      if(tmpName=="<blank>"){
+        insertPlayer(-1);
+      }
+      if(tmpName.slice(0,6)=="group-"){
+        insertGroup(tmpName.slice(6));
+      } else {
+        insertPlayer(tmpName);
+      }
+    }
+    
     getGameID();
     loadFilters();
     loadGroups();
@@ -1032,7 +1044,6 @@
     SPLUcalendar.cfg.setProperty("maxdate",tmp2);
     SPLUcalendar.selectEvent.subscribe(function(){tmp3=new Date();selectedDate=new Date(SPLUcalendar.getSelectedDates()[0].setMinutes(SPLUcalendar.getSelectedDates()[0].getMinutes()-tmp3.getTimezoneOffset()));setDateField(selectedDate.toISOString().slice(0,selectedDate.toISOString().indexOf("T")));showHideCalendar();});
     document.getElementById('q546e9ffd96dfc').value=getGameTitle();
-    
   }
   
   function setTwitterIcons(){
@@ -1079,7 +1090,8 @@
       "PlayerFilters":{"Visible":false},
       "PlayerGroups":{"Visible":false},
       "TwitterField":{"Enabled":false,"Visible":false,"Reset":true},
-      "ExpansionWinStats":{"Enabled":false}
+      "ExpansionWinStats":{"Enabled":false},
+      "DefaultPlayer":{"Name":"<blank>"}
     }
   }
   
