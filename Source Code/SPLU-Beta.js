@@ -1,4 +1,4 @@
-// SPLU 5.3.9 Beta
+// SPLU 5.4.0 Beta
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -11,7 +11,7 @@
     var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.3.9";
+    var SPLUversion="5.4.0";
 
     var SPLU={};
     var SPLUplayId="";
@@ -49,6 +49,7 @@
     var SPLUedit={};
     var SPLUlistOfPlays=[];
     var SPLUhistoryOpened=0;
+    var SPLUlastGameSaved="";
 
     var observer=new MutationObserver(function(){
       if(document.getElementById('selimage0').innerHTML.slice(0,4)=="<div"){
@@ -979,7 +980,7 @@
           if(SPLU.Settings[key].Visible){
             document.getElementById("SPLU."+key+"Check").checked=true;
           }else{
-            if(key!="PopUpText" && key!="LocationList" && key!="WinComments" && key!="ExpansionComments" && key!="PlayerList" && key!="ExpansionQuantity" && key!="ExpansionDetails" && key!="SortPlayers" && key!="SortGroups" && key!="PlayerGroups" && key!="ExpansionWinStats" && key!="DefaultPlayer"){
+            if(key!="PopUpText" && key!="LocationList" && key!="WinComments" && key!="ExpansionComments" && key!="PlayerList" && key!="ExpansionQuantity" && key!="ExpansionDetails" && key!="SortPlayers" && key!="SortGroups" && key!="PlayerGroups" && key!="ExpansionWinStats" && key!="DefaultPlayer" && key!="ExpansionLinkParent"){
               if(key.slice(-6)=="Column"){
                 document.getElementById('SPLU.'+key+'Header').style.display="none";
               }else{
@@ -1110,6 +1111,7 @@
       "ExpansionQuantity":{"Value":".1"},
       "ExpansionDetails":{"Include":true},
       "ExpansionComments":{"Visible":false},
+      "ExpansionLinkParent":{"Enabled":false},
       "SortPlayers":{"Order":"none"},
       "SortGroups":{"Order":"none"},
       "PlayerFilters":{"Visible":false},
@@ -1980,6 +1982,7 @@
     document.getElementById('BRresults').innerHTML="Saving...";
     new Request.JSON({url:'/geekplay.php',data:'ajax=1&action=save&version=2&objecttype=thing'+tmpID+querystring,onComplete:function(responseJSON,responseText){
         window.resJ=responseJSON;
+        SPLUlastGameSaved=responseJSON.playid;
         document.getElementById('BRresults').innerHTML=responseJSON.html;
         console.log(responseText);
         insertBlank('BRresults');
@@ -3308,6 +3311,10 @@ function getStatsLocations(tmpUser){
           var inputs=form.getElementsByTagName('input');
           var querystring="";
           var value="";
+          var tmpComment="";
+          if(SPLU.Settings.ExpansionLinkParent.Enabled){
+            tmpComments="Logged as part of [geekurl=/play/"+SPLUlastGameSaved+"]Parent Game[/geekurl]\r\n"
+          }
           if(SPLU.Settings.ExpansionDetails.Include){
             for(n=0; n<inputs.length; n++){
               if(inputs[n].name=="geekitemname" || inputs[n].name=="imageid"){
@@ -3328,16 +3335,16 @@ function getStatsLocations(tmpUser){
               }
               querystring+="&"+inputs[n].name+"="+encodeURIComponent(value);
             }
-            querystring+="&comments="+encodeURIComponent(form["quickplay_comments99"].value);
+            querystring+="&comments="+tmpComments+encodeURIComponent(form["quickplay_comments99"].value);
             querystring=querystring.replace("objectid="+SPLUgameID,"objectid="+tmpExp[i].id);
             querystring=querystring.replace("quantity="+document.getElementById('quickplay_quantity99').value,"quantity="+document.getElementById('BRexpPlayQTY').value);
           } else {
-            if(SPLU.Settings.ExpansionWinStats.Enabled){
-              querystring+="&nowinstats=1";
-            }
             querystring+="&objectid="+tmpExp[i].id;
             querystring+="&quantity="+document.getElementById('BRexpPlayQTY').value;
             querystring+="&playdate="+document.getElementById('playdate99').value;
+          }
+          if(SPLU.Settings.ExpansionWinStats.Enabled){
+            querystring+="&nowinstats=1";
           }
           new Request.JSON({url:'/geekplay.php',data:'ajax=1&action=save&version=2&objecttype=thing'+querystring,onComplete:function(responseJSON,responseText){
             var results=document.getElementsByName('QPresults'+responseJSON.html.slice(29,responseJSON.html.indexOf("?")));
