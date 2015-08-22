@@ -911,6 +911,8 @@
               +'<option value="new">New Player</option>'
               +'<option value="playercount">Player Count</option>'
               +'<option value="excludeexpansions">No Expansions</option>'
+              +'<option value="excludenowinstats">No Win Stats</option>'
+              +'<option value="excludeincomplete">No Incomplete</option>'
             +'</select>'
           +'<div id="SPLU.PlaysFiltersCurrent"></div>'
             +'<div id="SPLU.PlaysFiltersGoBtn"style="float:right;margin-top:-20px;margin-right:5px;display:none;">'
@@ -2453,6 +2455,20 @@
           }
         }
       }
+      if(filtertype=="excludenowinstats"){
+        for(i=0;i<plays.length;i++){
+          if(SPLUplayData[user][plays[i].id].getAttribute("nowinstats")==0){
+            plays[i].matches++;
+          }
+        }
+      }
+      if(filtertype=="excludeincomplete"){
+        for(i=0;i<plays.length;i++){
+          if(SPLUplayData[user][plays[i].id].getAttribute("incomplete")==0){
+            plays[i].matches++;
+          }
+        }
+      }
       if(filtertype=="begindate"){
         var d1 = new Date(lines[l].value);
         var d2 = new Date(lines[l].parentNode.children[2].value);
@@ -2542,6 +2558,14 @@
         tmpHTML+='Expansions Excluded<input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" style="display:none;" value="expansion">';
       }
       
+      if(filter=="excludenowinstats"){
+        tmpHTML+='No Win Stats Excluded<input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" style="display:none;" value="excludenowinstats">';
+      }
+      
+      if(filter=="excludeincomplete"){
+        tmpHTML+='Incomplete Excluded<input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" style="display:none;" value="excludeincomplete">';
+      }
+      
       if(filter=="objecttype"){
         tmpHTML+='Type: <select name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" onChange="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value);}">'
           +'<option value="boardgame">Board Game</option>'
@@ -2550,7 +2574,7 @@
           +'</select>';
       }
       
-      if(filter!="objecttype" && filter!="excludeexpansions" && filter!="daterange" && filter!="playercount"){
+      if(filter!="objecttype" && filter!="excludeexpansions" && filter!="excludenowinstats" && filter!="excludeincomplete" && filter!="daterange" && filter!="playercount"){
         tmpHTML+=filterName+': <input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" onKeyPress="eventFilterLineEnter(event)" value="'+filterVal+'"/>'; 
       }  
       
@@ -2566,7 +2590,7 @@
     }else{
       document.getElementById("SPLU.PlaysFiltersGoBtn").style.display="";
     }
-    if(filter=="excludeexpansions" || filterVal!=""){
+    if(filter=="excludeexpansions" || filter=="excludenowinstats" || filter=="excludeincomplete" || filterVal!=""){
       loadPlays(document.getElementById('SPLU.PlaysLogger').value);
     }
   }
