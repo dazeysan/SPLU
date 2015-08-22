@@ -1559,9 +1559,9 @@
     for(var key in SPLU.Groups){
       if (SPLU.Groups.hasOwnProperty(key)) {
         if(tmpName=="group-"+key){
-          select.options[i]=new Option(key, "group-"+key, false, true);
+          select.options[i]=new Option("["+key+"]", "group-"+key, false, true);
         }else{
-          select.options[i]=new Option(key, "group-"+key, false, false);
+          select.options[i]=new Option("["+key+"]", "group-"+key, false, false);
         }
         i++;
       }
@@ -3574,7 +3574,7 @@ function getStatsLocations(tmpUser){
         tmpHTML+="<div style='display:table-cell;padding-right:2px; display:none;'></div>";
         tmpHTML+="<div style='display:table-cell;padding-right:2px; display:none;'></div>";
         tmpHTML+="<div style='display:none;width:22px;' name='SPLUplayerStaticColumn'></div>";
-        tmpHTML+="<div style='display:none;width:84px;"+tmp+"' name='SPLUplayerStaticColumn'>"+decodeURIComponent(groups[key])+"</div>";
+        tmpHTML+="<div style='display:none;width:84px;"+tmp+"' name='SPLUplayerStaticColumn'>["+decodeURIComponent(groups[key])+"]</div>";
         tmpHTML+="<div style='display:none;width:84px;"+tmp+"' name='SPLUplayerStaticColumn'></div>";
         tmpHTML+="<div style='display:none;width:64px;"+tmp+"' name='SPLUplayerFilterColumn'><center><input type='checkbox' name='SPLUfilterChecks' style='vertical-align:middle;' value='group-"+groups[key]+"' onClick='javascript:{updateFilters(this);}'></input></center></div>";
         tmpHTML+="<div style='display:none;width:64px;"+tmp+"' name='SPLUplayerGroupColumn'></div>";
