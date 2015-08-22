@@ -2067,6 +2067,10 @@
     setTwitterIcons();
     //Don't do this or it clears the submit details.
     //VoidInstantSearch({itemid:'0',uniqueid:'546e9ffd96dfc'});
+    var tmpExp=document.getElementsByClassName('BRexpLogBox');
+    for(i=0;i<tmpExp.length;i++){
+      tmpExp[i].checked=false;
+    }
   }
   
   function setDateField(date){
