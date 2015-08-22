@@ -647,6 +647,20 @@
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
       +'<div style="display:table-row;">'
+      +'<div style="display:table-cell; text-align:right;">Exclude Expansions from Win Stats</div>'
+      +'<div style="display:table-cell; text-align:center;">'
+      +'<input type="checkbox" id="SPLU.ExpansionWinStatsCheck" onclick="javascript:{if(document.getElementById(\'SPLU.ExpansionWinStatsCheck\').checked){SPLU.Settings.ExpansionWinStats.Enabled=true;}else{SPLU.Settings.ExpansionWinStats.Enabled=false;}}"></input>'
+      +'</div>'
+      +'<div style="display:table-cell; text-align:center;"></div>'
+      +'</div>'
+      +'<div style="display:table-row;" class="SPLUsettingAltRows">'
+      +'<div style="display:table-cell; text-align:right;">Link Expansions to Parent Play</div>'
+      +'<div style="display:table-cell; text-align:center;">'
+      +'<input type="checkbox" id="SPLU.ExpansionLinkParentCheck" onclick="javascript:{if(document.getElementById(\'SPLU.ExpansionLinkParentCheck\').checked){SPLU.Settings.ExpansionLinkParent.Enabled=true;}else{SPLU.Settings.ExpansionLinkParent.Enabled=false;}}"></input>'
+      +'</div>'
+      +'<div style="display:table-cell; text-align:center;"></div>'
+      +'</div>'
+      +'<div style="display:table-row;">'
       +'<div style="display:table-cell; text-align:right;">Tweeting on by default</div>'
       +'<div style="display:table-cell; text-align:center;">'
       +'<input type="checkbox" id="SPLU.TwitterEnabledCheck" onclick="javascript:{if(document.getElementById(\'SPLU.TwitterEnabledCheck\').checked){SPLU.Settings.TwitterField.Enabled=true;document.getElementById(\'twitter\').checked=true;}else{SPLU.Settings.TwitterField.Enabled=false;document.getElementById(\'twitter\').checked=false;};setTwitterIcons();}"></input>'
@@ -1009,6 +1023,12 @@
             }
             if(key=="ExpansionDetails"){
               document.getElementById("SPLU.ExpansionDetailsCheck").checked=SPLU.Settings.ExpansionDetails.Include;
+            }
+            if(key=="ExpansionWinStats"){
+              document.getElementById("SPLU.ExpansionWinStatsCheck").checked=SPLU.Settings.ExpansionWinStats.Enabled;
+            }
+            if(key=="ExpansionLinkParent"){
+              document.getElementById("SPLU.ExpansionLinkParentCheck").checked=SPLU.Settings.ExpansionLinkParent.Enabled;
             }
           }
           if(key=="TwitterField"){
@@ -3311,9 +3331,9 @@ function getStatsLocations(tmpUser){
           var inputs=form.getElementsByTagName('input');
           var querystring="";
           var value="";
-          var tmpComment="";
+          var tmpComments="";
           if(SPLU.Settings.ExpansionLinkParent.Enabled){
-            tmpComments="Logged as part of [geekurl=/play/"+SPLUlastGameSaved+"]Parent Game[/geekurl]\r\n"
+            tmpComments="Logged as part of this [geekurl=/play/"+SPLUlastGameSaved+"]Parent Play[/geekurl]\r\n"
           }
           if(SPLU.Settings.ExpansionDetails.Include){
             for(n=0; n<inputs.length; n++){
