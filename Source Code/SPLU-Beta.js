@@ -947,7 +947,7 @@
     BRlogRow.appendChild(BRlogPlayers);
     BRlogRow.appendChild(BRlogPlays);
     BRlogMain.appendChild(BRlogRow);
-    document.getElementById('maincontent').insertBefore(BRlogMain,document.getElementById('maincontent').firstChild);
+    document.getElementById('SPLUmain').insertBefore(BRlogMain,document.getElementById('SPLUmain').firstChild);
 
     //Set up PopText for buttons and such
     listenerForPopText("collapseColor","Collapse");
