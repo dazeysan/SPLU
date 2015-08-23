@@ -71,6 +71,9 @@
     NumOfPlayers=0;
     PlayerCount=0;
     SPLUhistoryOpened=0;
+    tmpSPLU=document.createElement('div');
+    tmpSPLU.id="SPLUmain";
+    document.body.appendChild(tmpSPLU);
     tmpDiv=document.createElement('div');
     tmpDiv.id="SPLU.popText";
     tmpDiv.style.visibility="hidden";
@@ -79,7 +82,7 @@
     tmpDiv.style.backgroundColor="#f2ffa3";
     tmpDiv.style.border="1px Solid Black";
     tmpDiv.style.padding="3px";
-    document.getElementById("main_content").appendChild(tmpDiv);
+    document.getElementById("SPLUmain").appendChild(tmpDiv);
     
     var style=document.createElement('style');
     style.type='text/css';
