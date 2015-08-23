@@ -73,6 +73,7 @@
     SPLUhistoryOpened=0;
     tmpSPLU=document.createElement('div');
     tmpSPLU.id="SPLUmain";
+    tmpSPLU.style.fontSize="0.75em";
     document.body.appendChild(tmpSPLU);
     tmpDiv=document.createElement('div');
     tmpDiv.id="SPLU.popText";
