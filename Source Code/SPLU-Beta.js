@@ -111,13 +111,13 @@
     tmp=new Date();
     SPLUtodayDate=new Date(tmp.setMinutes(tmp.getMinutes()-tmp.getTimezoneOffset()));
     SPLUtempDate=SPLUtodayDate;
-    todayText=SPLUtempDate.toDateString().slice(0,3);
+    todayText=SPLUtempDate.toUTCString().slice(0,3);
     todayDate=SPLUtempDate.toISOString().slice(0,10);
     SPLUtempDate.setTime(SPLUtempDate.getTime()-86400000);
-    yesterdayText=SPLUtempDate.toDateString().slice(0,3);
+    yesterdayText=SPLUtempDate.toUTCString().slice(0,3);
     yesterdayDate=SPLUtempDate.toISOString().slice(0,10);
     SPLUtempDate.setTime(SPLUtempDate.getTime()-86400000);
-    daybeforeText=SPLUtempDate.toDateString().slice(0,3);
+    daybeforeText=SPLUtempDate.toUTCString().slice(0,3);
     daybeforeDate=SPLUtempDate.toISOString().slice(0,10);
     
     var tmpDiv=document.createElement('div');
