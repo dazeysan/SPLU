@@ -1,4 +1,4 @@
-// SPLU 5.4.0 Beta
+// SPLU 5.4.1 Beta
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -11,7 +11,7 @@
     var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.4.0";
+    var SPLUversion="5.4.1";
 
     var SPLU={};
     var SPLUplayId="";
@@ -50,6 +50,9 @@
     var SPLUlistOfPlays=[];
     var SPLUhistoryOpened=0;
     var SPLUlastGameSaved="";
+    var SPLUdateToday="";
+    var SPLUdateYesterday="";
+    var SPLUdateDayBefore="";
 
     var observer=new MutationObserver(function(){
       if(document.getElementById('selimage0').innerHTML.slice(0,4)=="<div"){
@@ -71,6 +74,10 @@
     NumOfPlayers=0;
     PlayerCount=0;
     SPLUhistoryOpened=0;
+    tmpSPLU=document.createElement('div');
+    tmpSPLU.id="SPLUmain";
+    tmpSPLU.style.fontSize="0.75em";
+    document.body.appendChild(tmpSPLU);
     tmpDiv=document.createElement('div');
     tmpDiv.id="SPLU.popText";
     tmpDiv.style.visibility="hidden";
@@ -79,7 +86,7 @@
     tmpDiv.style.backgroundColor="#f2ffa3";
     tmpDiv.style.border="1px Solid Black";
     tmpDiv.style.padding="3px";
-    document.getElementById("main_content").appendChild(tmpDiv);
+    document.getElementById("SPLUmain").appendChild(tmpDiv);
     
     var style=document.createElement('style');
     style.type='text/css';
@@ -104,15 +111,17 @@
     BRlogForm.name='myform';
     BRlogDiv.appendChild(BRlogForm);
     
+    tmp=new Date();
+    SPLUtodayDate=new Date(tmp.setMinutes(tmp.getMinutes()-tmp.getTimezoneOffset()));
     SPLUtempDate=SPLUtodayDate;
-    todayText=SPLUtempDate.toDateString().slice(0,3);
-    todayDate=SPLUtempDate.toISOString().slice(0,10);
+    todayText=SPLUtempDate.toUTCString().slice(0,3);
+    SPLUdateToday=SPLUtempDate.toISOString().slice(0,10);
     SPLUtempDate.setTime(SPLUtempDate.getTime()-86400000);
-    yesterdayText=SPLUtempDate.toDateString().slice(0,3);
-    yesterdayDate=SPLUtempDate.toISOString().slice(0,10);
+    yesterdayText=SPLUtempDate.toUTCString().slice(0,3);
+    SPLUdateYesterday=SPLUtempDate.toISOString().slice(0,10);
     SPLUtempDate.setTime(SPLUtempDate.getTime()-86400000);
-    daybeforeText=SPLUtempDate.toDateString().slice(0,3);
-    daybeforeDate=SPLUtempDate.toISOString().slice(0,10);
+    daybeforeText=SPLUtempDate.toUTCString().slice(0,3);
+    SPLUdateDayBefore=SPLUtempDate.toISOString().slice(0,10);
     
     var tmpDiv=document.createElement('div');
     var tmpHTML='<div style="float:right;margin-left:-20px; margin-right:-15px; margin-top:-13px;">'
@@ -137,7 +146,7 @@
             +'<div style="display:table-row;">'
               +'<div style="display:inline;">'
                 +'<input id="playdate99" type="hidden" value="'+SPLUtoday+'" name="playdate"/>'
-                +'<input id="playdateinput99" tabindex="10" style="width:75px;" type="text" onkeyup="parseDate(this,$(\'playdate99\'),$(\'playdatestatus99\') );" value="'+SPLUtoday+'" autocomplete="off" name="dateinput"/>'
+                +'<input id="playdateinput99" tabindex="10" style="width:75px;" type="text" oninput="highlightDayButton();" onkeyup="parseDate(this,$(\'playdate99\'),$(\'playdatestatus99\') );" value="'+SPLUtoday+'" autocomplete="off" name="dateinput"/>'
               +'</div>'
               +'<div id="playdatestatus99" class="sf" style="font-style:italic; font-size:0;display:inline;">'
                 +'<img style="position:relative; top:3px; right:2px;" src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/accept.png">'+SPLUtoday
@@ -151,11 +160,11 @@
             +'</div>'
             +'<div style="display:table-row;">'
               +'<div style="display:table-cell;font-size:x-small;padding-top:7px;">'
-                +'<a href="javascript:{void(0);}" onClick="javascript:{setDateField(\''+daybeforeDate+'\')}">'+daybeforeText+'</a>'
+                +'<a href="javascript:{void(0);}" id="SPLUbuttonDayBefore" onClick="javascript:{setDateField(\''+SPLUdateDayBefore+'\');}">'+daybeforeText+'</a>'
                 +'|'
-                +'<a href="javascript:{void(0);}" onClick="javascript:{setDateField(\''+yesterdayDate+'\')}">'+yesterdayText+'</a>'
+                +'<a href="javascript:{void(0);}" id="SPLUbuttonYesterday" onClick="javascript:{setDateField(\''+SPLUdateYesterday+'\');}">'+yesterdayText+'</a>'
                 +'|'
-                +'<a href="javascript:{void(0);}" onClick="javascript:{setDateField(\''+todayDate+'\')}">'+todayText+'</a>'
+                +'<a href="javascript:{void(0);}" id="SPLUbuttonToday" onClick="javascript:{setDateField(\''+SPLUdateToday+'\');}">'+todayText+'</a>'
               +'</div>'
             +'</div>'
           +'</div>'
@@ -944,7 +953,7 @@
     BRlogRow.appendChild(BRlogPlayers);
     BRlogRow.appendChild(BRlogPlays);
     BRlogMain.appendChild(BRlogRow);
-    document.getElementById('maincontent').insertBefore(BRlogMain,document.getElementById('maincontent').firstChild);
+    document.getElementById('SPLUmain').insertBefore(BRlogMain,document.getElementById('SPLUmain').firstChild);
 
     //Set up PopText for buttons and such
     listenerForPopText("collapseColor","Collapse");
@@ -988,6 +997,7 @@
   }
   
   function finalSetup(){
+    highlightDayButton();
     loadPlayers();  
     loadLocations();
     for (var key in SPLU.Settings) {
@@ -1072,6 +1082,24 @@
     SPLUcalendar.cfg.setProperty("maxdate",tmp2);
     SPLUcalendar.selectEvent.subscribe(function(){tmp3=new Date();selectedDate=new Date(SPLUcalendar.getSelectedDates()[0].setMinutes(SPLUcalendar.getSelectedDates()[0].getMinutes()-tmp3.getTimezoneOffset()));setDateField(selectedDate.toISOString().slice(0,selectedDate.toISOString().indexOf("T")));showHideCalendar();});
     document.getElementById('q546e9ffd96dfc').value=getGameTitle();
+  }
+  
+  function highlightDayButton(){
+    buttonToday=document.getElementById('SPLUbuttonToday');
+    buttonYesterday=document.getElementById('SPLUbuttonYesterday');
+    buttonDayBefore=document.getElementById('SPLUbuttonDayBefore');
+    buttonToday.style.backgroundColor="";
+    buttonYesterday.style.backgroundColor="";
+    buttonDayBefore.style.backgroundColor="";
+    if(document.getElementById('playdateinput99').value==SPLUdateToday){
+      buttonToday.style.backgroundColor="yellow";
+    }
+    if(document.getElementById('playdateinput99').value==SPLUdateYesterday){
+      buttonYesterday.style.backgroundColor="yellow";
+    }
+    if(document.getElementById('playdateinput99').value==SPLUdateDayBefore){
+      buttonDayBefore.style.backgroundColor="yellow";
+    }
   }
   
   function setPlayers(action){
@@ -1373,6 +1401,27 @@
     for(var key in SPLU.Locations){
       if (SPLU.Locations.hasOwnProperty(key)) {
         tmpDiv.innerHTML+='<div style="padding: 5px 2px 0px 0px; float: left;"><a href="javascript:{void(0);}" onClick="javascript:{insertLocation('+key+');}" onMouseDown="javascript:{this.style.backgroundColor=\'#eff708\';}" onMouseUp="javascript:{this.style.backgroundColor=\'#A4DFF3\';}" style="border:1px dotted green;padding:0px 2px;">'+decodeURIComponent(SPLU.Locations[key].Name)+'</a></div>';
+      }
+    }
+  }
+  
+  function suggestLocation(loc,event,source){
+    var suggestBox=document.getElementById("SPLUlocationSuggest");
+    suggestBox.value="";
+    console.log("value: "+loc.value);
+    console.log("code: "+event.keyCode);
+    if(loc.value!=""){
+      for(key in SPLU.Locations){
+        tmpName=decodeURIComponent(SPLU.Locations[key].Name);
+        if(loc.value == tmpName.slice(0,loc.value.length)){
+          console.log("Match: "+tmpName);
+          suggestBox.value=tmpName;
+          if(event.keyCode==13 || source=="blur"){
+            loc.value=tmpName;
+            suggestBox.value="";
+          }
+          break;
+        }
       }
     }
   }
@@ -2073,11 +2122,13 @@
     for(i=0;i<tmpExp.length;i++){
       tmpExp[i].checked=false;
     }
+    highlightDayButton();
   }
   
   function setDateField(date){
     document.getElementById('playdateinput99').value=date;
     parseDate(document.getElementById('playdateinput99'),$('playdate99'),$('playdatestatus99'));
+    highlightDayButton();
   }
 
   function eventPlaysPlayerEnter(e){
