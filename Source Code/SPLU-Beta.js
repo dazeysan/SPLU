@@ -50,6 +50,9 @@
     var SPLUlistOfPlays=[];
     var SPLUhistoryOpened=0;
     var SPLUlastGameSaved="";
+    var SPLUdateToday="";
+    var SPLUdateYesterday="";
+    var SPLUdateDayBefore="";
 
     var observer=new MutationObserver(function(){
       if(document.getElementById('selimage0').innerHTML.slice(0,4)=="<div"){
@@ -112,13 +115,13 @@
     SPLUtodayDate=new Date(tmp.setMinutes(tmp.getMinutes()-tmp.getTimezoneOffset()));
     SPLUtempDate=SPLUtodayDate;
     todayText=SPLUtempDate.toUTCString().slice(0,3);
-    todayDate=SPLUtempDate.toISOString().slice(0,10);
+    SPLUdateToday=SPLUtempDate.toISOString().slice(0,10);
     SPLUtempDate.setTime(SPLUtempDate.getTime()-86400000);
     yesterdayText=SPLUtempDate.toUTCString().slice(0,3);
-    yesterdayDate=SPLUtempDate.toISOString().slice(0,10);
+    SPLUdateYesterday=SPLUtempDate.toISOString().slice(0,10);
     SPLUtempDate.setTime(SPLUtempDate.getTime()-86400000);
     daybeforeText=SPLUtempDate.toUTCString().slice(0,3);
-    daybeforeDate=SPLUtempDate.toISOString().slice(0,10);
+    SPLUdateDayBefore=SPLUtempDate.toISOString().slice(0,10);
     
     var tmpDiv=document.createElement('div');
     var tmpHTML='<div style="float:right;margin-left:-20px; margin-right:-15px; margin-top:-13px;">'
@@ -143,7 +146,7 @@
             +'<div style="display:table-row;">'
               +'<div style="display:inline;">'
                 +'<input id="playdate99" type="hidden" value="'+SPLUtoday+'" name="playdate"/>'
-                +'<input id="playdateinput99" tabindex="10" style="width:75px;" type="text" onkeyup="parseDate(this,$(\'playdate99\'),$(\'playdatestatus99\') );" value="'+SPLUtoday+'" autocomplete="off" name="dateinput"/>'
+                +'<input id="playdateinput99" tabindex="10" style="width:75px;" type="text" oninput="highlightDayButton();" onkeyup="parseDate(this,$(\'playdate99\'),$(\'playdatestatus99\') );" value="'+SPLUtoday+'" autocomplete="off" name="dateinput"/>'
               +'</div>'
               +'<div id="playdatestatus99" class="sf" style="font-style:italic; font-size:0;display:inline;">'
                 +'<img style="position:relative; top:3px; right:2px;" src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/accept.png">'+SPLUtoday
@@ -157,11 +160,11 @@
             +'</div>'
             +'<div style="display:table-row;">'
               +'<div style="display:table-cell;font-size:x-small;padding-top:7px;">'
-                +'<a href="javascript:{void(0);}" onClick="javascript:{setDateField(\''+daybeforeDate+'\')}">'+daybeforeText+'</a>'
+                +'<a href="javascript:{void(0);}" id="SPLUbuttonDayBefore" onClick="javascript:{setDateField(\''+SPLUdateDayBefore+'\')}">'+daybeforeText+'</a>'
                 +'|'
-                +'<a href="javascript:{void(0);}" onClick="javascript:{setDateField(\''+yesterdayDate+'\')}">'+yesterdayText+'</a>'
+                +'<a href="javascript:{void(0);}" id="SPLUbuttonYesterday" onClick="javascript:{setDateField(\''+SPLUdateYesterday+'\')}">'+yesterdayText+'</a>'
                 +'|'
-                +'<a href="javascript:{void(0);}" onClick="javascript:{setDateField(\''+todayDate+'\')}">'+todayText+'</a>'
+                +'<a href="javascript:{void(0);}" id="SPLUbuttonToday" onClick="javascript:{setDateField(\''+SPLUdateToday+'\')}">'+todayText+'</a>'
               +'</div>'
             +'</div>'
           +'</div>'
@@ -1078,6 +1081,24 @@
     SPLUcalendar.cfg.setProperty("maxdate",tmp2);
     SPLUcalendar.selectEvent.subscribe(function(){tmp3=new Date();selectedDate=new Date(SPLUcalendar.getSelectedDates()[0].setMinutes(SPLUcalendar.getSelectedDates()[0].getMinutes()-tmp3.getTimezoneOffset()));setDateField(selectedDate.toISOString().slice(0,selectedDate.toISOString().indexOf("T")));showHideCalendar();});
     document.getElementById('q546e9ffd96dfc').value=getGameTitle();
+  }
+  
+  function highlightDayButton(){
+    buttonToday=document.getElementById('SPLUbuttonToday');
+    buttonYesterday=document.getElementById('SPLUbuttonYesterday');
+    buttonDayBefore=document.getElementById('SPLUbuttonDayBefore');
+    buttonToday.style.backgroundColor="";
+    buttonYesterday.style.backgroundColor="";
+    buttonDayBefore.style.backgroundColor="";
+    if(document.getElementById('playdateinput99').value==SPLUdateToday){
+      buttonToday.style.backgroundColor="yellow";
+    }
+    if(document.getElementById('playdateinput99').value==SPLUdateYesterday){
+      buttonYesterday.style.backgroundColor="yellow";
+    }
+    if(document.getElementById('playdateinput99').value==SPLUdateDayBefore){
+      buttonDayBefore.style.backgroundColor="yellow";
+    }
   }
   
   function setPlayers(action){
