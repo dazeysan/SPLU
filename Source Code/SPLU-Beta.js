@@ -160,11 +160,11 @@
             +'</div>'
             +'<div style="display:table-row;">'
               +'<div style="display:table-cell;font-size:x-small;padding-top:7px;">'
-                +'<a href="javascript:{void(0);}" id="SPLUbuttonDayBefore" onClick="javascript:{setDateField(\''+SPLUdateDayBefore+'\')}">'+daybeforeText+'</a>'
+                +'<a href="javascript:{void(0);}" id="SPLUbuttonDayBefore" onClick="javascript:{setDateField(\''+SPLUdateDayBefore+'\');}">'+daybeforeText+'</a>'
                 +'|'
-                +'<a href="javascript:{void(0);}" id="SPLUbuttonYesterday" onClick="javascript:{setDateField(\''+SPLUdateYesterday+'\')}">'+yesterdayText+'</a>'
+                +'<a href="javascript:{void(0);}" id="SPLUbuttonYesterday" onClick="javascript:{setDateField(\''+SPLUdateYesterday+'\');}">'+yesterdayText+'</a>'
                 +'|'
-                +'<a href="javascript:{void(0);}" id="SPLUbuttonToday" onClick="javascript:{setDateField(\''+SPLUdateToday+'\')}">'+todayText+'</a>'
+                +'<a href="javascript:{void(0);}" id="SPLUbuttonToday" onClick="javascript:{setDateField(\''+SPLUdateToday+'\');}">'+todayText+'</a>'
               +'</div>'
             +'</div>'
           +'</div>'
@@ -997,6 +997,7 @@
   }
   
   function finalSetup(){
+    highlightDayButton();
     loadPlayers();  
     loadLocations();
     for (var key in SPLU.Settings) {
@@ -2121,11 +2122,13 @@
     for(i=0;i<tmpExp.length;i++){
       tmpExp[i].checked=false;
     }
+    highlightDayButton();
   }
   
   function setDateField(date){
     document.getElementById('playdateinput99').value=date;
     parseDate(document.getElementById('playdateinput99'),$('playdate99'),$('playdatestatus99'));
+    highlightDayButton();
   }
 
   function eventPlaysPlayerEnter(e){
