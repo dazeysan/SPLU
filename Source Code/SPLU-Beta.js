@@ -108,6 +108,8 @@
     BRlogForm.name='myform';
     BRlogDiv.appendChild(BRlogForm);
     
+    tmp=new Date();
+    SPLUtodayDate=new Date(tmp.setMinutes(tmp.getMinutes()-tmp.getTimezoneOffset()));
     SPLUtempDate=SPLUtodayDate;
     todayText=SPLUtempDate.toDateString().slice(0,3);
     todayDate=SPLUtempDate.toISOString().slice(0,10);
@@ -1377,6 +1379,27 @@
     for(var key in SPLU.Locations){
       if (SPLU.Locations.hasOwnProperty(key)) {
         tmpDiv.innerHTML+='<div style="padding: 5px 2px 0px 0px; float: left;"><a href="javascript:{void(0);}" onClick="javascript:{insertLocation('+key+');}" onMouseDown="javascript:{this.style.backgroundColor=\'#eff708\';}" onMouseUp="javascript:{this.style.backgroundColor=\'#A4DFF3\';}" style="border:1px dotted green;padding:0px 2px;">'+decodeURIComponent(SPLU.Locations[key].Name)+'</a></div>';
+      }
+    }
+  }
+  
+  function suggestLocation(loc,event,source){
+    var suggestBox=document.getElementById("SPLUlocationSuggest");
+    suggestBox.value="";
+    console.log("value: "+loc.value);
+    console.log("code: "+event.keyCode);
+    if(loc.value!=""){
+      for(key in SPLU.Locations){
+        tmpName=decodeURIComponent(SPLU.Locations[key].Name);
+        if(loc.value == tmpName.slice(0,loc.value.length)){
+          console.log("Match: "+tmpName);
+          suggestBox.value=tmpName;
+          if(event.keyCode==13 || source=="blur"){
+            loc.value=tmpName;
+            suggestBox.value="";
+          }
+          break;
+        }
       }
     }
   }
