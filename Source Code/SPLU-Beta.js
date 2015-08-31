@@ -902,7 +902,7 @@
         +'<div id="SPLU.PlaysMenu" style="display:none;">'
           +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysFilters();}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/filter.png" id="filtericon"></a>'
           +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysStats();}" style="padding-left:15px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/statistics.png" id="statisticsicon"></a>'
-          +'<a href="javascript:{void(0);}" onClick="javascript:{showHideCopyMode();}" style="padding-left:15px;"><span id="copymodeicon">copy</span></a>'
+          +'<a href="javascript:{void(0);}" onClick="javascript:{loadplays(document.getElementById(\'SPLU.PlaysLogger\').value,true);}" style="padding-left:15px;"><span id="copymodeicon">copy</span></a>'
         +'</div>'
         +'<div id="SPLU.PlaysFilters" style="border: 1px solid blue; border-radius: 5px; padding: 3px; display:none;">'
           +'<div id="SPLU.PlaysFiltersStatus" style="float:right;"></div>'
@@ -926,7 +926,7 @@
             +'</select>'
           +'<div id="SPLU.PlaysFiltersCurrent"></div>'
             +'<div id="SPLU.PlaysFiltersGoBtn"style="float:right;margin-top:-20px;margin-right:5px;display:none;">'
-              +'<a href="javascript:{void(0);}" onClick="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value);}">go</a>'
+              +'<a href="javascript:{void(0);}" onClick="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);}">go</a>'
             +'</div>'
           +'</div>'
         +'</div>'
@@ -2006,7 +2006,7 @@
         if(responseJSON.target.status==200){
           document.getElementById('BRresults').innerHTML="Play Deleted.  <a href='"+responseJSON.target.responseURL+"' target='_blank'>View your plays</a>";
           SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][tmpPlay.id].deleted=true;
-          loadPlays(document.getElementById("SPLU.PlaysLogger").value);
+          loadPlays(document.getElementById("SPLU.PlaysLogger").value,false);
         }else{
           document.getElementById('BRresults').innerHTML="An Error Occurred";
         }
@@ -2223,7 +2223,7 @@
       }
     }
     if(tmpStatus==1){
-      loadPlays(player);
+      loadPlays(player,false);
     }else{
       console.log("Still Fetching");
     }
@@ -2251,17 +2251,16 @@
     }
     if(!multiple){
       if(player==document.getElementById("SPLU.PlaysLogger").value){
-        loadPlays(player);
+        loadPlays(player,false);
       }
     }else{
       getAllPlays(player);
     }
   }
 
-  function loadPlays(tmpUser){
+  function loadPlays(tmpUser,copyMode){
     document.getElementById("SPLU.PlaysPlayers").style.display="none";
     console.log("loadPlays("+tmpUser+")");
-    SPLUcopyMode=false;
     if(SPLUplayData[tmpUser]["total"]==0){
       document.getElementById('SPLU.PlaysStatus').innerHTML='<div>No Plays Found.</div>';
       document.getElementById('SPLU.PlaysList').innerHTML='';
@@ -2269,9 +2268,9 @@
     }else{
       if(tmpUser!=LoggedInAs){
         document.getElementById('copymodeicon').style.display="";
-        SPLUcopyMode=true;
       } else {
         document.getElementById('copymodeicon').style.display="none";
+        copyMode=false;
       }
       var tmpHTML="";
       var display=true;
@@ -2298,8 +2297,8 @@
             tmpDecoration="text-decoration:line-through;";
           }
           tmpCopyDiv='';
-          if(SPLUcopyMode){
-            tmpCopyDiv='<div style="display:table-cell;"><input type="checkbox" name="" id=""/></div>';
+          if(copyMode){
+            tmpCopyDiv='<div style="display:table-cell;"><input type="checkbox" name="SPLUcopyBox" id=""/></div>';
           }
           tmpHTML+='<div id="SPLU.Plays-'+tmpPlayId+'" style="display:table-row;'+tmpDecoration+'">'+tmpCopyDiv+'<div style="display:table-cell;">'+tmpPlayDate+' - <a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+tmpPlayId+');}">'+tmpPlayGame+'</a></div></div>';
         }
@@ -2582,7 +2581,7 @@
   
   function eventFilterLineEnter(e){
     if(e.keyCode === 13){
-      loadPlays(document.getElementById('SPLU.PlaysLogger').value);
+      loadPlays(document.getElementById('SPLU.PlaysLogger').value,false);
     }
     return false;
   }
@@ -2594,7 +2593,7 @@
     var filterName="";
     if(filter!="add" && filter!="---" && filter!="DEL"){
       SPLUplaysFiltersCount++;
-      var tmpHTML='<a href="javascript:{void(0);}" onclick="javascript:{document.getElementById(\'SPLU.PlaysFiltersCurrent\').removeChild(document.getElementById(\'SPLU.playsFiltersLine'+SPLUplaysFiltersCount+'\'));loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value);addPlaysFilter(\'DEL\',\'\');}" style="color:red;margin:2px;">'
+      var tmpHTML='<a href="javascript:{void(0);}" onclick="javascript:{document.getElementById(\'SPLU.PlaysFiltersCurrent\').removeChild(document.getElementById(\'SPLU.playsFiltersLine'+SPLUplaysFiltersCount+'\'));loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);addPlaysFilter(\'DEL\',\'\');}" style="color:red;margin:2px;">'
         +'<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/delete_row_small.png">'
         +'</a>';
       if(filter=="playername"){filterName="Player";}
@@ -2606,7 +2605,7 @@
       if(filter=="new"){filterName="New";}
       
       if(filter=="playercount"){
-        tmpHTML+='Player Count:<select name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="playercount" onChange="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value);}">'
+        tmpHTML+='Player Count:<select name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="playercount" onChange="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);}">'
         +'<option value="eq">Exactly</option>'
         +'<option value="lt">Less Than</option>'
         +'<option value="gt">Greater Than</option>'
@@ -2630,7 +2629,7 @@
       }
       
       if(filter=="objecttype"){
-        tmpHTML+='Type: <select name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" onChange="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value);}">'
+        tmpHTML+='Type: <select name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" onChange="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);}">'
           +'<option value="boardgame">Board Game</option>'
           +'<option value="videogame">Video Game</option>'
           +'<option value="rpgitem">RPG Item</option>'
@@ -2654,7 +2653,7 @@
       document.getElementById("SPLU.PlaysFiltersGoBtn").style.display="";
     }
     if(filter=="excludeexpansions" || filter=="excludenowinstats" || filter=="excludeincomplete" || filterVal!=""){
-      loadPlays(document.getElementById('SPLU.PlaysLogger').value);
+      loadPlays(document.getElementById('SPLU.PlaysLogger').value,false);
     }
   }
   
@@ -3112,7 +3111,7 @@ function getStatsLocations(tmpUser){
     for(key in SPLUplayData){
       if(SPLUplayData[key]["total"]>0){
         tmpPlayers.push(key);
-        document.getElementById("SPLU.PlaysPlayers").innerHTML+='<a onClick="javascript:{document.getElementById(\'SPLU.PlaysLogger\').value=\''+key+'\';loadPlays(\''+key+'\');}">'+key+'</a><br/>';
+        document.getElementById("SPLU.PlaysPlayers").innerHTML+='<a onClick="javascript:{document.getElementById(\'SPLU.PlaysLogger\').value=\''+key+'\';loadPlays(\''+key+'\',false);}">'+key+'</a><br/>';
       }
     }
     if(tmpPlayers.length>0){
