@@ -53,6 +53,8 @@
     var SPLUdateToday="";
     var SPLUdateYesterday="";
     var SPLUdateDayBefore="";
+    var SPLUcopyContinue=true;
+    var SPLUcopyID="0";
 
     var observer=new MutationObserver(function(){
       if(document.getElementById('selimage0').innerHTML.slice(0,4)=="<div"){
@@ -366,6 +368,11 @@
         +'<div class="BRcells" id="SPLUdeletePlayDiv" style="display:none;">'
           +'<div>'
             +'<a href="javascript:{void(0);}" onClick="javascript:{deleteGamePlay();}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="DeleteGamePlayBtn";><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/delete_play.png" style="vertical-align: middle;"></a>'
+          +'</div>'
+        +'</div>'
+        +'<div class="BRcells" id="SPLUcopyPlaysDiv" style="display:none;">'
+          +'<div>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlays(0,200);}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="CopyPlaysBtn";><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/save.png" style="vertical-align: middle;"></a>'
           +'</div>'
         +'</div>'
         +'<div class="BRcells" id="SPLUresetFormDiv">'
@@ -902,7 +909,7 @@
         +'<div id="SPLU.PlaysMenu" style="display:none;">'
           +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysFilters();}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/filter.png" id="filtericon"></a>'
           +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysStats();}" style="padding-left:15px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/statistics.png" id="statisticsicon"></a>'
-          +'<a href="javascript:{void(0);}" onClick="javascript:{loadplays(document.getElementById(\'SPLU.PlaysLogger\').value,true);}" style="padding-left:15px;"><span id="copymodeicon">copy</span></a>'
+          +'<a href="javascript:{void(0);}" onClick="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,true);}" style="padding-left:15px;"><span id="copymodeicon">copy mode</span></a>'
         +'</div>'
         +'<div id="SPLU.PlaysFilters" style="border: 1px solid blue; border-radius: 5px; padding: 3px; display:none;">'
           +'<div id="SPLU.PlaysFiltersStatus" style="float:right;"></div>'
@@ -2020,6 +2027,32 @@
     }
   }
   
+  function copyPlays(lastCopied,lastCopiedStatus){
+    console.log("copyPlays("+lastCopied+","+lastCopiedStatus+")");
+    if(lastCopiedStatus==200){
+      if(lastCopied!=0){
+        document.getElementById('SPLUcopyID-'+lastCopied).innerHTML='<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/accept.png">';
+      }
+    } else {
+      document.getElementById('SPLUcopyID-'+lastCopied).innerHTML='<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/alert.gif">';
+      SPLUcopyContinue=false;
+    }
+    if(SPLUcopyContinue){
+      tmpPlays=document.getElementsByName("SPLUcopyBox");
+      for(i=0;i<tmpPlays.length;i++){
+        if(tmpPlays[i].checked){
+          tmpPlayID=tmpPlays[i].getAttribute("data-SPLUcopyBox");
+          console.log(tmpPlayID);
+          loadPlay(tmpPlayID);
+          SPLUcopyID=tmpPlayID;
+          document.getElementById('SPLUcopyID-'+tmpPlayID).innerHTML='<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/progress.gif">';
+          window.setTimeout(function(){saveGamePlay("copy");},2000);
+          break;
+        }
+      }
+    }
+  }
+  
   function saveGamePlay(action){
     var form=$('myform');
     var inputs=form.getElementsByTagName('input');
@@ -2047,22 +2080,33 @@
       SPLUedit.submit=true;
       querystring=querystring.replace("twitter=1","twitter=0");
     }
-    if(SPLUhistoryOpened>0){
+    if(action!="copy" && SPLUhistoryOpened>0){
       SPLUedit.submit=true;
     }
     querystring+="&comments="+encodeURIComponent(form["quickplay_comments99"].value);
     document.getElementById('BRresults').innerHTML="Saving...";
     new Request.JSON({url:'/geekplay.php',data:'ajax=1&action=save&version=2&objecttype=thing'+tmpID+querystring,onComplete:function(responseJSON,responseText){
-        window.resJ=responseJSON;
-        SPLUlastGameSaved=responseJSON.playid;
         document.getElementById('BRresults').innerHTML=responseJSON.html;
+        window.resJ=responseJSON;
         console.log(responseText);
-        insertBlank('BRresults');
-        if(SPLUedit.submit){
-          fetchPlays(LoggedInAs,0,false,SPLUedit.objectid,SPLUedit.playdate);
-          SPLUedit.submit=false;
+        if(responseJSON.playid!==undefined){
+          SPLUlastGameSaved=responseJSON.playid;
+          insertBlank('BRresults');
+          if(SPLUedit.submit){
+            fetchPlays(LoggedInAs,0,false,SPLUedit.objectid,SPLUedit.playdate);
+            SPLUedit.submit=false;
+          }
+          if(action=="copy"){
+            copyPlays(SPLUcopyID,200);
+          } else {
+            saveExpansionPlays(action);
+          }
+        } else {
+          if(action=="copy"){
+            copyPlays(SPLUcopyID,responseJSON.target.status);
+          }
+
         }
-        saveExpansionPlays(action);
       }}).send();
   }
   
@@ -2268,8 +2312,13 @@
     }else{
       if(tmpUser!=LoggedInAs){
         document.getElementById('copymodeicon').style.display="";
+        SPLUcopyContinue=true;
+        if(copyMode){
+          document.getElementById('SPLUcopyPlaysDiv').style.display="";
+        }
       } else {
         document.getElementById('copymodeicon').style.display="none";
+        document.getElementById('SPLUcopyPlaysDiv').style.display="none";
         copyMode=false;
       }
       var tmpHTML="";
@@ -2298,7 +2347,7 @@
           }
           tmpCopyDiv='';
           if(copyMode){
-            tmpCopyDiv='<div style="display:table-cell;"><input type="checkbox" name="SPLUcopyBox" id=""/></div>';
+            tmpCopyDiv='<div id="SPLUcopyID-'+tmpPlayId+'" style="display:table-cell;"><input type="checkbox" name="SPLUcopyBox" data-SPLUcopyBox="'+tmpPlayId+'"/></div>';
           }
           tmpHTML+='<div id="SPLU.Plays-'+tmpPlayId+'" style="display:table-row;'+tmpDecoration+'">'+tmpCopyDiv+'<div style="display:table-cell;">'+tmpPlayDate+' - <a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+tmpPlayId+');}">'+tmpPlayGame+'</a></div></div>';
         }
