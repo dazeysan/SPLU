@@ -902,6 +902,7 @@
         +'<div id="SPLU.PlaysMenu" style="display:none;">'
           +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysFilters();}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/filter.png" id="filtericon"></a>'
           +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysStats();}" style="padding-left:15px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/statistics.png" id="statisticsicon"></a>'
+          +'<a href="javascript:{void(0);}" onClick="javascript:{showHideCopyMode();}" style="padding-left:15px;"><span id="copymodeicon">copy</span></a>'
         +'</div>'
         +'<div id="SPLU.PlaysFilters" style="border: 1px solid blue; border-radius: 5px; padding: 3px; display:none;">'
           +'<div id="SPLU.PlaysFiltersStatus" style="float:right;"></div>'
@@ -2260,11 +2261,18 @@
   function loadPlays(tmpUser){
     document.getElementById("SPLU.PlaysPlayers").style.display="none";
     console.log("loadPlays("+tmpUser+")");
+    SPLUcopyMode=false;
     if(SPLUplayData[tmpUser]["total"]==0){
       document.getElementById('SPLU.PlaysStatus').innerHTML='<div>No Plays Found.</div>';
       document.getElementById('SPLU.PlaysList').innerHTML='';
       document.getElementById('SPLU.PlaysMenu').style.display='none';
     }else{
+      if(tmpUser!=LoggedInAs){
+        document.getElementById('copymodeicon').style.display="";
+        SPLUcopyMode=true;
+      } else {
+        document.getElementById('copymodeicon').style.display="none";
+      }
       var tmpHTML="";
       var display=true;
       SPLUlistOfPlays=[];
@@ -2289,7 +2297,11 @@
           if(SPLUplayData[tmpUser][tmpPlayId].deleted){
             tmpDecoration="text-decoration:line-through;";
           }
-          tmpHTML+='<div id="SPLU.Plays-'+tmpPlayId+'" style="display:table-row;'+tmpDecoration+'"><div style="display:table-cell;">'+tmpPlayDate+' - <a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+tmpPlayId+');}">'+tmpPlayGame+'</a></div></div>';
+          tmpCopyDiv='';
+          if(SPLUcopyMode){
+            tmpCopyDiv='<div style="display:table-cell;"><input type="checkbox" name="" id=""/></div>';
+          }
+          tmpHTML+='<div id="SPLU.Plays-'+tmpPlayId+'" style="display:table-row;'+tmpDecoration+'">'+tmpCopyDiv+'<div style="display:table-cell;">'+tmpPlayDate+' - <a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+tmpPlayId+');}">'+tmpPlayGame+'</a></div></div>';
         }
       }
       tmpHTML+='</div>';
