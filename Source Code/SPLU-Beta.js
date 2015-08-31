@@ -372,7 +372,7 @@
         +'</div>'
         +'<div class="BRcells" id="SPLUcopyPlaysDiv" style="display:none;">'
           +'<div>'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlays(0,200);}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="CopyPlaysBtn";><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/save.png" style="vertical-align: middle;"></a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlays(0,200);}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="CopyPlaysBtn";><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/copy.gif" style="vertical-align: middle;"></a>'
           +'</div>'
         +'</div>'
         +'<div class="BRcells" id="SPLUresetFormDiv">'
