@@ -935,7 +935,7 @@
         +'<div id="SPLU.PlaysList" style="overflow-y:auto; width:275px;"></div>'
         +'<div class="BRcells" id="SPLUcopyPlaysDiv" style="display:none;padding-top:10px;">'
           +'<div>'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlays(0,200);}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="CopyPlaysBtn";>Copy Selected Plays <img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/copy.gif" style="vertical-align: middle;"></a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlays(0,200);}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="CopyPlaysBtn";><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/copy.gif" style="vertical-align: middle;"> Copy Selected Plays</a>'
           +'</div>'
         +'</div>'
         +'<div id="SPLU.StatsMenu" style="display:none;">'
@@ -2033,8 +2033,15 @@
       if(lastCopied!=0){
         document.getElementById('SPLUcopyID-'+lastCopied).innerHTML='<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/accept.png">';
       }
+    } else if(lastCopiedStatus=="retry"){
+      SPLUcopyContinue=true;
+      loadPlay(lastCopied);
+      SPLUcopyID=lastCopied;
+      document.getElementById('SPLUcopyID-'+lastCopied).innerHTML='<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/progress.gif">';
+      window.setTimeout(function(){saveGamePlay("copy");},2000);
+      return;
     } else {
-      document.getElementById('SPLUcopyID-'+lastCopied).innerHTML='<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/alert.gif">';
+      document.getElementById('SPLUcopyID-'+lastCopied).innerHTML='<a href="javascript:{void(0);}" onClick="javascript:{copyPlays('+lastCopied+',\'retry\');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/alert.gif">';
       SPLUcopyContinue=false;
     }
     if(SPLUcopyContinue){
