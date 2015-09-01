@@ -904,7 +904,7 @@
         +'<div id="SPLU.PlaysMenu" style="display:none;">'
           +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysFilters();}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/filter.png" id="filtericon"></a>'
           +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysStats();}" style="padding-left:15px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/statistics.png" id="statisticsicon"></a>'
-          +'<a href="javascript:{void(0);}" onClick="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,true);}" style="padding-left:15px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/save.png" id="copymodeicon"></a>'
+          +'<a href="javascript:{void(0);}" onClick="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,true);}" style="padding-left:15px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/copy.gif" id="copymodeicon"></a>'
         +'</div>'
         +'<div id="SPLU.PlaysFilters" style="border: 1px solid blue; border-radius: 5px; padding: 3px; display:none;">'
           +'<div id="SPLU.PlaysFiltersStatus" style="float:right;"></div>'
@@ -989,6 +989,8 @@
     listenerForPopText("BRplaysBtn","View/Edit Play History");
     listenerForPopText("ResetFormBtn","Reset All Fields");
     listenerForPopText("DeleteGamePlayBtn","Delete this Play");
+    listenerForPopText("copymodeicon","Enter Multi-Copy Mode");
+    listenerForPopText("CopyPlaysBtn","Copy the selected plays to your own plays.");
     //listenerForPopText("statisticsicon","Basic Stats");
     //listenerForPopText("filtericon","Apply Filter to These Results");
     //listenerForPopText("floppydiskicon","Remember This Player");
