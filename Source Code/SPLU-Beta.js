@@ -55,6 +55,7 @@
     var SPLUdateDayBefore="";
     var SPLUcopyContinue=true;
     var SPLUcopyID="0";
+    var SPLUcopySelectedAll=false;
 
     var observer=new MutationObserver(function(){
       if(document.getElementById('selimage0').innerHTML.slice(0,4)=="<div"){
@@ -933,8 +934,11 @@
           +'</div>'
         +'</div>'
         +'<div id="SPLU.PlaysList" style="overflow-y:auto; width:275px;"></div>'
-        +'<div class="BRcells" id="SPLUcopyPlaysDiv" style="display:none;padding-top:10px;">'
-          +'<div>'
+        +'<div id="SPLUcopyPlaysDiv" style="display:none;padding-top:10px;">'
+          +'<div class="BRcells">'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlaysSelectAll();}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="CopyPlaysSelectAllBtn";><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/copy.gif" style="vertical-align: middle;"> <span id="SPLUcopyPlaysSelectAllBtnText">Select All</span></a>'
+          +'</div>'
+          +'<div class="BRcells">'
             +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlays(0,200);}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="CopyPlaysBtn";><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/copy.gif" style="vertical-align: middle;"> Copy Selected Plays</a>'
           +'</div>'
         +'</div>'
@@ -2048,7 +2052,7 @@
     }
     if(SPLUcopyContinue){
       tmpPlays=document.getElementsByName("SPLUcopyBox");
-      for(i=0;i<tmpPlays.length;i++){
+      for(i=tmpPlays.length-1;i>=0;i--){
         if(tmpPlays[i].checked){
           tmpPlayID=tmpPlays[i].getAttribute("data-SPLUcopyBox");
           console.log(tmpPlayID);
@@ -2059,6 +2063,23 @@
           break;
         }
       }
+    }
+  }
+  
+  function copyPlaysSelectAll(){
+    tmpPlays=document.getElementsByName("SPLUcopyBox");
+    if(!SPLUcopySelectedAll){
+      for(i=0;i<tmpPlays.length;i++){
+        tmpPlays[i].checked=true;
+      }
+      document.getElementById('SPLUcopyPlaysSelectAllBtnText').innerHTML="Deselect All";
+      SPLUcopySelectedAll=true;
+    } else {
+      for(i=0;i<tmpPlays.length;i++){
+        tmpPlays[i].checked=false;
+      }
+      document.getElementById('SPLUcopyPlaysSelectAllBtnText').innerHTML="Select All";
+      SPLUcopySelectedAll=false;
     }
   }
   
@@ -2314,6 +2335,7 @@
   function loadPlays(tmpUser,copyMode){
     document.getElementById("SPLU.PlaysPlayers").style.display="none";
     console.log("loadPlays("+tmpUser+")");
+    SPLUcopySelectedAll=false;
     if(SPLUplayData[tmpUser]["total"]==0){
       document.getElementById('SPLU.PlaysStatus').innerHTML='<div>No Plays Found.</div>';
       document.getElementById('SPLU.PlaysList').innerHTML='';
@@ -2323,7 +2345,7 @@
         document.getElementById('copymodeicon').style.display="";
         SPLUcopyContinue=true;
         if(copyMode){
-          document.getElementById('SPLUcopyPlaysDiv').style.display="";
+          document.getElementById('SPLUcopyPlaysDiv').style.display="table-row";
         }
       } else {
         document.getElementById('copymodeicon').style.display="none";
@@ -2594,7 +2616,7 @@
         var d2 = new Date(lines[l].parentNode.children[2].value);
         for(i=0;i<plays.length;i++){
           var d3 = new Date(SPLUplayData[user][plays[i].id].getAttribute("date"));
-          console.log(d1+"||"+d2+"||"+d3);
+          //console.log(d1+"||"+d2+"||"+d3);
           if(d3 >= d1 && d3 <= d2){
             console.log("matches");
             plays[i].matches++;
