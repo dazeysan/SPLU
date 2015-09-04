@@ -937,7 +937,7 @@
         +'<div id="SPLU.PlaysList" style="overflow-y:auto; width:275px;"></div>'
         +'<div id="SPLUcopyPlaysDiv" style="display:none;padding-top:10px;">'
           +'<div class="BRcells">'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlaysSelectAll();}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="CopyPlaysSelectAllBtn";><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/select-all.gif" style="vertical-align: middle;"> <span id="SPLUcopyPlaysSelectAllBtnText">Select All</span></a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlaysSelectAll();}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="CopyPlaysSelectAllBtn";><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/select-all.png" style="vertical-align: middle;"> <span id="SPLUcopyPlaysSelectAllBtnText">Select All</span></a>'
           +'</div>'
           +'<div class="BRcells">'
             +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlays(0,200);}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="CopyPlaysBtn";><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/copy.gif" style="vertical-align: middle;"> Copy Selected Plays</a>'
