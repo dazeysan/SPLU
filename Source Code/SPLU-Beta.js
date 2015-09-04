@@ -1,4 +1,4 @@
-// SPLU 5.4.1 Beta
+// SPLU 5.4.2 Beta
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -11,7 +11,7 @@
     var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.4.1";
+    var SPLUversion="5.4.2";
 
     var SPLU={};
     var SPLUplayId="";
@@ -937,7 +937,7 @@
         +'<div id="SPLU.PlaysList" style="overflow-y:auto; width:275px;"></div>'
         +'<div id="SPLUcopyPlaysDiv" style="display:none;padding-top:10px;">'
           +'<div class="BRcells">'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlaysSelectAll();}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="CopyPlaysSelectAllBtn";><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/copy.gif" style="vertical-align: middle;"> <span id="SPLUcopyPlaysSelectAllBtnText">Select All</span></a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlaysSelectAll();}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="CopyPlaysSelectAllBtn";><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/select-all.gif" style="vertical-align: middle;"> <span id="SPLUcopyPlaysSelectAllBtnText">Select All</span></a>'
           +'</div>'
           +'<div class="BRcells">'
             +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlays(0,200);}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="CopyPlaysBtn";><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/copy.gif" style="vertical-align: middle;"> Copy Selected Plays</a>'
