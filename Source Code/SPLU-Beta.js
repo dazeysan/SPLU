@@ -56,6 +56,7 @@
     var SPLUcopyContinue=true;
     var SPLUcopyID="0";
     var SPLUcopySelectedAll=false;
+    var SPLUtimeouts={};
 
     var observer=new MutationObserver(function(){
       if(document.getElementById('selimage0').innerHTML.slice(0,4)=="<div"){
@@ -2039,15 +2040,16 @@
       if(lastCopied!=0){
         document.getElementById('SPLUcopyID-'+lastCopied).innerHTML='<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/accept.png">';
       }
-    } else if(lastCopiedStatus=="retry"){
+    }else if(lastCopiedStatus=="retry"){
       SPLUcopyContinue=true;
       loadPlay(lastCopied);
       SPLUcopyID=lastCopied;
       document.getElementById('SPLUcopyID-'+lastCopied).innerHTML='<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/progress.gif">';
       window.setTimeout(function(){saveGamePlay("copy");},2000);
       return;
-    } else {
+    }else{
       document.getElementById('SPLUcopyID-'+lastCopied).innerHTML='<a href="javascript:{void(0);}" onClick="javascript:{copyPlays('+lastCopied+',\'retry\');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/alert.gif">';
+      document.getElementById('BRresults').innerHTML="Timed Out. Try Again.";
       SPLUcopyContinue=false;
     }
     if(SPLUcopyContinue){
@@ -2115,7 +2117,19 @@
     }
     querystring+="&comments="+encodeURIComponent(form["quickplay_comments99"].value);
     document.getElementById('BRresults').innerHTML="Saving...";
+    if(action=="copy"){
+      SPLUtimeouts[SPLUcopyID]=setTimeout(function(){copyPlays(SPLUcopyID,"timeout");}, 10000);
+    }else{
+      SPLUtimeouts[0]=setTimeout(function(){document.getElementById('BRresults').innerHTML="Timed Out. Try Again.";}, 10000);
+    }
     new Request.JSON({url:'/geekplay.php',data:'ajax=1&action=save&version=2&objecttype=thing'+tmpID+querystring,onComplete:function(responseJSON,responseText){
+        clearTimeout(SPLUtimeouts[SPLUcopyID]);
+        if(responseJSON===undefined){
+          document.getElementById('BRresults').innerHTML="Error. Try Again.";
+          if(action=="copy"){
+            copyPlays(SPLUcopyID,"undefined");
+          }
+        }
         document.getElementById('BRresults').innerHTML=responseJSON.html;
         window.resJ=responseJSON;
         console.log(responseText);
@@ -2336,6 +2350,7 @@
     document.getElementById("SPLU.PlaysPlayers").style.display="none";
     console.log("loadPlays("+tmpUser+")");
     SPLUcopySelectedAll=false;
+    document.getElementById('SPLUcopyPlaysSelectAllBtnText').innerHTML="Select All";
     if(SPLUplayData[tmpUser]["total"]==0){
       document.getElementById('SPLU.PlaysStatus').innerHTML='<div>No Plays Found.</div>';
       document.getElementById('SPLU.PlaysList').innerHTML='';
@@ -2345,7 +2360,9 @@
         document.getElementById('copymodeicon').style.display="";
         SPLUcopyContinue=true;
         if(copyMode){
-          document.getElementById('SPLUcopyPlaysDiv').style.display="table-row";
+          document.getElementById('SPLUcopyPlaysDiv').style.display="";
+        } else {
+          document.getElementById('SPLUcopyPlaysDiv').style.display="none";
         }
       } else {
         document.getElementById('copymodeicon').style.display="none";
