@@ -910,7 +910,7 @@
           +'<div id="SPLUstatsIconBtn" style="display:inline;padding:5px 20px;border-top-left-radius:20px;border-top-right-radius:20px;">'
             +'<a href="javascript:{void(0);}" onClick="javascript:{setPlayHistoryTab(\'stats\');showPlaysStatsTab();}" style="padding-left:15px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/statistics.png" id="statisticsicon"></a>'
           +'</div>'
-          +'<div id=SPLUcopyModeIconBtn" style="display:none;padding:5px 20px;border-top-left-radius:20px;border-top-right-radius:20px;">'
+          +'<div id="SPLUcopyModeIconBtn" style="display:none;padding:5px 20px;border-top-left-radius:20px;border-top-right-radius:20px;">'
             +'<a href="javascript:{void(0);}" onClick="javascript:{setPlayHistoryTab(\'copymode\');loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,true);}" style="padding-left:15px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/copy.gif" id="copymodeicon"></a>'
           +'</div>'
         +'</div>'
