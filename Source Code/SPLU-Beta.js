@@ -58,6 +58,7 @@
     var SPLUcopySelectedAll=false;
     var SPLUtimeouts={};
     var SPLUwindowHeight=0;
+    var SPLUplaysListTab="filters";
 
     var observer=new MutationObserver(function(){
       if(document.getElementById('selimage0').innerHTML.slice(0,4)=="<div"){
@@ -2388,7 +2389,6 @@
         setPlayHistoryTab("filters");
       }
       var tmpHTML="";
-      var display=true;
       SPLUlistOfPlays=[];
       tmpHTML='<div id="SPLU.PlaysTable" style="display:table;">';
       for(key in SPLUplayData[tmpUser]){
@@ -2399,6 +2399,28 @@
       }
       SPLUlistOfPlays.sort(dynamicSortMultiple("-date", "-id"));
       SPLUlistOfPlays=filterPlays(SPLUlistOfPlays,tmpUser);
+      
+      if(SPLUplaysListTab=="filters"){
+        showPlaysListData(false);
+      }else if(SPLUplaysListTab=="copymode"){
+        showPlaysListData(true);
+      }else if(SPLUplaysListTab=="stats"){
+        loadStats("choose");
+      }
+    }
+  }
+
+  function showPlaysListData(copyMode){
+    if(SPLUplayData[tmpUser]["total"]==0){
+      document.getElementById('SPLU.PlaysStatus').innerHTML='<div>No Plays Found.</div>';
+      document.getElementById('SPLU.PlaysList').innerHTML='';
+    }else{
+      if(copyMode){
+        showPlaysCopyModeTab();
+      } else {
+        showPlaysListTab();
+      }
+      var tmpHTML="";
       var tmpSortCount=0;
       var tmpLines=document.getElementsByName("SPLU.PlaysFiltersLine").length;
       for(i=0;i<SPLUlistOfPlays.length;i++){
@@ -2433,7 +2455,6 @@
       document.getElementById("SPLU.PlaysFiltersStatus").innerHTML='<div>Showing '+tmpSortCount+'</div>';
       tmpHTML+='</div>';
       document.getElementById('SPLU.PlaysStatus').innerHTML=tmpHTML;
-      document.getElementById('SPLU.PlaysMenu').style.display='';
     }
   }
   
@@ -2790,14 +2811,12 @@
 
   function showPlaysListTab(){
     document.getElementById("SPLU.PlaysList").style.maxHeight=(SPLUwindowHeight-122)+"px";
-    if(document.getElementById("SPLU.PlaysFilters").style.display=="none"){
-      document.getElementById("SPLU.PlaysFilters").style.display="";
-      document.getElementById("SPLU.PlaysList").style.display="";
-    }
+    document.getElementById("SPLU.PlaysList").style.display="";
     document.getElementById("SPLU.StatsMenu").style.display="none";
     document.getElementById("SPLU.StatsContent").style.display="none";
     document.getElementById('SPLUcopyPlaysDiv').style.display="none";
-    setPlayHistoryTab("filers");
+    SPLUplaysListTab="filters";
+    setPlayHistoryTab("filters");
   }
 
   function showPlaysStatsTab(){
@@ -2807,19 +2826,19 @@
       document.getElementById("SPLU.StatsContent").style.display="";
       loadStats("choose");
     }
-    document.getElementById("SPLU.PlaysFilters").style.display="none";
     document.getElementById("SPLU.PlaysList").style.display="none";
     document.getElementById('SPLUcopyPlaysDiv').style.display="none";
+    SPLUplaysListTab="stats";
     setPlayHistoryTab("stats");
   }
 
   function showPlaysCopyModeTab(){
     document.getElementById("SPLU.PlaysList").style.maxHeight=(SPLUwindowHeight-122)+"px";
-    document.getElementById("SPLU.PlaysFilters").style.display="none";
     document.getElementById("SPLU.PlaysList").style.display="";
     document.getElementById("SPLU.StatsMenu").style.display="none";
     document.getElementById("SPLU.StatsContent").style.display="none";
     document.getElementById('SPLUcopyPlaysDiv').style.display="";
+    SPLUplaysListTab="copymode";
     setPlayHistoryTab("copymode");
   }
 
