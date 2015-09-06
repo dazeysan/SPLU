@@ -2264,7 +2264,7 @@
       }
       getString="/xmlapi2/plays?username="+player+"&page="+page;
     }else{
-      document.getElementById('SPLU.PlaysStatus').innerHTML="Fetching some of "+date;
+      document.getElementById('SPLU.PlaysStatus').innerHTML="Fetching plays from "+date;
       page=1;
       getString="/xmlapi2/plays?username="+player+"&id="+gameid+"&mindate="+date+"&maxdate="+date;
     }
@@ -2280,9 +2280,6 @@
         console.log("result 200 on page "+SPLUplaysPage);
         SPLUplays[player][page]=this.responseXML;
         parsePlays(player,page,multiple,gameid,date);
-        if(document.getElementById("SPLU.StatsContent").style.display!="none"){
-          loadStats("choose");
-        }
       }else{
         console.log("other status code, no fetchPlays");
       }
@@ -2376,17 +2373,15 @@
         document.getElementById('SPLUcopyModeIconBtn').style.display="inline";
         SPLUcopyContinue=true;
         if(copyMode){
-          document.getElementById('SPLUcopyPlaysDiv').style.display="";
           showPlaysTab("copymode");
         } else {
-          document.getElementById('SPLUcopyPlaysDiv').style.display="none";
-          showPlaysTab("filters");
+          showPlaysTab("same");
         }
       } else {
         document.getElementById('SPLUcopyModeIconBtn').style.display="none";
         document.getElementById('SPLUcopyPlaysDiv').style.display="none";
         copyMode=false;
-        showPlaysTab("filters");
+        showPlaysTab("same");
       }
       var tmpHTML="";
       SPLUlistOfPlays=[];
@@ -2401,16 +2396,29 @@
       SPLUlistOfPlays=filterPlays(SPLUlistOfPlays,tmpUser);
       
       if(SPLUplaysListTab=="filters"){
-        showPlaysListData(false);
+        showPlaysListData(tmpUser,false);
       }else if(SPLUplaysListTab=="copymode"){
-        showPlaysListData(true);
+        showPlaysListData(tmpUser,true);
       }else if(SPLUplaysListTab=="stats"){
         loadStats("choose");
       }
+      tmpCount=(Object.keys(SPLUplayData[tmpUser]).length)-2;
+      tmpHTML='<div><div>Loaded '+tmpCount+' of '+SPLUplayData[tmpUser]["total"];
+      if(SPLUplayData[tmpUser]["approximate"]==1){
+        tmpHTML+='*';
+      }
+      if(SPLUplayData[tmpUser]["total"]>(Object.keys(SPLUplayData[tmpUser]).length)-1){
+        tmpCount=(Math.floor(tmpCount/100))+1;
+        tmpHTML+='<a href="javascript:{void(0);}" onClick="javascript:{fetchPlays(\''+tmpUser+'\','+tmpCount+',false,0,0);}"> - Load next 100</a>';
+      }
+      tmpHTML+='</div>';
+      document.getElementById("SPLU.PlaysFiltersStatus").innerHTML='<div>Showing '+SPLUlistOfPlays.length+'</div>';
+      tmpHTML+='</div>';
+      document.getElementById('SPLU.PlaysStatus').innerHTML=tmpHTML;
     }
   }
 
-  function showPlaysListData(copyMode){
+  function showPlaysListData(tmpUser,copyMode){
     if(SPLUplayData[tmpUser]["total"]==0){
       document.getElementById('SPLU.PlaysStatus').innerHTML='<div>No Plays Found.</div>';
       document.getElementById('SPLU.PlaysList').innerHTML='';
@@ -2441,20 +2449,7 @@
         }
       }
       tmpHTML+='</div>';
-      tmpCount=(Object.keys(SPLUplayData[tmpUser]).length)-2;
       document.getElementById('SPLU.PlaysList').innerHTML=tmpHTML;
-      tmpHTML='<div><div>Loaded '+tmpCount+' of '+SPLUplayData[tmpUser]["total"];
-      if(SPLUplayData[tmpUser]["approximate"]==1){
-        tmpHTML+='*';
-      }
-      if(SPLUplayData[tmpUser]["total"]>(Object.keys(SPLUplayData[tmpUser]).length)-1){
-        tmpCount=(Math.floor(tmpCount/100))+1;
-        tmpHTML+='<a href="javascript:{void(0);}" onClick="javascript:{fetchPlays(\''+tmpUser+'\','+tmpCount+',false,0,0);}"> - Load next 100</a>';
-      }
-      tmpHTML+='</div>';
-      document.getElementById("SPLU.PlaysFiltersStatus").innerHTML='<div>Showing '+tmpSortCount+'</div>';
-      tmpHTML+='</div>';
-      document.getElementById('SPLU.PlaysStatus').innerHTML=tmpHTML;
     }
   }
   
