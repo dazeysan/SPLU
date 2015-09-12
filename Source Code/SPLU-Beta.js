@@ -1884,6 +1884,9 @@
     if (e.stopPropagation) {
       e.stopPropagation();
     }
+    if (e.preventDefault) {
+      e.preventDefault();
+    }
     if (SPLUdragSourceDiv != this) {
       console.log(e.dataTransfer.getData('text/html')+'||'+this.getAttribute('data-spluplayernumber'));
       movePlayer(e.dataTransfer.getData('text/html'),this.getAttribute('data-spluplayernumber'));
@@ -1892,6 +1895,12 @@
   }
   
   function handleDragEnd(e){
+    if (e.stopPropagation) {
+      e.stopPropagation();
+    }
+    if (e.preventDefault) {
+      e.preventDefault();
+    }
     SPLUdragSourceDiv.style.opacity='1.0';
     highlightPlayerRow(SPLUdragOverDiv,false);
   }
