@@ -60,7 +60,7 @@
     var SPLUwindowHeight=0;
     var SPLUplaysListTab="filters";
     var SPLUplayer={};
-    var SPLUdragOverDiv="";
+    var SPLUdragDiv="";
     var SPLUdragSourceDiv = null;
     
     var observer=new MutationObserver(function(){
@@ -1713,6 +1713,7 @@
     tmpDiv.addEventListener('dragleave', handleDragLeave, false);
     tmpDiv.addEventListener('dragend', handleDragEnd, false);
     tmpDiv.addEventListener('drop', handleDrop, false);
+    tmpDiv.addEventListener('click', handleDragClick, false);
     tmpDiv.innerHTML='<span style=""><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/drag_rows.png"></span>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
 
@@ -1793,6 +1794,7 @@
         removePlayerRow(1);
       }
     }
+    SPLUdragDiv=-1;
   }
 
   function movePlayer(player,after) {
@@ -1848,6 +1850,21 @@
       }
     }
   }
+  
+  function handleDragClick(e){
+    console.log(this);
+    if(SPLUdragDiv==-1){
+      SPLUdragDiv=this.getAttribute('data-spluplayernumber');
+      this.style.opacity="0.4";
+      return;
+    }
+    if(SPLUdragDiv!=this.getAttribute('data-spluplayernumber')){
+      movePlayer(SPLUdragDiv,this.getAttribute('data-spluplayernumber'));
+    }else{
+      this.style.opacity="1.0";
+      SPLUdragDiv=-1;
+    }
+  }
 
   function handleDragStart(e) {
     this.style.opacity = '0.4';
@@ -1867,14 +1884,14 @@
   function handleDragEnter(e) {
     if(this.hasAttribute('data-spluplayernumber')){
       console.log(this.getAttribute('data-spluplayernumber'));
-      SPLUdragOverDiv=this.getAttribute('data-spluplayernumber')
+      SPLUdragDiv=this.getAttribute('data-spluplayernumber')
       highlightPlayerRow(this.getAttribute('data-spluplayernumber'),true);
     }
   }
 
   function handleDragLeave(e) {
     if(this.hasAttribute('data-spluplayernumber')){
-      if(SPLUdragOverDiv!=this.getAttribute('data-spluplayernumber')){
+      if(SPLUdragDiv!=this.getAttribute('data-spluplayernumber')){
         highlightPlayerRow(this.getAttribute('data-spluplayernumber'),false);
       }
     }
@@ -1902,7 +1919,7 @@
       e.preventDefault();
     }
     SPLUdragSourceDiv.style.opacity='1.0';
-    highlightPlayerRow(SPLUdragOverDiv,false);
+    highlightPlayerRow(SPLUdragDiv,false);
   }
   
   function highlightPlayerRow(row,highlight){
