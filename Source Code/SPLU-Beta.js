@@ -59,7 +59,10 @@
     var SPLUtimeouts={};
     var SPLUwindowHeight=0;
     var SPLUplaysListTab="filters";
-
+    var SPLUplayer={};
+    var SPLUdragOverDiv="";
+    var SPLUdragSourceDiv = null;
+    
     var observer=new MutationObserver(function(){
       if(document.getElementById('selimage0').innerHTML.slice(0,4)=="<div"){
         document.getElementById('BRthumbButtons').style.display="none";
@@ -284,6 +287,7 @@
       +'</div>'
       +'<div id="SPLUplayerRows" style="display:table; padding-bottom:15px;">'
         +'<div style="display:table-row;">'
+          +'<div class="SPLUplayerCells" style="width:25px;"></div>'
           +'<div class="SPLUplayerCells" style="width:25px;"></div>'
           +'<div class="SPLUplayerCells" id="SPLU.PlayerNameColumnHeader">'
             +'<div id="SPLU.PlayerNameColumn" class="SPLUheader" style="min-width:38px;">'
@@ -922,8 +926,8 @@
             +'<select id="SPLU.SelectPlaysFilter" onChange="javascript:{addPlaysFilter(\'GUI\',\'\');}">'
               +'<option value="add">Add a Filter</option>'
               +'<option value="---" disabled>---</option>'
-              +'<option value="playername">Player Name</option>'
-              +'<option value="username">User Name</option>'
+              +'<option value="playername">Player</option>'
+              +'<option value="username">Username</option>'
               +'<option value="gamename">Game</option>'
               +'<option value="location">Location</option>'
               +'<option value="comments">Comments</option>'
@@ -1671,7 +1675,7 @@
       if(player.attributes.win.value==1){
         tmpWin="checked";
       }
-      if(player.getAttribute("new")==1){
+      if(player.attributes.new.value==1){
         tmpNew="checked";
       }
     } else if(player!=-1){
@@ -1686,8 +1690,30 @@
     var tmpDiv=document.createElement('div');
     tmpDiv.id="SPLU.PlayerRow"+NumOfPlayers;
     tmpDiv.style.display="table-row";
+    tmpDiv.dataset.spluplayernumber=NumOfPlayers;
+    tmpDiv.draggable=true;
+    tmpDiv.addEventListener('dragstart', handleDragStart, false);
+    tmpDiv.addEventListener('dragenter', handleDragEnter, false);
+    tmpDiv.addEventListener('dragover', handleDragOver, false);
+    tmpDiv.addEventListener('dragleave', handleDragLeave, false);
+    tmpDiv.addEventListener('drop', handleDrop, false);
     document.getElementById('SPLUplayerRows').appendChild(tmpDiv);
     
+    var tmpDiv=document.createElement('div');
+    tmpDiv.style.display="table-cell";
+    tmpDiv.style.textAlign="center";
+    tmpDiv.className="SPLUrows";
+    tmpDiv.id="SPLU.PlayerDragColumn"+NumOfPlayers;
+    tmpDiv.dataset.spluplayernumber=NumOfPlayers;
+    tmpDiv.draggable=true;
+    tmpDiv.addEventListener('dragstart', handleDragStart, false);
+    tmpDiv.addEventListener('dragenter', handleDragEnter, false);
+    tmpDiv.addEventListener('dragover', handleDragOver, false);
+    tmpDiv.addEventListener('dragleave', handleDragLeave, false);
+    tmpDiv.addEventListener('drop', handleDrop, false);
+    tmpDiv.innerHTML='<span style="">M</span>';
+    document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
+
     var tmpDiv=document.createElement('div');
     tmpDiv.style.display="table-cell";
     tmpDiv.className="SPLUrows";
@@ -1698,42 +1724,42 @@
     if(!SPLU.Settings.PlayerNameColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerNameColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="width:120px;" name="players['+NumOfPlayers+'][name]" value="'+tmpName+'" tabindex="1'+paddedNum+'"></input>';
+    tmpDiv.innerHTML='<input type="text" style="width:120px;" name="players['+NumOfPlayers+'][name]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="name" value="'+tmpName+'" tabindex="1'+paddedNum+'"></input>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerUsernameColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerUsernameColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="width:110px;" name="players['+NumOfPlayers+'][username]" value="'+tmpUser+'" tabindex="2'+paddedNum+'"></input>';
+    tmpDiv.innerHTML='<input type="text" style="width:110px;" name="players['+NumOfPlayers+'][username]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="username" value="'+tmpUser+'" tabindex="2'+paddedNum+'"></input>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerColorColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerColorColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="width:50px;" name="players['+NumOfPlayers+'][color]" value="'+tmpColor+'" tabindex="3'+paddedNum+'"></input>';
+    tmpDiv.innerHTML='<input type="text" style="width:50px;" name="players['+NumOfPlayers+'][color]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="color" value="'+tmpColor+'" tabindex="3'+paddedNum+'"></input>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerPositionColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerPositionColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="width:50px;" name="players['+NumOfPlayers+'][position]" value="'+tmpStart+'" tabindex="4'+paddedNum+'"></input>';
+    tmpDiv.innerHTML='<input type="text" style="width:50px;" name="players['+NumOfPlayers+'][position]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="startposition" value="'+tmpStart+'" tabindex="4'+paddedNum+'"></input>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerScoreColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerScoreColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="width:37px;" name="players['+NumOfPlayers+'][score]" value="'+tmpScore+'" tabindex="5'+paddedNum+'"></input>';
+    tmpDiv.innerHTML='<input type="text" style="width:37px;" name="players['+NumOfPlayers+'][score]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="score" value="'+tmpScore+'" tabindex="5'+paddedNum+'"></input>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerRatingColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerRatingColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="width:32px;" name="players['+NumOfPlayers+'][rating]" value="'+tmpRating+'" tabindex="6'+paddedNum+'"></input>';
+    tmpDiv.innerHTML='<input type="text" style="width:32px;" name="players['+NumOfPlayers+'][rating]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="rating" value="'+tmpRating+'" tabindex="6'+paddedNum+'"></input>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
@@ -1741,7 +1767,7 @@
     tmpDiv.style.textAlign="center";
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerWinColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="checkbox" name="players['+NumOfPlayers+'][win]" class="SPLU.WinBox" value="1" '+tmpWin+' tabindex="7'+paddedNum+'" style="margin-bottom:2px;" onClick="javascript:{if(SPLU.Settings.WinComments.Visible){NoreenWinComment();}}"></input>';
+    tmpDiv.innerHTML='<input type="checkbox" name="players['+NumOfPlayers+'][win]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="win" class="SPLU.WinBox" value="1" '+tmpWin+' tabindex="7'+paddedNum+'" style="margin-bottom:2px;" onClick="javascript:{if(SPLU.Settings.WinComments.Visible){NoreenWinComment();}}"></input>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
@@ -1749,7 +1775,7 @@
     tmpDiv.style.textAlign="center";
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerNewColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="checkbox" name="players['+NumOfPlayers+'][new]" value="1" '+tmpNew+' tabindex="8'+paddedNum+'" style="margin-bottom:2px;"></input>';
+    tmpDiv.innerHTML='<input type="checkbox" name="players['+NumOfPlayers+'][new]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="new" value="1" '+tmpNew+' tabindex="8'+paddedNum+'" style="margin-bottom:2px;"></input>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
@@ -1765,6 +1791,117 @@
         removePlayerRow(1);
       }
     }
+  }
+
+  function movePlayer(player,after) {
+    if(player==after){
+      return;
+    }
+    var form=$('myform');
+    var inputs=form.getElementsByTagName('input');
+    SPLUplayers={};
+    for(n=0; n<inputs.length; n++){
+      if(inputs[n].hasAttribute('data-spluplayerfield')){
+        tmpNumber=inputs[n].getAttribute('data-spluplayernumber');
+        tmpField=inputs[n].getAttribute('data-spluplayerfield');
+        if(inputs[n].type=="checkbox"){
+          if(inputs[n].checked){
+            tmpValue=1;
+          }else{
+            tmpValue=0;
+          }
+        }else{
+          tmpValue=inputs[n].value;
+        }
+        if(SPLUplayers[tmpNumber]===undefined){
+          SPLUplayers[tmpNumber]={'attributes':{
+            'name':{'value':''},
+            'username':{'value':''},
+            'color':{'value':''},
+            'startposition':{'value':''},
+            'score':{'value':''},
+            'rating':{'value':''},
+            'win':{'value':''},
+            'new':{'value':''}
+          }}
+        }
+        SPLUplayers[tmpNumber]['attributes'][tmpField].value=tmpValue;
+      }
+    }
+    while(document.getElementsByClassName('SPLUrows').length>0){
+      removePlayerRow(document.getElementsByClassName('SPLUrows')[0].parentNode.id.slice(14));
+    }
+    NumOfPlayers=0;
+    PlayerCount=0;
+    if(after==0){
+      insertPlayer(SPLUplayers[player]);
+    }
+    for(var key in SPLUplayers){
+      if(key==player){
+        continue;
+      }
+      insertPlayer(SPLUplayers[key]);
+      if(key==after){
+        insertPlayer(SPLUplayers[player]);
+      }
+    }
+  }
+
+  function handleDragStart(e) {
+    // Target (this) element is the source node.
+    this.style.opacity = '0.4';
+    console.log(this.getAttribute('data-spluplayernumber'));
+
+    SPLUdragSourceDiv = this;
+
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/html', this.getAttribute('data-spluplayernumber'));
+  }
+
+  function handleDragOver(e) {
+    if (e.preventDefault) {
+      e.preventDefault(); // Necessary. Allows us to drop.
+    }
+
+    e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
+
+    return false;
+  }
+
+  function handleDragEnter(e) {
+    // this / e.target is the current hover target.
+    //this.classList.add('over');
+    //console.log(this);
+    if(this.hasAttribute('data-spluplayernumber'){
+      console.log(this.getAttribute('data-spluplayernumber'));
+      SPLUdragOverDiv=document.getElementById('SPLU.PlayerNameColumn'+this.getAttribute('data-spluplayernumber'));
+      SPLUdragOverDiv.style.borderBottom="2px solid red";
+    }
+  }
+
+  function handleDragLeave(e) {
+    //this.classList.remove('over');  // this / e.target is previous target element.
+    //console.log(e);
+    SPLUdragOverDiv.style.borderBottom="";
+  }
+
+  function handleDrop(e) {
+    // this/e.target is current target element.
+
+    if (e.stopPropagation) {
+      e.stopPropagation(); // Stops some browsers from redirecting.
+    }
+
+    // Don't do anything if dropping the same column we're dragging.
+    if (SPLUdragSourceDiv != this) {
+      // Set the source column's HTML to the HTML of the column we dropped on.
+      //SPLUdragSourceDiv.innerHTML = this.innerHTML;
+      //this.innerHTML = e.dataTransfer.getData('text/html');
+      console.log(e.dataTransfer.getData('text/html')+'||'+this.getAttribute('data-spluplayernumber'));
+      movePlayer(e.dataTransfer.getData('text/html'),this.getAttribute('data-spluplayernumber'));
+    }
+
+    return false;
   }
   
   function getWinners(){
@@ -2728,7 +2865,7 @@
         +'<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/delete_row_small.png">'
         +'</a>';
       if(filter=="playername"){filterName="Player";}
-      if(filter=="username"){filterName="User Name";}
+      if(filter=="username"){filterName="Username";}
       if(filter=="gamename"){filterName="Game";}
       if(filter=="location"){filterName="Location";}
       if(filter=="comments"){filterName="Comments";}
