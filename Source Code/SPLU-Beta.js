@@ -1713,7 +1713,7 @@
     tmpDiv.addEventListener('dragleave', handleDragLeave, false);
     tmpDiv.addEventListener('dragend', handleDragEnd, false);
     tmpDiv.addEventListener('drop', handleDrop, false);
-    tmpDiv.innerHTML='<span style=""><img src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/drag_rows.png'></span>';
+    tmpDiv.innerHTML='<span style=""><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/drag_rows.png"></span>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
 
     var tmpDiv=document.createElement('div');
