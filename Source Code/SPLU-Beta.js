@@ -1696,6 +1696,7 @@
     tmpDiv.addEventListener('dragenter', handleDragEnter, false);
     tmpDiv.addEventListener('dragover', handleDragOver, false);
     tmpDiv.addEventListener('dragleave', handleDragLeave, false);
+    tmpDiv.addEventListener('dragend', handleDragEnd, false);
     tmpDiv.addEventListener('drop', handleDrop, false);
     document.getElementById('SPLUplayerRows').appendChild(tmpDiv);
     
@@ -1710,8 +1711,9 @@
     tmpDiv.addEventListener('dragenter', handleDragEnter, false);
     tmpDiv.addEventListener('dragover', handleDragOver, false);
     tmpDiv.addEventListener('dragleave', handleDragLeave, false);
+    tmpDiv.addEventListener('dragend', handleDragEnd, false);
     tmpDiv.addEventListener('drop', handleDrop, false);
-    tmpDiv.innerHTML='<span style="">M</span>';
+    tmpDiv.innerHTML='<span style=""><img src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/drag_rows.png'></span>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
 
     var tmpDiv=document.createElement('div');
@@ -1848,60 +1850,72 @@
   }
 
   function handleDragStart(e) {
-    // Target (this) element is the source node.
     this.style.opacity = '0.4';
-    console.log(this.getAttribute('data-spluplayernumber'));
-
     SPLUdragSourceDiv = this;
-
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('text/html', this.getAttribute('data-spluplayernumber'));
   }
 
   function handleDragOver(e) {
     if (e.preventDefault) {
-      e.preventDefault(); // Necessary. Allows us to drop.
+      e.preventDefault();
     }
-
-    e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
-
+    e.dataTransfer.dropEffect = 'move';
     return false;
   }
 
   function handleDragEnter(e) {
-    // this / e.target is the current hover target.
-    //this.classList.add('over');
-    //console.log(this);
     if(this.hasAttribute('data-spluplayernumber')){
       console.log(this.getAttribute('data-spluplayernumber'));
-      SPLUdragOverDiv=document.getElementById('SPLU.PlayerNameColumn'+this.getAttribute('data-spluplayernumber'));
-      SPLUdragOverDiv.style.borderBottom="2px solid red";
+      SPLUdragOverDiv=this.getAttribute('data-spluplayernumber')
+      highlightPlayerRow(this.getAttribute('data-spluplayernumber'),true);
     }
   }
 
   function handleDragLeave(e) {
-    //this.classList.remove('over');  // this / e.target is previous target element.
-    //console.log(e);
-    SPLUdragOverDiv.style.borderBottom="";
+    if(this.hasAttribute('data-spluplayernumber')){
+      if(SPLUdragOverDiv!=this.getAttribute('data-spluplayernumber')){
+        highlightPlayerRow(this.getAttribute('data-spluplayernumber'),false);
+      }
+    }
   }
 
   function handleDrop(e) {
-    // this/e.target is current target element.
-
     if (e.stopPropagation) {
-      e.stopPropagation(); // Stops some browsers from redirecting.
+      e.stopPropagation();
     }
-
-    // Don't do anything if dropping the same column we're dragging.
     if (SPLUdragSourceDiv != this) {
-      // Set the source column's HTML to the HTML of the column we dropped on.
-      //SPLUdragSourceDiv.innerHTML = this.innerHTML;
-      //this.innerHTML = e.dataTransfer.getData('text/html');
       console.log(e.dataTransfer.getData('text/html')+'||'+this.getAttribute('data-spluplayernumber'));
       movePlayer(e.dataTransfer.getData('text/html'),this.getAttribute('data-spluplayernumber'));
     }
-
     return false;
+  }
+  
+  function handleDragEnd(e){
+    SPLUdragSourceDiv.style.opacity='1.0';
+    highlightPlayerRow(SPLUdragOverDiv,false);
+  }
+  
+  function highlightPlayerRow(row,highlight){
+    if(highlight){
+      document.getElementById('SPLU.PlayerNameColumn'+row).style.borderBottom="2px solid red";
+      document.getElementById('SPLU.PlayerUsernameColumn'+row).style.borderBottom="2px solid red";
+      document.getElementById('SPLU.PlayerColorColumn'+row).style.borderBottom="2px solid red";
+      document.getElementById('SPLU.PlayerPositionColumn'+row).style.borderBottom="2px solid red";
+      document.getElementById('SPLU.PlayerScoreColumn'+row).style.borderBottom="2px solid red";
+      document.getElementById('SPLU.PlayerRatingColumn'+row).style.borderBottom="2px solid red";
+      document.getElementById('SPLU.PlayerWinColumn'+row).style.borderBottom="2px solid red";
+      document.getElementById('SPLU.PlayerNewColumn'+row).style.borderBottom="2px solid red";
+    }else{
+      document.getElementById('SPLU.PlayerNameColumn'+row).style.borderBottom="";
+      document.getElementById('SPLU.PlayerUsernameColumn'+row).style.borderBottom="";
+      document.getElementById('SPLU.PlayerColorColumn'+row).style.borderBottom="";
+      document.getElementById('SPLU.PlayerPositionColumn'+row).style.borderBottom="";
+      document.getElementById('SPLU.PlayerScoreColumn'+row).style.borderBottom="";
+      document.getElementById('SPLU.PlayerRatingColumn'+row).style.borderBottom="";
+      document.getElementById('SPLU.PlayerWinColumn'+row).style.borderBottom="";
+      document.getElementById('SPLU.PlayerNewColumn'+row).style.borderBottom="";
+    }
   }
   
   function getWinners(){
