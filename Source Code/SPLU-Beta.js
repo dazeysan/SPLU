@@ -1872,7 +1872,7 @@
     // this / e.target is the current hover target.
     //this.classList.add('over');
     //console.log(this);
-    if(this.hasAttribute('data-spluplayernumber'){
+    if(this.hasAttribute('data-spluplayernumber')){
       console.log(this.getAttribute('data-spluplayernumber'));
       SPLUdragOverDiv=document.getElementById('SPLU.PlayerNameColumn'+this.getAttribute('data-spluplayernumber'));
       SPLUdragOverDiv.style.borderBottom="2px solid red";
