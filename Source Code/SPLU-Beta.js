@@ -1690,10 +1690,7 @@
     var tmpDiv=document.createElement('div');
     tmpDiv.id="SPLU.PlayerRow"+NumOfPlayers;
     tmpDiv.style.display="table-row";
-    tmpDiv.style.cursor="row-resize";
     tmpDiv.dataset.spluplayernumber=NumOfPlayers;
-    tmpDiv.draggable=true;
-    tmpDiv.addEventListener('dragstart', handleDragStart, false);
     tmpDiv.addEventListener('dragenter', handleDragEnter, false);
     tmpDiv.addEventListener('dragover', handleDragOver, false);
     tmpDiv.addEventListener('dragleave', handleDragLeave, false);
