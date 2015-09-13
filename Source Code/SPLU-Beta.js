@@ -1690,6 +1690,7 @@
     var tmpDiv=document.createElement('div');
     tmpDiv.id="SPLU.PlayerRow"+NumOfPlayers;
     tmpDiv.style.display="table-row";
+    tmpDiv.style.cursor="row-resize";
     tmpDiv.dataset.spluplayernumber=NumOfPlayers;
     tmpDiv.draggable=true;
     tmpDiv.addEventListener('dragstart', handleDragStart, false);
@@ -3219,8 +3220,8 @@
         tmpGame=tmpGame.replace('"','\\"');
         tmpHTML+='<div style="display:table-row;">';
         tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["Players"][key]["Name"]+'</div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+SPLUgameStats[keyGame]["Players"][key]["Name"]+'\');addPlaysFilter(\'gamename\',\'='+tmpGame+'\');showPlaysTab(\'same\');}" href="javascript:{void(0);}">'+SPLUgameStats[keyGame]["Players"][key]["TotalPlays"]+'</a></div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'winner\',\''+SPLUgameStats[keyGame]["Players"][key]["Name"]+'\');addPlaysFilter(\'gamename\',\'='+tmpGame+'\');showPlaysTab(\'same\');}" href="javascript:{void(0);}">'+SPLUgameStats[keyGame]["Players"][key]["TotalWins"]+'</a></div>';
+        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'playername\',\'='+SPLUgameStats[keyGame]["Players"][key]["Name"]+'\');addPlaysFilter(\'gamename\',\'='+tmpGame+'\');}" href="javascript:{void(0);}">'+SPLUgameStats[keyGame]["Players"][key]["TotalPlays"]+'</a></div>';
+        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{showPlaysTab(\'filters\');}addPlaysFilter(\'winner\',\''+SPLUgameStats[keyGame]["Players"][key]["Name"]+'\');addPlaysFilter(\'gamename\',\'='+tmpGame+'\');" href="javascript:{void(0);}">'+SPLUgameStats[keyGame]["Players"][key]["TotalWins"]+'</a></div>';
         var tmpBold="";
         if(SPLUgameStats[keyGame]["Players"][key]["LowScore"]==SPLUgameStats[keyGame]["LowScore"]){
           tmpBold="font-weight:bold;";
@@ -3275,7 +3276,7 @@
       if(SPLUgameStats[key]["TotalNewWins"]!=0){
         tmpHTML+='<div style="display:table-row;">';
         tmpHTML+='<div style="display:table-cell;">'+key+'</div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+key+'\');addPlaysFilter(\'winner\',\''+key+'\');addPlaysFilter(\'new\',\''+key+'\');showPlaysTab(\'same\');}" href="javascript:{void(0);}">'+SPLUgameStats[key]["TotalNewWins"]+'</a></div>';
+        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{showPlaysTab(\'filters\');}" href="javascript:{void(0);addPlaysFilter(\'playername\',\'='+key+'\');addPlaysFilter(\'winner\',\''+key+'\');addPlaysFilter(\'new\',\''+key+'\');}">'+SPLUgameStats[key]["TotalNewWins"]+'</a></div>';
         tmpHTML+='</div>';
       }
     }
@@ -3325,8 +3326,8 @@
       if(SPLUgameStats[key]["TotalNewWins"]!=0){
         tmpHTML+='<div style="display:table-row;">';
         tmpHTML+='<div style="display:table-cell;">'+key+'</div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+key+'\');showPlaysTab(\'same\');}" href="javascript:{void(0);}">'+SPLUgameStats[key]["TotalPlays"]+'</a></div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+key+'\');addPlaysFilter(\'winner\',\''+key+'\');showPlaysTab(\'same\');}" href="javascript:{void(0);}">'+SPLUgameStats[key]["TotalWins"]+'</a></div>';
+        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'playername\',\'='+key+'\');}" href="javascript:{void(0);}">'+SPLUgameStats[key]["TotalPlays"]+'</a></div>';
+        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'playername\',\'='+key+'\');addPlaysFilter(\'winner\',\''+key+'\');}" href="javascript:{void(0);}">'+SPLUgameStats[key]["TotalWins"]+'</a></div>';
         tmpHTML+='<div style="display:table-cell;">'+tmpAverage+'%</div>';
         tmpHTML+='</div>';
         SPLUcsv+='"'+key+'","'+SPLUgameStats[key]["TotalPlays"]+'","'+SPLUgameStats[key]["TotalWins"]+'","'+tmpAverage+'"\r\n';
@@ -3372,7 +3373,7 @@ function getStatsLocations(tmpUser){
     }
     tmpHTML+='<div style="display:table-row;">';
     tmpHTML+='<div style="display:table-cell;">'+tmpLocs2[i].location+'</div>';
-    tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'location\',\'='+tmpFilterLoc+'\');showPlaysTab(\'same\');}" href="javascript:{void(0);}">'+tmpLocs2[i].count+'</a></div>';
+    tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'location\',\'='+tmpFilterLoc+'\');}" href="javascript:{void(0);}">'+tmpLocs2[i].count+'</a></div>';
     tmpHTML+='</div>';
   }
   tmpHTML+='</div>';
