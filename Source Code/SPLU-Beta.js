@@ -287,7 +287,7 @@
       +'</div>'
       +'<div id="SPLUplayerRows" style="display:table; padding-bottom:15px;">'
         +'<div style="display:table-row;">'
-          +'<div class="SPLUplayerCells" style="width:25px;text-align:center;vertical-align:middle;" id="SPLUplayerDragHeader"></div>'
+          +'<div class="SPLUplayerCells" style="width:25px;text-align:center;vertical-align:bottom;" id="SPLUplayerDragHeader"></div>'
           +'<div class="SPLUplayerCells" style="width:25px;"></div>'
           +'<div class="SPLUplayerCells" id="SPLU.PlayerNameColumnHeader">'
             +'<div id="SPLU.PlayerNameColumn" class="SPLUheader" style="min-width:38px;">'
@@ -1128,9 +1128,8 @@
     tmpDiv.addEventListener('dragend', handleDragEnd, false);
     tmpDiv.addEventListener('drop', handleDrop, false);
     tmpDiv.addEventListener('click', handleDragClick, false);
-    tmpDiv.innerHTML='<span style=""><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/drag_rows.png"></span>';
+    tmpDiv.innerHTML='<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/drag_rows.png">';
     document.getElementById('SPLUplayerDragHeader').appendChild(tmpDiv);
-    
   }
   
   function highlightDayButton(){
@@ -1910,7 +1909,7 @@
   function handleDragLeave(e) {
     if(this.hasAttribute('data-spluplayernumber')){
       if(SPLUdragDiv!=this.getAttribute('data-spluplayernumber')){
-        highlightPlayerRow(this.getAttribute('data-spluplayernumber'),false);
+        //highlightPlayerRow(this.getAttribute('data-spluplayernumber'),false);
       }
     }
   }
@@ -1947,39 +1946,29 @@
     if(row==-1){
       return;
     }
-    if(highlight){
-      if(row==0){
-        row=1;
-        document.getElementById('SPLU.PlayerNameColumn'+row).style.borderTop="2px solid red";
-        document.getElementById('SPLU.PlayerUsernameColumn'+row).style.borderTop="2px solid red";
-        document.getElementById('SPLU.PlayerColorColumn'+row).style.borderTop="2px solid red";
-        document.getElementById('SPLU.PlayerPositionColumn'+row).style.borderTop="2px solid red";
-        document.getElementById('SPLU.PlayerScoreColumn'+row).style.borderTop="2px solid red";
-        document.getElementById('SPLU.PlayerRatingColumn'+row).style.borderTop="2px solid red";
-        document.getElementById('SPLU.PlayerWinColumn'+row).style.borderTop="2px solid red";
-        document.getElementById('SPLU.PlayerNewColumn'+row).style.borderTop="2px solid red";
-      }else{
-        document.getElementById('SPLU.PlayerNameColumn'+row).style.borderBottom="2px solid red";
-        document.getElementById('SPLU.PlayerUsernameColumn'+row).style.borderBottom="2px solid red";
-        document.getElementById('SPLU.PlayerColorColumn'+row).style.borderBottom="2px solid red";
-        document.getElementById('SPLU.PlayerPositionColumn'+row).style.borderBottom="2px solid red";
-        document.getElementById('SPLU.PlayerScoreColumn'+row).style.borderBottom="2px solid red";
-        document.getElementById('SPLU.PlayerRatingColumn'+row).style.borderBottom="2px solid red";
-        document.getElementById('SPLU.PlayerWinColumn'+row).style.borderBottom="2px solid red";
-        document.getElementById('SPLU.PlayerNewColumn'+row).style.borderBottom="2px solid red";
-      }
+    tmp=document.getElementsByClassName('SPLUrows');
+    for(i=0;i<tmp.length;i++){
+      tmp[i].style.border="";
+    }
+    if(row==0){
+      row=1;
+      document.getElementById('SPLU.PlayerNameColumn'+row).style.borderTop="2px solid red";
+      document.getElementById('SPLU.PlayerUsernameColumn'+row).style.borderTop="2px solid red";
+      document.getElementById('SPLU.PlayerColorColumn'+row).style.borderTop="2px solid red";
+      document.getElementById('SPLU.PlayerPositionColumn'+row).style.borderTop="2px solid red";
+      document.getElementById('SPLU.PlayerScoreColumn'+row).style.borderTop="2px solid red";
+      document.getElementById('SPLU.PlayerRatingColumn'+row).style.borderTop="2px solid red";
+      document.getElementById('SPLU.PlayerWinColumn'+row).style.borderTop="2px solid red";
+      document.getElementById('SPLU.PlayerNewColumn'+row).style.borderTop="2px solid red";
     }else{
-      if(row==0){
-        row=1;
-      }
-      document.getElementById('SPLU.PlayerNameColumn'+row).style.border="";
-      document.getElementById('SPLU.PlayerUsernameColumn'+row).style.border="";
-      document.getElementById('SPLU.PlayerColorColumn'+row).style.border="";
-      document.getElementById('SPLU.PlayerPositionColumn'+row).style.border="";
-      document.getElementById('SPLU.PlayerScoreColumn'+row).style.border="";
-      document.getElementById('SPLU.PlayerRatingColumn'+row).style.border="";
-      document.getElementById('SPLU.PlayerWinColumn'+row).style.border="";
-      document.getElementById('SPLU.PlayerNewColumn'+row).style.border="";
+      document.getElementById('SPLU.PlayerNameColumn'+row).style.borderBottom="2px solid red";
+      document.getElementById('SPLU.PlayerUsernameColumn'+row).style.borderBottom="2px solid red";
+      document.getElementById('SPLU.PlayerColorColumn'+row).style.borderBottom="2px solid red";
+      document.getElementById('SPLU.PlayerPositionColumn'+row).style.borderBottom="2px solid red";
+      document.getElementById('SPLU.PlayerScoreColumn'+row).style.borderBottom="2px solid red";
+      document.getElementById('SPLU.PlayerRatingColumn'+row).style.borderBottom="2px solid red";
+      document.getElementById('SPLU.PlayerWinColumn'+row).style.borderBottom="2px solid red";
+      document.getElementById('SPLU.PlayerNewColumn'+row).style.borderBottom="2px solid red";
     }
   }
   
