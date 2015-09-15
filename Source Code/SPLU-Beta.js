@@ -287,7 +287,7 @@
       +'</div>'
       +'<div id="SPLUplayerRows" style="display:table; padding-bottom:15px;">'
         +'<div style="display:table-row;">'
-          +'<div class="SPLUplayerCells" style="width:25px;text-align:center;vertical-align:middle;" SPLUplayerDragHeader></div>'
+          +'<div class="SPLUplayerCells" style="width:25px;text-align:center;vertical-align:middle;" id="SPLUplayerDragHeader"></div>'
           +'<div class="SPLUplayerCells" style="width:25px;"></div>'
           +'<div class="SPLUplayerCells" id="SPLU.PlayerNameColumnHeader">'
             +'<div id="SPLU.PlayerNameColumn" class="SPLUheader" style="min-width:38px;">'
@@ -1886,6 +1886,7 @@
     SPLUdragSourceDiv = this;
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('text/html', this.getAttribute('data-spluplayernumber'));
+    document.getElementById('SPLU.PlayerDragColumn0').style.display="";
   }
 
   function handleDragOver(e) {
@@ -1923,6 +1924,7 @@
       console.log(e.dataTransfer.getData('text/html')+'||'+this.getAttribute('data-spluplayernumber'));
       movePlayer(e.dataTransfer.getData('text/html'),this.getAttribute('data-spluplayernumber'));
     }
+    document.getElementById('SPLU.PlayerDragColumn0').style.display="none";
     return false;
   }
   
@@ -1935,6 +1937,7 @@
     }
     SPLUdragSourceDiv.style.opacity='1.0';
     highlightPlayerRow(SPLUdragDiv,false);
+    document.getElementById('SPLU.PlayerDragColumn0').style.display="none";
   }
   
   function highlightPlayerRow(row,highlight){
