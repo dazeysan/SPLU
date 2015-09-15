@@ -287,7 +287,7 @@
       +'</div>'
       +'<div id="SPLUplayerRows" style="display:table; padding-bottom:15px;">'
         +'<div style="display:table-row;">'
-          +'<div class="SPLUplayerCells" style="width:25px;text-align:center;vertical-align:middle;" id="SPLU.PlayerDragColumn0"></div>'
+          +'<div class="SPLUplayerCells" style="width:25px;text-align:center;vertical-align:middle;" id="SPLUplayerDragHeader"></div>'
           +'<div class="SPLUplayerCells" style="width:25px;"></div>'
           +'<div class="SPLUplayerCells" id="SPLU.PlayerNameColumnHeader">'
             +'<div id="SPLU.PlayerNameColumn" class="SPLUheader" style="min-width:38px;">'
@@ -1115,8 +1115,7 @@
     SPLUcalendar.selectEvent.subscribe(function(){tmp3=new Date();selectedDate=new Date(SPLUcalendar.getSelectedDates()[0].setMinutes(SPLUcalendar.getSelectedDates()[0].getMinutes()-tmp3.getTimezoneOffset()));setDateField(selectedDate.toISOString().slice(0,selectedDate.toISOString().indexOf("T")));showHideCalendar();});
     document.getElementById('q546e9ffd96dfc').value=getGameTitle();
     
-    //var tmpDiv=document.createElement('div');
-    tmpDiv=document.getElementById('SPLUplayerDragHeader');
+    var tmpDiv=document.createElement('span');
     tmpDiv.style.display="none";
     tmpDiv.style.textAlign="center";
     tmpDiv.id="SPLU.PlayerDragColumn0";
@@ -1130,7 +1129,7 @@
     tmpDiv.addEventListener('drop', handleDrop, false);
     tmpDiv.addEventListener('click', handleDragClick, false);
     tmpDiv.innerHTML='<span style=""><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/drag_rows.png"></span>';
-    //document.getElementById('SPLUplayerDragHeader').appendChild(tmpDiv);
+    document.getElementById('SPLUplayerDragHeader').appendChild(tmpDiv);
     
   }
   
