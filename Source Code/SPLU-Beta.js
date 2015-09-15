@@ -287,7 +287,7 @@
       +'</div>'
       +'<div id="SPLUplayerRows" style="display:table; padding-bottom:15px;">'
         +'<div style="display:table-row;">'
-          +'<div class="SPLUplayerCells" style="width:25px;"></div>'
+          +'<div class="SPLUplayerCells" style="width:25px;text-align:center;vertical-align:middle;" SPLUplayerDragHeader></div>'
           +'<div class="SPLUplayerCells" style="width:25px;"></div>'
           +'<div class="SPLUplayerCells" id="SPLU.PlayerNameColumnHeader">'
             +'<div id="SPLU.PlayerNameColumn" class="SPLUheader" style="min-width:38px;">'
@@ -1114,6 +1114,23 @@
     SPLUcalendar.cfg.setProperty("maxdate",tmp2);
     SPLUcalendar.selectEvent.subscribe(function(){tmp3=new Date();selectedDate=new Date(SPLUcalendar.getSelectedDates()[0].setMinutes(SPLUcalendar.getSelectedDates()[0].getMinutes()-tmp3.getTimezoneOffset()));setDateField(selectedDate.toISOString().slice(0,selectedDate.toISOString().indexOf("T")));showHideCalendar();});
     document.getElementById('q546e9ffd96dfc').value=getGameTitle();
+    
+    var tmpDiv=document.createElement('div');
+    tmpDiv.style.display="none";
+    tmpDiv.style.textAlign="center";
+    tmpDiv.id="SPLU.PlayerDragColumn0";
+    tmpDiv.dataset.spluplayernumber="0";
+    tmpDiv.draggable=true;
+    //tmpDiv.addEventListener('dragstart', handleDragStart, false);
+    tmpDiv.addEventListener('dragenter', handleDragEnter, false);
+    tmpDiv.addEventListener('dragover', handleDragOver, false);
+    tmpDiv.addEventListener('dragleave', handleDragLeave, false);
+    tmpDiv.addEventListener('dragend', handleDragEnd, false);
+    tmpDiv.addEventListener('drop', handleDrop, false);
+    tmpDiv.addEventListener('click', handleDragClick, false);
+    tmpDiv.innerHTML='<span style=""><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/drag_rows.png"></span>';
+    document.getElementById('SPLUplayerDragHeader').appendChild(tmpDiv);
+    
   }
   
   function highlightDayButton(){
@@ -1922,23 +1939,35 @@
   
   function highlightPlayerRow(row,highlight){
     if(highlight){
-      document.getElementById('SPLU.PlayerNameColumn'+row).style.borderBottom="2px solid red";
-      document.getElementById('SPLU.PlayerUsernameColumn'+row).style.borderBottom="2px solid red";
-      document.getElementById('SPLU.PlayerColorColumn'+row).style.borderBottom="2px solid red";
-      document.getElementById('SPLU.PlayerPositionColumn'+row).style.borderBottom="2px solid red";
-      document.getElementById('SPLU.PlayerScoreColumn'+row).style.borderBottom="2px solid red";
-      document.getElementById('SPLU.PlayerRatingColumn'+row).style.borderBottom="2px solid red";
-      document.getElementById('SPLU.PlayerWinColumn'+row).style.borderBottom="2px solid red";
-      document.getElementById('SPLU.PlayerNewColumn'+row).style.borderBottom="2px solid red";
+      if(row==0){
+        row=1;
+        document.getElementById('SPLU.PlayerNameColumn'+row).style.borderTop="2px solid red";
+        document.getElementById('SPLU.PlayerUsernameColumn'+row).style.borderTop="2px solid red";
+        document.getElementById('SPLU.PlayerColorColumn'+row).style.borderTop="2px solid red";
+        document.getElementById('SPLU.PlayerPositionColumn'+row).style.borderTop="2px solid red";
+        document.getElementById('SPLU.PlayerScoreColumn'+row).style.borderTop="2px solid red";
+        document.getElementById('SPLU.PlayerRatingColumn'+row).style.borderTop="2px solid red";
+        document.getElementById('SPLU.PlayerWinColumn'+row).style.borderTop="2px solid red";
+        document.getElementById('SPLU.PlayerNewColumn'+row).style.borderTop="2px solid red";
+      }else{
+        document.getElementById('SPLU.PlayerNameColumn'+row).style.borderBottom="2px solid red";
+        document.getElementById('SPLU.PlayerUsernameColumn'+row).style.borderBottom="2px solid red";
+        document.getElementById('SPLU.PlayerColorColumn'+row).style.borderBottom="2px solid red";
+        document.getElementById('SPLU.PlayerPositionColumn'+row).style.borderBottom="2px solid red";
+        document.getElementById('SPLU.PlayerScoreColumn'+row).style.borderBottom="2px solid red";
+        document.getElementById('SPLU.PlayerRatingColumn'+row).style.borderBottom="2px solid red";
+        document.getElementById('SPLU.PlayerWinColumn'+row).style.borderBottom="2px solid red";
+        document.getElementById('SPLU.PlayerNewColumn'+row).style.borderBottom="2px solid red";
+      }
     }else{
-      document.getElementById('SPLU.PlayerNameColumn'+row).style.borderBottom="";
-      document.getElementById('SPLU.PlayerUsernameColumn'+row).style.borderBottom="";
-      document.getElementById('SPLU.PlayerColorColumn'+row).style.borderBottom="";
-      document.getElementById('SPLU.PlayerPositionColumn'+row).style.borderBottom="";
-      document.getElementById('SPLU.PlayerScoreColumn'+row).style.borderBottom="";
-      document.getElementById('SPLU.PlayerRatingColumn'+row).style.borderBottom="";
-      document.getElementById('SPLU.PlayerWinColumn'+row).style.borderBottom="";
-      document.getElementById('SPLU.PlayerNewColumn'+row).style.borderBottom="";
+      document.getElementById('SPLU.PlayerNameColumn'+row).style.border="";
+      document.getElementById('SPLU.PlayerUsernameColumn'+row).style.border="";
+      document.getElementById('SPLU.PlayerColorColumn'+row).style.border="";
+      document.getElementById('SPLU.PlayerPositionColumn'+row).style.border="";
+      document.getElementById('SPLU.PlayerScoreColumn'+row).style.border="";
+      document.getElementById('SPLU.PlayerRatingColumn'+row).style.border="";
+      document.getElementById('SPLU.PlayerWinColumn'+row).style.border="";
+      document.getElementById('SPLU.PlayerNewColumn'+row).style.border="";
     }
   }
   
