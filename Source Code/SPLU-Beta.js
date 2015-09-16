@@ -1,4 +1,4 @@
-// SPLU 5.4.2 Beta
+// SPLU 5.4.3 Beta
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -11,7 +11,7 @@
     var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.4.2";
+    var SPLUversion="5.4.3";
 
     var SPLU={};
     var SPLUplayId="";
@@ -725,8 +725,14 @@
           +'<br />'
         +'</span>'
         +'<div id="SPLU.FavoritesStatus"></div>'
-          +'<div id="SPLU.FavoritesList" style="overflow-y:auto; width:220px;">'
-        +'</div>';
+          +'<div id="SPLU.FavoritesList" style="overflow-y:auto; width:220px;"></div>'
+          +'<div id="SPLU.FavoritesEdit" style="width:220px;display:none;>'
+            +'Title: <input type="text" id="SPLUfavoritesEditTitle"/><br/>'
+            +'Icon: <input type="text" id="SPLUfavoritesEditIcon"/><br/>'
+            +'Location: <select id="SPLUfavoritesEditLocation"></select>'
+            +'<div id="SPLUfavoritesEditPlayersList"></div>'
+            +'Add Player: <select id="SPLUfavoritesEditPlayers"></select>'
+          +'</div>';
     tmpDiv.innerHTML+=tmpHTML;
     BRlogFavs.appendChild(tmpDiv);
 
@@ -2022,14 +2028,16 @@
   
   function saveFavorite(){
     var id=document.getElementById('objectid0').value;
-    SPLU.Favorites[id]={
+    tmp=Math.random();
+    tmpid=id+'_'+tmp.toString().slice(-4);
+    SPLU.Favorites[tmpid]={
       "objectid":id,
       "thumbnail":document.getElementById('selimage0').childNodes[0].childNodes[0].src,
       "title":document.getElementById('q546e9ffd96dfc').value,
       "sortorder":0,
       "objecttype":SPLUobjecttype
     };
-    SPLUremote.Favorites[id]=SPLU.Favorites[id];
+    SPLUremote.Favorites[tmpid]=SPLU.Favorites[tmpid];
     saveSooty("SPLU.GameStatus","Thinking...","Added",function(){
       if (document.getElementById('BRlogFavs').style.display=="table-cell") {
         showFavsPane("add");
@@ -2038,11 +2046,25 @@
   }
   
   function chooseFavorite(id){
+    console.log(id);
     setObjectType(SPLU.Favorites[id].objecttype);
-    document.getElementById('objectid0').value=id;
+    document.getElementById('objectid0').value=SPLU.Favorites[id].objectid;
     document.getElementById('selimage0').innerHTML='<a><img src="'+SPLU.Favorites[id].thumbnail+'"/></a>';
     document.getElementById('q546e9ffd96dfc').value=SPLU.Favorites[id].title;
     document.getElementById('BRlogFavs').style.display="none";
+    if(SPLU.Favorites[id].players!==undefined){
+      while(document.getElementsByClassName('SPLUrows').length>0){
+        removePlayerRow(document.getElementsByClassName('SPLUrows')[0].parentNode.id.slice(14));
+      }
+      NumOfPlayers=0;
+      PlayerCount=0;
+      for(p=0;p<SPLU.Favorites[id].players.length;p++){
+        insertPlayer(SPLU.Favorites[id].players[p]);
+      }
+    }
+    if(SPLU.Favorites[id].location!==undefined){
+      insertLocation(SPLU.Favorites[id].location);
+    }
   }
   
   function deleteFavorite(id){
@@ -3840,8 +3862,8 @@ function getStatsLocations(tmpUser){
           tmpHTML+='<div style="display:table-row;">';
         } 
         tmpHTML+='<div style="display:table-cell; max-width:110px; padding-top:10px;">'
-          +'<a href="javascript:{void(0);}" onClick="javascript:{chooseFavorite('+key+');}"><img src="'+SPLU.Favorites[key].thumbnail+'"></a>'
-          +'<a href="javascript:{void(0);}" onClick="javascript:{deleteFavorite('+key+');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/red_circle_x.png" style="vertical-align:top; position: relative; margin-left: -8px; margin-top: -8px;"/></a>'
+          +'<a href="javascript:{void(0);}" onClick="javascript:{chooseFavorite(\''+key+'\');}"><img src="'+SPLU.Favorites[key].thumbnail+'"></a>'
+          +'<a href="javascript:{void(0);}" onClick="javascript:{deleteFavorite(\''+key+'\');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/red_circle_x.png" style="vertical-align:top; position: relative; margin-left: -8px; margin-top: -8px;"/></a>'
           +'<br/>'+SPLU.Favorites[key].title+'</div>';
         if(size % 2==0){
           tmpHTML+='</div>';
@@ -3852,6 +3874,14 @@ function getStatsLocations(tmpUser){
     document.getElementById('SPLU.FavoritesStatus').innerHTML='<center>You have '+size+' Favorites.</center><br/>';
   }
   
+  function showFavoritesEdit(id){
+    document.getElementById('SPLU.FavoritesList').style.display="none";
+    editDiv=document.getElementById('SPLU.FavoritesEdit');
+    editDiv.style.display="";
+    document.getElementById('SPLUfavoritesEditTitle').value=SPLU.Favorites[id].title;
+    document.getElementById('SPLUfavoritesEditIcon').value=SPLU.Favorites[id].thumbnail;
+    
+  }
   
   function showSettingsPane(source){
     if(source=="button"&&document.getElementById('BRlogSettings').style.display=="table-cell"){
