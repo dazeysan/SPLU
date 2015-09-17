@@ -2054,20 +2054,27 @@
   }
   
   function saveFavoriteEdits(){
-    tmpfav=SPLU.Favorites[SPLUfavoritesEditing];
-    tmpFav.title=encodeURIComponent(document.getElementById('SPLUfavoritesEditTitle').value);
-    tmpFav.thumbnail=encodeURIComponent(document.getElementById('SPLUfavoritesEditIcon').value);
+    tmpFav=SPLU.Favorites[SPLUfavoritesEditing];
+    tmpFav.title=document.getElementById('SPLUfavoritesEditTitle').value;
+    tmpFav.thumbnail=document.getElementById('SPLUfavoritesEditIcon').value;
     if(document.getElementById('SPLUfavoritesEditLocation').value==-2 && tmpFav.location!==undefined){
       delete tmpFav.location;
     }else{
-      tmpFav.location=encodeURIComponent(document.getElementById('SPLUfavoritesEditLocation').value);
+      tmpFav.location=document.getElementById('SPLUfavoritesEditLocation').value;
     }
     for(var i=SPLUfavoritesPlayers.length-1;i>=0;i--){
       if(SPLUfavoritesPlayers[i]==-1) {
           SPLUfavoritesPlayers.splice(i, 1);
       }
     }
-    tmpFav.players=SPLUfavoritesPlayers;
+    if(SPLUfavoritesPlayers.length==0){
+      if(tmpFav.players!==undefined){
+        delete tmpFav.location;
+      }
+    }else{
+      tmpFav.players=SPLUfavoritesPlayers;
+    }
+    console.log(tmpFav);
     SPLUremote.Favorites[SPLUfavoritesEditing]=SPLU.Favorites[SPLUfavoritesEditing];
     saveSooty("SPLUfavoritesEditStatus","Thinking...","Saved",function(){
       if (document.getElementById('BRlogFavs').style.display=="table-cell") {
