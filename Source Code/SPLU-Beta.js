@@ -3904,7 +3904,7 @@ function getStatsLocations(tmpUser){
       return;
     }
     hidePanes();
-    document.getElementById('SPLU.FavoritesEdit')style.display="none";
+    document.getElementById('SPLU.FavoritesEdit').style.display="none";
     document.getElementById('SPLU.FavoritesList').style.display="";
     document.getElementById('SPLU.FavoritesList').style.maxHeight=document.getElementById('BRlogMain').clientHeight-95+"px";
     document.getElementById('BRlogFavs').style.display="table-cell";
