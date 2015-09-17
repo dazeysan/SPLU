@@ -62,6 +62,8 @@
     var SPLUplayer={};
     var SPLUdragDiv="";
     var SPLUdragSourceDiv = null;
+    var SPLUfavoritesPlayers=[];
+    var SPLUfavoritesEditing="";
     
     var observer=new MutationObserver(function(){
       if(document.getElementById('selimage0').innerHTML.slice(0,4)=="<div"){
@@ -725,14 +727,20 @@
           +'<br />'
         +'</span>'
         +'<div id="SPLU.FavoritesStatus"></div>'
-          +'<div id="SPLU.FavoritesList" style="overflow-y:auto; width:220px;"></div>'
-          +'<div id="SPLU.FavoritesEdit" style="width:220px;display:none;">'
-            +'Title: <input type="text" id="SPLUfavoritesEditTitle"/><br/>'
-            +'Icon: <input type="text" id="SPLUfavoritesEditIcon"/><br/>'
-            +'Location: <select id="SPLUfavoritesEditLocation"></select>'
-            +'Add Player: <select id="SPLUfavoritesEditPlayers" onChange="javascript:{AddPlayerToFavorite(\'choose\');}"></select>'
-            +'<div id="SPLUfavoritesEditPlayersList"></div>'
-          +'</div>';
+        +'<div id="SPLU.FavoritesList" style="overflow-y:auto; width:220px;"></div>'
+        +'<div id="SPLU.FavoritesEdit" style="width:220px;display:none;">'
+          +'Title: <input type="text" id="SPLUfavoritesEditTitle"/><br/>'
+          +'Icon: <input type="text" id="SPLUfavoritesEditIcon"/><br/>'
+          +'Location: <select id="SPLUfavoritesEditLocation"></select>'
+          +'Add Player: <select id="SPLUfavoritesEditPlayers" onChange="javascript:{addPlayerToFavorite(\'choose\');}"></select>'
+          +'<div id="SPLUfavoritesEditPlayersList"></div>'
+          +'<div style="padding-top:10px;display:inline;">'
+            +'<a href="javascript:{void(0);}" onclick="javascript:{saveFavoriteEdits();}" class="SPLUbuttons" style="margin-right:6px;color:black;border:2px solid #249631">Save</a>'
+            +'<a href="javascript:{void(0);}" onclick="javascript:{document.getElementById("SPLU.FavoritesEdit").style.display="none";document.getElementById("SPLU.FavoritesList").style.display="";}" class="SPLUbuttons" style="color:black; border:2px solid #249631">Cancel</a>'
+            +'<a href="javascript:{void(0);}" onclick="javascript:{deleteFavorite(\'edit\');}" class="SPLUbuttons" style="margin-right:6px;color:black;border:2px solid #249631">Delete</a>'
+          +'</div>'
+          +'<div id="SPLUfavoritesEditStatus" style="display:inline;padding-left:5px;"></div>'
+        +'</div>';
     tmpDiv.innerHTML+=tmpHTML;
     BRlogFavs.appendChild(tmpDiv);
 
@@ -2045,6 +2053,29 @@
     });
   }
   
+  function saveFavoriteEdits(){
+    tmpfav=SPLU.Favorites[SPLUfavoritesEditing];
+    tmpFav.title=encodeURIComponent(document.getElementById('SPLUfavoritesEditTitle').value);
+    tmpFav.thumbnail=encodeURIComponent(document.getElementById('SPLUfavoritesEditIcon').value);
+    if(document.getElementById('SPLUfavoritesEditLocation').value==-2 && tmpFav.location!==undefined){
+      delete tmpFav.location;
+    }else{
+      tmpFav.location=encodeURIComponent(document.getElementById('SPLUfavoritesEditLocation').value);
+    }
+    for(var i=SPLUfavoritesPlayers.length-1;i>=0;i--){
+      if(SPLUfavoritesPlayers[i]==-1) {
+          SPLUfavoritesPlayers.splice(i, 1);
+      }
+    }
+    tmpFav.players=SPLUfavoritesPlayers;
+    SPLUremote.Favorites[SPLUfavoritesEditing]=SPLU.Favorites[SPLUfavoritesEditing];
+    saveSooty("SPLUfavoritesEditStatus","Thinking...","Saved",function(){
+      if (document.getElementById('BRlogFavs').style.display=="table-cell") {
+        showFavsPane("edit");
+      }
+    });
+  }
+  
   function chooseFavorite(id){
     console.log(id);
     setObjectType(SPLU.Favorites[id].objecttype);
@@ -2068,6 +2099,9 @@
   }
   
   function deleteFavorite(id){
+    if(id=="edit"){
+      id=SPLUfavoritesEditing;
+    }
     delete SPLU.Favorites[id];
     delete SPLUremote.Favorites[id];
     saveSooty("SPLU.GameStatus","Thinking...","Deleted",function(){
@@ -2080,12 +2114,15 @@
     var select=document.getElementById('SPLUfavoritesEditPlayers');
     var tmpDiv=document.createElement('div');
     var tmpHTML='<div>'
-        +decodeURIComponent(SPLU.Players[select.value].Name)
-        +'</div>';
+      +'<a href="javascript:{void(0);}" onclick="javascript:{this.parentNode.parentNode.removeChild(this.parentNode);SPLUfavoritesPlayers['+SPLUfavoritesPlayers.length+']=\'-1\';}" style="margin:2px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/delete_row_small.png"></a>'
+      +decodeURIComponent(SPLU.Players[select.value].Name)
+      +'</div>';
     tmpDiv.innerHTML+=tmpHTML;
     document.getElementById('SPLUfavoritesEditPlayersList').appendChild(tmpDiv);
+    SPLUfavoritesPlayers.push(select.value);
     select.selectedIndex=0;
   }
+  
   
   function removePlayerRow(row){
     document.getElementById('SPLUplayerRows').removeChild(document.getElementById('SPLU.PlayerRow'+row));
@@ -2253,7 +2290,11 @@
   }
   
   function insertLocation(location){
-    document.getElementById(('quickplay_location99')).value=decodeURIComponent(SPLU.Locations[location].Name);
+    if(location==-1){
+      document.getElementById(('quickplay_location99')).value="";
+    }else{
+      document.getElementById(('quickplay_location99')).value=decodeURIComponent(SPLU.Locations[location].Name);
+    }
     showHideLocations();
   }
 
@@ -3863,6 +3904,8 @@ function getStatsLocations(tmpUser){
       return;
     }
     hidePanes();
+    document.getElementById('SPLU.FavoritesEdit')style.display="none";
+    document.getElementById('SPLU.FavoritesList').style.display="";
     document.getElementById('SPLU.FavoritesList').style.maxHeight=document.getElementById('BRlogMain').clientHeight-95+"px";
     document.getElementById('BRlogFavs').style.display="table-cell";
     var tmpHTML='<div style="display:table;">';
@@ -3886,6 +3929,8 @@ function getStatsLocations(tmpUser){
   }
   
   function showFavoritesEdit(id){
+    SPLUfavoritesPlayers=[];
+    SPLUfavoritesEditing=id;
     document.getElementById('SPLU.FavoritesList').style.display="none";
     editDiv=document.getElementById('SPLU.FavoritesEdit');
     editDiv.style.display="";
@@ -3920,6 +3965,11 @@ function getStatsLocations(tmpUser){
     for(key in SPLU.Players){
       select.options[i]=new Option(decodeURIComponent(SPLU.Players[key].Name), key, true, false);
       i++;
+    }
+    if(SPLU.Favorites[id].players!==undefined){
+      for(p=0;p<SPLU.Favorites[id].players.length;p++){
+        addPlayerToFavorite(SPLU.Favorites[id].players[p]);
+      }
     }
     
   }
