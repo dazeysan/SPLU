@@ -1118,7 +1118,7 @@
     var tmpDiv=document.createElement('span');
     tmpDiv.style.display="none";
     tmpDiv.style.textAlign="center";
-    tmpDiv.id="SPLU.PlayerDragColumn99";
+    tmpDiv.id="SPLU.PlayerDragHeader0";
     tmpDiv.dataset.spluplayernumber="0";
     tmpDiv.draggable=true;
     tmpDiv.addEventListener('dragenter', handleDragEnter, false);
@@ -1146,72 +1146,78 @@
     tmpDiv.className="SPLUplayerCells";
     tmpDiv.id="SPLU.PlayerDragColumn0";
     tmpDiv.dataset.spluplayernumber=0;
-    tmpDiv.innerHTML='<div id="SPLU.PlayerDragHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; background-color: green; height: 3px;"></div>';
+    tmpDiv.innerHTML='<div id="SPLU.PlayerDragHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
     document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
 
     var tmpDiv=document.createElement('div');
     tmpDiv.className="SPLUplayerCells";
     tmpDiv.id="SPLU.PlayerDeleteColumn0";
     tmpDiv.dataset.spluplayernumber=0;
-    tmpDiv.innerHTML='<div id="SPLU.PlayerDeleteHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; background-color: green; height: 3px;"></div>';
+    tmpDiv.innerHTML='<div id="SPLU.PlayerDeleteHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
     document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
 
     var tmpDiv=document.createElement('div');
     tmpDiv.className="SPLUplayerCells";
     tmpDiv.id="SPLU.PlayerNameColumn0";
     tmpDiv.dataset.spluplayernumber=0;
-    tmpDiv.innerHTML='<div id="SPLU.PlayerNameHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; background-color: green; height: 3px;"></div>';
+    tmpDiv.innerHTML='<div id="SPLU.PlayerNameHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
     document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
 
     var tmpDiv=document.createElement('div');
     tmpDiv.className="SPLUplayerCells";
     tmpDiv.id="SPLU.PlayerUsernameColumn0";
     tmpDiv.dataset.spluplayernumber=0;
-    tmpDiv.innerHTML='<div id="SPLU.PlayerUsernameHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; background-color: green; height: 3px;"></div>';
+    tmpDiv.innerHTML='<div id="SPLU.PlayerUsernameHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
     document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
 
     var tmpDiv=document.createElement('div');
     tmpDiv.className="SPLUplayerCells";
     tmpDiv.id="SPLU.PlayerColorColumn0";
     tmpDiv.dataset.spluplayernumber=0;
-    tmpDiv.innerHTML='<div id="SPLU.PlayerColorHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; background-color: green; height: 3px;"></div>';
+    tmpDiv.innerHTML='<div id="SPLU.PlayerColorHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
     document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
 
     var tmpDiv=document.createElement('div');
     tmpDiv.className="SPLUplayerCells";
     tmpDiv.id="SPLU.PlayerPositionColumn0";
     tmpDiv.dataset.spluplayernumber=0;
-    tmpDiv.innerHTML='<div id="SPLU.PlayerPositionHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; background-color: green; height: 3px;"></div>';
+    tmpDiv.innerHTML='<div id="SPLU.PlayerPositionHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
     document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
 
     var tmpDiv=document.createElement('div');
     tmpDiv.className="SPLUplayerCells";
     tmpDiv.id="SPLU.PlayerScoreColumn0";
     tmpDiv.dataset.spluplayernumber=0;
-    tmpDiv.innerHTML='<div id="SPLU.PlayerScoreHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; background-color: green; height: 3px;"></div>';
+    tmpDiv.innerHTML='<div id="SPLU.PlayerScoreHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
     document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
 
     var tmpDiv=document.createElement('div');
     tmpDiv.className="SPLUplayerCells";
     tmpDiv.id="SPLU.PlayerRatingColumn0";
     tmpDiv.dataset.spluplayernumber=0;
-    tmpDiv.innerHTML='<div id="SPLU.PlayerRatingHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; background-color: green; height: 3px;"></div>';
+    tmpDiv.innerHTML='<div id="SPLU.PlayerRatingHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
     document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
 
     var tmpDiv=document.createElement('div');
     tmpDiv.className="SPLUplayerCells";
     tmpDiv.id="SPLU.PlayerWinColumn0";
     tmpDiv.dataset.spluplayernumber=0;
-    tmpDiv.innerHTML='<div id="SPLU.PlayerWinHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; background-color: green; height: 3px;"></div>';
+    tmpDiv.innerHTML='<div id="SPLU.PlayerWinHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
     document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
 
     var tmpDiv=document.createElement('div');
     tmpDiv.className="SPLUplayerCells";
     tmpDiv.id="SPLU.PlayerNewColumn0";
     tmpDiv.dataset.spluplayernumber=0;
-    tmpDiv.innerHTML='<div id="SPLU.PlayerNewHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; background-color: green; height: 3px;"></div>';
+    tmpDiv.innerHTML='<div id="SPLU.PlayerNewHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
     document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
 
+    var tmpDiv=document.createElement('div');
+    tmpDiv.className="SPLUplayerCells";
+    tmpDiv.id="SPLU.PlayerSaveColumn0";
+    tmpDiv.dataset.spluplayernumber=0;
+    tmpDiv.innerHTML='<div id="SPLU.PlayerSaveHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
+    document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
     setPlayers("reset");
   }
   
@@ -1811,55 +1817,55 @@
     tmpDiv.addEventListener('dragend', handleDragEnd, false);
     tmpDiv.addEventListener('drop', handleDrop, false);
     tmpDiv.addEventListener('click', handleDragClick, false);
-    tmpDiv.innerHTML='<span style=""><img style="height:16px;" src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/drag_rows.png"></span><div id="PlayerDragHighlight0" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;background-color:green;"></div>';
+    tmpDiv.innerHTML='<span style=""><img style="height:16px;" src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/drag_rows.png"></span><div id="SPLU.PlayerDragHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
 
     var tmpDiv=document.createElement('div');
     tmpDiv.style.display="table-cell";
     tmpDiv.className="SPLUrows";
-    tmpDiv.innerHTML='<a href="javascript:{void(0);}" onClick="javascript:{removePlayerRow('+NumOfPlayers+');}"><img style="height:16px;" src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/delete_row.png"></a><div id="PlayerDeleteHighlight0" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;background-color:green;"></div>';
+    tmpDiv.innerHTML='<a href="javascript:{void(0);}" onClick="javascript:{removePlayerRow('+NumOfPlayers+');}"><img style="height:16px;" src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/delete_row.png"></a><div id="SPLU.PlayerDeleteHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerNameColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerNameColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="width:120px;margin:0px 5px;" name="players['+NumOfPlayers+'][name]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="name" value="'+tmpName+'" tabindex="1'+paddedNum+'"></input><div id="PlayerNameHighlight0" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;background-color:green;"></div>';
+    tmpDiv.innerHTML='<input type="text" style="width:120px;margin:0px 5px;" name="players['+NumOfPlayers+'][name]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="name" value="'+tmpName+'" tabindex="1'+paddedNum+'"></input><div id="SPLU.PlayerNameHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerUsernameColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerUsernameColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="width:110px;margin:0px 5px;" name="players['+NumOfPlayers+'][username]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="username" value="'+tmpUser+'" tabindex="2'+paddedNum+'"></input><div id="PlayerUsernameHighlight0" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;background-color:green;"></div>';
+    tmpDiv.innerHTML='<input type="text" style="width:110px;margin:0px 5px;" name="players['+NumOfPlayers+'][username]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="username" value="'+tmpUser+'" tabindex="2'+paddedNum+'"></input><div id="SPLU.PlayerUsernameHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerColorColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerColorColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="width:50px;margin:0px 5px;" name="players['+NumOfPlayers+'][color]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="color" value="'+tmpColor+'" tabindex="3'+paddedNum+'"></input><div id="PlayerColorHighlight0" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;background-color:green;"></div>';
+    tmpDiv.innerHTML='<input type="text" style="width:50px;margin:0px 5px;" name="players['+NumOfPlayers+'][color]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="color" value="'+tmpColor+'" tabindex="3'+paddedNum+'"></input><div id="SPLU.PlayerColorHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerPositionColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerPositionColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="width:50px;margin:0px 5px;" name="players['+NumOfPlayers+'][position]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="startposition" value="'+tmpStart+'" tabindex="4'+paddedNum+'"></input><div id="PlayerPositionHighlight0" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;background-color:green;"></div>';
+    tmpDiv.innerHTML='<input type="text" style="width:50px;margin:0px 5px;" name="players['+NumOfPlayers+'][position]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="startposition" value="'+tmpStart+'" tabindex="4'+paddedNum+'"></input><div id="SPLU.PlayerPositionHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerScoreColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerScoreColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="width:37px;margin:0px 5px;" name="players['+NumOfPlayers+'][score]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="score" value="'+tmpScore+'" tabindex="5'+paddedNum+'"></input><div id="PlayerScoreHighlight0" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;background-color:green;"></div>';
+    tmpDiv.innerHTML='<input type="text" style="width:37px;margin:0px 5px;" name="players['+NumOfPlayers+'][score]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="score" value="'+tmpScore+'" tabindex="5'+paddedNum+'"></input><div id="SPLU.PlayerScoreHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerRatingColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerRatingColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="width:32px;margin:0px 5px;" name="players['+NumOfPlayers+'][rating]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="rating" value="'+tmpRating+'" tabindex="6'+paddedNum+'"></input><div id="PlayerRatingHighlight0" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;background-color:green;"></div>';
+    tmpDiv.innerHTML='<input type="text" style="width:32px;margin:0px 5px;" name="players['+NumOfPlayers+'][rating]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="rating" value="'+tmpRating+'" tabindex="6'+paddedNum+'"></input><div id="SPLU.PlayerRatingHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
@@ -1867,7 +1873,7 @@
     tmpDiv.style.textAlign="center";
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerWinColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="checkbox" name="players['+NumOfPlayers+'][win]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="win" class="SPLU.WinBox" value="1" '+tmpWin+' tabindex="7'+paddedNum+'" style="margin-bottom:2px;" onClick="javascript:{if(SPLU.Settings.WinComments.Visible){NoreenWinComment();}}"></input><div id="PlayerWinHighlight0" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;background-color:green;"></div>';
+    tmpDiv.innerHTML='<input type="checkbox" name="players['+NumOfPlayers+'][win]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="win" class="SPLU.WinBox" value="1" '+tmpWin+' tabindex="7'+paddedNum+'" style="margin-bottom:2px;" onClick="javascript:{if(SPLU.Settings.WinComments.Visible){NoreenWinComment();}}"></input><div id="SPLU.PlayerWinHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
@@ -1875,7 +1881,7 @@
     tmpDiv.style.textAlign="center";
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerNewColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="checkbox" name="players['+NumOfPlayers+'][new]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="new" value="1" '+tmpNew+' tabindex="8'+paddedNum+'" style="margin-bottom:2px;"></input><div style="height:3px;margin:2px 0px;background-color:green;"></div>';
+    tmpDiv.innerHTML='<input type="checkbox" name="players['+NumOfPlayers+'][new]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="new" value="1" '+tmpNew+' tabindex="8'+paddedNum+'" style="margin-bottom:2px;"></input><div id="SPLU.PlayerNewHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
@@ -1883,7 +1889,7 @@
     tmpDiv.style.textAlign="center";
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerSaveColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<span style="padding-bottom:2px;"><a href="javascript:{void(0);}" onClick="javascript:{savePlayer('+NumOfPlayers+');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/save.png" id="floppydiskicon"></a></span><div id="PlayerNewHighlight0" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;background-color:green;"></div>';
+    tmpDiv.innerHTML='<span style="padding-bottom:2px;"><a href="javascript:{void(0);}" onClick="javascript:{savePlayer('+NumOfPlayers+');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/save.png" id="floppydiskicon"></a></span><div id="SPLU.PlayerSaveHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
 
     if(NumOfPlayers==2){
@@ -1946,7 +1952,7 @@
         insertPlayer(SPLUplayers[player]);
       }
     }
-    document.getElementById('SPLU.PlayerDragColumn0').style.display="none";
+    document.getElementById('SPLU.PlayerDragHeader0').style.display="none";
   }
   
   function handleDragClick(e){
@@ -1954,7 +1960,7 @@
     if(SPLUdragDiv==-1){
       SPLUdragDiv=this.getAttribute('data-spluplayernumber');
       this.style.opacity="0.4";
-      document.getElementById('SPLU.PlayerDragColumn0').style.display="";
+      document.getElementById('SPLU.PlayerDragHeader0').style.display="";
       return;
     }
     if(SPLUdragDiv!=this.getAttribute('data-spluplayernumber')){
@@ -1970,7 +1976,7 @@
     SPLUdragSourceDiv = this;
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('text/html', this.getAttribute('data-spluplayernumber'));
-    document.getElementById('SPLU.PlayerDragColumn0').style.display="";
+    document.getElementById('SPLU.PlayerDragHeader0').style.display="";
   }
 
   function handleDragOver(e) {
@@ -2008,7 +2014,7 @@
       console.log(e.dataTransfer.getData('text/html')+'||'+this.getAttribute('data-spluplayernumber'));
       movePlayer(e.dataTransfer.getData('text/html'),this.getAttribute('data-spluplayernumber'));
     }
-    document.getElementById('SPLU.PlayerDragColumn0').style.display="none";
+    document.getElementById('SPLU.PlayerDragHeader0').style.display="none";
     return false;
   }
   
@@ -2021,20 +2027,19 @@
     }
     SPLUdragSourceDiv.style.opacity='1.0';
     highlightPlayerRow(SPLUdragDiv,false);
-    document.getElementById('SPLU.PlayerDragColumn0').style.display="none";
+    document.getElementById('SPLU.PlayerDragHeader0').style.display="none";
   }
   
   function highlightPlayerRow(row,highlight){
     console.log("highlight|"+row+"|"+highlight);
-    if(row==-1){
-      return;
-    }
     tmp=document.getElementsByClassName('SPLUplayerHighlight');
     for(i=0;i<tmp.length;i++){
       tmp[i].style.backgroundColor="";
     }
-    if(row==0){
-      row=1;
+    if(row==-1){
+      return;
+    }
+    if(highlight){
       document.getElementById('SPLU.PlayerDragHighlight'+row).style.backgroundColor="red";
       document.getElementById('SPLU.PlayerDeleteHighlight'+row).style.backgroundColor="red";
       document.getElementById('SPLU.PlayerNameHighlight'+row).style.backgroundColor="red";
@@ -2045,15 +2050,7 @@
       document.getElementById('SPLU.PlayerRatingHighlight'+row).style.backgroundColor="red";
       document.getElementById('SPLU.PlayerWinHighlight'+row).style.backgroundColor="red";
       document.getElementById('SPLU.PlayerNewHighlight'+row).style.backgroundColor="red";
-    }else{
-      document.getElementById('SPLU.PlayerNameHighlight'+row).style.backgroundColor="red";
-      document.getElementById('SPLU.PlayerUsernameHighlight'+row).style.backgroundColor="red";
-      document.getElementById('SPLU.PlayerColorHighlight'+row).style.backgroundColor="red";
-      document.getElementById('SPLU.PlayerPositionHighlight'+row).style.backgroundColor="red";
-      document.getElementById('SPLU.PlayerScoreHighlight'+row).style.backgroundColor="red";
-      document.getElementById('SPLU.PlayerRatingHighlight'+row).style.backgroundColor="red";
-      document.getElementById('SPLU.PlayerWinHighlight'+row).style.backgroundColor="red";
-      document.getElementById('SPLU.PlayerNewHighlight'+row).style.backgroundColor="red";
+      document.getElementById('SPLU.PlayerSaveHighlight'+row).style.backgroundColor="red";
     }
   }
   
