@@ -2723,7 +2723,6 @@
   }
 
   function loadPlays(tmpUser,copyMode){
-    document.getElementById("SPLU.PlaysLoadingDiv").style.display="";
     document.getElementById("SPLU.PlaysPlayers").style.display="none";
     console.log("loadPlays("+tmpUser+")");
     SPLUcopySelectedAll=false;
@@ -2781,7 +2780,6 @@
       tmpHTML+='</div>';
       document.getElementById('SPLU.PlaysStatus').innerHTML=tmpHTML;
     }
-    document.getElementById("SPLU.PlaysLoadingDiv").style.display="none";
   }
 
   function showPlaysListData(tmpUser,copyMode){
@@ -3090,7 +3088,7 @@
     var filterName="";
     if(filter!="add" && filter!="---" && filter!="DEL"){
       SPLUplaysFiltersCount++;
-      var tmpHTML='<a href="javascript:{void(0);}" onclick="javascript:{document.getElementById(\'SPLU.PlaysFiltersCurrent\').removeChild(document.getElementById(\'SPLU.playsFiltersLine'+SPLUplaysFiltersCount+'\'));window.setTimeout(function(){loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);addPlaysFilter(\'DEL\',\'\');},10);}" style="color:red;margin:2px;">'
+      var tmpHTML='<a href="javascript:{void(0);}" onclick="javascript:{document.getElementById(\'SPLU.PlaysFiltersCurrent\').removeChild(document.getElementById(\'SPLU.playsFiltersLine'+SPLUplaysFiltersCount+'\'));window.setTimeout(function(){loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);addPlaysFilter(\'DEL\',\'\');},25);}" style="color:red;margin:2px;">'
         +'<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/delete_row_small.png">'
         +'</a>';
       if(filter=="playername"){filterName="Player";}
@@ -3202,21 +3200,21 @@
     }
     if(stat=="GameDetails"){
       var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
-      window.setTimeout(function(){getStatsGameDetails(tmpUser);},10);
+      window.setTimeout(function(){getStatsGameDetails(tmpUser);},25);
       document.getElementById('SPLUzeroScoreStatsDiv').style.display="";
     }
     if(stat=="BeginnersLuck"){
       var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
-      getStatsBeginnersLuck(tmpUser);
+      window.setTimeout(function(){getStatsBeginnersLuck(tmpUser);},25);
     }
     if(stat=="PlaysWins"){
       var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
-      getStatsPlaysWins(tmpUser);
+      window.setTimeout(function(){getStatsPlaysWins(tmpUser);},25);
       document.getElementById('SPLUcsvDownload').style.display="";
     }
     if(stat=="Locations"){
       var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
-      getStatsLocations(tmpUser);
+      window.setTimeout(function(){getStatsLocations(tmpUser);},25);
       document.getElementById('SPLUcsvDownload').style.display="";
     }
   }
