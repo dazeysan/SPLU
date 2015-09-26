@@ -56,6 +56,8 @@
     var SPLUcopyContinue=true;
     var SPLUcopyID="0";
     var SPLUcopySelectedAll=false;
+    var SPLUcopyCopied=0;
+    var SPLUcopyTotal=0;
     var SPLUtimeouts={};
     var SPLUwindowHeight=0;
     var SPLUplaysListTab="filters";
@@ -64,6 +66,7 @@
     var SPLUdragSourceDiv = null;
     var SPLUfavoritesPlayers=[];
     var SPLUfavoritesEditing="";
+    var SPLUzeroScoreStats=false;
     
     var observer=new MutationObserver(function(){
       if(document.getElementById('selimage0').innerHTML.slice(0,4)=="<div"){
@@ -958,6 +961,7 @@
           +'<div class="BRcells">'
             +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlays(0,200);}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="CopyPlaysBtn";><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/copy.gif" style="vertical-align: middle;"> Copy Selected Plays</a>'
           +'</div>'
+          +'<div id="CopyPlaysStatus"></div>'
         +'</div>'
         +'<div id="SPLU.StatsMenu" style="display:none;">'
           +'Stat: <select id="SPLU.SelectStat" onChange="javascript:{loadStats(\'choose\');}">'
@@ -966,6 +970,9 @@
             +'<option value="GameDetails">Game Details</option>'
             +'<option value="Locations">Locations</option>'
           +'</select>'
+          +'<span style="margin-left: 10px;" id="SPLUzeroScoreStatsDiv">'
+            +'Include Zeros:<input style="vertical-align: middle;" id="SPLUzeroScoreStatsCheck" onChange="javascript:{SPLUzeroScoreStats=document.getElementById(\'SPLUzeroScoreStatsCheck\').checked;loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);}" type="checkbox">'
+          +'</span>'
           +'<span id="SPLUcsvDownload" style="margin-left:50px;vertical-align:top;">'
             +'<a href="javascript:{void(0);}" onClick="javascript:{SPLUdownloadText(\'SPLU-Export.csv\',SPLUcsv);}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/save-csv.png""></a>'
           +'</span>'
@@ -1956,7 +1963,7 @@
   }
   
   function handleDragClick(e){
-    console.log(this);
+    //console.log(this);
     if(SPLUdragDiv==-1){
       SPLUdragDiv=this.getAttribute('data-spluplayernumber');
       this.style.opacity="0.4";
@@ -1967,6 +1974,7 @@
       movePlayer(SPLUdragDiv,this.getAttribute('data-spluplayernumber'));
     }else{
       this.style.opacity="1.0";
+      document.getElementById('SPLU.PlayerDragHeader0').style.display="none";
       SPLUdragDiv=-1;
     }
   }
@@ -1989,7 +1997,7 @@
 
   function handleDragEnter(e) {
     if(this.hasAttribute('data-spluplayernumber')){
-      console.log(this.getAttribute('data-spluplayernumber'));
+      //console.log(this.getAttribute('data-spluplayernumber'));
       SPLUdragDiv=this.getAttribute('data-spluplayernumber')
       highlightPlayerRow(this.getAttribute('data-spluplayernumber'),true);
     }
@@ -2380,9 +2388,20 @@
   
   function copyPlays(lastCopied,lastCopiedStatus){
     console.log("copyPlays("+lastCopied+","+lastCopiedStatus+")");
+    tmpPlays=document.getElementsByName("SPLUcopyBox");
+    if(lastCopied==0){
+      SPLUcopyCopied=1;
+      SPLUcopyTotal=0;
+      for(i=0;i<tmpPlays.length;i++){
+        if(tmpPlays[i].checked){
+          SPLUcopyTotal++;
+        }
+      }
+    }
     if(lastCopiedStatus==200){
       if(lastCopied!=0){
         document.getElementById('SPLUcopyID-'+lastCopied).innerHTML='<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/accept.png">';
+        SPLUcopyCopied++;
       }
     }else if(lastCopiedStatus=="retry"){
       SPLUcopyContinue=true;
@@ -2394,20 +2413,28 @@
     }else{
       document.getElementById('SPLUcopyID-'+lastCopied).innerHTML='<a href="javascript:{void(0);}" onClick="javascript:{copyPlays('+lastCopied+',\'retry\');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/alert.gif">';
       document.getElementById('BRresults').innerHTML="Timed Out. Try Again.";
+      SPLUcopyCopied--;
+      document.getElementById('CopyPlaysStatus').innerHTML='Copied '+SPLUcopyCopied+' of '+SPLUcopyTotal+'.  Hit a snag.<br/><a href="javascript:{void(0);}" onClick="javascript:{copyPlays('+lastCopied+',\'retry\');}">Keep Going?</a>';
       SPLUcopyContinue=false;
     }
     if(SPLUcopyContinue){
-      tmpPlays=document.getElementsByName("SPLUcopyBox");
+      tmpFinished=1;
       for(i=tmpPlays.length-1;i>=0;i--){
         if(tmpPlays[i].checked){
+          tmpFinished=0;
           tmpPlayID=tmpPlays[i].getAttribute("data-SPLUcopyBox");
           console.log(tmpPlayID);
           loadPlay(tmpPlayID);
           SPLUcopyID=tmpPlayID;
           document.getElementById('SPLUcopyID-'+tmpPlayID).innerHTML='<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/progress.gif">';
           window.setTimeout(function(){saveGamePlay("copy");},2000);
+          document.getElementById('CopyPlaysStatus').innerHTML='Copying '+SPLUcopyCopied+' of '+SPLUcopyTotal;
           break;
         }
+      }
+      if(tmpFinished){
+        SPLUcopyCopied--;
+        document.getElementById('CopyPlaysStatus').innerHTML='Copied '+SPLUcopyCopied+' of '+SPLUcopyTotal+'.  Finished';
       }
     }
   }
@@ -3153,17 +3180,21 @@
       document.getElementById("SPLU.StatsMenu").style.display="none";
       document.getElementById("SPLU.StatsContent").style.display="none";
       document.getElementById('SPLUcopyPlaysDiv').style.display="";
+      document.getElementById('CopyPlaysStatus').innerHTML="";
     }
   }
 
   function loadStats(stat){
     document.getElementById('SPLUcsvDownload').style.display="none";
+    document.getElementById('SPLUzeroScoreStatsDiv').style.display="none";
+    document.getElementById('SPLUzeroScoreStatsCheck').checked=SPLUzeroScoreStats;
     if(stat=="choose"){
       stat=document.getElementById("SPLU.SelectStat").value;
     }
     if(stat=="GameDetails"){
       var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
       getStatsGameDetails(tmpUser);
+      document.getElementById('SPLUzeroScoreStatsDiv').style.display="";
     }
     if(stat=="BeginnersLuck"){
       var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
@@ -3214,6 +3245,8 @@
         SPLUgameStats[tmpGame]={
           "HighScore":-999999999,
           "LowScore":999999999,
+          "HighNonZeroScore":-999999999,
+          "LowNonZeroScore":999999999,
           "TotalScore":0,
           "TotalPlays":0,
           "TotalWins":0,
@@ -3224,6 +3257,7 @@
           "DurationSum":0,
           "DurationHigh":-999999999,
           "DurationLow":999999999,
+          "TotalZeroScores":0,
           "Players":{},
           "Game":tmpPlay.getElementsByTagName("item")[0].getAttribute("name")
         };
@@ -3254,9 +3288,16 @@
           SPLUgameStats[tmpGame]["Players"][tmpNameID]={
             "HighScore":-999999999,
             "LowScore":999999999,
+            "HighNonZeroScore":-999999999,
+            "LowNonZeroScore":999999999,
             "TotalScore":0,
             "TotalPlays":0,
             "TotalWins":0,
+            "HighScorePlay":0,
+            "LowScorePlay":0,
+            "HighNonZeroScorePlay":0,
+            "LowNonZeroScorePlay":0,
+            "TotalZeroScores":0,
             "Name":tmpName
           };
         }
@@ -3264,21 +3305,41 @@
         if(tmpPlayers[p].getAttribute("score")!="" && isNumeric(tmpPlayers[p].getAttribute("score"))){
           tmpScore=Number(tmpPlayers[p].getAttribute("score"));
         }
+        if(tmpScore==0){
+          SPLUgameStats[tmpGame]["Players"][tmpNameID]["TotalZeroScores"]++;
+          SPLUgameStats[tmpGame]["TotalZeroScores"]++;
+        }
         if(tmpScore>SPLUgameStats[tmpGame]["Players"][tmpNameID]["HighScore"]){
           SPLUgameStats[tmpGame]["Players"][tmpNameID]["HighScore"]=tmpScore;
           SPLUgameStats[tmpGame]["Players"][tmpNameID]["HighScorePlay"]=tmpPlay;
+        }
+        if(tmpScore>SPLUgameStats[tmpGame]["Players"][tmpNameID]["HighNonZeroScore"] && tmpScore!=0){
+          SPLUgameStats[tmpGame]["Players"][tmpNameID]["HighNonZeroScore"]=tmpScore;
+          SPLUgameStats[tmpGame]["Players"][tmpNameID]["HighNonZeroScorePlay"]=tmpPlay;
         }
         if(tmpScore>SPLUgameStats[tmpGame]["HighScore"]){
           SPLUgameStats[tmpGame]["HighScore"]=tmpScore;
           SPLUgameStats[tmpGame]["HighScorePlay"]=tmpPlay;
         }
-        if(tmpScore<SPLUgameStats[tmpGame]["Players"][tmpNameID].LowScore){
+        if(tmpScore>SPLUgameStats[tmpGame]["HighNonZeroScore"] && tmpScore!=0){
+          SPLUgameStats[tmpGame]["HighNonZeroScore"]=tmpScore;
+          SPLUgameStats[tmpGame]["HighNonZeroScorePlay"]=tmpPlay;
+        }
+        if(tmpScore<SPLUgameStats[tmpGame]["Players"][tmpNameID]["LowScore"]){
           SPLUgameStats[tmpGame]["Players"][tmpNameID]["LowScore"]=tmpScore;
           SPLUgameStats[tmpGame]["Players"][tmpNameID]["LowScorePlay"]=tmpPlay;
+        }
+        if(tmpScore<SPLUgameStats[tmpGame]["Players"][tmpNameID]["LowNonZeroScore"] && tmpScore!=0){
+          SPLUgameStats[tmpGame]["Players"][tmpNameID]["LowNonZeroScore"]=tmpScore;
+          SPLUgameStats[tmpGame]["Players"][tmpNameID]["LowNonZeroScorePlay"]=tmpPlay;
         }
         if(tmpScore<SPLUgameStats[tmpGame]["LowScore"]){
           SPLUgameStats[tmpGame]["LowScore"]=tmpScore;
           SPLUgameStats[tmpGame]["LowScorePlay"]=tmpPlay;
+        }
+        if(tmpScore<SPLUgameStats[tmpGame]["LowNonZeroScore"] && tmpScore!=0){
+          SPLUgameStats[tmpGame]["LowNonZeroScore"]=tmpScore;
+          SPLUgameStats[tmpGame]["LowNonZeroScorePlay"]=tmpPlay;
         }
         SPLUgameStats[tmpGame]["Players"][tmpNameID]["TotalScore"]+=tmpScore;
         SPLUgameStats[tmpGame]["Players"][tmpNameID]["TotalPlays"]++;
@@ -3305,9 +3366,13 @@
       tmpAverageAllScore=0;
       tmpAverageWinScore=0;
       tmpAverageDuration=0;
+      tmpTotalPlays=SPLUgameStats[keyGame]["TotalPlays"];
       tmpHTML+='<span style="font-style:italic;color:rgb(213, 85, 198);font-weight:bold;">'+SPLUgameStats[keyGame].Game+'</span>';
       if(SPLUgameStats[keyGame]["TotalScore"]!=0){
-        tmpAverageAllScore=SPLUgameStats[keyGame]["TotalScore"]/SPLUgameStats[keyGame]["TotalPlays"];
+        if(!SPLUzeroScoreStats){
+          tmpTotalPlays=SPLUgameStats[keyGame]["TotalPlays"]-SPLUgameStats[keyGame]["TotalZeroScores"];
+        }
+        tmpAverageAllScore=SPLUgameStats[keyGame]["TotalScore"]/tmpTotalPlays;
         tmpAverageAllScore=tmpAverageAllScore.toFixed(2);
       }
       if(SPLUgameStats[keyGame]["WinScoreSum"]!=0){
@@ -3318,8 +3383,15 @@
         tmpAverageDuration=SPLUgameStats[keyGame]["DurationSum"]/SPLUgameStats[keyGame]["TotalDurations"];
         tmpAverageDuration=tmpAverageDuration.toFixed(0);
       }
+      if(SPLUzeroScoreStats){
+        tmpLowScore=SPLUgameStats[keyGame]["LowScore"];
+        tmpHighScore=SPLUgameStats[keyGame]["HighScore"];
+      }else{
+        tmpLowScore=SPLUgameStats[keyGame]["LowNonZeroScore"];
+        tmpHighScore=SPLUgameStats[keyGame]["HighNonZeroScore"];
+      }
       if(tmpAverageAllScore>0 || tmpAverageWinScore>0 || tmpAverageDuration>0){
-      tmpHTML+='<div style="display:table; border-spacing:5px 2px; text-align:right; padding-bottom:10px;">'
+        tmpHTML+='<div style="display:table; border-spacing:5px 2px; text-align:right; padding-bottom:10px;">'
         +'<div style="display:table-row;">'
           +'<div style="display:table-cell;font-weight:bold;">Stat</div>'
           +'<div style="display:table-cell;font-weight:bold;">Avg</div>'
@@ -3331,9 +3403,9 @@
           tmpHTML+='<div style="display:table-row;">';
           tmpHTML+='<div style="display:table-cell;">All Scores</div>';
           tmpHTML+='<div style="display:table-cell;">'+tmpAverageAllScore+'</div>';
-          tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["LowScore"]+'</div>';
-          tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["HighScore"]+'</div>';
-          tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["TotalPlays"]+'</div></div>';
+          tmpHTML+='<div style="display:table-cell;">'+tmpLowScore+'</div>';
+          tmpHTML+='<div style="display:table-cell;">'+tmpHighScore+'</div>';
+          tmpHTML+='<div style="display:table-cell;">'+tmpTotalPlays+'</div></div>';
         }
         if(tmpAverageWinScore>0){
           tmpHTML+='<div style="display:table-row;">';
@@ -3364,8 +3436,16 @@
           +'<div style="display:table-cell;font-weight:bold;">AvgWins</div>'
         +'</div>';
       for(key in SPLUgameStats[keyGame]["Players"]){
-        tmpAverageScore=SPLUgameStats[keyGame]["Players"][key]["TotalScore"]/SPLUgameStats[keyGame]["Players"][key]["TotalPlays"];
-        tmpAverageScore=tmpAverageScore.toFixed(2);
+        if(SPLUzeroScoreStats){
+          tmpAverageScore=SPLUgameStats[keyGame]["Players"][key]["TotalScore"]/SPLUgameStats[keyGame]["Players"][key]["TotalPlays"];
+        }else{
+          tmpAverageScore=SPLUgameStats[keyGame]["Players"][key]["TotalScore"]/(SPLUgameStats[keyGame]["Players"][key]["TotalPlays"]-SPLUgameStats[keyGame]["Players"][key]["TotalZeroScores"]);
+        }
+        if(isNumeric(tmpAverageScore)){
+          tmpAverageScore=tmpAverageScore.toFixed(2);
+        }else{
+          tmpAverageScore="&mdash;";
+        }
         tmpAverageWins=(SPLUgameStats[keyGame]["Players"][key]["TotalWins"]/SPLUgameStats[keyGame]["Players"][key]["TotalPlays"])*100;
         tmpAverageWins=tmpAverageWins.toFixed(2);
         tmpGame=SPLUgameStats[keyGame].Game;
@@ -3376,15 +3456,47 @@
         tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'playername\',\'='+SPLUgameStats[keyGame]["Players"][key]["Name"]+'\');addPlaysFilter(\'gamename\',\'='+tmpGame+'\');}" href="javascript:{void(0);}">'+SPLUgameStats[keyGame]["Players"][key]["TotalPlays"]+'</a></div>';
         tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{showPlaysTab(\'filters\');}addPlaysFilter(\'winner\',\''+SPLUgameStats[keyGame]["Players"][key]["Name"]+'\');addPlaysFilter(\'gamename\',\'='+tmpGame+'\');" href="javascript:{void(0);}">'+SPLUgameStats[keyGame]["Players"][key]["TotalWins"]+'</a></div>';
         var tmpBold="";
-        if(SPLUgameStats[keyGame]["Players"][key]["LowScore"]==SPLUgameStats[keyGame]["LowScore"]){
-          tmpBold="font-weight:bold;";
+        var tmpLink="";
+        var tmpLink2="";
+        if(SPLUzeroScoreStats){
+          if(SPLUgameStats[keyGame]["Players"][key]["LowScore"]==SPLUgameStats[keyGame]["LowScore"]){
+            tmpBold="font-weight:bold;";
+          }
+          tmpHTML+='<div style="display:table-cell;"><a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLUgameStats[keyGame]["Players"][key]["LowScorePlay"].id+');}"><span style="'+tmpBold+'">'+SPLUgameStats[keyGame]["Players"][key]["LowScore"]+'</span></a></div>';
+          tmpBold="";
+          if(SPLUgameStats[keyGame]["Players"][key]["HighScore"]==SPLUgameStats[keyGame]["HighScore"]){
+            tmpBold="font-weight:bold;";
+          }
+          tmpHTML+='<div style="display:table-cell;"><a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLUgameStats[keyGame]["Players"][key]["HighScorePlay"].id+');}"><span style="'+tmpBold+'">'+SPLUgameStats[keyGame]["Players"][key]["HighScore"]+'</span></a></div>';
+        }else{
+          if(SPLUgameStats[keyGame]["Players"][key]["LowNonZeroScore"]==SPLUgameStats[keyGame]["LowNonZeroScore"]){
+            tmpBold="font-weight:bold;";
+          }
+          if(SPLUgameStats[keyGame]["Players"][key]["LowNonZeroScore"]==999999999){
+            tmpLowScore="&mdash;";
+            tmpLink='';
+            tmpLink2='';
+          }else{
+            tmpLowScore=SPLUgameStats[keyGame]["Players"][key]["LowNonZeroScore"];
+            tmpLink='<a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLUgameStats[keyGame]["Players"][key]["LowNonZeroScorePlay"].id+');}">';
+            tmpLink2='</a>';
+          }
+          tmpHTML+='<div style="display:table-cell;">'+tmpLink+'<span style="'+tmpBold+'">'+tmpLowScore+'</span>'+tmpLink2+'</div>';
+          tmpBold="";
+          if(SPLUgameStats[keyGame]["Players"][key]["HighNonZeroScore"]==SPLUgameStats[keyGame]["HighNonZeroScore"]){
+            tmpBold="font-weight:bold;";
+          }
+          if(SPLUgameStats[keyGame]["Players"][key]["HighNonZeroScore"]==-999999999){
+            tmpHighScore="&mdash;";
+            tmpLink='';
+            tmpLink2='';
+          }else{
+            tmpHighScore=SPLUgameStats[keyGame]["Players"][key]["HighNonZeroScore"];
+            tmpLink='<a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLUgameStats[keyGame]["Players"][key]["HighNonZeroScorePlay"].id+');}">';
+            tmpLink2='</a>';
+          }
+          tmpHTML+='<div style="display:table-cell;">'+tmpLink+'<span style="'+tmpBold+'">'+tmpHighScore+'</span>'+tmpLink2+'</div>';
         }
-        tmpHTML+='<div style="display:table-cell;"><a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLUgameStats[keyGame]["Players"][key]["LowScorePlay"].id+');}"><span style="'+tmpBold+'">'+SPLUgameStats[keyGame]["Players"][key]["LowScore"]+'</span></a></div>';
-        tmpBold="";
-        if(SPLUgameStats[keyGame]["Players"][key]["HighScore"]==SPLUgameStats[keyGame]["HighScore"]){
-          tmpBold="font-weight:bold;";
-        }
-        tmpHTML+='<div style="display:table-cell;"><a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLUgameStats[keyGame]["Players"][key]["HighScorePlay"].id+');}"><span style="'+tmpBold+'">'+SPLUgameStats[keyGame]["Players"][key]["HighScore"]+'</span></a></div>';
         tmpBold="";
         tmpHTML+='<div style="display:table-cell;">'+tmpAverageScore+'</div>';
         tmpHTML+='<div style="display:table-cell;">'+tmpAverageWins+'%</div>';
