@@ -938,7 +938,7 @@
           +'<div id="SPLU.PlaysFiltersStatus" style="float:right;"></div>'
           +'<div>'
             +'<select class="fa" id="SPLU.SelectPlaysFilter" onChange="javascript:{addPlaysFilter(\'GUI\',\'\');}">'
-              +'<option value="add">Add a Filter</option>'
+              +'<option value="add">&#xf0b0; Add a Filter</option>'
               +'<option value="---" disabled>---</option>'
               +'<option value="gamename">&#x265a; Game</option>'
               +'<option value="playername">&#xf007; Player</option>'
