@@ -3116,10 +3116,10 @@
   }
   
   function addPlaysFilter(filter,filterVal){
-  document.getElementById('SPLUfilterDrop').style.display="none";
-  if(filter=="GUI"){
-      filter=document.getElementById("SPLU.SelectPlaysFilter").value;
-    }
+    document.getElementById('SPLUfilterDrop').style.display="none";
+    //if(filter=="GUI"){
+    //  filter=document.getElementById("SPLU.SelectPlaysFilter").value;
+    //}
     var filterName="";
     if(filter!="add" && filter!="---" && filter!="DEL"){
       SPLUplaysFiltersCount++;
@@ -3176,7 +3176,7 @@
       tmpDiv.innerHTML=tmpHTML;
       document.getElementById("SPLU.PlaysFiltersCurrent").appendChild(tmpDiv);
     }
-    document.getElementById("SPLU.SelectPlaysFilter").value="add";
+    //document.getElementById("SPLU.SelectPlaysFilter").value="add";
     if(document.getElementsByName("SPLU.PlaysFiltersLine").length==0){
       document.getElementById("SPLU.PlaysFiltersGoBtn").style.display="none";
     }else{
