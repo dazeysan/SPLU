@@ -935,7 +935,7 @@
               +'<option value="---" disabled>---</option>'
               +'<option value="playername">Player</option>'
               +'<option value="username">Username</option>'
-              +'<option value="gamename">Game</option>'
+              +'<option value="gamename">&#9822; Game</option>'
               +'<option value="location">Location</option>'
               +'<option value="comments">Comments</option>'
               +'<option value="objecttype">Type</option>'
