@@ -947,6 +947,9 @@
               +'<option value="excludenowinstats">No Win Stats</option>'
               +'<option value="excludeincomplete">No Incomplete</option>'
             +'</select>'
+            +'<span id="SPLU.PlaysLoadingDiv" style="margin-left:20px;display:none;">'
+              +'<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/progress.gif">'
+            +'</span>'
           +'<div id="SPLU.PlaysFiltersCurrent"></div>'
             +'<div id="SPLU.PlaysFiltersGoBtn"style="float:right;margin-top:-20px;margin-right:5px;display:none;">'
               +'<a href="javascript:{void(0);}" onClick="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);}">go</a>'
@@ -3191,12 +3194,13 @@
     document.getElementById('SPLUcsvDownload').style.display="none";
     document.getElementById('SPLUzeroScoreStatsDiv').style.display="none";
     document.getElementById('SPLUzeroScoreStatsCheck').checked=SPLUzeroScoreStats;
+    document.getElementById("SPLU.PlaysLoadingDiv").style.display="";
     if(stat=="choose"){
       stat=document.getElementById("SPLU.SelectStat").value;
     }
     if(stat=="GameDetails"){
       var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
-      getStatsGameDetails(tmpUser);
+      window.setTimeout(function(){getStatsGameDetails(tmpUser);},10);
       document.getElementById('SPLUzeroScoreStatsDiv').style.display="";
     }
     if(stat=="BeginnersLuck"){
@@ -3231,7 +3235,6 @@
   }
   
   function getStatsGameDetails(tmpUser){
-    document.getElementById("SPLU.StatsContent").innerHTML="Thinking...";
     SPLUgameStats={};
     for(i=0;i<SPLUlistOfPlays.length;i++){
       var tmpPlay=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id];
@@ -3508,6 +3511,7 @@
       tmpHTML+='</div>';
     }
     document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
+    document.getElementById("SPLU.PlaysLoadingDiv").style.display="none";
   }
   
   function getStatsBeginnersLuck(tmpUser){
