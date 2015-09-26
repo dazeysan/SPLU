@@ -84,6 +84,13 @@
       SPLUfamilyLoaded=false;
     });
 
+    //Insert FontAwsome CSS
+    tmpLink=document.createElement('link');
+    tmpLink.type="text/css";
+    tmpLink.rel="stylesheet";
+    tmpLink.href="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/font-awesome/css/font-awesome.min.css";
+    document.getElementsByTagName("head")[0].appendChild(tmpLink);
+    
   function initSPLU(){
     NumOfPlayers=0;
     PlayerCount=0;
@@ -939,7 +946,7 @@
               +'<option value="location">Location</option>'
               +'<option value="comments">Comments</option>'
               +'<option value="objecttype">Type</option>'
-              +'<option value="daterange">Date Range</option>'
+              +'<option value="daterange">&#xf272;Date Range</option>'
               +'<option value="winner">Winner</option>'
               +'<option value="new">New Player</option>'
               +'<option value="playercount">Player Count</option>'
