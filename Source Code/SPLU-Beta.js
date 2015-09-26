@@ -3134,7 +3134,7 @@
         tmpHTML+='Type: <select class="fa" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" onChange="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);}">'
           +'<option class="fa" style="display:block;" value="boardgame">&#9818; Board Game</option>'
           +'<option class="fa" style="display:block;" value="videogame">&#xf11b; Video Game</option>'
-          +'<option class="fa" style="display:block;" value="rpgitem">&#9860; RPG Item</option>'
+          +'<option class="fa" style="display:block;" value="rpgitem">&#xf432; RPG Item</option>'
           +'</select>';
       }
       
