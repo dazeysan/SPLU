@@ -3133,7 +3133,7 @@
       if(filter=="objecttype"){
         tmpHTML+='Type: <select name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" onChange="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);}">'
           +'<option value="boardgame">&#9818; Board Game</option>'
-          +'<option value="videogame">&#128377; Video Game</option>'
+          +'<option value="videogame">&#xf11b; Video Game</option>'
           +'<option value="rpgitem">&#9860; RPG Item</option>'
           +'</select>';
       }
