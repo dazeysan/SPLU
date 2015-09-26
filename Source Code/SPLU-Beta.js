@@ -937,25 +937,9 @@
         +'<div id="SPLU.PlaysFilters" style="border: 1px solid blue; border-radius: 5px; padding: 3px;">'
           +'<div id="SPLU.PlaysFiltersStatus" style="float:right;"></div>'
           +'<div>'
-            +'<select class="fa" id="SPLU.SelectPlaysFilter" onChange="javascript:{addPlaysFilter(\'GUI\',\'\');}">'
-              +'<option class="fa" style="display:block;" value="add">&#xf0b0; Add a Filter</option>'
-              +'<option class="fa" style="display:block;" value="---" disabled>---</option>'
-              +'<option class="fa" style="display:block;" value="gamename">&#x265a; Game</option>'
-              +'<option class="fa" style="display:block;" value="playername">&#xf007; Player</option>'
-              +'<option class="fa" style="display:block;" value="username">&#xf02b; Username</option>'
-              +'<option class="fa" style="display:block;" value="location">&#xf041; Location</option>'
-              +'<option class="fa" style="display:block;" value="daterange">&#xf272; Date Range</option>'
-              +'<option class="fa" style="display:block;" value="winner">&#xf091; Winner</option>'
-              +'<option class="fa" style="display:block;" value="new">&#xf21d; New Player</option>'
-              +'<option class="fa" style="display:block;" value="playercount">&#xf0c0; Player Count</option>'
-              +'<option class="fa" style="display:block;" value="objecttype">&#xf18e; Type</option>'
-              +'<option class="fa" style="display:block;" value="comments">&#xf27b; Comments</option>'
-              +'<option class="fa" style="display:block;" value="excludeexpansions">&#xf0eb; No Expansions</option>'
-              +'<option class="fa" style="display:block;" value="excludenowinstats">&#xf0a3; No Win Stats</option>'
-              +'<option class="fa" style="display:block;" value="excludeincomplete">&#x25d1; No Incomplete</option>'
-            +'</select>'
+            +'<div style="background-color: white; width: 120px; border: 1px solid gray; padding: 2px;"  onclick="javascript:{if(document.getElementById(\'SPLUfilterDrop\').style.display=="none"){document.getElementById(\'SPLUfilterDrop\').style.display=\'\';}else{document.getElementById(\'SPLUfilterDrop\').style.display=\'none\';}}"><i class="fa">&#xf0b0;</i> Add a Filter<i style="float: right; height: 15px; background-color: lightgrey; margin-top: -2px; margin-right: -2px; padding: 4px 2px 0px;" class="fa">&#xf078;</i></div>'
             +'<div style="position:absolute;border:1px solid blue;background-color:rgb(206,214,233);display:none;" id="SPLUfilterDrop">'
-              +'<ul class="fa-ul">'
+              +'<ul class="fa-ul" style="padding-right:8px;">'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'gamename\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
                   +'<i class="fa fa-li">&#x265a;</i>Game'
                 +'</li>'
@@ -3132,7 +3116,8 @@
   }
   
   function addPlaysFilter(filter,filterVal){
-    if(filter=="GUI"){
+  document.getElementById('SPLUfilterDrop').style.display="none";
+  if(filter=="GUI"){
       filter=document.getElementById("SPLU.SelectPlaysFilter").value;
     }
     var filterName="";
