@@ -304,7 +304,7 @@
           +'<div class="SPLUplayerCells" id="SPLU.PlayerNameColumnHeader">'
             +'<div id="SPLU.PlayerNameColumn" class="SPLUheader" style="min-width:38px;">'
               +'<div id="collapseName" class="SPLUheaderClose">'
-                +'<a href="javascript:{void(0);}" onClick="javascript:{hideColumn(\'PlayerNameColumn\');}"><img src=https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/hide_column.png></a>'
+                +'<a href="javascript:{void(0);}" onClick="javascript:{hideColumn(\'PlayerNameColumn\');}"><i class="fa fa-minus-square-zero fa-lg"></i></a>'
               +'</div>'
               +'<center>Name</center>'
             +'</div>'
