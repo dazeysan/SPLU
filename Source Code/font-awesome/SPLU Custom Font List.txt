@@ -1,0 +1,6 @@
+ee01 - Meeple
+ee02 - FingerSelectOption
+ee03 - RibbonWhiteCircle
+ee04 - WhiteCircleSlash
+ee05 - GlassHalfFull
+ee06 - Clover
