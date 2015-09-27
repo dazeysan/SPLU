@@ -293,7 +293,7 @@
         +'<div style="display:table-row;">'
           +'<div class="BRcells">'
             +'Players:<a href="javascript:{void(0);}" onClick="javascript:{showHidePlayers(false,\'reset\');}" id="SPLU.SavedNamesBtn" style="padding-left:1px;"><span id="SPLU.SavedNamesButtonIconCollapse" style="display:inline-block;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/arrow_up.png"></span><span id="SPLU.SavedNamesButtonIconExpand" style="display:none;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/arrow_down.png"></span></a>'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{showPlayersPane(\'button\');}" id="showPlayersPaneBtn" style="padding-right:5px;"><span class="fa-stack"><i class="fa fa-bars fa-stack-2x fa-pull-right" style="color: rgb(132, 130, 130);"></i><i class="fa fa-user fa-stack-2x fa-pull-left" style="color: rgb(0, 0, 0); text-shadow: 1px -1px rgb(164, 223, 243);"></i></span></a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{showPlayersPane(\'button\');}" id="showPlayersPaneBtn" style="padding-right:5px;"><span class="fa-stack"><i class="fa fa-bars fa-stack-2x fa-pull-right" style="color: rgb(132, 130, 130); font-size: 1.5em;"></i><i class="fa fa-user fa-stack-2x fa-pull-left" style="color: rgb(0, 0, 0); text-shadow: 1px -1px rgb(164, 223, 243); font-size: 1.5em;"></i><i class="fa fa-user fa-stack-2x fa-pull-left" style="color: rgb(0, 0, 0); font-size: 1.5em; text-shadow: -1px -1px rgb(164, 223, 243);"></i></span></a>'
             +'<div style="display:inline;" id="SPLU.PlayerFilters">'
               +'<select id="SPLU.SelectFilter" onChange="javascript:{setFilter(\'choose\');}"></select>'
             +'</div>'
