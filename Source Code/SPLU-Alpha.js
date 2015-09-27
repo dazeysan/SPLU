@@ -151,7 +151,7 @@
       +'</div>'
       +'<div style="padding-top: 15px; padding-left: 8px;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{showSettingsPane(\'button\');}" id="BRshowHideBtn">'
-          +'<i style="color: black;" class="fa fa-cog"></i>'
+          +'<i class="fa fa-cog fa-2x" style="color: rgb(249, 138, 59);"></i>'
         +'</a>'
       +'</div>'
       +'<div style="margin-top: 25px; padding-left: 8px;">'
