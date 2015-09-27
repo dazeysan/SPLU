@@ -1,11 +1,11 @@
-ee01 - Meeple
-ee02 - FingerSelectOption
-ee03 - RibbonWhiteCircle
-ee04 - WhiteCircleSlash
-ee05 - GlassHalfFull
-ee06 - Clover
-ee07 - DragonHead
-ee08 - SquareOSolid
-ee09 - MapMarkerSolid
-ee10 - Ribbon with blank face
-ee11 - floppy disk (black)
+&#xee01; - Meeple
+&#xee02; - FingerSelectOption
+&#xee03; - RibbonWhiteCircle
+&#xee04; - WhiteCircleSlash
+&#xee05; - GlassHalfFull
+&#xee06; - Clover
+&#xee07; - DragonHead
+&#xee08; - SquareOSolid
+&#xee09; - MapMarkerSolid
+&#xee10; - Ribbon with blank face
+&#xee11; - floppy disk (black)
