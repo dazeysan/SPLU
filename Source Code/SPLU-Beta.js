@@ -3159,18 +3159,18 @@
       }
       
       if(filter=="objecttype"){
-        tmpHTML+='Type: <div>'
-            +'<div style="display: inline; border: 1px solid blue; padding: 0px 2px;">'
+        tmpHTML+='Type: <div style="display:inline;">'
+            +'<div id="SPLUtypeFilterButtonBoard" onClick="javascript:{highlightFilterTypeButton(\'boardgame\');}" style="display:inline;border:1.5px solid black;padding:0px 2px;background-color:yellow;">'
               +'<i class="fa">&#xee01;</i> Board'
             +'</div>'
-            +'<div style="display: inline; border: 1px solid blue; padding: 0px 2px;">'
+            +'<div id="SPLUtypeFilterButtonVideo" onClick="javascript:{highlightFilterTypeButton(\'videogame\');}" style="display:inline;border:1.5px solid black;padding:0px 2px;">'
               +'<i class="fa">&#xf11b;</i> Video'
             +'</div>'
-            +'<div style="display: inline; border: 1px solid blue; padding: 0px 2px;">'
-              +'<i class="fa">&#xf432;</i> RPG'
+            +'<div id="SPLUtypeFilterButtonRPG" onClick="javascript:{highlightFilterTypeButton(\'rpgitem\');}" style="display:inline;border:1.5px solid black;padding:0px 2px;">'
+              +'<i class="fa">&#xee07;</i> RPG'
             +'</div>'
           +'</div>'
-          +'<input type="hidden" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'"/>';
+          +'<input id="SPLUtypeFilterButtonValue" value="boardgame" type="hidden" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'"/>';
       }
       
       if(filter!="objecttype" && filter!="excludeexpansions" && filter!="excludenowinstats" && filter!="excludeincomplete" && filter!="daterange" && filter!="playercount"){
@@ -3194,6 +3194,26 @@
     }
   }
   
+  function highlightFilterTypeButton(type){
+    buttonBoard=document.getElementById('SPLUtypeFilterButtonBoard');
+    buttonVideo=document.getElementById('SPLUtypeFilterButtonVideo');
+    buttonRPG=document.getElementById('SPLUtypeFilterButtonRPG');
+    buttonBoard.style.backgroundColor="";
+    buttonVideo.style.backgroundColor="";
+    buttonRPG.style.backgroundColor="";
+    if(type=="boardgame"){
+      buttonBoard.style.backgroundColor="yellow";
+    }
+    if(type=="videogame"){
+      buttonVideo.style.backgroundColor="yellow";
+    }
+    if(type=="rpgitem"){
+      buttonRPG.style.backgroundColor="yellow";
+    }
+    document.getElementById('SPLUtypeFilterButtonValue').value=type;
+    loadPlays(document.getElementById('SPLU.PlaysLogger').value,false);
+  }
+
   function showPlaysTab(tab){
     if(tab!="same"){
       SPLUplaysListTab=tab;

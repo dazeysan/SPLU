@@ -4,3 +4,4 @@ ee03 - RibbonWhiteCircle
 ee04 - WhiteCircleSlash
 ee05 - GlassHalfFull
 ee06 - Clover
+ee07 - DragonHead
