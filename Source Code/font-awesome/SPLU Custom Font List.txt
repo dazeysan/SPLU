@@ -5,3 +5,5 @@ ee04 - WhiteCircleSlash
 ee05 - GlassHalfFull
 ee06 - Clover
 ee07 - DragonHead
+ee08 - SquareOSolid
+ee09 - MapMarkerSolid
