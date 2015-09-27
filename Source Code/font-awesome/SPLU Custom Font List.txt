@@ -7,5 +7,5 @@
 &#xee07; - fa-dragon-head
 &#xee08; - fa-square-o-solid
 &#xee09; - fa-map-marker-solid
-&#xee10; - fa-ribbon-blank-face
-&#xee11; - fa-floppy-disk-black
+&#xee10; - fa-floppy-disk-black
+&#xee11; - fa-ribbon-blank-face
