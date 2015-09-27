@@ -1,11 +1,11 @@
-&#xee01; - Meeple
-&#xee02; - FingerSelectOption
-&#xee03; - RibbonWhiteCircle
-&#xee04; - WhiteCircleSlash
-&#xee05; - GlassHalfFull
-&#xee06; - Clover
-&#xee07; - DragonHead
-&#xee08; - SquareOSolid
-&#xee09; - MapMarkerSolid
-&#xee10; - Ribbon with blank face
-&#xee11; - floppy disk (black)
+&#xee01; - fa-meeple
+&#xee02; - fa-finger-select-option
+&#xee03; - fa-ribbon-white-circle
+&#xee04; - fa-white-circle-slash
+&#xee05; - fa-glass-half-full
+&#xee06; - fa-four-leaf-clover
+&#xee07; - fa-dragon-head
+&#xee08; - fa-square-o-solid
+&#xee09; - fa-map-marker-solid
+&#xee10; - fa-ribbon-blank-face
+&#xee11; - fa-floppy-disk-black
