@@ -222,7 +222,7 @@
             +'</div>'
             +'<a href="javascript:{void(0);}" onClick="javascript:{showHideLocations();}" id="BRlocsBtn" style="padding-left:1px; vertical-align:middle;"><span id="SPLU.LocationButtonIconCollapse" style="display:inline-block;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/arrow_up.png"></span><span id="SPLU.LocationButtonIconExpand" style="display:none;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/arrow_down.png"></span></a>'
             +'<div style="display:inline-block; position:absolute; padding-top:2px;padding-left:4px;">'
-              +'<a href="javascript:{void(0);}" onClick="javascript:{showLocationsPane(\'button\');}" id="showLocationsPaneBtn"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/locations.png"></a>'
+              +'<a href="javascript:{void(0);}" onClick="javascript:{showLocationsPane(\'button\');}" id="showLocationsPaneBtn"><span class="fa-stack"><i class="fa fa-bars fa-stack-2x fa-pull-right" style="color: rgb(110, 104, 104);"></i><i class="fa fa-microphone fa-stack-2x" style="color: rgb(164, 223, 243);"></i><i class="fa fa-level-down fa-stack-2x fa-pull-left fa-flip-vertical fa-pull-left" style="color: rgb(164, 223, 243);"></i><i class="fa fa-volume-off fa-stack-2x fa-pull-left fa-flip-vertical fa-pull-left" style="color: rgb(164, 223, 243);"></i><i style="color: rgb(211, 60, 199);" class="fa fa-map-marker fa-stack-2x fa-pull-left"></i></span></a>'
             +'</div>'
             +'<br/>'
             +'<div id="SPLU.LocationList" style="">'
