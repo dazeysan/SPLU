@@ -3207,10 +3207,10 @@
       if(filter=="objecttype"){
         tmpHTML+='Type: <div style="display:inline;">'
             +'<div id="SPLUtypeFilterButtonBoard" onClick="javascript:{highlightFilterTypeButton(\'boardgame\');}" style="display:inline;border:1.5px solid black;padding:0px 2px;background-color:yellow;">'
-              +'<i class="fa">&#xee01;</i> Board'
+              +'<i style="transform: translate(0px, 0.7px);" class="fa display:block"></i> Board'
             +'</div>'
             +'<div id="SPLUtypeFilterButtonVideo" onClick="javascript:{highlightFilterTypeButton(\'videogame\');}" style="display:inline;border:1.5px solid black;padding:0px 2px;">'
-              +'<i class="fa">&#xf11b;</i> Video'
+              +'<i style="transform: translate(0px, 0.3px);" class="fa"></i> Video'
             +'</div>'
             +'<div id="SPLUtypeFilterButtonRPG" onClick="javascript:{highlightFilterTypeButton(\'rpgitem\');}" style="display:inline;border:1.5px solid black;padding:0px 2px;">'
               +'<i class="fa">&#xee07;</i> RPG'
