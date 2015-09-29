@@ -418,7 +418,7 @@
       +'<div style="display:table-row;">'
         +'<div class="BRcells">'
           +'<div>'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{saveGamePlay(\'none\');}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="SaveGamePlayBtn" onMouseOver="makeSentence();" onMouseOut="hideSentence();"><i class="fa fa-check display:block" style="color: rgb(33, 177, 45); vertical-align: middle; text-align: center; text-shadow: 1px 1px 1px rgb(20, 92, 6); font-style: italic; transform: rotate(-13deg); font-size: 1.65em;"></i>Submit<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/twitter-black.png" class="SPLUtwitterIcon" style="vertical-align: middle; margin-left:5px;display:none"></a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{saveGamePlay(\'none\');}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="SaveGamePlayBtn" onMouseOver="makeSentence();" onMouseOut="hideSentence();"><i class="fa fa-check display:block" style="color: rgb(33, 177, 45); vertical-align: middle; text-align: center; text-shadow: 1px 1px 1px rgb(20, 92, 6); font-style: italic; font-size: 1.65em; transform: translate(-3.5px, -1px) rotate(-13deg);"></i>Submit<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/twitter-black.png" class="SPLUtwitterIcon" style="vertical-align: middle; margin-left:5px;display:none"></a>'
           +'</div>'
         +'</div>'
         +'<div class="BRcells">'
