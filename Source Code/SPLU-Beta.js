@@ -428,7 +428,7 @@
         +'</div>'
         +'<div class="BRcells" id="SPLUeditPlayDiv" style="display:none;">'
           +'<div>'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{saveGamePlay(\'edit\');}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="EditGamePlayBtn" onMouseOver="makeSentence();" onMouseOut="hideSentence();"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/submit_edits.png" style="vertical-align: middle;">Submit Edits</a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{saveGamePlay(\'edit\');}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="EditGamePlayBtn" onMouseOver="makeSentence();" onMouseOut="hideSentence();"><span style="" class="fa-stack"><i class="fa fa-pencil display:block fa-stack-2x fa-flip-horizontal" style="font-size: 1.6em; text-align: center; text-shadow: 0px 0px 0px; transform: rotate(271deg); color: rgb(176, 115, 4);"></i><i class="fa fa-check display:block" style="color: rgb(33, 177, 45); vertical-align: middle; text-align: center; font-style: italic; font-size: 1.65em; opacity: 0.89; text-shadow: 1px 0px 0px rgb(20, 92, 6); transform: translate(-2.5px, 3px) rotate(-13deg);"></i></span>Submit Edits</a>'
           +'</div>'
         +'</div>'
         +'<div class="BRcells" id="SPLUdeletePlayDiv" style="display:none;">'
