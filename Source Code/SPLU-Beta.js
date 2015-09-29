@@ -433,7 +433,7 @@
         +'</div>'
         +'<div class="BRcells" id="SPLUdeletePlayDiv" style="display:none;">'
           +'<div>'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{deleteGamePlay();}" style="border:2px solid blue;padding:5px 5px;border-radius:5px;background-color:lightGrey; color:black;" id="DeleteGamePlayBtn";><i style="text-align: center; font-size: 1.6em; vertical-align: middle;" class="fa fa-trash"></i></a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{deleteGamePlay();}" style="border:2px solid blue;padding:5px 5px;border-radius:5px;background-color:lightGrey; color:black;" id="DeleteGamePlayBtn";><i class="fa fa-trash display:block" style="text-align: center; font-size: 1.6em; vertical-align: middle; transform: translate(0px, -1px);"></i></a>'
           +'</div>'
         +'</div>'
         +'<div class="BRcells" id="SPLUresetFormDiv">'
