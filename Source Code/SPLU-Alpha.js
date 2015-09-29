@@ -1015,7 +1015,7 @@
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'comments\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
                   +'<i class="fa fa-li">&#xf27b;</i>Comments'
-               +'</li>'<hr>
+               +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'excludeexpansions\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
                   +'<i class="fa fa-li">&#xf0eb;</i>Expansions'
                 +'</li>'
