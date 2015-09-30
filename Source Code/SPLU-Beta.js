@@ -1916,7 +1916,7 @@
     var tmpDiv=document.createElement('div');
     tmpDiv.style.display="table-cell";
     tmpDiv.className="SPLUrows";
-    tmpDiv.innerHTML='<a href="javascript:{void(0);}" onClick="javascript:{removePlayerRow('+NumOfPlayers+');}"><img style="height:16px;" src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/delete_row.png"></a><div id="SPLU.PlayerDeleteHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
+    tmpDiv.innerHTML='<a href="javascript:{void(0);}" onClick="javascript:{removePlayerRow('+NumOfPlayers+');}"><span class="fa-stack"><i style="color: white; font-size: 1.3em; transform: translate(-2px, 1px);" class="fa fa-stack-2x"></i><i style="transform: scaleX(-1); color: red; font-size: 1.7em;" class="fa fa-stack-2x"></i></span></a><div id="SPLU.PlayerDeleteHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
