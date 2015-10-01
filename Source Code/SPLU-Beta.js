@@ -138,7 +138,7 @@
             +'</div>'
             +'<div style="position:absolute;top:110px;right:8px;">'
               +'<a href="javascript:{void(0);}" onClick="javascript:{showPlaysPane(\'button\');}" id="BRplaysBtn">'
-                +'<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/plays_list.png">'
+                +'<span class="fa-stack"><i style="font-size: 2.6em; color: rgb(34, 53, 33);" class="fa fa-stack-2x fa-logbook03"></i><i style="transform: translate(-6px, 8px); font-size: 0.5em; color: beige;" class="fa fa-stack-2x fa-meeple"></i><i style="color: white; transform: translate(9px, 9px) rotate(90deg); font-size: 1%;" class="fa fa-stack-2x">(((</i></span>'
               +'</a>'
             +'</div>';
     tmpDiv.innerHTML+=tmpHTML;
@@ -175,7 +175,7 @@
                 +'<img style="position:relative; top:3px; right:2px;" src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/accept.png">'+SPLUtoday
               +'</div>'
               +'<div style="display:inline;">'
-                +'<a href="javascript:{void(0);}" onClick="javascript:{showHideCalendar();}"><img style="vertical-align:bottom;" src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/calendar_view_week.png"></a>'
+                +'<a href="javascript:{void(0);}" onClick="javascript:{showHideCalendar();}"><span class="fa-stack"><i style="font-size: 1.6em; color: rgb(246, 227, 209);" class="fa fa-stack-2x fa-square-sharp"></i><i style="font-size: 1em; color: rgb(96, 4, 4);" class="fa fa-stack-2x fa-calendar"></i></span></a>'
               +'</div>'
               +'<div id="SPLU.Calendar" style="position:absolute;z-index:600;display:none;">'
                 +'C'
@@ -260,7 +260,7 @@
             +'</div>'
             +'<input name="objectid" value="" id="objectid0" type="hidden"/>'
             +'<input style="margin:3px 0px 0px;" autocomplete="off" class="geekinput_medium" name="geekitemname" id="q546e9ffd96dfc" tabindex="60" placeholder="enter a game title" onClick="this.select();" onkeydown="return StartInstantSearch({event: event,itemid: \'0\',objecttype: SPLUobjecttype,onclick: \'\',extraonclick: \'\',uniqueid: \'546e9ffd96dfc\',formname: \'\',textareaname: \'\',inline: \'\',userobject: null} );" type="text">'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{showFavsPane(\'button\');}" id="favoritesGoTo" style="border:4px solid lightblue;border-radius:4px"><span class="fa-stack"><i style="color: white; transform: translate(-6px, -9px); font-size: 3.7em;" class="fa fa-stack-2x">&#xee22;</i><i style="color: red; font-size: 1.6em;" class="fa fa-stack-2x fa-heart"></i><i style="font-size: 0.4em; color: white; transform: translate(0.5px, 6.5px);" class="fa fa-stack-2x">&#xee22;</i><i style="color: rgb(5, 167, 5); transform: scaleX(-1) translate(-4px, 6px); font-size: 0.8em; text-shadow: 0px -1px rgb(255, 255, 255), 1px 1px rgb(255, 255, 255);" class="fa fa-stack-2x">&#xee23;</i></span></a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{showFavsPane(\'button\');}" id="favoritesGoTo" style="border:4px solid lightblue;border-radius:4px"><span style="position: relative;" class="fa-stack"><i style="color: white; transform: translate(-6px, -9px); font-size: 3.7em; position: absolute;" class="fa fa-stack-2x fa-square-sharp"></i><i style="color: red; font-size: 1.6em; position: absolute; top: 0px;" class="fa fa-stack-2x fa-heart"></i><i style="transform: scaleX(-1); left: 4px; color: white; top: 7px; font-size: 1em; text-shadow: 0px 2px rgb(255, 255, 255); position: absolute;" class="fa fa-stack-2x fa-arrow-fat"></i><i style="font-size: 0.8em; transform: scaleX(-1); position: absolute; top: 10px; left: 4px; color: rgb(5, 167, 5);" class="fa fa-stack-2x fa-arrow-fat"></i></span></a>'
             +'<span id="instantsearch546e9ffd96dfc" style="display: none;">'
               +'<div class="searchbox_results">'
                 +'<div id="instantsearchresults546e9ffd96dfc"></div>'
@@ -1225,7 +1225,7 @@
     tmpDiv.addEventListener('dragend', handleDragEnd, false);
     tmpDiv.addEventListener('drop', handleDrop, false);
     tmpDiv.addEventListener('click', handleDragClick, false);
-    tmpDiv.innerHTML='<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/drag_rows.png">';
+    tmpDiv.innerHTML='<span style="transform: scaleX(-1);" class="fa-stack"><i style="font-size: 1.3em;" class="fa fa-stack-2x fa-drag-row"></i><i style="transform: translate(-3px, 2px); font-size: 0.2em;" class="fa fa-stack-2x fa-arrows-up-down"></i></span>';
     document.getElementById('SPLUplayerDragHeader').appendChild(tmpDiv);
 
     var tmpDiv=document.createElement('div');
@@ -2491,7 +2491,7 @@
     }
     if(lastCopiedStatus==200){
       if(lastCopied!=0){
-        document.getElementById('SPLUcopyID-'+lastCopied).innerHTML='<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/accept.png">';
+        document.getElementById('SPLUcopyID-'+lastCopied).innerHTML='<span class="fa-stack"><i style="color: white; font-size: 1em; transform: translate(0px, 2px);" class="fa fa-stack-2x fa-square"></i><i style="color: rgb(13, 138, 13); font-size: 1.3em;" class="fa fa-stack-2x fa-check-circle"></i></span>';
         SPLUcopyCopied++;
       }
     }else if(lastCopiedStatus=="retry"){
