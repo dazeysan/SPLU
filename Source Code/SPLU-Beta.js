@@ -127,6 +127,23 @@
     BRlogDiv.id='SPLUwindow';
     BRlogDiv.setAttribute("style","display:table-cell; background-color: #A4DFF3; padding: 13px;border:2px solid blue;border-radius:15px; box-shadow:10px 10px 5px #888;");
     
+    tmpDiv=document.createElement('div');
+    tmpHTML= '<div id="closeButton" style="position:absolute;top:0px;right:0px;">'
+              +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();observer.disconnect();BRlogMain.parentNode.removeChild(BRlogMain);}" style="border:2px solid blue;padding:0px 10px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:large;font-weight:900;color:red;">X</a>'
+            +'</div>'
+            +'<div style="position:absolute;top:40px;right:5px;">'
+              +'<a href="javascript:{void(0);}" onClick="javascript:{showSettingsPane(\'button\');}" id="BRshowHideBtn">'
+                +'<i class="fa fa-cog fa-2x" style="color: rgb(249, 138, 59);"></i>'
+              +'</a>'
+            +'</div>'
+            +'<div style="position:absolute;top:80px;right:8px;">'
+              +'<a href="javascript:{void(0);}" onClick="javascript:{showPlaysPane(\'button\');}" id="BRplaysBtn">'
+                +'<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/plays_list.png">'
+              +'</a>'
+            +'</div>';
+    tmpDiv.innerHTML+=tmpHTML;
+    BRlogDiv.appendChild(tmpDiv);
+
     var BRlogForm=document.createElement('form');
     BRlogForm.id='myform';
     BRlogForm.name='myform';
@@ -145,22 +162,7 @@
     SPLUdateDayBefore=SPLUtempDate.toISOString().slice(0,10);
     
     var tmpDiv=document.createElement('div');
-    var tmpHTML='<div style="float:right;margin-left:-20px; margin-right:-15px; margin-top:-13px;">'
-      +'<div id="closeButton" style="">'
-        +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();observer.disconnect();BRlogMain.parentNode.removeChild(BRlogMain);}" style="border:2px solid blue;padding:0px 10px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:large;font-weight:900;color:red;">X</a>'
-      +'</div>'
-      +'<div style="padding-top: 15px; padding-left: 8px;">'
-        +'<a href="javascript:{void(0);}" onClick="javascript:{showSettingsPane(\'button\');}" id="BRshowHideBtn">'
-          +'<i class="fa fa-cog fa-2x" style="color: rgb(249, 138, 59);"></i>'
-        +'</a>'
-      +'</div>'
-      +'<div style="margin-top: 25px; padding-left: 8px;">'
-        +'<a href="javascript:{void(0);}" onClick="javascript:{showPlaysPane(\'button\');}" id="BRplaysBtn">'
-          +'<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/plays_list.png">'
-        +'</a>'
-      +'</div>'
-    +'</div>'
-    +'<div style="display:table;">'
+    var tmpHTML='<div style="display:table;">'
       +'<div style="display:table-row;">'
         +'<div id="SPLU.DateField" class="BRcells" style="width:120px;">'
           +'<div style="display:table;">'
