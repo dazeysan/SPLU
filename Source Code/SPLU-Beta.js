@@ -125,10 +125,10 @@
       
     var BRlogDiv=document.createElement('div');
     BRlogDiv.id='SPLUwindow';
-    BRlogDiv.setAttribute("style","display:table-cell; background-color: #A4DFF3; padding: 13px;border:2px solid blue;border-radius:15px; box-shadow:10px 10px 5px #888;");
+    BRlogDiv.setAttribute("style","display:table-cell; background-color: #A4DFF3; padding: 13px;border:2px solid blue;border-radius:15px; box-shadow:10px 10px 5px #888;position:relative;");
     
     tmpDiv=document.createElement('div');
-    tmpHTML= '<div id="closeButton" style="position:absolute;top:2px;right:0px;">'
+    tmpHTML= '<div id="closeButton" style="position:absolute;top:0px;right:-2px;">'
               +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();observer.disconnect();BRlogMain.parentNode.removeChild(BRlogMain);}" style="border:2px solid blue;padding:0px 10px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:large;font-weight:900;color:red;">X</a>'
             +'</div>'
             +'<div style="position:absolute;top:60px;right:5px;">'
@@ -202,18 +202,18 @@
             +'<input type="text" id="quickplay_duration99" name="length" value="" tabindex="40" style="width: 20px;"/>'
           +'</div>'
         +'</div>'
-        +'<div class="BRcells" style="padding-right:20px;position:relative;width:80px;">'
-          +'<div id="SPLU.IncompleteField" style="width:80px;position:absolute;top:5px;right:0px;">'
+        +'<div class="BRcells" style="padding-right:20px;position:relative;width:90px;">'
+          +'<div id="SPLU.IncompleteField" style="position:absolute;top:5px;right:0px;padding-right:10px;">'
             +'<label style="font-size:xx-small;">Incomplete: '
               +'<input type="checkbox" id="incomplete" name="incomplete" value="1" tabindex="45" />'
             +'</label>'
           +'</div>'
-          +'<div id="SPLU.NoWinStatsField" style="width:80px;position:absolute;top:25px;right:0px;">'
+          +'<div id="SPLU.NoWinStatsField" style="position:absolute;top:25px;right:0px;padding-right:10px;">'
             +'<label style="font-size:xx-small;">No Win Stats: '
               +'<input type="checkbox" id="nowinstats" name="nowinstats" value="1" tabindex="47" />'
             +'</label>'
           +'</div>'
-          +'<div id="SPLU.TwitterField" style="width:80px;position:absolute;top:45px;right:0px;">'
+          +'<div id="SPLU.TwitterField" style="position:absolute;top:45px;right:0px;padding-right:10px;">'
             +'<label style="font-size:xx-small;">Tweet This: '
               +'<input type="checkbox" id="twitter" name="twitter" value="1" tabindex="49" onClick="javascript:{setTwitterIcons();}"/>'
             +'</label>'
