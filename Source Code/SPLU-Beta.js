@@ -172,7 +172,7 @@
                 +'<input id="playdateinput99" tabindex="10" style="width:75px;" type="text" oninput="highlightDayButton();" onkeyup="parseDate(this,$(\'playdate99\'),$(\'playdatestatus99\') );" value="'+SPLUtoday+'" autocomplete="off" name="dateinput"/>'
               +'</div>'
               +'<div id="playdatestatus99" class="sf" style="font-style:italic; font-size:0;display:inline;">'
-                +'<img style="position:relative; top:3px; right:2px;" src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/accept.png">'+SPLUtoday
+                +'<span class="fa-stack"><i style="color: white; font-size: 1em; transform: translate(0px, 2px);" class="fa fa-stack-2x fa-square"></i><i style="color: rgb(13, 138, 13); font-size: 1.3em;" class="fa fa-stack-2x fa-check-circle"></i></span>'+SPLUtoday
               +'</div>'
               +'<div style="display:inline;">'
                 +'<a href="javascript:{void(0);}" onClick="javascript:{showHideCalendar();}"><span class="fa-stack"><i style="font-size: 1.6em; color: rgb(246, 227, 209);" class="fa fa-stack-2x fa-square-sharp"></i><i style="font-size: 1em; color: rgb(96, 4, 4);" class="fa fa-stack-2x fa-calendar"></i></span></a>'
