@@ -255,7 +255,7 @@
             +'</div>'
             +'<input name="objectid" value="" id="objectid0" type="hidden"/>'
             +'<input style="margin:3px 0px 0px;" autocomplete="off" class="geekinput_medium" name="geekitemname" id="q546e9ffd96dfc" tabindex="60" placeholder="enter a game title" onClick="this.select();" onkeydown="return StartInstantSearch({event: event,itemid: \'0\',objecttype: SPLUobjecttype,onclick: \'\',extraonclick: \'\',uniqueid: \'546e9ffd96dfc\',formname: \'\',textareaname: \'\',inline: \'\',userobject: null} );" type="text">'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{showFavsPane(\'button\');}" id="favoritesGoTo" style="border:4px solid lightblue;border-radius:4px"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/choose_from_favorites.png" border="0" style="position:relative; margin-top:-5px; top:5px;"></a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{showFavsPane(\'button\');}" id="favoritesGoTo" style="border:4px solid lightblue;border-radius:4px"><span class="fa-stack"><i style="color: white; transform: translate(-6px, -9px); font-size: 3.7em;" class="fa fa-stack-2x"></i><i style="color: red; font-size: 1.6em;" class="fa fa-stack-2x fa-heart"></i><i style="font-size: 0.4em; color: white; transform: translate(0.5px, 6.5px);" class="fa fa-stack-2x"></i><i style="color: rgb(5, 167, 5); transform: scaleX(-1) translate(-4px, 6px); font-size: 0.8em; text-shadow: 0px -1px rgb(255, 255, 255), 1px 1px rgb(255, 255, 255);" class="fa fa-stack-2x"></i></span></a>'
             +'<span id="instantsearch546e9ffd96dfc" style="display: none;">'
               +'<div class="searchbox_results">'
                 +'<div id="instantsearchresults546e9ffd96dfc"></div>'
