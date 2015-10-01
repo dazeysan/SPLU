@@ -24,3 +24,7 @@
 &#xee26; - fa-dartboard
 &#xee27; - fa-arrows-up-down
 &#xee28; - fa-drag-row
+
+
+
+.fa-ribbon-blank-face:before{content:"\ee11"}.fa-logbook04:before{content:"\ee12"}
