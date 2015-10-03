@@ -10,7 +10,6 @@
 &#xee10; - fa-floppy-disk-black
 &#xee11; - fa-ribbon-blank-face
 &#xee12; - fa-logbook04
-&#xee13; - fa-floppy2
 &#xee14; - fa-logbook07
 &#xee16; - fa-logbook05
 &#xee17; - fa-logbook03
@@ -23,8 +22,12 @@
 &#xee24; - fa-stopwatch
 &#xee26; - fa-dartboard
 &#xee27; - fa-arrows-up-down
-&#xee28; - fa-drag-row
+&#xee29; - fa-meeple-book
+&#xee30; - fa-copy-icon
+&#xee31; - fa-drag-row
+&#xee32; - fa-floppy2
+&#xee33; - fa-funnel
+&#xee34; - fa-list-view
 
 
-
-.fa-ribbon-blank-face:before{content:"\ee11"}.fa-logbook04:before{content:"\ee12"}
+.fa-ribbon-blank-face:before{content:"\ee11"}
