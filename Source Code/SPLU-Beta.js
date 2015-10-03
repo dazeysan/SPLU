@@ -1025,7 +1025,7 @@
                   +'<i class="fa fa-li">&#xf0eb;</i>Expansions'
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'excludenowinstats\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i style="" class="fa fa-li fa-ribbon-white-circle"></i>Win Stats'
+                  +'<i style="" class="fa fa-li fa-ribbon-white-circle"></i>No-Win-Stats'
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'excludeincomplete\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
                   +'<i style="transform: translate(-1px, -1px);" class="fa fa-li display:block"></i>Incomplete'
