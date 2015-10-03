@@ -138,7 +138,7 @@
             +'</div>'
             +'<div style="position:absolute;top:110px;right:8px;">'
               +'<a href="javascript:{void(0);}" onClick="javascript:{showPlaysPane(\'button\');}" id="BRplaysBtn">'
-                +'<span class="fa-stack"><i style="font-size: 2.6em; color: rgb(34, 53, 33);" class="fa fa-stack-2x fa-logbook03"></i><i style="transform: translate(-5px, 8px); font-size: 0.5em; color: beige;" class="fa fa-stack-2x fa-meeple"></i><i style="color: white; transform: translate(7px, 7px) rotate(90deg); font-size:.6em;" class="fa fa-stack-2x">(((</i></span>'
+                +'<span class="fa-stack"><i class="fa fa-stack-2x fa-logbook03" style="color: white; font-size: 3.2em; transform: translate(-1px, -6px);"></i><i style="color: black; font-size: 1.5em;" class="fa fa-stack-2x fa-meeple-book"></i></span>'
               +'</a>'
             +'</div>';
     tmpDiv.innerHTML+=tmpHTML;
