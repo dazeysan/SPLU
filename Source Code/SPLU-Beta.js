@@ -69,7 +69,7 @@
     var SPLUzeroScoreStats=false;
     
     var observer=new MutationObserver(function(){
-      if(document.getElementById('selimage0').innerHTML.slice(0,4)=="<div"){
+      if(document.getElementById('selimage9999').innerHTML.slice(0,4)=="<div"){
         document.getElementById('BRthumbButtons').style.display="none";
       }else{
         document.getElementById('BRthumbButtons').style.display="block";
@@ -270,13 +270,13 @@
               +'ID:'
             +'</div>'
             +'<div id="objectname0"></div>'
-            +'<input name="objecttype" id="objecttype0" value="thing" type="hidden">'
+            +'<input name="objecttype" id="objecttype9999" value="thing" type="hidden">'
           +'</div>'
-          +'<input size="12" class="geekinput_medium" id="imageid0" name="imageid" value="" type="hidden"></input>'
+          +'<input size="12" class="geekinput_medium" id="imageid9999" name="imageid" value="" type="hidden"></input>'
           +'<div style="display:table;">'
             +'<div style="display:table-row;">'
               +'<div style="display:table-cell;">'
-                +'<div id="selimage0" style=padding-top:7px;"></div>'
+                +'<div id="selimage9999" style=padding-top:7px;"></div>'
               +'</div>'
               +'<div style="display:table-cell; vertical-align:top;">'
                 +'<div id="BRthumbButtons" style="display:none">'
@@ -1116,7 +1116,7 @@
     //listenerForPopText("filtericon","Apply Filter to These Results");
     //listenerForPopText("floppydiskicon","Remember This Player");
 
-    observer.observe(document.getElementById('selimage0'),{childList: true});
+    observer.observe(document.getElementById('selimage9999'),{childList: true});
 
     fetchSaveData();
   }
@@ -1588,7 +1588,7 @@
       if(metas[i].getAttribute("name")=="og:url"){
         SPLUgameID=metas[i].getAttribute("content").substring((metas[i].getAttribute("content").lastIndexOf("/")+1));
         document.getElementById('objectid9999').value=SPLUgameID;
-        document.getElementById('selimage0').innerHTML=thumbDiv;
+        document.getElementById('selimage9999').innerHTML=thumbDiv;
         return SPLUgameID;
       }
     }
@@ -2207,7 +2207,7 @@
     tmpid=id+'_'+tmp.toString().slice(-4);
     SPLU.Favorites[tmpid]={
       "objectid":id,
-      "thumbnail":document.getElementById('selimage0').childNodes[0].childNodes[0].src,
+      "thumbnail":document.getElementById('selimage9999').childNodes[0].childNodes[0].src,
       "title":document.getElementById('q546e9ffd96dfc').value,
       "sortorder":0,
       "objecttype":SPLUobjecttype
@@ -2224,7 +2224,7 @@
     console.log(id);
     setObjectType(SPLU.Favorites[id].objecttype);
     document.getElementById('objectid9999').value=SPLU.Favorites[id].objectid;
-    document.getElementById('selimage0').innerHTML='<a><img src="'+SPLU.Favorites[id].thumbnail+'"/></a>';
+    document.getElementById('selimage9999').innerHTML='<a><img src="'+SPLU.Favorites[id].thumbnail+'"/></a>';
     document.getElementById('q546e9ffd96dfc').value=SPLU.Favorites[id].title;
     document.getElementById('BRlogFavs').style.display="none";
     if(SPLU.Favorites[id].players!==undefined){
