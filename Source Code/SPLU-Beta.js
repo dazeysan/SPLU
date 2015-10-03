@@ -1225,7 +1225,7 @@
     tmpDiv.addEventListener('dragend', handleDragEnd, false);
     tmpDiv.addEventListener('drop', handleDrop, false);
     tmpDiv.addEventListener('click', handleDragClick, false);
-    tmpDiv.innerHTML='<span style="transform: scaleX(-1);" class="fa-stack"><i style="font-size: 1.3em;" class="fa fa-stack-2x fa-drag-row"></i><i style="transform: translate(-3px, 2px); font-size: 0.2em;" class="fa fa-stack-2x fa-arrows-up-down"></i></span>';
+    tmpDiv.innerHTML='<span style=""><span style="transform: scaleX(-1); top:9px;" class="fa-stack"><i style="font-size: 1.3em;" class="fa fa-stack-2x fa-drag-row"></i></span></span>';
     document.getElementById('SPLUplayerDragHeader').appendChild(tmpDiv);
 
     var tmpDiv=document.createElement('div');
