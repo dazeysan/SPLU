@@ -136,7 +136,7 @@
                 +'<i class="fa fa-cog fa-2x" style="color: rgb(249, 138, 59);"></i>'
               +'</a>'
             +'</div>'
-            +'<div style="position:absolute;top:110px;right:8px;">'
+            +'<div style="position:absolute;top:192px;right:17px;">'
               +'<a href="javascript:{void(0);}" onClick="javascript:{showPlaysPane(\'button\');}" id="BRplaysBtn">'
                 +'<span class="fa-stack"><i class="fa fa-stack-2x fa-logbook03" style="color: white; font-size: 3.2em; transform: translate(-1px, -6px);"></i><i style="color: black; font-size: 1.5em;" class="fa fa-stack-2x fa-meeple-book"></i></span>'
               +'</a>'
@@ -1021,8 +1021,8 @@
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'comments\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
                   +'<i class="fa fa-li">&#xf27b;</i>Comments'
                 +'</li>'
-                +'<li style="cursor:default;">'
-                  +'&mdash;Exclude&mdash;'
+                +'<li style="cursor:default;font-family:courier;top:2px;left:-5px;">'
+                  +'&mdash;&mdash;EXCLUDE&mdash;&mdash;'
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'excludeexpansions\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
                   +'<i class="fa fa-li">&#xf0eb;</i>Expansions'
@@ -2822,6 +2822,7 @@
       document.getElementById('SPLU.PlaysList').innerHTML='';
       document.getElementById('SPLU.PlaysMenu').style.display='none';
     }else{
+      document.getElementById('SPLU.PlaysMenu').style.display='';
       if(tmpUser!=LoggedInAs){
         document.getElementById('SPLUcopyModeIconBtn').style.display="inline";
         SPLUcopyContinue=true;
