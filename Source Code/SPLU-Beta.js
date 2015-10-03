@@ -258,7 +258,7 @@
               +'<a href="javascript:{void(0);}" onClick="javascript:{setObjectType(\'rpg\');}" id="SPLU.SelectRPG" style="padding:0px 5px;border:1px solid black; border-right:1px dotted black;">RPG</a>'
               +'<a href="javascript:{void(0);}" onClick="javascript:{setObjectType(\'rpgitem\');}" id="SPLU.SelectRPGItem" style="padding:0px 5px;border:1px solid black; border-left:1px dotted black;">Item</a>'
             +'</div>'
-            +'<input name="objectid" value="" id="objectid0" type="hidden"/>'
+            +'<input name="objectid" value="" id="objectid9999" type="hidden"/>'
             +'<input style="margin:3px 0px 0px;" autocomplete="off" class="geekinput_medium" name="geekitemname" id="q546e9ffd96dfc" tabindex="60" placeholder="enter a game title" onClick="this.select();" onkeydown="return StartInstantSearch({event: event,itemid: \'0\',objecttype: SPLUobjecttype,onclick: \'\',extraonclick: \'\',uniqueid: \'546e9ffd96dfc\',formname: \'\',textareaname: \'\',inline: \'\',userobject: null} );" type="text">'
             +'<a href="javascript:{void(0);}" onClick="javascript:{showFavsPane(\'button\');}" id="favoritesGoTo" style="border:4px solid lightblue;border-radius:4px"><span style="position: relative;" class="fa-stack"><i style="color: white; transform: translate(-6px, -9px); font-size: 3.7em; position: absolute;" class="fa fa-stack-2x fa-square-sharp"></i><i style="color: red; font-size: 1.6em; position: absolute; top: 0px;" class="fa fa-stack-2x fa-heart"></i><i style="transform: scaleX(-1); left: 4px; color: white; top: 7px; font-size: 1em; text-shadow: 0px 2px rgb(255, 255, 255); position: absolute;" class="fa fa-stack-2x fa-arrow-fat"></i><i style="font-size: 0.8em; transform: scaleX(-1); position: absolute; top: 10px; left: 4px; color: rgb(5, 167, 5);" class="fa fa-stack-2x fa-arrow-fat"></i></span></a>'
             +'<span id="instantsearch546e9ffd96dfc" style="display: none;">'
@@ -284,7 +284,7 @@
                     +'<a href="javascript:{void(0);}" onClick="javascript:{saveFavorite();}" id="favoritesAddToList" style="padding:4px;"><span class="fa-stack"><i style="color: white; transform: translate(-6px, -9px); font-size: 3.7em;" class="fa fa-stack-2x">&#xee22;</i><i style="color: red; font-size: 1.6em;" class="fa fa-stack-2x fa-heart"></i><i class="fa fa-stack-2x fa-plus" style="color: rgb(5, 167, 5); transform: scaleX(-1) translate(-4px, 6px); font-size: 1.2em; text-shadow: 1px -1px rgb(255, 255, 255), 1px 1px rgb(255, 255, 255), -1px -1px rgb(255, 255, 255);"></i></span></a>'
                   +'</div>'
                   +'<div>'
-                    +'<a javascript:{void(0);}" onClick="javascript:{SPLUgameID=document.getElementById(\'objectid0\').value;showExpansionsPane(\'button\');}" id="expansionLoggingButton" style="padding:4px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/log_expansion.png" border="0"></a>'
+                    +'<a javascript:{void(0);}" onClick="javascript:{SPLUgameID=document.getElementById(\'objectid9999\').value;showExpansionsPane(\'button\');}" id="expansionLoggingButton" style="padding:4px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/log_expansion.png" border="0"></a>'
                   +'</div>'
                 +'</div>'
               +'</div>'
@@ -1587,7 +1587,7 @@
       }
       if(metas[i].getAttribute("name")=="og:url"){
         SPLUgameID=metas[i].getAttribute("content").substring((metas[i].getAttribute("content").lastIndexOf("/")+1));
-        document.getElementById('objectid0').value=SPLUgameID;
+        document.getElementById('objectid9999').value=SPLUgameID;
         document.getElementById('selimage0').innerHTML=thumbDiv;
         return SPLUgameID;
       }
@@ -2202,7 +2202,7 @@
   }
   
   function saveFavorite(){
-    var id=document.getElementById('objectid0').value;
+    var id=document.getElementById('objectid9999').value;
     tmp=Math.random();
     tmpid=id+'_'+tmp.toString().slice(-4);
     SPLU.Favorites[tmpid]={
@@ -2223,7 +2223,7 @@
   function chooseFavorite(id){
     console.log(id);
     setObjectType(SPLU.Favorites[id].objecttype);
-    document.getElementById('objectid0').value=SPLU.Favorites[id].objectid;
+    document.getElementById('objectid9999').value=SPLU.Favorites[id].objectid;
     document.getElementById('selimage0').innerHTML='<a><img src="'+SPLU.Favorites[id].thumbnail+'"/></a>';
     document.getElementById('q546e9ffd96dfc').value=SPLU.Favorites[id].title;
     document.getElementById('BRlogFavs').style.display="none";
