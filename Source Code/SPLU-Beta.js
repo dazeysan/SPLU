@@ -1024,14 +1024,6 @@
     document.getElementById('SPLUmain').insertBefore(BRlogMain,document.getElementById('SPLUmain').firstChild);
 
     //Set up PopText for buttons and such
-    listenerForPopText("collapseColor","Collapse");
-    listenerForPopText("collapseStart","Collapse");
-    listenerForPopText("collapseRating","Collapse");
-    listenerForPopText("collapseScore","Collapse");
-    listenerForPopText("collapseNewPlayer","Collapse");
-    listenerForPopText("collapseWin","Collapse");
-    listenerForPopText("collapseName","Collapse");
-    listenerForPopText("collapseUsername","Collapse");
     listenerForPopText("SaveGamePlayBtn","Submit and Clear All Fields");
     listenerForPopText("SaveGamePlayBtnDupe","Submit but Keep Player Data Onscreen");
     listenerForPopText("favoritesGoTo","Choose from your Favorites list");
