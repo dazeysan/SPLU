@@ -136,7 +136,7 @@
                 +'<i class="fa fa-cog fa-2x" style="color: rgb(249, 138, 59);"></i>'
               +'</a>'
             +'</div>'
-            +'<div style="position:absolute;top:192px;right:17px;">'
+            +'<div style="position:absolute;top:150px;right:17px;">'
               +'<a href="javascript:{void(0);}" onClick="javascript:{showPlaysPane(\'button\');}" id="BRplaysBtn">'
                 +'<span class="fa-stack"><i class="fa fa-stack-2x fa-logbook03" style="color: white; font-size: 3.2em; transform: translate(-1px, -6px);"></i><i style="color: black; font-size: 1.5em;" class="fa fa-stack-2x fa-meeple-book"></i></span>'
               +'</a>'
@@ -313,42 +313,42 @@
           +'<div class="SPLUplayerCells" style="width:25px;text-align:center;vertical-align:bottom;" id="SPLUplayerDragHeader"></div>'
           +'<div class="SPLUplayerCells" style="width:25px;"></div>'
           +'<div class="SPLUplayerCells" id="SPLU.PlayerNameColumnHeader">'
-            +'<div id="SPLU.PlayerNameColumn" class="SPLUheader" style="min-width:38px;">'
+            +'<div id="SPLU.PlayerNameColumn" class="SPLUheader">'
               +'<center>Name</center>'
             +'</div>'
           +'</div>'
           +'<div class="SPLUplayerCells" id="SPLU.PlayerUsernameColumnHeader">'
-            +'<div id="SPLU.PlayerUsernameColumn" class="SPLUheader" style="min-width:66px;">'
+            +'<div id="SPLU.PlayerUsernameColumn" class="SPLUheader">'
               +'<center>Username</center>'
             +'</div>'
           +'</div>'
           +'<div class="SPLUplayerCells" id="SPLU.PlayerColorColumnHeader">'
-            +'<div id="SPLU.PlayerColorColumn" class="SPLUheader" style="min-width:36px;">'
+            +'<div id="SPLU.PlayerColorColumn" class="SPLUheader">'
               +'<center>Team<br/>Color</center>'
             +'</div>'
           +'</div>'
           +'<div class="SPLUplayerCells" id="SPLU.PlayerPositionColumnHeader">'
-            +'<div id="SPLU.PlayerPositionColumn" class="SPLUheader" style="min-width:33px;">'
+            +'<div id="SPLU.PlayerPositionColumn" class="SPLUheader">'
               +'<center>Start<br/>Pos</center>'
             +'</div>'
           +'</div>'
           +'<div class="SPLUplayerCells" id="SPLU.PlayerScoreColumnHeader">'
-            +'<div id="SPLU.PlayerScoreColumn" class="SPLUheader" style="min-width:46px;">'
+            +'<div id="SPLU.PlayerScoreColumn" class="SPLUheader">'
             +'<center>Score</center>'
           +'</div>'
         +'</div>'
         +'<div class="SPLUplayerCells" id="SPLU.PlayerRatingColumnHeader">'
-          +'<div id="SPLU.PlayerRatingColumn" class="SPLUheader" style="min-width:40px;">'
+          +'<div id="SPLU.PlayerRatingColumn" class="SPLUheader">'
             +'<center>Rate</center>'
           +'</div>'
         +'</div>'
         +'<div class="SPLUplayerCells" id="SPLU.PlayerWinColumnHeader">'
-          +'<div id="SPLU.PlayerWinColumn" class="SPLUheader" style="min-width:35px;">'
+          +'<div id="SPLU.PlayerWinColumn" class="SPLUheader">'
             +'<center>Win</center>'
           +'</div>'
         +'</div>'
           +'<div class="SPLUplayerCells" id="SPLU.PlayerNewColumnHeader">'
-            +'<div id="SPLU.PlayerNewColumn" class="SPLUheader" style="min-width:38px;">'
+            +'<div id="SPLU.PlayerNewColumn" class="SPLUheader">'
             +'<center>New</center>'
           +'</div>'
         +'</div>'
@@ -1923,6 +1923,7 @@
     tmpDiv.id="SPLU.PlayerSaveColumn"+NumOfPlayers;
     tmpDiv.innerHTML='<span style="padding-bottom:2px;"><a href="javascript:{void(0);}" onClick="javascript:{savePlayer('+NumOfPlayers+');}"><span style="transform: translate(-1px, 7px);" class="fa-stack"><i style="color: white; transform: translate(0px, -3px); font-size: 1.4em;" class="fa fa-stack-2x fa-square-sharp"></i><i style="font-size: 1.3em; color: black;" class="fa fa-stack-2x fa-floppy2"></i></span></a></span><div id="SPLU.PlayerSaveHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
+    listenerForPopText("SPLU.PlayerSaveColumn"+NumOfPlayers,"Save this player.");
 
     if(NumOfPlayers==2){
       if(document.getElementsByName("players[1][name]")[0].value==""&&document.getElementsByName("players[1][username]")[0].value==""&&document.getElementsByName("players[1][color]")[0].value==""){
@@ -2187,28 +2188,7 @@
     });
 
   }
-  
-  function addPlayerToFavorite(id){
-    tmpPlayer="";
-    select=document.getElementById('SPLUfavoritesEditPlayers');
-    if(id=="choose"){
-      tmpPlayer=decodeURIComponent(SPLU.Players[select.value].Name);
-      id=select.value;
-    }else{
-      tmpPlayer=decodeURIComponent(SPLU.Players[id].Name);
-    }
-    tmpDiv=document.createElement('div');
-    tmpHTML='<div>'
-      +'<a href="javascript:{void(0);}" onclick="javascript:{this.parentNode.parentNode.removeChild(this.parentNode);SPLUfavoritesPlayers['+SPLUfavoritesPlayers.length+']=\'-1\';}" style="margin:2px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/delete_row_small.png"></a>'
-      +tmpPlayer;
-      +'</div>';
-    tmpDiv.innerHTML+=tmpHTML;
-    document.getElementById('SPLUfavoritesEditPlayersList').appendChild(tmpDiv);
-    SPLUfavoritesPlayers.push(id);
-    select.selectedIndex=0;
-  }
-  
-  
+    
   function removePlayerRow(row){
     document.getElementById('SPLUplayerRows').removeChild(document.getElementById('SPLU.PlayerRow'+row));
     PlayerCount--;
