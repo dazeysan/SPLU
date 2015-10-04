@@ -1,4 +1,4 @@
-// SPLU 5.5.0 Beta
+// SPLU 5.4.1 Beta
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -11,7 +11,7 @@
     var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.5.0";
+    var SPLUversion="5.4.1";
 
     var SPLU={};
     var SPLUplayId="";
@@ -53,23 +53,9 @@
     var SPLUdateToday="";
     var SPLUdateYesterday="";
     var SPLUdateDayBefore="";
-    var SPLUcopyContinue=true;
-    var SPLUcopyID="0";
-    var SPLUcopySelectedAll=false;
-    var SPLUcopyCopied=0;
-    var SPLUcopyTotal=0;
-    var SPLUtimeouts={};
-    var SPLUwindowHeight=0;
-    var SPLUplaysListTab="filters";
-    var SPLUplayer={};
-    var SPLUdragDiv="";
-    var SPLUdragSourceDiv = null;
-    var SPLUfavoritesPlayers=[];
-    var SPLUfavoritesEditing="";
-    var SPLUzeroScoreStats=false;
-    
+
     var observer=new MutationObserver(function(){
-      if(document.getElementById('selimage9999').innerHTML.slice(0,4)=="<div"){
+      if(document.getElementById('selimage0').innerHTML.slice(0,4)=="<div"){
         document.getElementById('BRthumbButtons').style.display="none";
       }else{
         document.getElementById('BRthumbButtons').style.display="block";
@@ -84,13 +70,6 @@
       SPLUfamilyLoaded=false;
     });
 
-    //Insert FontAwsome CSS
-    tmpLink=document.createElement('link');
-    tmpLink.type="text/css";
-    tmpLink.rel="stylesheet";
-    tmpLink.href="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/font-awesome/css/font-awesome.min.css";
-    document.getElementsByTagName("head")[0].appendChild(tmpLink);
-    
   function initSPLU(){
     NumOfPlayers=0;
     PlayerCount=0;
@@ -112,7 +91,7 @@
     var style=document.createElement('style');
     style.type='text/css';
     style.id="BRstyle";
-    style.innerHTML='.SPLUheader{height:32px; border:1px solid blue; padding:2px 5px;} .SPLUheaderClose{float:right; margin-right:-6px; margin-top:-4px;} .SPLUrows{vertical-align:bottom;} .BRbutn{border:1px dotted green;padding:0px 2px;} .BRcells{display:table-cell; padding-right:10px; padding-bottom:10px;} .SPLUplayerCells{display:table-cell;} .SPLUsettingAltRows{background-color: #80E086;} .SPLUbuttons{border:2px solid blue;padding:2px 4px;border-radius:5px;background-color:lightGrey;color:black;}';
+    style.innerHTML='.SPLUheader{height:32px; border:1px solid blue; padding:2px 5px;} .SPLUheaderClose{float:right; margin-right:-6px; margin-top:-3px;} .SPLUrows{vertical-align:bottom; padding-right:5px; padding-top:5px; padding-left:5px;} .BRbutn{border:1px dotted green;padding:0px 2px;} .BRcells{display:table-cell; padding-right:10px; padding-bottom:10px;} .SPLUplayerCells{display:table-cell;} .SPLUsettingAltRows{background-color: #80E086;} .SPLUbuttons{border:2px solid blue;padding:2px 4px;border-radius:5px;background-color:lightGrey;color:black;}';
     document.getElementsByTagName('head')[0].appendChild(style);
     
     var BRlogMain=document.createElement('div');
@@ -125,25 +104,8 @@
       
     var BRlogDiv=document.createElement('div');
     BRlogDiv.id='SPLUwindow';
-    BRlogDiv.setAttribute("style","display:table-cell; background-color: #A4DFF3; padding: 13px;border:2px solid blue;border-radius:15px; box-shadow:10px 10px 5px #888;position:relative;");
+    BRlogDiv.setAttribute("style","display:table-cell; background-color: #A4DFF3; padding: 13px;border:2px solid blue;border-radius:15px; box-shadow:10px 10px 5px #888;");
     
-    tmpDiv=document.createElement('div');
-    tmpHTML= '<div id="closeButton" style="position:absolute;top:0px;right:0px;">'
-              +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();observer.disconnect();BRlogMain.parentNode.removeChild(BRlogMain);}" style="border-bottom:2px solid blue;border-left:2px solid blue;padding:0px 10px;border-bottom-left-radius:5px;border-top-right-radius:15px;background-color:lightGrey;font-size:large;font-weight:900;color:red;">X</a>'
-            +'</div>'
-            +'<div style="position:absolute;top:60px;right:5px;">'
-              +'<a href="javascript:{void(0);}" onClick="javascript:{showSettingsPane(\'button\');}" id="BRshowHideBtn">'
-                +'<i class="fa fa-cog fa-2x" style="color: rgb(249, 138, 59);"></i>'
-              +'</a>'
-            +'</div>'
-            +'<div style="position:absolute;top:150px;right:17px;">'
-              +'<a href="javascript:{void(0);}" onClick="javascript:{showPlaysPane(\'button\');}" id="BRplaysBtn">'
-                +'<span class="fa-stack"><i class="fa fa-stack-2x fa-logbook03" style="color: white; font-size: 3.2em; transform: translate(-1px, -6px);"></i><i style="color: black; font-size: 1.5em;" class="fa fa-stack-2x fa-meeple-book"></i></span>'
-              +'</a>'
-            +'</div>';
-    tmpDiv.innerHTML+=tmpHTML;
-    BRlogDiv.appendChild(tmpDiv);
-
     var BRlogForm=document.createElement('form');
     BRlogForm.id='myform';
     BRlogForm.name='myform';
@@ -162,7 +124,22 @@
     SPLUdateDayBefore=SPLUtempDate.toISOString().slice(0,10);
     
     var tmpDiv=document.createElement('div');
-    var tmpHTML='<div style="display:table;">'
+    var tmpHTML='<div style="float:right;margin-left:-20px; margin-right:-15px; margin-top:-13px;">'
+      +'<div id="closeButton" style="">'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();observer.disconnect();BRlogMain.parentNode.removeChild(BRlogMain);}" style="border:2px solid blue;padding:0px 10px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:large;font-weight:900;color:red;">X</a>'
+      +'</div>'
+      +'<div style="padding-top: 15px; padding-left: 8px;">'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{showSettingsPane(\'button\');}" id="BRshowHideBtn">'
+          +'<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/settings.png">'
+        +'</a>'
+      +'</div>'
+      +'<div style="margin-top: 25px; padding-left: 8px;">'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{showPlaysPane(\'button\');}" id="BRplaysBtn">'
+          +'<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/plays_list.png">'
+        +'</a>'
+      +'</div>'
+    +'</div>'
+    +'<div style="display:table;">'
       +'<div style="display:table-row;">'
         +'<div id="SPLU.DateField" class="BRcells" style="width:120px;">'
           +'<div style="display:table;">'
@@ -172,10 +149,10 @@
                 +'<input id="playdateinput99" tabindex="10" style="width:75px;" type="text" oninput="highlightDayButton();" onkeyup="parseDate(this,$(\'playdate99\'),$(\'playdatestatus99\') );" value="'+SPLUtoday+'" autocomplete="off" name="dateinput"/>'
               +'</div>'
               +'<div id="playdatestatus99" class="sf" style="font-style:italic; font-size:0;display:inline;">'
-                +'<span class="fa-stack"><i style="color: white; font-size: 1em; transform: translate(0px, 2px);" class="fa fa-stack-2x fa-square"></i><i style="color: rgb(13, 138, 13); font-size: 1.3em;" class="fa fa-stack-2x fa-check-circle"></i></span>'+SPLUtoday
+                +'<img style="position:relative; top:3px; right:2px;" src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/accept.png">'+SPLUtoday
               +'</div>'
               +'<div style="display:inline;">'
-                +'<a href="javascript:{void(0);}" onClick="javascript:{showHideCalendar();}"><span style="transform: translate(-2px, 3px);" class="fa-stack"><i style="color: rgb(246, 227, 209); font-size: 1.8em;" class="fa fa-stack-2x fa-square-sharp"></i><i style="color: rgb(96, 4, 4); font-size: 1.2em;" class="fa fa-stack-2x fa-calendar"></i></span></a>'
+                +'<a href="javascript:{void(0);}" onClick="javascript:{showHideCalendar();}"><img style="vertical-align:bottom;" src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/calendar_view_week.png"></a>'
               +'</div>'
               +'<div id="SPLU.Calendar" style="position:absolute;z-index:600;display:none;">'
                 +'C'
@@ -202,38 +179,29 @@
             +'<input type="text" id="quickplay_duration99" name="length" value="" tabindex="40" style="width: 20px;"/>'
           +'</div>'
         +'</div>'
-        +'<div class="BRcells" style="padding-right:20px;position:relative;width:90px;">'
-          +'<div id="SPLU.IncompleteField" style="position:absolute;top:5px;right:0px;padding-right:10px;">'
-            +'<label style="font-size:xx-small;">Incomplete: '
-              +'<input type="checkbox" id="incomplete" name="incomplete" value="1" tabindex="45" />'
-            +'</label>'
+        +'<div class="BRcells" style="padding-right:20px;">'
+          +'<div id="SPLU.IncompleteField" style="margin-bottom:5px;width:80px;">'
+            +'<span style="font-size:xx-small;">Incomplete: </span>'
+            +'<input type="checkbox" id="incomplete" name="incomplete" value="1" tabindex="45" />'
           +'</div>'
-          +'<div id="SPLU.NoWinStatsField" style="position:absolute;top:25px;right:0px;padding-right:10px;">'
-            +'<label style="font-size:xx-small;">No Win Stats: '
-              +'<input type="checkbox" id="nowinstats" name="nowinstats" value="1" tabindex="47" />'
-            +'</label>'
+          +'<div id="SPLU.NoWinStatsField" style="margin-bottom:5px;width:80px;">'
+            +'<span style="font-size:xx-small;">No Win Stats: </span>'
+            +'<input type="checkbox" id="nowinstats" name="nowinstats" value="1" tabindex="47" />'
           +'</div>'
-          +'<div id="SPLU.TwitterField" style="position:absolute;top:45px;right:0px;padding-right:10px;">'
-            +'<label style="font-size:xx-small;">Tweet This: '
-              +'<input type="checkbox" id="twitter" name="twitter" value="1" tabindex="49" onClick="javascript:{setTwitterIcons();}"/>'
-            +'</label>'
+          +'<div id="SPLU.TwitterField" style="width:80px;">'
+            +'<span style="font-size:xx-small;">Tweet This: </span>'
+            +'<input type="checkbox" id="twitter" name="twitter" value="1" tabindex="49" onClick="javascript:{setTwitterIcons();}"/>'
           +'</div>'
         +'</div>'
         +'<div class="BRcells">'
           +'<div id="SPLU.LocationField" style="width:275px;">'
             +'<div id="SPLU.fakeLocationBox" style="width:200px; display:inline-block; -moz-appearance:textfield; -webkit-appearance:textfield;">'
               +'<input type="text" placeholder="click or type a location" id="quickplay_location99" tabindex="20" name="location" style="width: 175px; border:none;"/>'
-              +'<a href="javascript:{void(0);}" onClick="javascript:{saveLocation();}" style="vertical-align:middle;" id="SPLU.SaveLocationButton"><span class="fa-stack"><i class="fa fa-stack-2x fa-floppy2" style="font-size: 1.3em; color: black; vertical-align: middle; transform: translate(2px, 4px);"></i></span></a>'
+              +'<a href="javascript:{void(0);}" onClick="javascript:{saveLocation();}" style="vertical-align:middle;" id="SPLU.SaveLocationButton"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/save.png"></a>'
             +'</div>'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{showHideLocations();}" id="BRlocsBtn" style="padding-left:1px; vertical-align:middle;"><span id="SPLU.LocationButtonIconCollapse" style="display:inline-block;"><i class="fa fa-caret-up display:block" style="color: black; font-size: 2em; transform: translate(1px, 4px);"></i></span><span id="SPLU.LocationButtonIconExpand" style="display:none;"><i class="fa fa-caret-down display:block" style="color: black; font-size: 2em; transform: translate(1px, 4px);"></i></span></a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{showHideLocations();}" id="BRlocsBtn" style="padding-left:1px; vertical-align:middle;"><span id="SPLU.LocationButtonIconCollapse" style="display:inline-block;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/arrow_up.png"></span><span id="SPLU.LocationButtonIconExpand" style="display:none;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/arrow_down.png"></span></a>'
             +'<div style="display:inline-block; position:absolute; padding-top:2px;padding-left:4px;">'
-              +'<a href="javascript:{void(0);}" onClick="javascript:{showLocationsPane(\'button\');}" id="showLocationsPaneBtn">'
-                +'<span class="fa-stack">'
-                  +'<i class="fa fa-bars fa-stack-2x fa-pull-right" style="color: rgb(110, 104, 104);font-size:1.5em;"></i>'
-                  +'<i class="fa fa-stack-2x fa-pull-left" style="color: rgb(164, 223, 243); text-shadow: -1px 5px rgb(164, 223, 243);font-size:1.5em;">&#xee09;</i>'
-                  +'<i class="fa fa-map-marker fa-stack-2x fa-pull-left" style="color: rgb(211, 60, 199); text-shadow: 2px -1px rgb(164, 223, 243);font-size:1.5em;"></i>'
-                +'</span>'
-              +'</a>'
+              +'<a href="javascript:{void(0);}" onClick="javascript:{showLocationsPane(\'button\');}" id="showLocationsPaneBtn"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/locations.png"></a>'
             +'</div>'
             +'<br/>'
             +'<div id="SPLU.LocationList" style="">'
@@ -258,9 +226,9 @@
               +'<a href="javascript:{void(0);}" onClick="javascript:{setObjectType(\'rpg\');}" id="SPLU.SelectRPG" style="padding:0px 5px;border:1px solid black; border-right:1px dotted black;">RPG</a>'
               +'<a href="javascript:{void(0);}" onClick="javascript:{setObjectType(\'rpgitem\');}" id="SPLU.SelectRPGItem" style="padding:0px 5px;border:1px solid black; border-left:1px dotted black;">Item</a>'
             +'</div>'
-            +'<input name="objectid" value="" id="objectid9999" type="hidden"/>'
-            +'<input style="margin:3px 0px 0px;" autocomplete="off" class="geekinput_medium" name="geekitemname" id="q546e9ffd96dfc" tabindex="60" placeholder="enter a game title" onClick="this.select();" onkeydown="return StartInstantSearch({event: event,itemid: \'9999\',objecttype: SPLUobjecttype,onclick: \'\',extraonclick: \'\',uniqueid: \'546e9ffd96dfc\',formname: \'\',textareaname: \'\',inline: \'\',userobject: null} );" type="text">'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{showFavsPane(\'button\');}" id="favoritesGoTo" style="border:4px solid lightblue;border-radius:4px"><span style="position: relative;" class="fa-stack"><i style="color: white; transform: translate(-6px, -9px); font-size: 3.7em; position: absolute;" class="fa fa-stack-2x fa-square-sharp"></i><i style="color: red; font-size: 1.6em; position: absolute; top: 0px;" class="fa fa-stack-2x fa-heart"></i><i style="transform: scaleX(-1); left: 4px; color: white; top: 7px; font-size: 1em; text-shadow: 0px 2px rgb(255, 255, 255); position: absolute;" class="fa fa-stack-2x fa-arrow-fat"></i><i style="font-size: 0.8em; transform: scaleX(-1); position: absolute; top: 10px; left: 4px; color: rgb(5, 167, 5);" class="fa fa-stack-2x fa-arrow-fat"></i></span></a>'
+            +'<input name="objectid" value="32946" id="objectid0" type="hidden"/>'
+            +'<input style="margin:3px 0px 0px;" autocomplete="off" class="geekinput_medium" name="geekitemname" id="q546e9ffd96dfc" tabindex="60" placeholder="enter a game title" onClick="this.select();" onkeydown="return StartInstantSearch({event: event,itemid: \'0\',objecttype: SPLUobjecttype,onclick: \'\',extraonclick: \'\',uniqueid: \'546e9ffd96dfc\',formname: \'\',textareaname: \'\',inline: \'\',userobject: null} );" type="text">'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{showFavsPane(\'button\');}" id="favoritesGoTo" style="border:4px solid lightblue;border-radius:4px"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/choose_from_favorites.png" border="0" style="position:relative; margin-top:-5px; top:5px;"></a>'
             +'<span id="instantsearch546e9ffd96dfc" style="display: none;">'
               +'<div class="searchbox_results">'
                 +'<div id="instantsearchresults546e9ffd96dfc"></div>'
@@ -270,21 +238,21 @@
               +'ID:'
             +'</div>'
             +'<div id="objectname0"></div>'
-            +'<input name="objecttype" id="objecttype9999" value="thing" type="hidden">'
+            +'<input name="objecttype" id="objecttype0" value="thing" type="hidden">'
           +'</div>'
-          +'<input size="12" class="geekinput_medium" id="imageid9999" name="imageid" value="" type="hidden"></input>'
+          +'<input size="12" class="geekinput_medium" id="imageid0" name="imageid" value="" type="hidden"></input>'
           +'<div style="display:table;">'
             +'<div style="display:table-row;">'
               +'<div style="display:table-cell;">'
-                +'<div id="selimage9999" style=padding-top:7px;"></div>'
+                +'<div id="selimage0" style=padding-top:7px;"></div>'
               +'</div>'
               +'<div style="display:table-cell; vertical-align:top;">'
                 +'<div id="BRthumbButtons" style="display:none">'
                   +'<div style="padding-bottom:5px; padding-top:7px;">'
-                    +'<a href="javascript:{void(0);}" onClick="javascript:{saveFavorite();}" id="favoritesAddToList" style="padding:4px;"><span class="fa-stack"><i style="color: white; transform: translate(-6px, -9px); font-size: 3.7em;" class="fa fa-stack-2x">&#xee22;</i><i style="color: red; font-size: 1.6em;" class="fa fa-stack-2x fa-heart"></i><i class="fa fa-stack-2x fa-plus" style="color: rgb(5, 167, 5); transform: scaleX(-1) translate(-4px, 6px); font-size: 1.2em; text-shadow: 1px -1px rgb(255, 255, 255), 1px 1px rgb(255, 255, 255), -1px -1px rgb(255, 255, 255);"></i></span></a>'
+                    +'<a href="javascript:{void(0);}" onClick="javascript:{saveFavorite();}" id="favoritesAddToList" style="padding:4px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/add_to_favorites.png" border="0"></a>'
                   +'</div>'
                   +'<div>'
-                    +'<a javascript:{void(0);}" onClick="javascript:{SPLUgameID=document.getElementById(\'objectid9999\').value;showExpansionsPane(\'button\');}" id="expansionLoggingButton" style="padding:4px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/log_expansion.png" border="0"></a>'
+                    +'<a javascript:{void(0);}" onClick="javascript:{SPLUgameID=document.getElementById(\'objectid0\').value;showExpansionsPane(\'button\');}" id="expansionLoggingButton" style="padding:4px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/log_expansion.png" border="0"></a>'
                   +'</div>'
                 +'</div>'
               +'</div>'
@@ -297,8 +265,8 @@
       +'<div style="display:table;">'
         +'<div style="display:table-row;">'
           +'<div class="BRcells">'
-            +'Players:<a href="javascript:{void(0);}" onClick="javascript:{showHidePlayers(false,\'reset\');}" id="SPLU.SavedNamesBtn" style="padding-left:1px;"><span id="SPLU.SavedNamesButtonIconCollapse" style="display:inline-block;"><i class="fa fa-caret-up display:block" style="color: black; font-size: 2em; transform: translate(1px, 6px);"></i></span><span id="SPLU.SavedNamesButtonIconExpand" style="display:none;"><i class="fa fa-caret-down display:block" style="color: black; font-size: 2em; transform: translate(1px, 6px);"></i></span></a>'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{showPlayersPane(\'button\');}" id="showPlayersPaneBtn" style="padding-right:5px;"><span class="fa-stack"><i class="fa fa-bars fa-stack-2x fa-pull-right" style="color: rgb(132, 130, 130); font-size: 1.5em;"></i><i class="fa fa-user fa-stack-2x fa-pull-left" style="color: rgb(0, 0, 0); text-shadow: 1px -1px rgb(164, 223, 243); font-size: 1.5em;"></i><i class="fa fa-user fa-stack-2x fa-pull-left" style="color: rgb(0, 0, 0); font-size: 1.5em; text-shadow: -1px -1px rgb(164, 223, 243);"></i></span></a>'
+            +'Players:<a href="javascript:{void(0);}" onClick="javascript:{showHidePlayers(false,\'reset\');}" id="SPLU.SavedNamesBtn" style="padding-left:1px;"><span id="SPLU.SavedNamesButtonIconCollapse" style="display:inline-block;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/arrow_up.png"></span><span id="SPLU.SavedNamesButtonIconExpand" style="display:none;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/arrow_down.png"></span></a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{showPlayersPane(\'button\');}" id="showPlayersPaneBtn" style="padding-right:5px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/players.png"></a>'
             +'<div style="display:inline;" id="SPLU.PlayerFilters">'
               +'<select id="SPLU.SelectFilter" onChange="javascript:{setFilter(\'choose\');}"></select>'
             +'</div>'
@@ -310,45 +278,68 @@
       +'</div>'
       +'<div id="SPLUplayerRows" style="display:table; padding-bottom:15px;">'
         +'<div style="display:table-row;">'
-          +'<div class="SPLUplayerCells" style="width:25px;text-align:center;vertical-align:bottom;" id="SPLUplayerDragHeader"></div>'
           +'<div class="SPLUplayerCells" style="width:25px;"></div>'
           +'<div class="SPLUplayerCells" id="SPLU.PlayerNameColumnHeader">'
-            +'<div id="SPLU.PlayerNameColumn" class="SPLUheader">'
+            +'<div id="SPLU.PlayerNameColumn" class="SPLUheader" style="min-width:38px;">'
+              +'<div id="collapseName" class="SPLUheaderClose">'
+                +'<a href="javascript:{void(0);}" onClick="javascript:{hideColumn(\'PlayerNameColumn\');}"><img src=https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/hide_column.png></a>'
+              +'</div>'
               +'<center>Name</center>'
             +'</div>'
           +'</div>'
           +'<div class="SPLUplayerCells" id="SPLU.PlayerUsernameColumnHeader">'
-            +'<div id="SPLU.PlayerUsernameColumn" class="SPLUheader">'
+            +'<div id="SPLU.PlayerUsernameColumn" class="SPLUheader" style="min-width:66px;">'
+              +'<div id="collapseUsername" class="SPLUheaderClose">'
+                +'<a href="javascript:{void(0);}" onClick="javascript:{hideColumn(\'PlayerUsernameColumn\');}"><img src=https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/hide_column.png></a>'
+              +'</div>'
               +'<center>Username</center>'
             +'</div>'
           +'</div>'
           +'<div class="SPLUplayerCells" id="SPLU.PlayerColorColumnHeader">'
-            +'<div id="SPLU.PlayerColorColumn" class="SPLUheader">'
+            +'<div id="SPLU.PlayerColorColumn" class="SPLUheader" style="min-width:36px;">'
+              +'<div id="collapseColor" class="SPLUheaderClose">'
+                +'<a href="javascript:{void(0);}" onClick="javascript:{hideColumn(\'PlayerColorColumn\');}"><img src=https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/hide_column.png></a>'
+              +'</div>'
               +'<center>Team<br/>Color</center>'
             +'</div>'
           +'</div>'
           +'<div class="SPLUplayerCells" id="SPLU.PlayerPositionColumnHeader">'
-            +'<div id="SPLU.PlayerPositionColumn" class="SPLUheader">'
+            +'<div id="SPLU.PlayerPositionColumn" class="SPLUheader" style="min-width:33px;">'
+              +'<div id="collapseStart" class="SPLUheaderClose">'
+                +'<a href="javascript:{void(0);}" onClick="javascript:{hideColumn(\'PlayerPositionColumn\');}"><img src=https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/hide_column.png></a>'
+              +'</div>'
               +'<center>Start<br/>Pos</center>'
             +'</div>'
           +'</div>'
           +'<div class="SPLUplayerCells" id="SPLU.PlayerScoreColumnHeader">'
-            +'<div id="SPLU.PlayerScoreColumn" class="SPLUheader">'
+            +'<div id="SPLU.PlayerScoreColumn" class="SPLUheader" style="min-width:37px;">'
+              +'<div id="collapseScore" class="SPLUheaderClose">'
+                +'<a href="javascript:{void(0);}" onClick="javascript:{hideColumn(\'PlayerScoreColumn\');}"><img src=https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/hide_column.png></a>'
+              +'</div>'
             +'<center>Score</center>'
           +'</div>'
         +'</div>'
         +'<div class="SPLUplayerCells" id="SPLU.PlayerRatingColumnHeader">'
-          +'<div id="SPLU.PlayerRatingColumn" class="SPLUheader">'
+          +'<div id="SPLU.PlayerRatingColumn" class="SPLUheader" style="min-width:32px;">'
+            +'<div id="collapseRating" class="SPLUheaderClose">'
+              +'<a href="javascript:{void(0);}" onClick="javascript:{hideColumn(\'PlayerRatingColumn\');}"><img src=https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/hide_column.png></a>'
+            +'</div>'
             +'<center>Rate</center>'
           +'</div>'
         +'</div>'
         +'<div class="SPLUplayerCells" id="SPLU.PlayerWinColumnHeader">'
-          +'<div id="SPLU.PlayerWinColumn" class="SPLUheader">'
+          +'<div id="SPLU.PlayerWinColumn" class="SPLUheader" style="min-width:30px;">'
+            +'<div id="collapseWin" class="SPLUheaderClose">'
+              +'<a href="javascript:{void(0);}" onClick="javascript:{hideColumn(\'PlayerWinColumn\');}"><img src=https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/hide_column.png></a>'
+            +'</div>'
             +'<center>Win</center>'
           +'</div>'
         +'</div>'
           +'<div class="SPLUplayerCells" id="SPLU.PlayerNewColumnHeader">'
-            +'<div id="SPLU.PlayerNewColumn" class="SPLUheader">'
+            +'<div id="SPLU.PlayerNewColumn" class="SPLUheader" style="min-width:30px;">'
+            +'<div id="collapseNewPlayer" class="SPLUheaderClose">'
+              +'<a href="javascript:{void(0);}" onClick="javascript:{hideColumn(\'PlayerNewColumn\');}"><img src=https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/hide_column.png></a>'
+            +'</div>'
             +'<center>New</center>'
           +'</div>'
         +'</div>'
@@ -359,27 +350,27 @@
       +'<div style="display:table-row;">'
         +'<div class="BRcells">'
           +'<div>'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{saveGamePlay(\'none\');}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="SaveGamePlayBtn" onMouseOver="makeSentence();" onMouseOut="hideSentence();"><i class="fa fa-check display:block" style="color: rgb(33, 177, 45); vertical-align: middle; text-align: center; text-shadow: 1px 1px 1px rgb(20, 92, 6); font-style: italic; font-size: 1.65em; transform: translate(-3.5px, -1px) rotate(-13deg);"></i>Submit<i style="transform: translate(3px, 6px); font-size: 1.8em; text-align: center;" class="fa fa-twitter SPLUtwitterIcon"></i></a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{saveGamePlay(\'none\');}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="SaveGamePlayBtn" onMouseOver="makeSentence();" onMouseOut="hideSentence();"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/submit.png" style="vertical-align: middle; margin-right:1px;">Submit<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/twitter-black.png" class="SPLUtwitterIcon" style="vertical-align: middle; margin-left:5px;display:none"></a>'
           +'</div>'
         +'</div>'
         +'<div class="BRcells">'
           +'<div>'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{saveGamePlay(\'dupe\');}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="SaveGamePlayBtnDupe" onMouseOver="makeSentence();" onMouseOut="hideSentence();"><span style="" class="fa-stack"><i class="fa fa-square fa-stack-2x display:block" style="color: white; text-align: center; vertical-align: middle; font-size: 1.4em; text-shadow: 2px 1px rgb(255, 255, 255); transform: translate(0px, 4px);"></i><i class="fa fa-clipboard display:block fa-stack-2x" style="font-size: 1.5em; vertical-align: middle; text-align: center; transform: translate(0px, 2px);"></i><i class="fa fa-check display:block" style="color: rgb(33, 177, 45); vertical-align: middle; text-align: center; text-shadow: 1px 1px 1px rgb(20, 92, 6); font-style: italic; font-size: 1.65em; opacity: 0.92; transform: rotate(-13deg) translate(-2px, 3px);"></i></span>Submit & Duplicate<i style="transform: translate(3px, 6px); font-size: 1.8em; text-align: center;" class="fa fa-twitter SPLUtwitterIcon"></i></a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{saveGamePlay(\'dupe\');}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="SaveGamePlayBtnDupe" onMouseOver="makeSentence();" onMouseOut="hideSentence();"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/submit_duplicate.png" style="vertical-align: middle; margin-right:4px;">Submit & Duplicate<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/twitter-black.png" class="SPLUtwitterIcon" style="vertical-align: middle; margin-left:5px;display:none"></a>'
           +'</div>'
         +'</div>'
         +'<div class="BRcells" id="SPLUeditPlayDiv" style="display:none;">'
           +'<div>'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{saveGamePlay(\'edit\');}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="EditGamePlayBtn" onMouseOver="makeSentence();" onMouseOut="hideSentence();"><span style="" class="fa-stack"><i class="fa fa-pencil display:block fa-stack-2x fa-flip-horizontal" style="font-size: 1.6em; text-align: center; text-shadow: 0px 0px 0px; transform: rotate(271deg); color: rgb(176, 115, 4);"></i><i class="fa fa-check display:block" style="color: rgb(33, 177, 45); vertical-align: middle; text-align: center; font-style: italic; font-size: 1.65em; opacity: 0.89; text-shadow: 1px 0px 0px rgb(20, 92, 6); transform: translate(-2.5px, 3px) rotate(-13deg);"></i></span>Submit Edits</a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{saveGamePlay(\'edit\');}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="EditGamePlayBtn" onMouseOver="makeSentence();" onMouseOut="hideSentence();"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/submit_edits.png" style="vertical-align: middle;">Submit Edits</a>'
           +'</div>'
         +'</div>'
         +'<div class="BRcells" id="SPLUdeletePlayDiv" style="display:none;">'
           +'<div>'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{deleteGamePlay();}" style="border:2px solid blue;padding:5px 5px;border-radius:5px;background-color:lightGrey; color:black;" id="DeleteGamePlayBtn";><i class="fa fa-trash display:block" style="text-align: center; font-size: 1.6em; vertical-align: middle; transform: translate(0px, -1px);"></i></a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{deleteGamePlay();}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="DeleteGamePlayBtn";><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/delete_play.png" style="vertical-align: middle;"></a>'
           +'</div>'
         +'</div>'
         +'<div class="BRcells" id="SPLUresetFormDiv">'
           +'<div>'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{clearForm(\'reset\');VoidInstantSearch({itemid:\'9999\',uniqueid:\'546e9ffd96dfc\'});}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="ResetFormBtn"><i class="fa fa-repeat display:block" style="color: red; vertical-align: middle; text-align: center; transform: translate(-3px, 0px) scaleX(-1); font-size: 1.5em; font-weight: bold;"></i></a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{clearForm(\'reset\');VoidInstantSearch({itemid:\'0\',uniqueid:\'546e9ffd96dfc\'});}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="ResetFormBtn"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/clear_form.png" style="vertical-align: middle;"></a>'
           +'</div>'
         +'</div>'
         +'<div class="BRcells">'
@@ -405,7 +396,7 @@
     
     var BRlogSettings=document.createElement('div');
     BRlogSettings.id='BRlogSettings';
-    BRlogSettings.setAttribute("style","display:none; background-color: #80FE86; padding: 13px;border:2px solid black;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:75px;position:relative;");
+    BRlogSettings.setAttribute("style","display:none; background-color: #80FE86; padding: 13px;border:2px solid black;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:75px;");
     var tmpDiv=document.createElement('div');
     var tmpHTML='<div id="hideSettingsButton" style="position: absolute; right: 0px; top: 2px;">'
       +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogMain\').style.minWidth=\'\';document.getElementById(\'BRlogSettings\').style.display=\'none\';}" style="border:2px solid black;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;">'
@@ -703,10 +694,7 @@
       +'</div>'
       +'<div style="display:table-cell;width:135px;" id="SPLU.SettingsStatus"></div>'
       +'<div style="display:table-cell;" id="SPLU.SettingsReset">'
-        +'<a href="javascript:{void(0);}" onClick="javascript:{resetSettings();saveSettings(\'Settings Reset. Please close SPLU.\');}" style="color:red;">!</a>'
-      +'</div>'
-      +'<div style="display:table-cell;">'
-        +'<span style="margin-left:20px;">'+SPLUversion+'</span>'
+      +'<a href="javascript:{void(0);}" onClick="javascript:{resetSettings();saveSettings(\'Settings Reset. Please close SPLU.\');}" style="color:red;">!</a>'
       +'</div>'
       +'</div>'
       +'</div>'
@@ -717,7 +705,7 @@
 
     var BRlogFavs=document.createElement('div');
     BRlogFavs.id='BRlogFavs';
-    BRlogFavs.setAttribute("style","display:none; background-color: #FFAEC5; font-style:initial; color:black; padding: 13px;border:2px solid #F30F27;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:100px;position:relative;");
+    BRlogFavs.setAttribute("style","display:none; background-color: #FFAEC5; font-style:initial; color:black; padding: 13px;border:2px solid #F30F27;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:100px;");
     var tmpDiv=document.createElement('div');
     var tmpHTML='<div id="hideFavsButton" style="position: absolute; right: 0px; top: 2px;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogFavs\').style.display=\'none\';}" style="border:2px solid #F30F27;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/close_pane.png"></a>'
@@ -727,13 +715,14 @@
           +'<br />'
         +'</span>'
         +'<div id="SPLU.FavoritesStatus"></div>'
-        +'<div id="SPLU.FavoritesList" style="overflow-y:auto; width:220px;"></div>'
+          +'<div id="SPLU.FavoritesList" style="overflow-y:auto; width:220px;">'
+        +'</div>';
     tmpDiv.innerHTML+=tmpHTML;
     BRlogFavs.appendChild(tmpDiv);
 
     var BRlogExpansions=document.createElement('div');
     BRlogExpansions.id='BRlogExpansions';
-    BRlogExpansions.setAttribute("style","display:none; background-color: #B269FB; font-style:initial; color:white; padding: 13px;border:2px solid blue;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:75px; max-width:250px;position:relative;");
+    BRlogExpansions.setAttribute("style","display:none; background-color: #B269FB; font-style:initial; color:white; padding: 13px;border:2px solid blue;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:75px; max-width:250px;");
     var tmpDiv=document.createElement('div');
     var tmpHTML='<div id="hideExpansionsButton" style="position: absolute; right: 0px; top: 2px;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogExpansions\').style.display=\'none\';}" style="border:2px solid blue;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/close_pane.png"></a>'
@@ -781,7 +770,7 @@
     
     var BRlogLocations=document.createElement('div');
     BRlogLocations.id='BRlogLocations';
-    BRlogLocations.setAttribute("style","display:none; background-color: #F5C86C; padding: 13px;border:2px solid #249631;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:100px;position:relative;");
+    BRlogLocations.setAttribute("style","display:none; background-color: #F5C86C; padding: 13px;border:2px solid #249631;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:100px;");
     var tmpDiv=document.createElement('div');
     var tmpHTML='<div id="hideLocationsButton" style="position: absolute; right: 0px; top: 2px;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogLocations\').style.display=\'none\';}" style="border:2px solid #249631;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/close_pane.png"></a>'
@@ -801,7 +790,7 @@
 
     var BRlogPlayers=document.createElement('div');
     BRlogPlayers.id='BRlogPlayers';
-    BRlogPlayers.setAttribute("style","display:none; background-color: #F7FB6F; padding: 13px;border:2px solid #00F; border-radius:15px; box-shadow:10px 10px 5px #888; min-width:275px;position:relative;");
+    BRlogPlayers.setAttribute("style","display:none; background-color: #F7FB6F; padding: 13px;border:2px solid #00F; border-radius:15px; box-shadow:10px 10px 5px #888; min-width:275px;");
     var tmpDiv=document.createElement('div');
     var tmpHTML='<div id="hidePlayersButton" style="position: absolute; right: 0px; top: 2px;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();showPlayersTab();document.getElementById(\'BRlogPlayers\').style.display=\'none\';}" style="border:2px solid #00F;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/close_pane.png"></a>'
@@ -894,7 +883,7 @@
 
     var BRlogPlays=document.createElement('div');
     BRlogPlays.id='BRlogPlays';
-    BRlogPlays.setAttribute("style","display:none; background-color: #F1F8FB; padding: 13px;border:2px solid #249631;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:100px;position:relative;");
+    BRlogPlays.setAttribute("style","display:none; background-color: #F1F8FB; padding: 13px;border:2px solid #249631;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:100px;");
     var tmpDiv=document.createElement('div');
     var tmpHTML='<div id="hidePlaysButton" style="position: absolute; right: 0px; top: 2px;">'
           +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogPlays\').style.display=\'none\';}" style="border:2px solid #249631;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/close_pane.png"></a>'
@@ -908,103 +897,46 @@
           +' | '
           +'<a href="javascript:{void(0);}" onClick="javascript:{getRecentPlays(true);}">Get All</a>'
         +'</div>'
-        +'<div id="SPLU.PlaysPlayers" style="position: absolute; background-color: rgb(205, 237, 251); width: 126px; padding: 3px; border: 1px solid blue; display:none;z-index:575;">list</div>'
-        +'<div id="SPLU.PlaysStatus" style="padding-bottom:5px;"></div>'
-        +'<div id="SPLU.PlaysMenu">'
-          +'<div id="SPLUfilterIconBtn" style="display:inline;padding-top:5px;border-top-left-radius:20px;border-top-right-radius:20px;">'
-            +'<a href="javascript:{void(0);}" style="padding:0px 20px;" onClick="javascript:{showPlaysTab(\'filters\');loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);}">'
-              +'<span style="color: black; transform: translate(0px, -2px); font-weight: bold;" class="fa fa-list-view" id="filtericon" style="margin-top:5px;"></span>'
-            +'</a>'
-          +'</div>'
-          +'<div id="SPLUstatsIconBtn" style="display:inline;padding-top:5px;border-top-left-radius:20px;border-top-right-radius:20px;">'
-            +'<a href="javascript:{void(0);}" style="padding:0px 20px;" onClick="javascript:{showPlaysTab(\'stats\');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/statistics.png" id="statisticsicon"></a>'
-          +'</div>'
-          +'<div id="SPLUcopyModeIconBtn" style="display:none;padding-top:5px;border-top-left-radius:20px;border-top-right-radius:20px;">'
-            +'<a href="javascript:{void(0);}" style="padding:0px 20px;" onClick="javascript:{showPlaysTab(\'copymode\');loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,true);}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/copy.gif" id="copymodeicon"></a>'
-          +'</div>'
+        +'<div id="SPLU.PlaysPlayers" style="position: absolute; background-color: rgb(205, 237, 251); width: 126px; padding: 3px; border: 1px solid blue; display:none;">list</div>'
+        +'<div id="SPLU.PlaysStatus"></div>'
+        +'<div id="SPLU.PlaysMenu" style="display:none;">'
+          +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysFilters();}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/filter.png" id="filtericon"></a>'
+          +'<a href="javascript:{void(0);}" onClick="javascript:{showHidePlaysStats();}" style="padding-left:15px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/statistics.png" id="statisticsicon"></a>'
         +'</div>'
-        +'<div id="SPLU.PlaysFilters" style="border: 1px solid blue; border-radius: 5px; padding: 3px;">'
+        +'<div id="SPLU.PlaysFilters" style="border: 1px solid blue; border-radius: 5px; padding: 3px; display:none;">'
           +'<div id="SPLU.PlaysFiltersStatus" style="float:right;"></div>'
           +'<div>'
-            +'<div style="background-color:white;width:120px;border:1px solid gray;padding:2px;cursor:pointer;"  onclick="javascript:{if(document.getElementById(\'SPLUfilterDrop\').style.display==\'none\'){document.getElementById(\'SPLUfilterDrop\').style.display=\'\';}else{document.getElementById(\'SPLUfilterDrop\').style.display=\'none\';}}"><i class="fa fa-funnel"></i> Add a Filter<i style="float: right; height: 15px; background-color: lightgrey; margin-top: -2px; margin-right: -2px; padding: 4px 2px 0px;" class="fa">&#xf078;</i></div>'
-            +'<div style="position:absolute;border:1px solid blue;background-color:rgb(206,214,233);display:none;cursor:pointer;z-index:575;" id="SPLUfilterDrop">'
-              +'<ul class="fa-ul" style="padding-right:8px;">'
-                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'gamename\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i class="fa fa-li">&#xee01;</i>Game'
-                +'</li>'
-                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'playername\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i class="fa fa-li">&#xf007;</i>Player'
-                +'</li>'
-                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'username\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i style="transform: translate(1px, 1px);" class="fa fa-li display:block"></i>Username'
-                +'</li>'
-                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'location\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i class="fa fa-li">&#xf041;</i>Location'
-                +'</li>'
-                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'daterange\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i style="transform: translate(0.5px, 0px);" class="fa fa-li display:block"></i>Date Range'
-                +'</li>'
-                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'winner\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i class="fa fa-li">&#xf091;</i>Winner'
-                +'</li>'
-                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'new\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i style="transform: translate(1px, 0px);" class="fa fa-li display:block"></i>New'
-                +'</li>'
-                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'playercount\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i class="fa fa-li">&#xf0c0;</i>Player Count'
-                +'</li>'
-                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'objecttype\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i class="fa fa-li">&#xee02;</i>Type of Game'
-                +'</li>'
-                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'comments\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i class="fa fa-li">&#xf27b;</i>Comments'
-                +'</li>'
-                +'<li style="cursor:default;font-family:courier;top:2px;left:-5px;">'
-                  +'&mdash;&mdash;EXCLUDE&mdash;&mdash;'
-                +'</li>'
-                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'excludeexpansions\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i class="fa fa-li">&#xf0eb;</i>Expansions'
-                +'</li>'
-                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'excludenowinstats\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i style="" class="fa fa-li fa-ribbon-white-circle"></i>No-Win-Stats'
-                +'</li>'
-                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'excludeincomplete\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i style="transform: translate(-1px, -1px);" class="fa fa-li display:block"></i>Incomplete'
-                +'</li>'
-              +'</ul>'
-            +'</div>'
-            +'<span id="SPLU.PlaysLoadingDiv" style="margin-left:20px;display:none;">'
-              +'<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/progress.gif">'
-            +'</span>'
+            +'<select id="SPLU.SelectPlaysFilter" onChange="javascript:{addPlaysFilter(\'GUI\',\'\');}">'
+              +'<option value="add">Add a Filter</option>'
+              +'<option value="---" disabled>---</option>'
+              +'<option value="playername">Player Name</option>'
+              +'<option value="username">User Name</option>'
+              +'<option value="gamename">Game</option>'
+              +'<option value="location">Location</option>'
+              +'<option value="comments">Comments</option>'
+              +'<option value="objecttype">Type</option>'
+              +'<option value="daterange">Date Range</option>'
+              +'<option value="winner">Winner</option>'
+              +'<option value="new">New Player</option>'
+              +'<option value="playercount">Player Count</option>'
+              +'<option value="excludeexpansions">No Expansions</option>'
+              +'<option value="excludenowinstats">No Win Stats</option>'
+              +'<option value="excludeincomplete">No Incomplete</option>'
+            +'</select>'
           +'<div id="SPLU.PlaysFiltersCurrent"></div>'
             +'<div id="SPLU.PlaysFiltersGoBtn"style="float:right;margin-top:-20px;margin-right:5px;display:none;">'
-              +'<a href="javascript:{void(0);}" onClick="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);}">go</a>'
+              +'<a href="javascript:{void(0);}" onClick="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value);}">go</a>'
             +'</div>'
           +'</div>'
         +'</div>'
         +'<div id="SPLU.PlaysList" style="overflow-y:auto; width:275px;"></div>'
-        +'<div id="SPLUcopyPlaysDiv" style="display:none;padding-top:10px;">'
-          +'<div class="BRcells" id="CopyPlaysSelectAllBtn">'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlaysSelectAll();}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/select-all.png" style="vertical-align: middle;"></a>'
-          +'</div>'
-          +'<div class="BRcells" id="CopyPlaysDeselectAllBtn" style="display:none;">'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlaysSelectAll();}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/deselect-all.png" style="vertical-align: middle;"></a>'
-          +'</div>'
-          +'<div class="BRcells">'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlays(0,200);}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="CopyPlaysBtn";><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/copy.gif" style="vertical-align: middle;"> Copy Selected Plays</a>'
-          +'</div>'
-          +'<div id="CopyPlaysStatus"></div>'
-        +'</div>'
         +'<div id="SPLU.StatsMenu" style="display:none;">'
-          +'Stat: <select class="fa" id="SPLU.SelectStat" onChange="javascript:{loadStats(\'choose\');}">'
-            +'<option class="fa" style="display:block;" value="PlaysWins" selected>&#xf091; Wins</option>'
-            +'<option class="fa" style="display:block;" value="BeginnersLuck">&#x2618; Beginner\'s Luck</option>'
-            +'<option class="fa" style="display:block;" value="GameDetails">&#xf201; Game Details</option>'
-            +'<option class="fa" style="display:block;" value="Locations">&#xf041; Locations</option>'
+          +'Stat: <select id="SPLU.SelectStat" onChange="javascript:{loadStats(\'choose\');}">'
+            +'<option value="PlaysWins" selected>Wins</option>'
+            +'<option value="BeginnersLuck">Beginner\'s Luck</option>'
+            +'<option value="GameDetails">Game Details</option>'
+            +'<option value="Locations">Locations</option>'
           +'</select>'
-          +'<span style="margin-left: 10px;" id="SPLUzeroScoreStatsDiv">'
-            +'Include Zeros:<input style="vertical-align: middle;" id="SPLUzeroScoreStatsCheck" onChange="javascript:{SPLUzeroScoreStats=document.getElementById(\'SPLUzeroScoreStatsCheck\').checked;loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);}" type="checkbox">'
-          +'</span>'
           +'<span id="SPLUcsvDownload" style="margin-left:50px;vertical-align:top;">'
             +'<a href="javascript:{void(0);}" onClick="javascript:{SPLUdownloadText(\'SPLU-Export.csv\',SPLUcsv);}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/save-csv.png""></a>'
           +'</span>'
@@ -1024,6 +956,14 @@
     document.getElementById('SPLUmain').insertBefore(BRlogMain,document.getElementById('SPLUmain').firstChild);
 
     //Set up PopText for buttons and such
+    listenerForPopText("collapseColor","Collapse");
+    listenerForPopText("collapseStart","Collapse");
+    listenerForPopText("collapseRating","Collapse");
+    listenerForPopText("collapseScore","Collapse");
+    listenerForPopText("collapseNewPlayer","Collapse");
+    listenerForPopText("collapseWin","Collapse");
+    listenerForPopText("collapseName","Collapse");
+    listenerForPopText("collapseUsername","Collapse");
     listenerForPopText("SaveGamePlayBtn","Submit and Clear All Fields");
     listenerForPopText("SaveGamePlayBtnDupe","Submit but Keep Player Data Onscreen");
     listenerForPopText("favoritesGoTo","Choose from your Favorites list");
@@ -1041,15 +981,11 @@
     listenerForPopText("BRplaysBtn","View/Edit Play History");
     listenerForPopText("ResetFormBtn","Reset All Fields");
     listenerForPopText("DeleteGamePlayBtn","Delete this Play");
-    listenerForPopText("copymodeicon","Enter Multi-Copy Mode");
-    listenerForPopText("CopyPlaysBtn","Copy the selected plays to your own plays.");
-    listenerForPopText("CopyPlaysSelectAllBtn","Select All Plays");
-    listenerForPopText("CopyPlaysDeselectAllBtn","Deselect All Plays");
     //listenerForPopText("statisticsicon","Basic Stats");
     //listenerForPopText("filtericon","Apply Filter to These Results");
     //listenerForPopText("floppydiskicon","Remember This Player");
 
-    observer.observe(document.getElementById('selimage9999'),{childList: true});
+    observer.observe(document.getElementById('selimage0'),{childList: true});
 
     fetchSaveData();
   }
@@ -1134,6 +1070,7 @@
     document.getElementById('quickplay_comments99').style.width=SPLU.Settings['CommentsField']['Width'];
     document.getElementById('quickplay_comments99').style.height=SPLU.Settings['CommentsField']['Height'];
     
+    setPlayers("reset");
     getGameID();
     loadFilters();
     loadGroups();
@@ -1145,111 +1082,6 @@
     SPLUcalendar.cfg.setProperty("maxdate",tmp2);
     SPLUcalendar.selectEvent.subscribe(function(){tmp3=new Date();selectedDate=new Date(SPLUcalendar.getSelectedDates()[0].setMinutes(SPLUcalendar.getSelectedDates()[0].getMinutes()-tmp3.getTimezoneOffset()));setDateField(selectedDate.toISOString().slice(0,selectedDate.toISOString().indexOf("T")));showHideCalendar();});
     document.getElementById('q546e9ffd96dfc').value=getGameTitle();
-    
-    var tmpDiv=document.createElement('span');
-    tmpDiv.style.display="none";
-    tmpDiv.style.textAlign="center";
-    tmpDiv.id="SPLU.PlayerDragHeader0";
-    tmpDiv.dataset.spluplayernumber="0";
-    tmpDiv.draggable=true;
-    tmpDiv.addEventListener('dragenter', handleDragEnter, false);
-    tmpDiv.addEventListener('dragover', handleDragOver, false);
-    tmpDiv.addEventListener('dragleave', handleDragLeave, false);
-    tmpDiv.addEventListener('dragend', handleDragEnd, false);
-    tmpDiv.addEventListener('drop', handleDrop, false);
-    tmpDiv.addEventListener('click', handleDragClick, false);
-    tmpDiv.innerHTML='<span style=""><span style="transform: scaleX(-1); top:7px;" class="fa-stack"><i style="font-size: 1.3em;" class="fa fa-stack-2x fa-drag-row"></i></span></span>';
-    document.getElementById('SPLUplayerDragHeader').appendChild(tmpDiv);
-
-    var tmpDiv=document.createElement('div');
-    tmpDiv.id="SPLU.PlayerRow0";
-    tmpDiv.style.display="table-row";
-    tmpDiv.dataset.spluplayernumber="0";
-    tmpDiv.draggable=true;
-    tmpDiv.addEventListener('dragenter', handleDragEnter, false);
-    tmpDiv.addEventListener('dragover', handleDragOver, false);
-    tmpDiv.addEventListener('dragleave', handleDragLeave, false);
-    tmpDiv.addEventListener('dragend', handleDragEnd, false);
-    tmpDiv.addEventListener('drop', handleDrop, false);
-    document.getElementById('SPLUplayerRows').appendChild(tmpDiv);
-
-    var tmpDiv=document.createElement('div');
-    tmpDiv.className="SPLUplayerCells";
-    tmpDiv.id="SPLU.PlayerDragColumn0";
-    tmpDiv.dataset.spluplayernumber=0;
-    tmpDiv.innerHTML='<div id="SPLU.PlayerDragHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
-    document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
-
-    var tmpDiv=document.createElement('div');
-    tmpDiv.className="SPLUplayerCells";
-    tmpDiv.id="SPLU.PlayerDeleteColumn0";
-    tmpDiv.dataset.spluplayernumber=0;
-    tmpDiv.innerHTML='<div id="SPLU.PlayerDeleteHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
-    document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
-
-    var tmpDiv=document.createElement('div');
-    tmpDiv.className="SPLUplayerCells";
-    tmpDiv.id="SPLU.PlayerNameColumn0";
-    tmpDiv.dataset.spluplayernumber=0;
-    tmpDiv.innerHTML='<div id="SPLU.PlayerNameHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
-    document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
-
-    var tmpDiv=document.createElement('div');
-    tmpDiv.className="SPLUplayerCells";
-    tmpDiv.id="SPLU.PlayerUsernameColumn0";
-    tmpDiv.dataset.spluplayernumber=0;
-    tmpDiv.innerHTML='<div id="SPLU.PlayerUsernameHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
-    document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
-
-    var tmpDiv=document.createElement('div');
-    tmpDiv.className="SPLUplayerCells";
-    tmpDiv.id="SPLU.PlayerColorColumn0";
-    tmpDiv.dataset.spluplayernumber=0;
-    tmpDiv.innerHTML='<div id="SPLU.PlayerColorHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
-    document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
-
-    var tmpDiv=document.createElement('div');
-    tmpDiv.className="SPLUplayerCells";
-    tmpDiv.id="SPLU.PlayerPositionColumn0";
-    tmpDiv.dataset.spluplayernumber=0;
-    tmpDiv.innerHTML='<div id="SPLU.PlayerPositionHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
-    document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
-
-    var tmpDiv=document.createElement('div');
-    tmpDiv.className="SPLUplayerCells";
-    tmpDiv.id="SPLU.PlayerScoreColumn0";
-    tmpDiv.dataset.spluplayernumber=0;
-    tmpDiv.innerHTML='<div id="SPLU.PlayerScoreHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
-    document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
-
-    var tmpDiv=document.createElement('div');
-    tmpDiv.className="SPLUplayerCells";
-    tmpDiv.id="SPLU.PlayerRatingColumn0";
-    tmpDiv.dataset.spluplayernumber=0;
-    tmpDiv.innerHTML='<div id="SPLU.PlayerRatingHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
-    document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
-
-    var tmpDiv=document.createElement('div');
-    tmpDiv.className="SPLUplayerCells";
-    tmpDiv.id="SPLU.PlayerWinColumn0";
-    tmpDiv.dataset.spluplayernumber=0;
-    tmpDiv.innerHTML='<div id="SPLU.PlayerWinHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
-    document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
-
-    var tmpDiv=document.createElement('div');
-    tmpDiv.className="SPLUplayerCells";
-    tmpDiv.id="SPLU.PlayerNewColumn0";
-    tmpDiv.dataset.spluplayernumber=0;
-    tmpDiv.innerHTML='<div id="SPLU.PlayerNewHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
-    document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
-
-    var tmpDiv=document.createElement('div');
-    tmpDiv.className="SPLUplayerCells";
-    tmpDiv.id="SPLU.PlayerSaveColumn0";
-    tmpDiv.dataset.spluplayernumber=0;
-    tmpDiv.innerHTML='<div id="SPLU.PlayerSaveHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
-    document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
-    setPlayers("reset");
   }
   
   function highlightDayButton(){
@@ -1439,7 +1271,7 @@
 
   
   function setObjectType(type){
-    VoidInstantSearch({itemid:'9999',uniqueid:'546e9ffd96dfc'});
+    VoidInstantSearch({itemid:'0',uniqueid:'546e9ffd96dfc'});
     SPLUexpansionsLoaded=false;
     SPLUfamilyLoaded=false;
     if(type=="boardgame"){
@@ -1520,8 +1352,8 @@
       }
       if(metas[i].getAttribute("name")=="og:url"){
         SPLUgameID=metas[i].getAttribute("content").substring((metas[i].getAttribute("content").lastIndexOf("/")+1));
-        document.getElementById('objectid9999').value=SPLUgameID;
-        document.getElementById('selimage9999').innerHTML=thumbDiv;
+        document.getElementById('objectid0').value=SPLUgameID;
+        document.getElementById('selimage0').innerHTML=thumbDiv;
         return SPLUgameID;
       }
     }
@@ -1811,7 +1643,7 @@
       if(player.attributes.win.value==1){
         tmpWin="checked";
       }
-      if(player.attributes.new.value==1){
+      if(player.getAttribute("new")==1){
         tmpNew="checked";
       }
     } else if(player!=-1){
@@ -1826,78 +1658,54 @@
     var tmpDiv=document.createElement('div');
     tmpDiv.id="SPLU.PlayerRow"+NumOfPlayers;
     tmpDiv.style.display="table-row";
-    tmpDiv.dataset.spluplayernumber=NumOfPlayers;
-    tmpDiv.addEventListener('dragenter', handleDragEnter, false);
-    tmpDiv.addEventListener('dragover', handleDragOver, false);
-    tmpDiv.addEventListener('dragleave', handleDragLeave, false);
-    tmpDiv.addEventListener('dragend', handleDragEnd, false);
-    tmpDiv.addEventListener('drop', handleDrop, false);
     document.getElementById('SPLUplayerRows').appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     tmpDiv.style.display="table-cell";
-    tmpDiv.style.textAlign="center";
-    tmpDiv.style.cursor="grab";
     tmpDiv.className="SPLUrows";
-    tmpDiv.id="SPLU.PlayerDragColumn"+NumOfPlayers;
-    tmpDiv.dataset.spluplayernumber=NumOfPlayers;
-    tmpDiv.draggable=true;
-    tmpDiv.addEventListener('dragstart', handleDragStart, false);
-    tmpDiv.addEventListener('dragenter', handleDragEnter, false);
-    tmpDiv.addEventListener('dragover', handleDragOver, false);
-    tmpDiv.addEventListener('dragleave', handleDragLeave, false);
-    tmpDiv.addEventListener('dragend', handleDragEnd, false);
-    tmpDiv.addEventListener('drop', handleDrop, false);
-    tmpDiv.addEventListener('click', handleDragClick, false);
-    tmpDiv.innerHTML='<span style=""><span style=""><span style="transform: scaleX(-1); top:7px;" class="fa-stack"><i style="font-size: 1.3em;" class="fa fa-stack-2x fa-drag-row"></i></span></span><div id="SPLU.PlayerDragHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
-    document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
-
-    var tmpDiv=document.createElement('div');
-    tmpDiv.style.display="table-cell";
-    tmpDiv.className="SPLUrows";
-    tmpDiv.innerHTML='<a href="javascript:{void(0);}" onClick="javascript:{removePlayerRow('+NumOfPlayers+');}"><span style="transform: translate(4px, 7px);" class="fa-stack display:block"><i style="color: white; font-size: 1.3em; transform: translate(-2px, 1px);" class="fa fa-stack-2x">&#xee22;</i><i style="transform: scaleX(-1); color: red; font-size: 1.7em;" class="fa fa-stack-2x">&#xee21;</i></span></a><div id="SPLU.PlayerDeleteHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
+    tmpDiv.innerHTML='<a href="javascript:{void(0);}" onClick="javascript:{removePlayerRow('+NumOfPlayers+');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/delete_row.png"></a>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerNameColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerNameColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="width:120px;margin:0px 5px;" name="players['+NumOfPlayers+'][name]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="name" value="'+tmpName+'" tabindex="1'+paddedNum+'"></input><div id="SPLU.PlayerNameHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
+    tmpDiv.innerHTML='<input type="text" style="width:120px;" name="players['+NumOfPlayers+'][name]" value="'+tmpName+'" tabindex="1'+paddedNum+'"></input>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerUsernameColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerUsernameColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="width:110px;margin:0px 5px;" name="players['+NumOfPlayers+'][username]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="username" value="'+tmpUser+'" tabindex="2'+paddedNum+'"></input><div id="SPLU.PlayerUsernameHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
+    tmpDiv.innerHTML='<input type="text" style="width:110px;" name="players['+NumOfPlayers+'][username]" value="'+tmpUser+'" tabindex="2'+paddedNum+'"></input>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerColorColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerColorColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="width:50px;margin:0px 5px;" name="players['+NumOfPlayers+'][color]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="color" value="'+tmpColor+'" tabindex="3'+paddedNum+'"></input><div id="SPLU.PlayerColorHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
+    tmpDiv.innerHTML='<input type="text" style="width:50px;" name="players['+NumOfPlayers+'][color]" value="'+tmpColor+'" tabindex="3'+paddedNum+'"></input>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerPositionColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerPositionColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="width:50px;margin:0px 5px;" name="players['+NumOfPlayers+'][position]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="startposition" value="'+tmpStart+'" tabindex="4'+paddedNum+'"></input><div id="SPLU.PlayerPositionHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
+    tmpDiv.innerHTML='<input type="text" style="width:50px;" name="players['+NumOfPlayers+'][position]" value="'+tmpStart+'" tabindex="4'+paddedNum+'"></input>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerScoreColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerScoreColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="width:37px;margin:0px 5px;" name="players['+NumOfPlayers+'][score]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="score" value="'+tmpScore+'" tabindex="5'+paddedNum+'"></input><div id="SPLU.PlayerScoreHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
+    tmpDiv.innerHTML='<input type="text" style="width:37px;" name="players['+NumOfPlayers+'][score]" value="'+tmpScore+'" tabindex="5'+paddedNum+'"></input>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerRatingColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerRatingColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="width:32px;margin:0px 5px;" name="players['+NumOfPlayers+'][rating]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="rating" value="'+tmpRating+'" tabindex="6'+paddedNum+'"></input><div id="SPLU.PlayerRatingHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
+    tmpDiv.innerHTML='<input type="text" style="width:32px;" name="players['+NumOfPlayers+'][rating]" value="'+tmpRating+'" tabindex="6'+paddedNum+'"></input>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
@@ -1905,7 +1713,7 @@
     tmpDiv.style.textAlign="center";
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerWinColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="checkbox" name="players['+NumOfPlayers+'][win]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="win" class="SPLU.WinBox" value="1" '+tmpWin+' tabindex="7'+paddedNum+'" style="margin-bottom:2px;" onClick="javascript:{if(SPLU.Settings.WinComments.Visible){NoreenWinComment();}}"></input><div id="SPLU.PlayerWinHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
+    tmpDiv.innerHTML='<input type="checkbox" name="players['+NumOfPlayers+'][win]" class="SPLU.WinBox" value="1" '+tmpWin+' tabindex="7'+paddedNum+'" style="margin-bottom:2px;" onClick="javascript:{if(SPLU.Settings.WinComments.Visible){NoreenWinComment();}}"></input>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
@@ -1913,7 +1721,7 @@
     tmpDiv.style.textAlign="center";
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerNewColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="checkbox" name="players['+NumOfPlayers+'][new]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="new" value="1" '+tmpNew+' tabindex="8'+paddedNum+'" style="margin-bottom:2px;"></input><div id="SPLU.PlayerNewHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
+    tmpDiv.innerHTML='<input type="checkbox" name="players['+NumOfPlayers+'][new]" value="1" '+tmpNew+' tabindex="8'+paddedNum+'" style="margin-bottom:2px;"></input>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
@@ -1921,170 +1729,13 @@
     tmpDiv.style.textAlign="center";
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerSaveColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<span style="padding-bottom:2px;"><a href="javascript:{void(0);}" onClick="javascript:{savePlayer('+NumOfPlayers+');}"><span style="transform: translate(-1px, 7px);" class="fa-stack"><i style="color: white; transform: translate(0px, -3px); font-size: 1.4em;" class="fa fa-stack-2x fa-square-sharp"></i><i style="font-size: 1.3em; color: black;" class="fa fa-stack-2x fa-floppy2"></i></span></a></span><div id="SPLU.PlayerSaveHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
+    tmpDiv.innerHTML='<span style="padding-bottom:2px;"><a href="javascript:{void(0);}" onClick="javascript:{savePlayer('+NumOfPlayers+');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/save.png" id="floppydiskicon"></a></span>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
-    listenerForPopText("SPLU.PlayerSaveColumn"+NumOfPlayers,"Save this player.");
 
     if(NumOfPlayers==2){
       if(document.getElementsByName("players[1][name]")[0].value==""&&document.getElementsByName("players[1][username]")[0].value==""&&document.getElementsByName("players[1][color]")[0].value==""){
         removePlayerRow(1);
       }
-    }
-    SPLUdragDiv=-1;
-  }
-
-  function movePlayer(player,after) {
-    if(player==after){
-      return;
-    }
-    var form=$('myform');
-    var inputs=form.getElementsByTagName('input');
-    SPLUplayers={};
-    for(n=0; n<inputs.length; n++){
-      if(inputs[n].hasAttribute('data-spluplayerfield')){
-        tmpNumber=inputs[n].getAttribute('data-spluplayernumber');
-        tmpField=inputs[n].getAttribute('data-spluplayerfield');
-        if(inputs[n].type=="checkbox"){
-          if(inputs[n].checked){
-            tmpValue=1;
-          }else{
-            tmpValue=0;
-          }
-        }else{
-          tmpValue=inputs[n].value;
-        }
-        if(SPLUplayers[tmpNumber]===undefined){
-          SPLUplayers[tmpNumber]={'attributes':{
-            'name':{'value':''},
-            'username':{'value':''},
-            'color':{'value':''},
-            'startposition':{'value':''},
-            'score':{'value':''},
-            'rating':{'value':''},
-            'win':{'value':''},
-            'new':{'value':''}
-          }}
-        }
-        SPLUplayers[tmpNumber]['attributes'][tmpField].value=tmpValue;
-      }
-    }
-    while(document.getElementsByClassName('SPLUrows').length>0){
-      removePlayerRow(document.getElementsByClassName('SPLUrows')[0].parentNode.id.slice(14));
-    }
-    NumOfPlayers=0;
-    PlayerCount=0;
-    if(after==0){
-      insertPlayer(SPLUplayers[player]);
-    }
-    for(var key in SPLUplayers){
-      if(key==player){
-        continue;
-      }
-      insertPlayer(SPLUplayers[key]);
-      if(key==after){
-        insertPlayer(SPLUplayers[player]);
-      }
-    }
-    document.getElementById('SPLU.PlayerDragHeader0').style.display="none";
-  }
-  
-  function handleDragClick(e){
-    //console.log(this);
-    if(SPLUdragDiv==-1){
-      SPLUdragDiv=this.getAttribute('data-spluplayernumber');
-      this.style.opacity="0.4";
-      document.getElementById('SPLU.PlayerDragHeader0').style.display="";
-      return;
-    }
-    if(SPLUdragDiv!=this.getAttribute('data-spluplayernumber')){
-      movePlayer(SPLUdragDiv,this.getAttribute('data-spluplayernumber'));
-    }else{
-      this.style.opacity="1.0";
-      document.getElementById('SPLU.PlayerDragHeader0').style.display="none";
-      SPLUdragDiv=-1;
-    }
-  }
-
-  function handleDragStart(e) {
-    this.style.opacity = '0.4';
-    SPLUdragSourceDiv = this;
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/html', this.getAttribute('data-spluplayernumber'));
-    document.getElementById('SPLU.PlayerDragHeader0').style.display="";
-  }
-
-  function handleDragOver(e) {
-    if (e.preventDefault) {
-      e.preventDefault();
-    }
-    e.dataTransfer.dropEffect = 'move';
-    return false;
-  }
-
-  function handleDragEnter(e) {
-    if(this.hasAttribute('data-spluplayernumber')){
-      //console.log(this.getAttribute('data-spluplayernumber'));
-      SPLUdragDiv=this.getAttribute('data-spluplayernumber')
-      highlightPlayerRow(this.getAttribute('data-spluplayernumber'),true);
-    }
-  }
-
-  function handleDragLeave(e) {
-    if(this.hasAttribute('data-spluplayernumber')){
-      if(SPLUdragDiv!=this.getAttribute('data-spluplayernumber')){
-        //highlightPlayerRow(this.getAttribute('data-spluplayernumber'),false);
-      }
-    }
-  }
-
-  function handleDrop(e) {
-    if (e.stopPropagation) {
-      e.stopPropagation();
-    }
-    if (e.preventDefault) {
-      e.preventDefault();
-    }
-    if (SPLUdragSourceDiv != this) {
-      console.log(e.dataTransfer.getData('text/html')+'||'+this.getAttribute('data-spluplayernumber'));
-      movePlayer(e.dataTransfer.getData('text/html'),this.getAttribute('data-spluplayernumber'));
-    }
-    document.getElementById('SPLU.PlayerDragHeader0').style.display="none";
-    return false;
-  }
-  
-  function handleDragEnd(e){
-    if (e.stopPropagation) {
-      e.stopPropagation();
-    }
-    if (e.preventDefault) {
-      e.preventDefault();
-    }
-    SPLUdragSourceDiv.style.opacity='1.0';
-    highlightPlayerRow(SPLUdragDiv,false);
-    document.getElementById('SPLU.PlayerDragHeader0').style.display="none";
-  }
-  
-  function highlightPlayerRow(row,highlight){
-    console.log("highlight|"+row+"|"+highlight);
-    tmp=document.getElementsByClassName('SPLUplayerHighlight');
-    for(i=0;i<tmp.length;i++){
-      tmp[i].style.backgroundColor="";
-    }
-    if(row==-1){
-      return;
-    }
-    if(highlight){
-      document.getElementById('SPLU.PlayerDragHighlight'+row).style.backgroundColor="red";
-      document.getElementById('SPLU.PlayerDeleteHighlight'+row).style.backgroundColor="red";
-      document.getElementById('SPLU.PlayerNameHighlight'+row).style.backgroundColor="red";
-      document.getElementById('SPLU.PlayerUsernameHighlight'+row).style.backgroundColor="red";
-      document.getElementById('SPLU.PlayerColorHighlight'+row).style.backgroundColor="red";
-      document.getElementById('SPLU.PlayerPositionHighlight'+row).style.backgroundColor="red";
-      document.getElementById('SPLU.PlayerScoreHighlight'+row).style.backgroundColor="red";
-      document.getElementById('SPLU.PlayerRatingHighlight'+row).style.backgroundColor="red";
-      document.getElementById('SPLU.PlayerWinHighlight'+row).style.backgroundColor="red";
-      document.getElementById('SPLU.PlayerNewHighlight'+row).style.backgroundColor="red";
-      document.getElementById('SPLU.PlayerSaveHighlight'+row).style.backgroundColor="red";
     }
   }
   
@@ -2137,50 +1788,31 @@
   }
   
   function saveFavorite(){
-    var id=document.getElementById('objectid9999').value;
-    tmp=Math.random();
-    tmpid=id+'_'+tmp.toString().slice(-4);
-    SPLU.Favorites[tmpid]={
+    var id=document.getElementById('objectid0').value;
+    SPLU.Favorites[id]={
       "objectid":id,
-      "thumbnail":document.getElementById('selimage9999').childNodes[0].childNodes[0].src,
+      "thumbnail":document.getElementById('selimage0').childNodes[0].childNodes[0].src,
       "title":document.getElementById('q546e9ffd96dfc').value,
       "sortorder":0,
       "objecttype":SPLUobjecttype
     };
-    SPLUremote.Favorites[tmpid]=SPLU.Favorites[tmpid];
+    SPLUremote.Favorites[id]=SPLU.Favorites[id];
     saveSooty("SPLU.GameStatus","Thinking...","Added",function(){
       if (document.getElementById('BRlogFavs').style.display=="table-cell") {
         showFavsPane("add");
       }
     });
   }
-    
+  
   function chooseFavorite(id){
-    console.log(id);
     setObjectType(SPLU.Favorites[id].objecttype);
-    document.getElementById('objectid9999').value=SPLU.Favorites[id].objectid;
-    document.getElementById('selimage9999').innerHTML='<a><img src="'+SPLU.Favorites[id].thumbnail+'"/></a>';
+    document.getElementById('objectid0').value=id;
+    document.getElementById('selimage0').innerHTML='<a><img src="'+SPLU.Favorites[id].thumbnail+'"/></a>';
     document.getElementById('q546e9ffd96dfc').value=SPLU.Favorites[id].title;
     document.getElementById('BRlogFavs').style.display="none";
-    if(SPLU.Favorites[id].players!==undefined){
-      while(document.getElementsByClassName('SPLUrows').length>0){
-        removePlayerRow(document.getElementsByClassName('SPLUrows')[0].parentNode.id.slice(14));
-      }
-      NumOfPlayers=0;
-      PlayerCount=0;
-      for(p=0;p<SPLU.Favorites[id].players.length;p++){
-        insertPlayer(SPLU.Favorites[id].players[p]);
-      }
-    }
-    if(SPLU.Favorites[id].location!==undefined){
-      insertLocation(SPLU.Favorites[id].location);
-    }
   }
   
   function deleteFavorite(id){
-    if(id=="edit"){
-      id=SPLUfavoritesEditing;
-    }
     delete SPLU.Favorites[id];
     delete SPLUremote.Favorites[id];
     saveSooty("SPLU.GameStatus","Thinking...","Deleted",function(){
@@ -2188,7 +1820,7 @@
     });
 
   }
-    
+  
   function removePlayerRow(row){
     document.getElementById('SPLUplayerRows').removeChild(document.getElementById('SPLU.PlayerRow'+row));
     PlayerCount--;
@@ -2355,11 +1987,7 @@
   }
   
   function insertLocation(location){
-    if(location==-1){
-      document.getElementById(('quickplay_location99')).value="";
-    }else{
-      document.getElementById(('quickplay_location99')).value=decodeURIComponent(SPLU.Locations[location].Name);
-    }
+    document.getElementById(('quickplay_location99')).value=decodeURIComponent(SPLU.Locations[location].Name);
     showHideLocations();
   }
 
@@ -2377,7 +2005,7 @@
         if(responseJSON.target.status==200){
           document.getElementById('BRresults').innerHTML="Play Deleted.  <a href='"+responseJSON.target.responseURL+"' target='_blank'>View your plays</a>";
           SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][tmpPlay.id].deleted=true;
-          loadPlays(document.getElementById("SPLU.PlaysLogger").value,false);
+          loadPlays(document.getElementById("SPLU.PlaysLogger").value);
         }else{
           document.getElementById('BRresults').innerHTML="An Error Occurred";
         }
@@ -2388,78 +2016,6 @@
       saveGamePlay2('delete');
 
       
-    }
-  }
-  
-  function copyPlays(lastCopied,lastCopiedStatus){
-    console.log("copyPlays("+lastCopied+","+lastCopiedStatus+")");
-    tmpPlays=document.getElementsByName("SPLUcopyBox");
-    if(lastCopied==0){
-      SPLUcopyCopied=1;
-      SPLUcopyTotal=0;
-      for(i=0;i<tmpPlays.length;i++){
-        if(tmpPlays[i].checked){
-          SPLUcopyTotal++;
-        }
-      }
-    }
-    if(lastCopiedStatus==200){
-      if(lastCopied!=0){
-        document.getElementById('SPLUcopyID-'+lastCopied).innerHTML='<span class="fa-stack"><i style="color: white; font-size: 1em; transform: translate(0px, 2px);" class="fa fa-stack-2x fa-square"></i><i style="color: rgb(13, 138, 13); font-size: 1.3em;" class="fa fa-stack-2x fa-check-circle"></i></span>';
-        SPLUcopyCopied++;
-      }
-    }else if(lastCopiedStatus=="retry"){
-      SPLUcopyContinue=true;
-      loadPlay(lastCopied);
-      SPLUcopyID=lastCopied;
-      document.getElementById('SPLUcopyID-'+lastCopied).innerHTML='<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/progress.gif">';
-      window.setTimeout(function(){saveGamePlay("copy");},2000);
-      return;
-    }else{
-      document.getElementById('SPLUcopyID-'+lastCopied).innerHTML='<a href="javascript:{void(0);}" onClick="javascript:{copyPlays('+lastCopied+',\'retry\');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/alert.gif">';
-      document.getElementById('BRresults').innerHTML="Timed Out. Try Again.";
-      SPLUcopyCopied--;
-      document.getElementById('CopyPlaysStatus').innerHTML='Copied '+SPLUcopyCopied+' of '+SPLUcopyTotal+'.  Hit a snag.<br/><a href="javascript:{void(0);}" onClick="javascript:{copyPlays('+lastCopied+',\'retry\');}">Keep Going?</a>';
-      SPLUcopyContinue=false;
-    }
-    if(SPLUcopyContinue){
-      tmpFinished=1;
-      for(i=tmpPlays.length-1;i>=0;i--){
-        if(tmpPlays[i].checked){
-          tmpFinished=0;
-          tmpPlayID=tmpPlays[i].getAttribute("data-SPLUcopyBox");
-          console.log(tmpPlayID);
-          loadPlay(tmpPlayID);
-          SPLUcopyID=tmpPlayID;
-          document.getElementById('SPLUcopyID-'+tmpPlayID).innerHTML='<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/progress.gif">';
-          window.setTimeout(function(){saveGamePlay("copy");},2000);
-          document.getElementById('CopyPlaysStatus').innerHTML='Copying '+SPLUcopyCopied+' of '+SPLUcopyTotal;
-          break;
-        }
-      }
-      if(tmpFinished){
-        SPLUcopyCopied--;
-        document.getElementById('CopyPlaysStatus').innerHTML='Copied '+SPLUcopyCopied+' of '+SPLUcopyTotal+'.  Finished';
-      }
-    }
-  }
-  
-  function copyPlaysSelectAll(){
-    tmpPlays=document.getElementsByName("SPLUcopyBox");
-    if(!SPLUcopySelectedAll){
-      for(i=0;i<tmpPlays.length;i++){
-        tmpPlays[i].checked=true;
-      }
-      document.getElementById('CopyPlaysSelectAllBtn').style.display="none";
-      document.getElementById('CopyPlaysDeselectAllBtn').style.display="";
-      SPLUcopySelectedAll=true;
-    } else {
-      for(i=0;i<tmpPlays.length;i++){
-        tmpPlays[i].checked=false;
-      }
-      document.getElementById('CopyPlaysSelectAllBtn').style.display="";
-      document.getElementById('CopyPlaysDeselectAllBtn').style.display="none";
-      SPLUcopySelectedAll=false;
     }
   }
   
@@ -2490,45 +2046,22 @@
       SPLUedit.submit=true;
       querystring=querystring.replace("twitter=1","twitter=0");
     }
-    if(action!="copy" && SPLUhistoryOpened>0){
+    if(SPLUhistoryOpened>0){
       SPLUedit.submit=true;
     }
     querystring+="&comments="+encodeURIComponent(form["quickplay_comments99"].value);
     document.getElementById('BRresults').innerHTML="Saving...";
-    if(action=="copy"){
-      SPLUtimeouts[SPLUcopyID]=setTimeout(function(){copyPlays(SPLUcopyID,"timeout");}, 10000);
-    }else{
-      SPLUtimeouts[0]=setTimeout(function(){document.getElementById('BRresults').innerHTML="Timed Out. Try Again.";}, 10000);
-    }
     new Request.JSON({url:'/geekplay.php',data:'ajax=1&action=save&version=2&objecttype=thing'+tmpID+querystring,onComplete:function(responseJSON,responseText){
-        clearTimeout(SPLUtimeouts[SPLUcopyID]);
-        if(responseJSON===undefined){
-          document.getElementById('BRresults').innerHTML="Error. Try Again.";
-          if(action=="copy"){
-            copyPlays(SPLUcopyID,"undefined");
-          }
-        }
-        document.getElementById('BRresults').innerHTML=responseJSON.html;
         window.resJ=responseJSON;
+        SPLUlastGameSaved=responseJSON.playid;
+        document.getElementById('BRresults').innerHTML=responseJSON.html;
         console.log(responseText);
-        if(responseJSON.playid!==undefined){
-          SPLUlastGameSaved=responseJSON.playid;
-          insertBlank('BRresults');
-          if(SPLUedit.submit){
-            fetchPlays(LoggedInAs,0,false,SPLUedit.objectid,SPLUedit.playdate);
-            SPLUedit.submit=false;
-          }
-          if(action=="copy"){
-            copyPlays(SPLUcopyID,200);
-          } else {
-            saveExpansionPlays(action);
-          }
-        } else {
-          if(action=="copy"){
-            copyPlays(SPLUcopyID,responseJSON.target.status);
-          }
-
+        insertBlank('BRresults');
+        if(SPLUedit.submit){
+          fetchPlays(LoggedInAs,0,false,SPLUedit.objectid,SPLUedit.playdate);
+          SPLUedit.submit=false;
         }
+        saveExpansionPlays(action);
       }}).send();
   }
   
@@ -2580,11 +2113,11 @@
     setPlayers(action);
     showHideEditButtons("hide");
     if(SPLU.Settings.DateField.Reset){setDateField(SPLUtoday);}
-    if(SPLU.Settings.GameField.Reset){VoidInstantSearch({itemid:'9999',uniqueid:'546e9ffd96dfc'});}
+    if(SPLU.Settings.GameField.Reset){VoidInstantSearch({itemid:'0',uniqueid:'546e9ffd96dfc'});}
     document.getElementById("twitter").checked=SPLU.Settings.TwitterField.Enabled;
     setTwitterIcons();
     //Don't do this or it clears the submit details.
-    //VoidInstantSearch({itemid:'9999',uniqueid:'546e9ffd96dfc'});
+    //VoidInstantSearch({itemid:'0',uniqueid:'546e9ffd96dfc'});
     var tmpExp=document.getElementsByClassName('BRexpLogBox');
     for(i=0;i<tmpExp.length;i++){
       tmpExp[i].checked=false;
@@ -2627,7 +2160,7 @@
       }
       getString="/xmlapi2/plays?username="+player+"&page="+page;
     }else{
-      document.getElementById('SPLU.PlaysStatus').innerHTML="Fetching plays from "+date;
+      document.getElementById('SPLU.PlaysStatus').innerHTML="Fetching some of "+date;
       page=1;
       getString="/xmlapi2/plays?username="+player+"&id="+gameid+"&mindate="+date+"&maxdate="+date;
     }
@@ -2643,6 +2176,9 @@
         console.log("result 200 on page "+SPLUplaysPage);
         SPLUplays[player][page]=this.responseXML;
         parsePlays(player,page,multiple,gameid,date);
+        if(document.getElementById("SPLU.StatsContent").style.display!="none"){
+          loadStats("choose");
+        }
       }else{
         console.log("other status code, no fetchPlays");
       }
@@ -2686,7 +2222,7 @@
       }
     }
     if(tmpStatus==1){
-      loadPlays(player,false);
+      loadPlays(player);
     }else{
       console.log("Still Fetching");
     }
@@ -2714,40 +2250,23 @@
     }
     if(!multiple){
       if(player==document.getElementById("SPLU.PlaysLogger").value){
-        loadPlays(player,false);
+        loadPlays(player);
       }
     }else{
       getAllPlays(player);
     }
   }
 
-  function loadPlays(tmpUser,copyMode){
+  function loadPlays(tmpUser){
     document.getElementById("SPLU.PlaysPlayers").style.display="none";
     console.log("loadPlays("+tmpUser+")");
-    SPLUcopySelectedAll=false;
-    document.getElementById('CopyPlaysSelectAllBtn').style.display="";
-    document.getElementById('CopyPlaysDeselectAllBtn').style.display="none";
     if(SPLUplayData[tmpUser]["total"]==0){
       document.getElementById('SPLU.PlaysStatus').innerHTML='<div>No Plays Found.</div>';
       document.getElementById('SPLU.PlaysList').innerHTML='';
       document.getElementById('SPLU.PlaysMenu').style.display='none';
     }else{
-      document.getElementById('SPLU.PlaysMenu').style.display='';
-      if(tmpUser!=LoggedInAs){
-        document.getElementById('SPLUcopyModeIconBtn').style.display="inline";
-        SPLUcopyContinue=true;
-        if(copyMode){
-          showPlaysTab("copymode");
-        } else {
-          showPlaysTab("same");
-        }
-      } else {
-        document.getElementById('SPLUcopyModeIconBtn').style.display="none";
-        document.getElementById('SPLUcopyPlaysDiv').style.display="none";
-        copyMode=false;
-        showPlaysTab("same");
-      }
       var tmpHTML="";
+      var display=true;
       SPLUlistOfPlays=[];
       tmpHTML='<div id="SPLU.PlaysTable" style="display:table;">';
       for(key in SPLUplayData[tmpUser]){
@@ -2758,41 +2277,6 @@
       }
       SPLUlistOfPlays.sort(dynamicSortMultiple("-date", "-id"));
       SPLUlistOfPlays=filterPlays(SPLUlistOfPlays,tmpUser);
-      
-      if(SPLUplaysListTab=="filters"){
-        showPlaysListData(tmpUser,false);
-      }else if(SPLUplaysListTab=="copymode"){
-        showPlaysListData(tmpUser,true);
-      }else if(SPLUplaysListTab=="stats"){
-        loadStats("choose");
-      }
-      tmpCount=(Object.keys(SPLUplayData[tmpUser]).length)-2;
-      tmpHTML='<div><div>Loaded '+tmpCount+' of '+SPLUplayData[tmpUser]["total"];
-      if(SPLUplayData[tmpUser]["approximate"]==1){
-        tmpHTML+='*';
-      }
-      if(SPLUplayData[tmpUser]["total"]>(Object.keys(SPLUplayData[tmpUser]).length)-1){
-        tmpCount=(Math.floor(tmpCount/100))+1;
-        tmpHTML+='<a href="javascript:{void(0);}" onClick="javascript:{fetchPlays(\''+tmpUser+'\','+tmpCount+',false,0,0);}"> - Load next 100</a>';
-      }
-      tmpHTML+='</div>';
-      document.getElementById("SPLU.PlaysFiltersStatus").innerHTML='<div>Showing '+SPLUlistOfPlays.length+'</div>';
-      tmpHTML+='</div>';
-      document.getElementById('SPLU.PlaysStatus').innerHTML=tmpHTML;
-    }
-  }
-
-  function showPlaysListData(tmpUser,copyMode){
-    if(SPLUplayData[tmpUser]["total"]==0){
-      document.getElementById('SPLU.PlaysStatus').innerHTML='<div>No Plays Found.</div>';
-      document.getElementById('SPLU.PlaysList').innerHTML='';
-    }else{
-      if(copyMode){
-        showPlaysTab('copymode');
-      } else {
-        showPlaysTab('filters');
-      }
-      var tmpHTML="";
       var tmpSortCount=0;
       var tmpLines=document.getElementsByName("SPLU.PlaysFiltersLine").length;
       for(i=0;i<SPLUlistOfPlays.length;i++){
@@ -2805,15 +2289,25 @@
           if(SPLUplayData[tmpUser][tmpPlayId].deleted){
             tmpDecoration="text-decoration:line-through;";
           }
-          tmpCopyDiv='';
-          if(copyMode){
-            tmpCopyDiv='<div id="SPLUcopyID-'+tmpPlayId+'" style="display:table-cell;"><input type="checkbox" name="SPLUcopyBox" data-SPLUcopyBox="'+tmpPlayId+'"/></div>';
-          }
-          tmpHTML+='<div id="SPLU.Plays-'+tmpPlayId+'" style="display:table-row;'+tmpDecoration+'">'+tmpCopyDiv+'<div style="display:table-cell;">'+tmpPlayDate+' - <a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+tmpPlayId+');}">'+tmpPlayGame+'</a></div></div>';
+          tmpHTML+='<div id="SPLU.Plays-'+tmpPlayId+'" style="display:table-row;'+tmpDecoration+'"><div style="display:table-cell;">'+tmpPlayDate+' - <a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+tmpPlayId+');}">'+tmpPlayGame+'</a></div></div>';
         }
       }
       tmpHTML+='</div>';
+      tmpCount=(Object.keys(SPLUplayData[tmpUser]).length)-2;
       document.getElementById('SPLU.PlaysList').innerHTML=tmpHTML;
+      tmpHTML='<div><div>Loaded '+tmpCount+' of '+SPLUplayData[tmpUser]["total"];
+      if(SPLUplayData[tmpUser]["approximate"]==1){
+        tmpHTML+='*';
+      }
+      if(SPLUplayData[tmpUser]["total"]>(Object.keys(SPLUplayData[tmpUser]).length)-1){
+        tmpCount=(Math.floor(tmpCount/100))+1;
+        tmpHTML+='<a href="javascript:{void(0);}" onClick="javascript:{fetchPlays(\''+tmpUser+'\','+tmpCount+',false,0,0);}"> - Load next 100</a>';
+      }
+      tmpHTML+='</div>';
+      document.getElementById("SPLU.PlaysFiltersStatus").innerHTML='<div>Showing '+tmpSortCount+'</div>';
+      tmpHTML+='</div>';
+      document.getElementById('SPLU.PlaysStatus').innerHTML=tmpHTML;
+      document.getElementById('SPLU.PlaysMenu').style.display='';
     }
   }
   
@@ -3031,7 +2525,7 @@
         var d2 = new Date(lines[l].parentNode.children[2].value);
         for(i=0;i<plays.length;i++){
           var d3 = new Date(SPLUplayData[user][plays[i].id].getAttribute("date"));
-          //console.log(d1+"||"+d2+"||"+d3);
+          console.log(d1+"||"+d2+"||"+d3);
           if(d3 >= d1 && d3 <= d2){
             console.log("matches");
             plays[i].matches++;
@@ -3076,24 +2570,23 @@
   
   function eventFilterLineEnter(e){
     if(e.keyCode === 13){
-      loadPlays(document.getElementById('SPLU.PlaysLogger').value,false);
+      loadPlays(document.getElementById('SPLU.PlaysLogger').value);
     }
     return false;
   }
   
   function addPlaysFilter(filter,filterVal){
-    document.getElementById('SPLUfilterDrop').style.display="none";
-    //if(filter=="GUI"){
-    //  filter=document.getElementById("SPLU.SelectPlaysFilter").value;
-    //}
+    if(filter=="GUI"){
+      filter=document.getElementById("SPLU.SelectPlaysFilter").value;
+    }
     var filterName="";
     if(filter!="add" && filter!="---" && filter!="DEL"){
       SPLUplaysFiltersCount++;
-      var tmpHTML='<a href="javascript:{void(0);}" onclick="javascript:{document.getElementById(\'SPLU.PlaysFiltersCurrent\').removeChild(document.getElementById(\'SPLU.playsFiltersLine'+SPLUplaysFiltersCount+'\'));window.setTimeout(function(){loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);addPlaysFilter(\'DEL\',\'\');},25);}" style="color:red;margin:2px;">'
+      var tmpHTML='<a href="javascript:{void(0);}" onclick="javascript:{document.getElementById(\'SPLU.PlaysFiltersCurrent\').removeChild(document.getElementById(\'SPLU.playsFiltersLine'+SPLUplaysFiltersCount+'\'));loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value);addPlaysFilter(\'DEL\',\'\');}" style="color:red;margin:2px;">'
         +'<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/delete_row_small.png">'
         +'</a>';
       if(filter=="playername"){filterName="Player";}
-      if(filter=="username"){filterName="Username";}
+      if(filter=="username"){filterName="User Name";}
       if(filter=="gamename"){filterName="Game";}
       if(filter=="location"){filterName="Location";}
       if(filter=="comments"){filterName="Comments";}
@@ -3101,7 +2594,7 @@
       if(filter=="new"){filterName="New";}
       
       if(filter=="playercount"){
-        tmpHTML+='Player Count:<select name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="playercount" onChange="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);}">'
+        tmpHTML+='Player Count:<select name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="playercount" onChange="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value);}">'
         +'<option value="eq">Exactly</option>'
         +'<option value="lt">Less Than</option>'
         +'<option value="gt">Greater Than</option>'
@@ -3125,18 +2618,11 @@
       }
       
       if(filter=="objecttype"){
-        tmpHTML+='Type: <div style="display:inline;">'
-            +'<div id="SPLUtypeFilterButtonBoard" onClick="javascript:{highlightFilterTypeButton(\'boardgame\');}" style="display:inline;border:1.5px solid black;padding:0px 2px;background-color:yellow;">'
-              +'<i style="transform: translate(0px, 0.7px);" class="fa display:block"></i> Board'
-            +'</div>'
-            +'<div id="SPLUtypeFilterButtonVideo" onClick="javascript:{highlightFilterTypeButton(\'videogame\');}" style="display:inline;border:1.5px solid black;padding:0px 2px;">'
-              +'<i style="transform: translate(0px, 0.3px);" class="fa"></i> Video'
-            +'</div>'
-            +'<div id="SPLUtypeFilterButtonRPG" onClick="javascript:{highlightFilterTypeButton(\'rpgitem\');}" style="display:inline;border:1.5px solid black;padding:0px 2px;">'
-              +'<i class="fa">&#xee07;</i> RPG'
-            +'</div>'
-          +'</div>'
-          +'<input id="SPLUtypeFilterButtonValue" value="boardgame" type="hidden" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'"/>';
+        tmpHTML+='Type: <select name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" onChange="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value);}">'
+          +'<option value="boardgame">Board Game</option>'
+          +'<option value="videogame">Video Game</option>'
+          +'<option value="rpgitem">RPG Item</option>'
+          +'</select>';
       }
       
       if(filter!="objecttype" && filter!="excludeexpansions" && filter!="excludenowinstats" && filter!="excludeincomplete" && filter!="daterange" && filter!="playercount"){
@@ -3149,100 +2635,65 @@
       tmpDiv.innerHTML=tmpHTML;
       document.getElementById("SPLU.PlaysFiltersCurrent").appendChild(tmpDiv);
     }
-    //document.getElementById("SPLU.SelectPlaysFilter").value="add";
+    document.getElementById("SPLU.SelectPlaysFilter").value="add";
     if(document.getElementsByName("SPLU.PlaysFiltersLine").length==0){
       document.getElementById("SPLU.PlaysFiltersGoBtn").style.display="none";
     }else{
       document.getElementById("SPLU.PlaysFiltersGoBtn").style.display="";
     }
     if(filter=="excludeexpansions" || filter=="excludenowinstats" || filter=="excludeincomplete" || filterVal!=""){
-      loadPlays(document.getElementById('SPLU.PlaysLogger').value,false);
+      loadPlays(document.getElementById('SPLU.PlaysLogger').value);
     }
   }
   
-  function highlightFilterTypeButton(type){
-    buttonBoard=document.getElementById('SPLUtypeFilterButtonBoard');
-    buttonVideo=document.getElementById('SPLUtypeFilterButtonVideo');
-    buttonRPG=document.getElementById('SPLUtypeFilterButtonRPG');
-    buttonBoard.style.backgroundColor="";
-    buttonVideo.style.backgroundColor="";
-    buttonRPG.style.backgroundColor="";
-    if(type=="boardgame"){
-      buttonBoard.style.backgroundColor="yellow";
+  function showHidePlaysFilters(){
+    document.getElementById("SPLU.PlaysList").style.maxHeight=(document.getElementById("SPLUwindow").clientHeight-122)+"px";
+    if(document.getElementById("SPLU.PlaysFilters").style.display=="none"){
+      document.getElementById("SPLU.PlaysFilters").style.display="";
+      document.getElementById("SPLU.PlaysList").style.display="";
+    }else{
+      document.getElementById("SPLU.PlaysFilters").style.display="none";
+      document.getElementById("SPLU.PlaysList").style.display="none";
     }
-    if(type=="videogame"){
-      buttonVideo.style.backgroundColor="yellow";
-    }
-    if(type=="rpgitem"){
-      buttonRPG.style.backgroundColor="yellow";
-    }
-    document.getElementById('SPLUtypeFilterButtonValue').value=type;
-    loadPlays(document.getElementById('SPLU.PlaysLogger').value,false);
+    document.getElementById("SPLU.StatsMenu").style.display="none";
+    document.getElementById("SPLU.StatsContent").style.display="none";
   }
 
-  function showPlaysTab(tab){
-    if(tab!="same"){
-      SPLUplaysListTab=tab;
-    }
-    if(SPLUplaysListTab=="filters"){
-      document.getElementById('SPLUfilterIconBtn').style.borderTop="2px solid blue";
-      document.getElementById('SPLUstatsIconBtn').style.borderTop="2px solid lightgray";
-      document.getElementById('SPLUcopyModeIconBtn').style.borderTop="2px solid lightgray";
-      document.getElementById("SPLU.PlaysList").style.maxHeight=(SPLUwindowHeight-122)+"px";
-      document.getElementById("SPLU.PlaysList").style.display="";
+  function showHidePlaysStats(){
+    document.getElementById("SPLU.StatsContent").style.maxHeight=(document.getElementById("SPLUwindow").clientHeight-115)+"px";
+    if(document.getElementById("SPLU.StatsMenu").style.display=="none"){
+      document.getElementById("SPLU.StatsMenu").style.display="";
+      document.getElementById("SPLU.StatsContent").style.display="";
+      loadStats("choose");
+    }else{
       document.getElementById("SPLU.StatsMenu").style.display="none";
       document.getElementById("SPLU.StatsContent").style.display="none";
-      document.getElementById('SPLUcopyPlaysDiv').style.display="none";
-    }else if(SPLUplaysListTab=="stats"){
-      document.getElementById('SPLUfilterIconBtn').style.borderTop="2px solid lightgray";
-      document.getElementById('SPLUstatsIconBtn').style.borderTop="2px solid blue";
-      document.getElementById('SPLUcopyModeIconBtn').style.borderTop="2px solid lightgray";
-      document.getElementById("SPLU.StatsContent").style.maxHeight=(SPLUwindowHeight-115)+"px";
-      if(document.getElementById("SPLU.StatsMenu").style.display=="none"){
-        document.getElementById("SPLU.StatsMenu").style.display="";
-        document.getElementById("SPLU.StatsContent").style.display="";
-        loadStats("choose");
-      }
-      document.getElementById("SPLU.PlaysList").style.display="none";
-      document.getElementById('SPLUcopyPlaysDiv').style.display="none";
-    }else if(SPLUplaysListTab=="copymode"){
-      document.getElementById('SPLUfilterIconBtn').style.borderTop="2px solid lightgray";
-      document.getElementById('SPLUstatsIconBtn').style.borderTop="2px solid lightgray";
-      document.getElementById('SPLUcopyModeIconBtn').style.borderTop="2px solid blue";
-      document.getElementById("SPLU.PlaysList").style.maxHeight=(SPLUwindowHeight-122)+"px";
-      document.getElementById("SPLU.PlaysList").style.display="";
-      document.getElementById("SPLU.StatsMenu").style.display="none";
-      document.getElementById("SPLU.StatsContent").style.display="none";
-      document.getElementById('SPLUcopyPlaysDiv').style.display="";
-      document.getElementById('CopyPlaysStatus').innerHTML="";
     }
+    document.getElementById("SPLU.PlaysFilters").style.display="none";
+    document.getElementById("SPLU.PlaysList").style.display="none";
   }
 
   function loadStats(stat){
     document.getElementById('SPLUcsvDownload').style.display="none";
-    document.getElementById('SPLUzeroScoreStatsDiv').style.display="none";
-    document.getElementById('SPLUzeroScoreStatsCheck').checked=SPLUzeroScoreStats;
-    document.getElementById("SPLU.PlaysLoadingDiv").style.display="";
     if(stat=="choose"){
       stat=document.getElementById("SPLU.SelectStat").value;
     }
     if(stat=="GameDetails"){
       var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
-      window.setTimeout(function(){getStatsGameDetails(tmpUser);},25);
-      document.getElementById('SPLUzeroScoreStatsDiv').style.display="";
+      getStatsGameDetails(tmpUser);
     }
     if(stat=="BeginnersLuck"){
       var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
-      window.setTimeout(function(){getStatsBeginnersLuck(tmpUser);},25);
+      getStatsBeginnersLuck(tmpUser);
     }
     if(stat=="PlaysWins"){
       var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
-      window.setTimeout(function(){getStatsPlaysWins(tmpUser);},25);
+      getStatsPlaysWins(tmpUser);
       document.getElementById('SPLUcsvDownload').style.display="";
     }
     if(stat=="Locations"){
       var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
-      window.setTimeout(function(){getStatsLocations(tmpUser);},25);
+      getStatsLocations(tmpUser);
       document.getElementById('SPLUcsvDownload').style.display="";
     }
   }
@@ -3263,6 +2714,7 @@
   }
   
   function getStatsGameDetails(tmpUser){
+    document.getElementById("SPLU.StatsContent").innerHTML="Thinking...";
     SPLUgameStats={};
     for(i=0;i<SPLUlistOfPlays.length;i++){
       var tmpPlay=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id];
@@ -3279,8 +2731,6 @@
         SPLUgameStats[tmpGame]={
           "HighScore":-999999999,
           "LowScore":999999999,
-          "HighNonZeroScore":-999999999,
-          "LowNonZeroScore":999999999,
           "TotalScore":0,
           "TotalPlays":0,
           "TotalWins":0,
@@ -3291,7 +2741,6 @@
           "DurationSum":0,
           "DurationHigh":-999999999,
           "DurationLow":999999999,
-          "TotalZeroScores":0,
           "Players":{},
           "Game":tmpPlay.getElementsByTagName("item")[0].getAttribute("name")
         };
@@ -3322,16 +2771,9 @@
           SPLUgameStats[tmpGame]["Players"][tmpNameID]={
             "HighScore":-999999999,
             "LowScore":999999999,
-            "HighNonZeroScore":-999999999,
-            "LowNonZeroScore":999999999,
             "TotalScore":0,
             "TotalPlays":0,
             "TotalWins":0,
-            "HighScorePlay":0,
-            "LowScorePlay":0,
-            "HighNonZeroScorePlay":0,
-            "LowNonZeroScorePlay":0,
-            "TotalZeroScores":0,
             "Name":tmpName
           };
         }
@@ -3339,41 +2781,21 @@
         if(tmpPlayers[p].getAttribute("score")!="" && isNumeric(tmpPlayers[p].getAttribute("score"))){
           tmpScore=Number(tmpPlayers[p].getAttribute("score"));
         }
-        if(tmpScore==0){
-          SPLUgameStats[tmpGame]["Players"][tmpNameID]["TotalZeroScores"]++;
-          SPLUgameStats[tmpGame]["TotalZeroScores"]++;
-        }
         if(tmpScore>SPLUgameStats[tmpGame]["Players"][tmpNameID]["HighScore"]){
           SPLUgameStats[tmpGame]["Players"][tmpNameID]["HighScore"]=tmpScore;
           SPLUgameStats[tmpGame]["Players"][tmpNameID]["HighScorePlay"]=tmpPlay;
-        }
-        if(tmpScore>SPLUgameStats[tmpGame]["Players"][tmpNameID]["HighNonZeroScore"] && tmpScore!=0){
-          SPLUgameStats[tmpGame]["Players"][tmpNameID]["HighNonZeroScore"]=tmpScore;
-          SPLUgameStats[tmpGame]["Players"][tmpNameID]["HighNonZeroScorePlay"]=tmpPlay;
         }
         if(tmpScore>SPLUgameStats[tmpGame]["HighScore"]){
           SPLUgameStats[tmpGame]["HighScore"]=tmpScore;
           SPLUgameStats[tmpGame]["HighScorePlay"]=tmpPlay;
         }
-        if(tmpScore>SPLUgameStats[tmpGame]["HighNonZeroScore"] && tmpScore!=0){
-          SPLUgameStats[tmpGame]["HighNonZeroScore"]=tmpScore;
-          SPLUgameStats[tmpGame]["HighNonZeroScorePlay"]=tmpPlay;
-        }
-        if(tmpScore<SPLUgameStats[tmpGame]["Players"][tmpNameID]["LowScore"]){
+        if(tmpScore<SPLUgameStats[tmpGame]["Players"][tmpNameID].LowScore){
           SPLUgameStats[tmpGame]["Players"][tmpNameID]["LowScore"]=tmpScore;
           SPLUgameStats[tmpGame]["Players"][tmpNameID]["LowScorePlay"]=tmpPlay;
-        }
-        if(tmpScore<SPLUgameStats[tmpGame]["Players"][tmpNameID]["LowNonZeroScore"] && tmpScore!=0){
-          SPLUgameStats[tmpGame]["Players"][tmpNameID]["LowNonZeroScore"]=tmpScore;
-          SPLUgameStats[tmpGame]["Players"][tmpNameID]["LowNonZeroScorePlay"]=tmpPlay;
         }
         if(tmpScore<SPLUgameStats[tmpGame]["LowScore"]){
           SPLUgameStats[tmpGame]["LowScore"]=tmpScore;
           SPLUgameStats[tmpGame]["LowScorePlay"]=tmpPlay;
-        }
-        if(tmpScore<SPLUgameStats[tmpGame]["LowNonZeroScore"] && tmpScore!=0){
-          SPLUgameStats[tmpGame]["LowNonZeroScore"]=tmpScore;
-          SPLUgameStats[tmpGame]["LowNonZeroScorePlay"]=tmpPlay;
         }
         SPLUgameStats[tmpGame]["Players"][tmpNameID]["TotalScore"]+=tmpScore;
         SPLUgameStats[tmpGame]["Players"][tmpNameID]["TotalPlays"]++;
@@ -3400,13 +2822,9 @@
       tmpAverageAllScore=0;
       tmpAverageWinScore=0;
       tmpAverageDuration=0;
-      tmpTotalPlays=SPLUgameStats[keyGame]["TotalPlays"];
       tmpHTML+='<span style="font-style:italic;color:rgb(213, 85, 198);font-weight:bold;">'+SPLUgameStats[keyGame].Game+'</span>';
       if(SPLUgameStats[keyGame]["TotalScore"]!=0){
-        if(!SPLUzeroScoreStats){
-          tmpTotalPlays=SPLUgameStats[keyGame]["TotalPlays"]-SPLUgameStats[keyGame]["TotalZeroScores"];
-        }
-        tmpAverageAllScore=SPLUgameStats[keyGame]["TotalScore"]/tmpTotalPlays;
+        tmpAverageAllScore=SPLUgameStats[keyGame]["TotalScore"]/SPLUgameStats[keyGame]["TotalPlays"];
         tmpAverageAllScore=tmpAverageAllScore.toFixed(2);
       }
       if(SPLUgameStats[keyGame]["WinScoreSum"]!=0){
@@ -3417,15 +2835,8 @@
         tmpAverageDuration=SPLUgameStats[keyGame]["DurationSum"]/SPLUgameStats[keyGame]["TotalDurations"];
         tmpAverageDuration=tmpAverageDuration.toFixed(0);
       }
-      if(SPLUzeroScoreStats){
-        tmpLowScore=SPLUgameStats[keyGame]["LowScore"];
-        tmpHighScore=SPLUgameStats[keyGame]["HighScore"];
-      }else{
-        tmpLowScore=SPLUgameStats[keyGame]["LowNonZeroScore"];
-        tmpHighScore=SPLUgameStats[keyGame]["HighNonZeroScore"];
-      }
       if(tmpAverageAllScore>0 || tmpAverageWinScore>0 || tmpAverageDuration>0){
-        tmpHTML+='<div style="display:table; border-spacing:5px 2px; text-align:right; padding-bottom:10px;">'
+      tmpHTML+='<div style="display:table; border-spacing:5px 2px; text-align:right; padding-bottom:10px;">'
         +'<div style="display:table-row;">'
           +'<div style="display:table-cell;font-weight:bold;">Stat</div>'
           +'<div style="display:table-cell;font-weight:bold;">Avg</div>'
@@ -3437,9 +2848,9 @@
           tmpHTML+='<div style="display:table-row;">';
           tmpHTML+='<div style="display:table-cell;">All Scores</div>';
           tmpHTML+='<div style="display:table-cell;">'+tmpAverageAllScore+'</div>';
-          tmpHTML+='<div style="display:table-cell;">'+tmpLowScore+'</div>';
-          tmpHTML+='<div style="display:table-cell;">'+tmpHighScore+'</div>';
-          tmpHTML+='<div style="display:table-cell;">'+tmpTotalPlays+'</div></div>';
+          tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["LowScore"]+'</div>';
+          tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["HighScore"]+'</div>';
+          tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["TotalPlays"]+'</div></div>';
         }
         if(tmpAverageWinScore>0){
           tmpHTML+='<div style="display:table-row;">';
@@ -3470,16 +2881,8 @@
           +'<div style="display:table-cell;font-weight:bold;">AvgWins</div>'
         +'</div>';
       for(key in SPLUgameStats[keyGame]["Players"]){
-        if(SPLUzeroScoreStats){
-          tmpAverageScore=SPLUgameStats[keyGame]["Players"][key]["TotalScore"]/SPLUgameStats[keyGame]["Players"][key]["TotalPlays"];
-        }else{
-          tmpAverageScore=SPLUgameStats[keyGame]["Players"][key]["TotalScore"]/(SPLUgameStats[keyGame]["Players"][key]["TotalPlays"]-SPLUgameStats[keyGame]["Players"][key]["TotalZeroScores"]);
-        }
-        if(isNumeric(tmpAverageScore)){
-          tmpAverageScore=tmpAverageScore.toFixed(2);
-        }else{
-          tmpAverageScore="&mdash;";
-        }
+        tmpAverageScore=SPLUgameStats[keyGame]["Players"][key]["TotalScore"]/SPLUgameStats[keyGame]["Players"][key]["TotalPlays"];
+        tmpAverageScore=tmpAverageScore.toFixed(2);
         tmpAverageWins=(SPLUgameStats[keyGame]["Players"][key]["TotalWins"]/SPLUgameStats[keyGame]["Players"][key]["TotalPlays"])*100;
         tmpAverageWins=tmpAverageWins.toFixed(2);
         tmpGame=SPLUgameStats[keyGame].Game;
@@ -3487,50 +2890,18 @@
         tmpGame=tmpGame.replace('"','\\"');
         tmpHTML+='<div style="display:table-row;">';
         tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["Players"][key]["Name"]+'</div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'playername\',\'='+SPLUgameStats[keyGame]["Players"][key]["Name"]+'\');addPlaysFilter(\'gamename\',\'='+tmpGame+'\');}" href="javascript:{void(0);}">'+SPLUgameStats[keyGame]["Players"][key]["TotalPlays"]+'</a></div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{showPlaysTab(\'filters\');}addPlaysFilter(\'winner\',\''+SPLUgameStats[keyGame]["Players"][key]["Name"]+'\');addPlaysFilter(\'gamename\',\'='+tmpGame+'\');" href="javascript:{void(0);}">'+SPLUgameStats[keyGame]["Players"][key]["TotalWins"]+'</a></div>';
+        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+SPLUgameStats[keyGame]["Players"][key]["Name"]+'\');addPlaysFilter(\'gamename\',\'='+tmpGame+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLUgameStats[keyGame]["Players"][key]["TotalPlays"]+'</a></div>';
+        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'winner\',\''+SPLUgameStats[keyGame]["Players"][key]["Name"]+'\');addPlaysFilter(\'gamename\',\'='+tmpGame+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLUgameStats[keyGame]["Players"][key]["TotalWins"]+'</a></div>';
         var tmpBold="";
-        var tmpLink="";
-        var tmpLink2="";
-        if(SPLUzeroScoreStats){
-          if(SPLUgameStats[keyGame]["Players"][key]["LowScore"]==SPLUgameStats[keyGame]["LowScore"]){
-            tmpBold="font-weight:bold;";
-          }
-          tmpHTML+='<div style="display:table-cell;"><a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLUgameStats[keyGame]["Players"][key]["LowScorePlay"].id+');}"><span style="'+tmpBold+'">'+SPLUgameStats[keyGame]["Players"][key]["LowScore"]+'</span></a></div>';
-          tmpBold="";
-          if(SPLUgameStats[keyGame]["Players"][key]["HighScore"]==SPLUgameStats[keyGame]["HighScore"]){
-            tmpBold="font-weight:bold;";
-          }
-          tmpHTML+='<div style="display:table-cell;"><a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLUgameStats[keyGame]["Players"][key]["HighScorePlay"].id+');}"><span style="'+tmpBold+'">'+SPLUgameStats[keyGame]["Players"][key]["HighScore"]+'</span></a></div>';
-        }else{
-          if(SPLUgameStats[keyGame]["Players"][key]["LowNonZeroScore"]==SPLUgameStats[keyGame]["LowNonZeroScore"]){
-            tmpBold="font-weight:bold;";
-          }
-          if(SPLUgameStats[keyGame]["Players"][key]["LowNonZeroScore"]==999999999){
-            tmpLowScore="&mdash;";
-            tmpLink='';
-            tmpLink2='';
-          }else{
-            tmpLowScore=SPLUgameStats[keyGame]["Players"][key]["LowNonZeroScore"];
-            tmpLink='<a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLUgameStats[keyGame]["Players"][key]["LowNonZeroScorePlay"].id+');}">';
-            tmpLink2='</a>';
-          }
-          tmpHTML+='<div style="display:table-cell;">'+tmpLink+'<span style="'+tmpBold+'">'+tmpLowScore+'</span>'+tmpLink2+'</div>';
-          tmpBold="";
-          if(SPLUgameStats[keyGame]["Players"][key]["HighNonZeroScore"]==SPLUgameStats[keyGame]["HighNonZeroScore"]){
-            tmpBold="font-weight:bold;";
-          }
-          if(SPLUgameStats[keyGame]["Players"][key]["HighNonZeroScore"]==-999999999){
-            tmpHighScore="&mdash;";
-            tmpLink='';
-            tmpLink2='';
-          }else{
-            tmpHighScore=SPLUgameStats[keyGame]["Players"][key]["HighNonZeroScore"];
-            tmpLink='<a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLUgameStats[keyGame]["Players"][key]["HighNonZeroScorePlay"].id+');}">';
-            tmpLink2='</a>';
-          }
-          tmpHTML+='<div style="display:table-cell;">'+tmpLink+'<span style="'+tmpBold+'">'+tmpHighScore+'</span>'+tmpLink2+'</div>';
+        if(SPLUgameStats[keyGame]["Players"][key]["LowScore"]==SPLUgameStats[keyGame]["LowScore"]){
+          tmpBold="font-weight:bold;";
         }
+        tmpHTML+='<div style="display:table-cell;"><a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLUgameStats[keyGame]["Players"][key]["LowScorePlay"].id+');}"><span style="'+tmpBold+'">'+SPLUgameStats[keyGame]["Players"][key]["LowScore"]+'</span></a></div>';
+        tmpBold="";
+        if(SPLUgameStats[keyGame]["Players"][key]["HighScore"]==SPLUgameStats[keyGame]["HighScore"]){
+          tmpBold="font-weight:bold;";
+        }
+        tmpHTML+='<div style="display:table-cell;"><a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLUgameStats[keyGame]["Players"][key]["HighScorePlay"].id+');}"><span style="'+tmpBold+'">'+SPLUgameStats[keyGame]["Players"][key]["HighScore"]+'</span></a></div>';
         tmpBold="";
         tmpHTML+='<div style="display:table-cell;">'+tmpAverageScore+'</div>';
         tmpHTML+='<div style="display:table-cell;">'+tmpAverageWins+'%</div>';
@@ -3539,7 +2910,6 @@
       tmpHTML+='</div>';
     }
     document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
-    document.getElementById("SPLU.PlaysLoadingDiv").style.display="none";
   }
   
   function getStatsBeginnersLuck(tmpUser){
@@ -3576,13 +2946,12 @@
       if(SPLUgameStats[key]["TotalNewWins"]!=0){
         tmpHTML+='<div style="display:table-row;">';
         tmpHTML+='<div style="display:table-cell;">'+key+'</div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{showPlaysTab(\'filters\');}" href="javascript:{void(0);addPlaysFilter(\'playername\',\'='+key+'\');addPlaysFilter(\'winner\',\''+key+'\');addPlaysFilter(\'new\',\''+key+'\');}">'+SPLUgameStats[key]["TotalNewWins"]+'</a></div>';
+        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+key+'\');addPlaysFilter(\'winner\',\''+key+'\');addPlaysFilter(\'new\',\''+key+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLUgameStats[key]["TotalNewWins"]+'</a></div>';
         tmpHTML+='</div>';
       }
     }
     tmpHTML+='</div>';
     document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
-    document.getElementById("SPLU.PlaysLoadingDiv").style.display="none";
   }
 
   function getStatsPlaysWins(tmpUser){
@@ -3627,8 +2996,8 @@
       if(SPLUgameStats[key]["TotalNewWins"]!=0){
         tmpHTML+='<div style="display:table-row;">';
         tmpHTML+='<div style="display:table-cell;">'+key+'</div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'playername\',\'='+key+'\');}" href="javascript:{void(0);}">'+SPLUgameStats[key]["TotalPlays"]+'</a></div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'playername\',\'='+key+'\');addPlaysFilter(\'winner\',\''+key+'\');}" href="javascript:{void(0);}">'+SPLUgameStats[key]["TotalWins"]+'</a></div>';
+        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+key+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLUgameStats[key]["TotalPlays"]+'</a></div>';
+        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'playername\',\'='+key+'\');addPlaysFilter(\'winner\',\''+key+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+SPLUgameStats[key]["TotalWins"]+'</a></div>';
         tmpHTML+='<div style="display:table-cell;">'+tmpAverage+'%</div>';
         tmpHTML+='</div>';
         SPLUcsv+='"'+key+'","'+SPLUgameStats[key]["TotalPlays"]+'","'+SPLUgameStats[key]["TotalWins"]+'","'+tmpAverage+'"\r\n';
@@ -3636,52 +3005,50 @@
     }
     tmpHTML+='</div>';
     document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
-    document.getElementById("SPLU.PlaysLoadingDiv").style.display="none";
   }
   
-  function getStatsLocations(tmpUser){
-    tmpLocs=[];
-    tmpLocs2=[];
-    for(i=0;i<SPLUlistOfPlays.length;i++){
-      if(SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].deleted){
-        continue;
-      }
-      var loc=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getAttribute("location");
-      if(tmpLocs[loc]===undefined){
-        tmpLocs[loc]=1;
-      }else{
-        tmpLocs[loc]++;
-      }
+function getStatsLocations(tmpUser){
+  tmpLocs=[];
+  tmpLocs2=[];
+  for(i=0;i<SPLUlistOfPlays.length;i++){
+    if(SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].deleted){
+      continue;
     }
-    for(key in tmpLocs){
-      if (tmpLocs.hasOwnProperty(key)) {
-        tmpLocs2.push({location:key,count:tmpLocs[key]});
-      }
+    var loc=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getAttribute("location");
+    if(tmpLocs[loc]===undefined){
+      tmpLocs[loc]=1;
+    }else{
+      tmpLocs[loc]++;
     }
-    tmpLocs2.sort(dynamicSortMultiple("location"));
-    tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
-        +'<div style="display:table-row;">'
-          +'<div style="display:table-cell;font-weight:bold;">Location</div>'
-          +'<div style="display:table-cell;font-weight:bold;">Plays</div>'
-        +'</div>';
-    SPLUcsv='"Location","Play Count"\r\n';
-    for(i=0;i<tmpLocs2.length;i++){
-      tmpFilterLoc=tmpLocs2[i].location;
-      tmpFilterLoc=tmpFilterLoc.replace("'","\\'");
-      tmpFilterLoc=tmpFilterLoc.replace('"','\\"');
-      SPLUcsv+='"'+tmpLocs2[i].location+'","'+tmpLocs2[i].count+'"\r\n';
-      if(tmpLocs2[i].location==""){
-        tmpLocs2[i].location="&lt;Blank&gt;";
-      }
-      tmpHTML+='<div style="display:table-row;">';
-      tmpHTML+='<div style="display:table-cell;">'+tmpLocs2[i].location+'</div>';
-      tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'location\',\'='+tmpFilterLoc+'\');}" href="javascript:{void(0);}">'+tmpLocs2[i].count+'</a></div>';
-      tmpHTML+='</div>';
-    }
-    tmpHTML+='</div>';
-    document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
-    document.getElementById("SPLU.PlaysLoadingDiv").style.display="none";
   }
+  for(key in tmpLocs){
+    if (tmpLocs.hasOwnProperty(key)) {
+      tmpLocs2.push({location:key,count:tmpLocs[key]});
+    }
+  }
+  tmpLocs2.sort(dynamicSortMultiple("location"));
+  tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
+      +'<div style="display:table-row;">'
+        +'<div style="display:table-cell;font-weight:bold;">Location</div>'
+        +'<div style="display:table-cell;font-weight:bold;">Plays</div>'
+      +'</div>';
+  SPLUcsv='"Location","Play Count"\r\n';
+  for(i=0;i<tmpLocs2.length;i++){
+    tmpFilterLoc=tmpLocs2[i].location;
+    tmpFilterLoc=tmpFilterLoc.replace("'","\\'");
+    tmpFilterLoc=tmpFilterLoc.replace('"','\\"');
+    SPLUcsv+='"'+tmpLocs2[i].location+'","'+tmpLocs2[i].count+'"\r\n';
+    if(tmpLocs2[i].location==""){
+      tmpLocs2[i].location="&lt;Blank&gt;";
+    }
+    tmpHTML+='<div style="display:table-row;">';
+    tmpHTML+='<div style="display:table-cell;">'+tmpLocs2[i].location+'</div>';
+    tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{addPlaysFilter(\'location\',\'='+tmpFilterLoc+'\');showHidePlaysFilters();}" href="javascript:{void(0);}">'+tmpLocs2[i].count+'</a></div>';
+    tmpHTML+='</div>';
+  }
+  tmpHTML+='</div>';
+  document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
+}
   
   function loadPlay(id){
 	  console.log(id);
@@ -3708,7 +3075,7 @@
     }
     setObjectType(tmpPlay.getElementsByTagName("subtypes")[0].getElementsByTagName("subtype")[0].getAttribute("value"));
     tmpItem=tmpPlay.getElementsByTagName("item")[0];
-    SetInstantSearchObject({itemid:'9999',objecttype:tmpItem.attributes.objecttype.value,objectid:tmpItem.attributes.objectid.value, name:tmpItem.attributes.name.value,uniqueid:'546e9ffd96dfc'} );
+    SetInstantSearchObject({itemid:'0',objecttype:tmpItem.attributes.objecttype.value,objectid:tmpItem.attributes.objectid.value, name:tmpItem.attributes.name.value,uniqueid:'546e9ffd96dfc'} );
     if(document.getElementById("SPLU.PlaysLogger").value==LoggedInAs&&!SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][id].deleted){
       showHideEditButtons("show");
     }else{
@@ -3733,7 +3100,7 @@
     for(key in SPLUplayData){
       if(SPLUplayData[key]["total"]>0){
         tmpPlayers.push(key);
-        document.getElementById("SPLU.PlaysPlayers").innerHTML+='<a onClick="javascript:{showPlaysTab(\'filters\');document.getElementById(\'SPLU.PlaysLogger\').value=\''+key+'\';loadPlays(\''+key+'\',false);}">'+key+'</a><br/>';
+        document.getElementById("SPLU.PlaysPlayers").innerHTML+='<a onClick="javascript:{document.getElementById(\'SPLU.PlaysLogger\').value=\''+key+'\';loadPlays(\''+key+'\');}">'+key+'</a><br/>';
       }
     }
     if(tmpPlayers.length>0){
@@ -4106,8 +3473,6 @@
       return;
     }
     hidePanes();
-    //document.getElementById('SPLU.FavoritesEdit').style.display="none";
-    document.getElementById('SPLU.FavoritesList').style.display="";
     document.getElementById('SPLU.FavoritesList').style.maxHeight=document.getElementById('BRlogMain').clientHeight-95+"px";
     document.getElementById('BRlogFavs').style.display="table-cell";
     var tmpHTML='<div style="display:table;">';
@@ -4118,8 +3483,8 @@
           tmpHTML+='<div style="display:table-row;">';
         } 
         tmpHTML+='<div style="display:table-cell; max-width:110px; padding-top:10px;">'
-          +'<a href="javascript:{void(0);}" onClick="javascript:{chooseFavorite(\''+key+'\');}"><img src="'+SPLU.Favorites[key].thumbnail+'"></a>'
-          +'<a href="javascript:{void(0);}" onClick="javascript:{deleteFavorite(\''+key+'\');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/red_circle_x.png" style="vertical-align:top; position: relative; margin-left: -8px; margin-top: -8px;"/></a>'
+          +'<a href="javascript:{void(0);}" onClick="javascript:{chooseFavorite('+key+');}"><img src="'+SPLU.Favorites[key].thumbnail+'"></a>'
+          +'<a href="javascript:{void(0);}" onClick="javascript:{deleteFavorite('+key+');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/red_circle_x.png" style="vertical-align:top; position: relative; margin-left: -8px; margin-top: -8px;"/></a>'
           +'<br/>'+SPLU.Favorites[key].title+'</div>';
         if(size % 2==0){
           tmpHTML+='</div>';
@@ -4129,7 +3494,8 @@
     document.getElementById('SPLU.FavoritesList').innerHTML=tmpHTML;
     document.getElementById('SPLU.FavoritesStatus').innerHTML='<center>You have '+size+' Favorites.</center><br/>';
   }
-    
+  
+  
   function showSettingsPane(source){
     if(source=="button"&&document.getElementById('BRlogSettings').style.display=="table-cell"){
       document.getElementById('SPLUwindow').style.minWidth="";
@@ -4157,8 +3523,7 @@
   }
 
   function showPlaysPane(source){
-    SPLUhistoryOpened++;
-    SPLUwindowHeight=document.getElementById("SPLUwindow").clientHeight;
+    SPLUhistoryOpened++;    
     if(source=="button"&&document.getElementById('BRlogPlays').style.display=="table-cell"){
       document.getElementById('BRlogPlays').style.display="none";
       return;
@@ -4169,7 +3534,6 @@
     if(SPLUhistoryOpened==1){
       getRecentPlays(false);
     }
-    showPlaysTab("filters");
   }
   
   function showLocationsPane(source){
@@ -4371,7 +3735,7 @@
       tmp[i].style.display=value;
     }
   }
-  
+
   function showFiltersTab(){
     setPlayerPaneColumn('SPLUplayerEditColumn','none');
     setPlayerPaneColumn('SPLUplayerGroupColumn','none');
