@@ -926,7 +926,7 @@
         +'<div id="SPLU.PlaysFilters" style="border: 1px solid blue; border-radius: 5px; padding: 3px;">'
           +'<div id="SPLU.PlaysFiltersStatus" style="float:right;"></div>'
           +'<div>'
-            +'<div style="background-color:white;width:120px;border:1px solid gray;padding:2px;cursor:pointer;"  onclick="javascript:{if(document.getElementById(\'SPLUfilterDrop\').style.display==\'none\'){document.getElementById(\'SPLUfilterDrop\').style.display=\'\';}else{document.getElementById(\'SPLUfilterDrop\').style.display=\'none\';}}"><i class="fa fa-funnel"></i> Add a Filter<i style="float: right; height: 15px; background-color: lightgrey; margin-top: -2px; margin-right: -2px; padding: 4px 2px 0px;" class="fa">&#xf078;</i></div>'
+            +'<div style="background-color:white;width:120px;border:1px solid gray;padding:2px;cursor:pointer;height:15px"  onclick="javascript:{if(document.getElementById(\'SPLUfilterDrop\').style.display==\'none\'){document.getElementById(\'SPLUfilterDrop\').style.display=\'\';}else{document.getElementById(\'SPLUfilterDrop\').style.display=\'none\';}}"><i class="fa fa-funnel"></i> Add a Filter<i style="float: right; height: 15px; background-color: lightgrey; margin-top: -2px; margin-right: -2px; padding: 4px 2px 0px;" class="fa">&#xf078;</i></div>'
             +'<div style="position:absolute;border:1px solid blue;background-color:rgb(206,214,233);display:none;cursor:pointer;z-index:575;" id="SPLUfilterDrop">'
               +'<ul class="fa-ul" style="padding-right:8px;">'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'gamename\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
@@ -1512,6 +1512,39 @@
     }
   }
 
+  //Case Insinsitive version
+  function dynamicSortCI(property) {
+    var sortOrder = 1;
+    if(property[0] === "-") {
+      sortOrder = -1;
+      property = property.substr(1);
+    }
+    return function (a,b) {
+      var result = (a[property].toLowerCase() < b[property].toLowerCase()) ? -1 : (a[property].toLowerCase() > b[property].toLowerCase()) ? 1 : 0;
+      return result * sortOrder;
+    }
+  }
+  function dynamicSortMultipleCI() {
+    /*
+     * save the arguments object as it will be overwritten
+     * note that arguments object is an array-like object
+     * consisting of the names of the properties to sort by
+     */
+    var props = arguments;
+    return function (obj1, obj2) {
+      var i = 0, result = 0, numberOfProperties = props.length;
+      /* try getting a different result from 0 (equal)
+       * as long as we have extra properties to compare
+       */
+      while(result === 0 && i < numberOfProperties) {
+        result = dynamicSortCI(props[i])(obj1, obj2);
+        i++;
+      }
+      return result;
+    }
+  }
+
+  
   function getGameID(){
     var metas=document.getElementsByTagName('meta');
     for(i=0;i<metas.length;i++){
@@ -3125,7 +3158,7 @@
       }
       
       if(filter=="objecttype"){
-        tmpHTML+='Type: <div style="display:inline;">'
+        tmpHTML+='Type: <div style="display:inline;cursor:pointer;">'
             +'<div id="SPLUtypeFilterButtonBoard" onClick="javascript:{highlightFilterTypeButton(\'boardgame\');}" style="display:inline;border:1.5px solid black;padding:0px 2px;background-color:yellow;">'
               +'<i style="transform: translate(0px, 0.7px);" class="fa display:block"></i> Board'
             +'</div>'
@@ -3658,7 +3691,7 @@
         tmpLocs2.push({location:key,count:tmpLocs[key]});
       }
     }
-    tmpLocs2.sort(dynamicSortMultiple("location"));
+    tmpLocs2.sort(dynamicSortMultipleCI("location"));
     tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
         +'<div style="display:table-row;">'
           +'<div style="display:table-cell;font-weight:bold;">Location</div>'
