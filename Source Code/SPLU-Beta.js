@@ -1,4 +1,4 @@
-// SPLU 5.5.0 Beta
+// SPLU 5.5.1 Beta
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -11,7 +11,7 @@
     var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.5.0";
+    var SPLUversion="5.5.1";
 
     var SPLU={};
     var SPLUplayId="";
@@ -67,6 +67,7 @@
     var SPLUfavoritesPlayers=[];
     var SPLUfavoritesEditing="";
     var SPLUzeroScoreStats=false;
+    var SPLUstatLocationSort="location";
     
     var observer=new MutationObserver(function(){
       if(document.getElementById('selimage9999').innerHTML.slice(0,4)=="<div"){
@@ -1520,7 +1521,11 @@
       property = property.substr(1);
     }
     return function (a,b) {
-      var result = (a[property].toLowerCase() < b[property].toLowerCase()) ? -1 : (a[property].toLowerCase() > b[property].toLowerCase()) ? 1 : 0;
+      if(isNumeric(a[property]) || isNumeric(b[property])){
+        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+      }else{
+        var result = (a[property].toLowerCase() < b[property].toLowerCase()) ? -1 : (a[property].toLowerCase() > b[property].toLowerCase()) ? 1 : 0;
+      }
       return result * sortOrder;
     }
   }
@@ -3259,23 +3264,20 @@
     if(stat=="choose"){
       stat=document.getElementById("SPLU.SelectStat").value;
     }
+    var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
     if(stat=="GameDetails"){
-      var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
       window.setTimeout(function(){getStatsGameDetails(tmpUser);},25);
       document.getElementById('SPLUzeroScoreStatsDiv').style.display="";
     }
     if(stat=="BeginnersLuck"){
-      var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
       window.setTimeout(function(){getStatsBeginnersLuck(tmpUser);},25);
     }
     if(stat=="PlaysWins"){
-      var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
       window.setTimeout(function(){getStatsPlaysWins(tmpUser);},25);
       document.getElementById('SPLUcsvDownload').style.display="";
     }
     if(stat=="Locations"){
-      var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
-      window.setTimeout(function(){getStatsLocations(tmpUser);},25);
+      window.setTimeout(function(){getStatsLocations(tmpUser,SPLUstatLocationSort);},25);
       document.getElementById('SPLUcsvDownload').style.display="";
     }
   }
@@ -3672,7 +3674,8 @@
     document.getElementById("SPLU.PlaysLoadingDiv").style.display="none";
   }
   
-  function getStatsLocations(tmpUser){
+  function getStatsLocations(tmpUser,sort){
+    SPLUstatLocationSort=sort;
     tmpLocs=[];
     tmpLocs2=[];
     for(i=0;i<SPLUlistOfPlays.length;i++){
@@ -3691,12 +3694,23 @@
         tmpLocs2.push({location:key,count:tmpLocs[key]});
       }
     }
-    tmpLocs2.sort(dynamicSortMultipleCI("location"));
+    tmpLocs2.sort(dynamicSortMultipleCI(sort));
     tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
-        +'<div style="display:table-row;">'
-          +'<div style="display:table-cell;font-weight:bold;">Location</div>'
-          +'<div style="display:table-cell;font-weight:bold;">Plays</div>'
-        +'</div>';
+        +'<div style="display:table-row;">';
+      if(sort=="location"){
+          tmpHTML+='<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsLocations(\''+tmpUser+'\',\'-location\');}" href="javascript:{void(0);}">Location <i class="fa fa-sort-alpha-desc"></i></a></div>'
+          +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsLocations(\''+tmpUser+'\',\'count\');}" href="javascript:{void(0);}">Plays <i class="fa fa-sort-amount-asc"></i></a></div>';
+      }else if(sort=="-location"){
+          tmpHTML+='<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsLocations(\''+tmpUser+'\',\'location\');}" href="javascript:{void(0);}">Location <i class="fa fa-sort-alpha-asc"></i></a></div>'
+          +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsLocations(\''+tmpUser+'\',\'count\');}" href="javascript:{void(0);}">Plays <i class="fa fa-sort-amount-asc"></i></a></div>';
+      }else if(sort=="count"){
+          tmpHTML+='<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsLocations(\''+tmpUser+'\',\'location\');}" href="javascript:{void(0);}">Location <i class="fa fa-sort-alpha-desc"></i></a></div>'
+          +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsLocations(\''+tmpUser+'\',\'-count\');}" href="javascript:{void(0);}">Plays <i class="fa fa-sort-amount-desc"></i></a></div>';
+      }else if(sort=="-count"){
+          tmpHTML+='<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsLocations(\''+tmpUser+'\',\'location\');}" href="javascript:{void(0);}">Location <i class="fa fa-sort-alpha-desc"></i></a></div>'
+          +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsLocations(\''+tmpUser+'\',\'count\');}" href="javascript:{void(0);}">Plays <i class="fa fa-sort-amount-asc"></i></a></div>';
+      }
+        tmpHTML+='</div>';
     SPLUcsv='"Location","Play Count"\r\n';
     for(i=0;i<tmpLocs2.length;i++){
       tmpFilterLoc=tmpLocs2[i].location;
