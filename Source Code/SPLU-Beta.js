@@ -3630,13 +3630,13 @@
     }
     tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
       +'<div style="display:table-row;">'
-      +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsBeginnersLuck(\''+tmpUser+'\',\''+tmpSortPlayer+'\');}" href="javascript:{void(0);}">Player <i class="'+tmpClassPlayer+'"></i></a></div>'
+      +'<div style="display:table-cell;font-weight:bold;text-align:center;"><a onclick="javascript:{getStatsBeginnersLuck(\''+tmpUser+'\',\''+tmpSortPlayer+'\');}" href="javascript:{void(0);}">Player <i class="'+tmpClassPlayer+'"></i></a></div>'
       +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsBeginnersLuck(\''+tmpUser+'\',\''+tmpSortCount+'\');}" href="javascript:{void(0);}">New & Won <i class="'+tmpClassCount+'"></i></a></div>'
       +'</div>';
     for(i=0;i<tmpStats.length;i++){
-      tmpHTML+='<div style="display:table-row;">';
-      tmpHTML+='<div style="display:table-cell;">'+tmpStats[i]["player"]+'</div>';
-      tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{showPlaysTab(\'filters\');}" href="javascript:{void(0);addPlaysFilter(\'playername\',\'='+tmpStats[i]["player"]+'\');addPlaysFilter(\'winner\',\''+tmpStats[i]["player"]+'\');addPlaysFilter(\'new\',\''+tmpStats[i]["player"]+'\');}">'+tmpStats[i]["count"]+'</a></div>';
+      tmpHTML+='<div style="display:table-row;" onMouseOver="javascript:{this.style.backgroundColor=\'yellow\';}" onMouseOut="javascript:{this.style.backgroundColor=\'#f1f8fb\';}">';
+      tmpHTML+='<div style="display:table-cell;text-align:left;">'+tmpStats[i]["player"]+'</div>';
+      tmpHTML+='<div style="display:table-cell;padding-right:50px;"><a onclick="javascript:{showPlaysTab(\'filters\');}" href="javascript:{void(0);addPlaysFilter(\'playername\',\'='+tmpStats[i]["player"]+'\');addPlaysFilter(\'winner\',\''+tmpStats[i]["player"]+'\');addPlaysFilter(\'new\',\''+tmpStats[i]["player"]+'\');}">'+tmpStats[i]["count"]+'</a></div>';
       tmpHTML+='</div>';
     }
     tmpHTML+='</div>';
@@ -3703,7 +3703,7 @@
     }
     tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
       +'<div style="display:table-row;">'
-      +'<div style="display:table-cell;font-weight:bold;width:40%;"><a onclick="javascript:{getStatsPlaysWins(\''+tmpUser+'\',\''+tmpSortPlayer+'\');}" href="javascript:{void(0);}">Player <i class="'+tmpClassPlayer+'"></i></a></div>'
+      +'<div style="display:table-cell;font-weight:bold;width:40%;text-align:center;"><a onclick="javascript:{getStatsPlaysWins(\''+tmpUser+'\',\''+tmpSortPlayer+'\');}" href="javascript:{void(0);}">Player <i class="'+tmpClassPlayer+'"></i></a></div>'
       +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsPlaysWins(\''+tmpUser+'\',\''+tmpSortPlays+'\');}" href="javascript:{void(0);}">Plays <i class="'+tmpClassPlays+'"></i></a></div>'
       +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsPlaysWins(\''+tmpUser+'\',\''+tmpSortWins+'\');}" href="javascript:{void(0);}">Wins <i class="'+tmpClassWins+'"></i></a></div>'
       +'<div style="display:table-cell;font-weight:bold;">Average</div>'
@@ -3711,10 +3711,10 @@
     SPLUcsv='"Player","Play Count","Wins","Average"\r\n';
     for(i=0;i<tmpWins.length;i++){
       if(SPLUgameStats[key]["TotalNewWins"]!=0){
-        tmpHTML+='<div style="display:table-row;">';
-        tmpHTML+='<div style="display:table-cell;">'+tmpWins[i]["player"]+'</div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'playername\',\'='+tmpWins[i]["player"]+'\');}" href="javascript:{void(0);}">'+tmpWins[i]["plays"]+'</a></div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'playername\',\'='+tmpWins[i]["player"]+'\');addPlaysFilter(\'winner\',\''+tmpWins[i]["player"]+'\');}" href="javascript:{void(0);}">'+tmpWins[i]["wins"]+'</a></div>';
+        tmpHTML+='<div style="display:table-row;" onMouseOver="javascript:{this.style.backgroundColor=\'yellow\';}" onMouseOut="javascript:{this.style.backgroundColor=\'#f1f8fb\';}">';
+        tmpHTML+='<div style="display:table-cell;text-align:left;">'+tmpWins[i]["player"]+'</div>';
+        tmpHTML+='<div style="display:table-cell;padding-right:10px;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'playername\',\'='+tmpWins[i]["player"]+'\');}" href="javascript:{void(0);}">'+tmpWins[i]["plays"]+'</a></div>';
+        tmpHTML+='<div style="display:table-cell;padding-right:10px;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'playername\',\'='+tmpWins[i]["player"]+'\');addPlaysFilter(\'winner\',\''+tmpWins[i]["player"]+'\');}" href="javascript:{void(0);}">'+tmpWins[i]["wins"]+'</a></div>';
         tmpHTML+='<div style="display:table-cell;">'+tmpWins[i]["average"]+'%</div>';
         tmpHTML+='</div>';
         SPLUcsv+='"'+key+'","'+SPLUgameStats[key]["TotalPlays"]+'","'+SPLUgameStats[key]["TotalWins"]+'","'+tmpWins[i]["average"]+'"\r\n';
@@ -3759,7 +3759,7 @@
     }
     tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
       +'<div style="display:table-row;">'
-      +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsLocations(\''+tmpUser+'\',\''+tmpSortPlays+'\');}" href="javascript:{void(0);}">Location <i class="'+tmpClassPlays+'"></i></a></div>'
+      +'<div style="display:table-cell;font-weight:bold;text-align:center;"><a onclick="javascript:{getStatsLocations(\''+tmpUser+'\',\''+tmpSortPlays+'\');}" href="javascript:{void(0);}">Location <i class="'+tmpClassPlays+'"></i></a></div>'
       +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsLocations(\''+tmpUser+'\',\''+tmpSortCount+'\');}" href="javascript:{void(0);}">Plays <i class="'+tmpClassCount+'"></i></a></div>'
       +'</div>';
     SPLUcsv='"Location","Play Count"\r\n';
@@ -3771,9 +3771,9 @@
       if(tmpLocs2[i].location==""){
         tmpLocs2[i].location="&lt;Blank&gt;";
       }
-      tmpHTML+='<div style="display:table-row;">';
-      tmpHTML+='<div style="display:table-cell;">'+tmpLocs2[i].location+'</div>';
-      tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'location\',\'='+tmpFilterLoc+'\');}" href="javascript:{void(0);}">'+tmpLocs2[i].count+'</a></div>';
+      tmpHTML+='<div style="display:table-row;" onMouseOver="javascript:{this.style.backgroundColor=\'yellow\';}" onMouseOut="javascript:{this.style.backgroundColor=\'#f1f8fb\';}">';
+      tmpHTML+='<div style="display:table-cell;text-align:left;">'+tmpLocs2[i].location+'</div>';
+      tmpHTML+='<div style="display:table-cell;padding-right:10px;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'location\',\'='+tmpFilterLoc+'\');}" href="javascript:{void(0);}">'+tmpLocs2[i].count+'</a></div>';
       tmpHTML+='</div>';
     }
     tmpHTML+='</div>';
