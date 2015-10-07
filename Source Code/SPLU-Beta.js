@@ -68,6 +68,7 @@
     var SPLUfavoritesEditing="";
     var SPLUzeroScoreStats=false;
     var SPLUstatLocationSort="location";
+    var SPLUstatLuckSort="-count";
     
     var observer=new MutationObserver(function(){
       if(document.getElementById('selimage9999').innerHTML.slice(0,4)=="<div"){
@@ -3270,7 +3271,7 @@
       document.getElementById('SPLUzeroScoreStatsDiv').style.display="";
     }
     if(stat=="BeginnersLuck"){
-      window.setTimeout(function(){getStatsBeginnersLuck(tmpUser);},25);
+      window.setTimeout(function(){getStatsBeginnersLuck(tmpUser,SPLUstatLuckSort);},25);
     }
     if(stat=="PlaysWins"){
       window.setTimeout(function(){getStatsPlaysWins(tmpUser);},25);
@@ -3577,7 +3578,8 @@
     document.getElementById("SPLU.PlaysLoadingDiv").style.display="none";
   }
   
-  function getStatsBeginnersLuck(tmpUser){
+  function getStatsBeginnersLuck(tmpUser,sort){
+    SPLUstatLuckSort=sort;
     SPLUgameStats={};
     for(i=0;i<SPLUlistOfPlays.length;i++){
       if(SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getElementsByTagName("players")[0]===undefined || SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].deleted){
@@ -3602,18 +3604,37 @@
         }
       }
     }
-    tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
-        +'<div style="display:table-row;">'
-          +'<div style="display:table-cell;font-weight:bold;">Player</div>'
-          +'<div style="display:table-cell;font-weight:bold;">New & Won</div>'
-        +'</div>';
+    tmpStats=[];
     for(key in SPLUgameStats){
-      if(SPLUgameStats[key]["TotalNewWins"]!=0){
-        tmpHTML+='<div style="display:table-row;">';
-        tmpHTML+='<div style="display:table-cell;">'+key+'</div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{showPlaysTab(\'filters\');}" href="javascript:{void(0);addPlaysFilter(\'playername\',\'='+key+'\');addPlaysFilter(\'winner\',\''+key+'\');addPlaysFilter(\'new\',\''+key+'\');}">'+SPLUgameStats[key]["TotalNewWins"]+'</a></div>';
-        tmpHTML+='</div>';
+      if(SPLUgameStats.hasOwnProperty(key)) {
+        if(SPLUgameStats[key]["TotalNewWins"]>0){
+          tmpStats.push({player:key,count:SPLUgameStats[key]["TotalNewWins"]});
+        }
       }
+    }
+    tmpStats.sort(dynamicSortMultipleCI("player"));
+    tmpStats.sort(dynamicSortMultipleCI(sort));
+    tmpSortPlayer="player";
+    tmpSortCount="count";
+    tmpClassPlayer="fa fa-sort-alpha-asc";
+    tmpClassCount="fa fa-sort-amount-asc";
+    if(sort=="player"){
+      tmpSortPlayer="-player";
+      tmpClassPlayer="fa fa-sort-alpha-desc";
+    }else if(sort=="count"){
+      tmpSortCount="-count";
+      tmpClassCount="fa fa-sort-amount-desc";
+    }
+    tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
+      +'<div style="display:table-row;">'
+      +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsBeginnersLuck(\''+tmpUser+'\',\''+tmpSortPlayer+'\');}" href="javascript:{void(0);}">Player <i class="'+tmpClassPlayer+'"></i></a></div>'
+      +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsBeginnersLuck(\''+tmpUser+'\',\''+tmpSortCount+'\');}" href="javascript:{void(0);}">New & Won <i class="'+tmpClassCount+'"></i></a></div>'
+      +'</div>';
+    for(i=0;i<tmpStats.length;i++){
+      tmpHTML+='<div style="display:table-row;">';
+      tmpHTML+='<div style="display:table-cell;">'+tmpStats[i]["player"]+'</div>';
+      tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{showPlaysTab(\'filters\');}" href="javascript:{void(0);addPlaysFilter(\'playername\',\'='+tmpStats[i]["player"]+'\');addPlaysFilter(\'winner\',\''+tmpStats[i]["player"]+'\');addPlaysFilter(\'new\',\''+tmpStats[i]["player"]+'\');}">'+tmpStats[i]["count"]+'</a></div>';
+      tmpHTML+='</div>';
     }
     tmpHTML+='</div>';
     document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
@@ -3695,22 +3716,22 @@
       }
     }
     tmpLocs2.sort(dynamicSortMultipleCI(sort));
+    tmpSortPlays="location";
+    tmpSortCount="count";
+    tmpClassPlays="fa fa-sort-alpha-asc";
+    tmpClassCount="fa fa-sort-amount-asc";
+    if(sort=="location"){
+      tmpSortPlays="-location";
+      tmpClassPlays="fa fa-sort-alpha-desc";
+    }else if(sort=="count"){
+      tmpSortCount="-count";
+      tmpClassCount="fa fa-sort-amount-desc";
+    }
     tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
-        +'<div style="display:table-row;">';
-      if(sort=="location"){
-          tmpHTML+='<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsLocations(\''+tmpUser+'\',\'-location\');}" href="javascript:{void(0);}">Location <i class="fa fa-sort-alpha-desc"></i></a></div>'
-          +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsLocations(\''+tmpUser+'\',\'count\');}" href="javascript:{void(0);}">Plays <i class="fa fa-sort-amount-asc"></i></a></div>';
-      }else if(sort=="-location"){
-          tmpHTML+='<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsLocations(\''+tmpUser+'\',\'location\');}" href="javascript:{void(0);}">Location <i class="fa fa-sort-alpha-asc"></i></a></div>'
-          +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsLocations(\''+tmpUser+'\',\'count\');}" href="javascript:{void(0);}">Plays <i class="fa fa-sort-amount-asc"></i></a></div>';
-      }else if(sort=="count"){
-          tmpHTML+='<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsLocations(\''+tmpUser+'\',\'location\');}" href="javascript:{void(0);}">Location <i class="fa fa-sort-alpha-desc"></i></a></div>'
-          +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsLocations(\''+tmpUser+'\',\'-count\');}" href="javascript:{void(0);}">Plays <i class="fa fa-sort-amount-desc"></i></a></div>';
-      }else if(sort=="-count"){
-          tmpHTML+='<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsLocations(\''+tmpUser+'\',\'location\');}" href="javascript:{void(0);}">Location <i class="fa fa-sort-alpha-desc"></i></a></div>'
-          +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsLocations(\''+tmpUser+'\',\'count\');}" href="javascript:{void(0);}">Plays <i class="fa fa-sort-amount-asc"></i></a></div>';
-      }
-        tmpHTML+='</div>';
+      +'<div style="display:table-row;">'
+      +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsLocations(\''+tmpUser+'\',\''+tmpSortPlays+'\');}" href="javascript:{void(0);}">Location <i class="'+tmpClassPlays+'"></i></a></div>'
+      +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsLocations(\''+tmpUser+'\',\''+tmpSortCount+'\');}" href="javascript:{void(0);}">Plays <i class="'+tmpClassCount+'"></i></a></div>'
+      +'</div>';
     SPLUcsv='"Location","Play Count"\r\n';
     for(i=0;i<tmpLocs2.length;i++){
       tmpFilterLoc=tmpLocs2[i].location;
