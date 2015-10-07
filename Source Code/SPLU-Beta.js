@@ -69,6 +69,7 @@
     var SPLUzeroScoreStats=false;
     var SPLUstatLocationSort="location";
     var SPLUstatLuckSort="-count";
+    var SPLUstatWinsSort="-wins";
     
     var observer=new MutationObserver(function(){
       if(document.getElementById('selimage9999').innerHTML.slice(0,4)=="<div"){
@@ -3274,7 +3275,7 @@
       window.setTimeout(function(){getStatsBeginnersLuck(tmpUser,SPLUstatLuckSort);},25);
     }
     if(stat=="PlaysWins"){
-      window.setTimeout(function(){getStatsPlaysWins(tmpUser);},25);
+      window.setTimeout(function(){getStatsPlaysWins(tmpUser,SPLUstatWinsSort);},25);
       document.getElementById('SPLUcsvDownload').style.display="";
     }
     if(stat=="Locations"){
@@ -3612,6 +3613,8 @@
         }
       }
     }
+    //Sorting by "player" first to get alpha order amoung numeric groups.
+    //Really should check if they are already sorting by player so as not to run it twice.
     tmpStats.sort(dynamicSortMultipleCI("player"));
     tmpStats.sort(dynamicSortMultipleCI(sort));
     tmpSortPlayer="player";
@@ -3641,7 +3644,8 @@
     document.getElementById("SPLU.PlaysLoadingDiv").style.display="none";
   }
 
-  function getStatsPlaysWins(tmpUser){
+  function getStatsPlaysWins(tmpUser,sort){
+    SPLUstatWinsSort=sort;
     SPLUgameStats={};
     for(i=0;i<SPLUlistOfPlays.length;i++){
       if(SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].getElementsByTagName("players")[0]===undefined || SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].deleted){
@@ -3669,25 +3673,51 @@
         SPLUgameStats[tmpName]["TotalPlays"]++;
       }
     }
-    tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
-        +'<div style="display:table-row;">'
-          +'<div style="display:table-cell;font-weight:bold;">Player</div>'
-          +'<div style="display:table-cell;font-weight:bold;">Plays</div>'
-          +'<div style="display:table-cell;font-weight:bold;">Wins</div>'
-          +'<div style="display:table-cell;font-weight:bold;">Average</div>'
-        +'</div>';
-    SPLUcsv='"Player","Play Count","Wins","Average"\r\n';
+    tmpWins=[];
     for(key in SPLUgameStats){
-      tmpAverage=(SPLUgameStats[key]["TotalWins"]/SPLUgameStats[key]["TotalPlays"])*100;
-      tmpAverage=tmpAverage.toFixed(2);
+      if (SPLUgameStats.hasOwnProperty(key)) {
+        tmpAverage=(SPLUgameStats[key]["TotalWins"]/SPLUgameStats[key]["TotalPlays"])*100;
+        tmpAverage=tmpAverage.toFixed(2);
+        tmpWins.push({player:key,plays:SPLUgameStats[key]["TotalPlays"],wins:SPLUgameStats[key]["TotalWins"],average:tmpAverage});
+      }
+    }
+    //Sorting by "player" first to get alpha order amoung numeric groups.
+    //Really should check if they are already sorting by player so as not to run it twice.
+    tmpWins.sort(dynamicSortMultipleCI("player"));
+    tmpWins.sort(dynamicSortMultipleCI(sort));
+    tmpSortPlayer="player";
+    tmpSortPlays="plays";
+    tmpSortWins="wins";
+    tmpClassPlayer="fa fa-sort-alpha-asc";
+    tmpClassPlays="fa fa-sort-amount-asc";
+    tmpClassWins="fa fa-sort-amount-asc";
+    if(sort=="player"){
+      tmpSortPlayer="-player";
+      tmpClassPlayer="fa fa-sort-alpha-desc";
+    }else if(sort=="plays"){
+      tmpSortPlays="-plays";
+      tmpClassPlays="fa fa-sort-amount-desc";
+    }else if(sort=="wins"){
+      tmpSortWins="-wins";
+      tmpClassWins="fa fa-sort-amount-desc";
+    }
+    tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
+      +'<div style="display:table-row;">'
+      +'<div style="display:table-cell;font-weight:bold;width:40%;"><a onclick="javascript:{getStatsPlaysWins(\''+tmpUser+'\',\''+tmpSortPlayer+'\');}" href="javascript:{void(0);}">Player <i class="'+tmpClassPlayer+'"></i></a></div>'
+      +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsPlaysWins(\''+tmpUser+'\',\''+tmpSortPlays+'\');}" href="javascript:{void(0);}">Plays <i class="'+tmpClassPlays+'"></i></a></div>'
+      +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsPlaysWins(\''+tmpUser+'\',\''+tmpSortWins+'\');}" href="javascript:{void(0);}">Wins <i class="'+tmpClassWins+'"></i></a></div>'
+      +'<div style="display:table-cell;font-weight:bold;">Average</div>'
+      +'</div>';
+    SPLUcsv='"Player","Play Count","Wins","Average"\r\n';
+    for(i=0;i<tmpWins.length;i++){
       if(SPLUgameStats[key]["TotalNewWins"]!=0){
         tmpHTML+='<div style="display:table-row;">';
-        tmpHTML+='<div style="display:table-cell;">'+key+'</div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'playername\',\'='+key+'\');}" href="javascript:{void(0);}">'+SPLUgameStats[key]["TotalPlays"]+'</a></div>';
-        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'playername\',\'='+key+'\');addPlaysFilter(\'winner\',\''+key+'\');}" href="javascript:{void(0);}">'+SPLUgameStats[key]["TotalWins"]+'</a></div>';
-        tmpHTML+='<div style="display:table-cell;">'+tmpAverage+'%</div>';
+        tmpHTML+='<div style="display:table-cell;">'+tmpWins[i]["player"]+'</div>';
+        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'playername\',\'='+tmpWins[i]["player"]+'\');}" href="javascript:{void(0);}">'+tmpWins[i]["plays"]+'</a></div>';
+        tmpHTML+='<div style="display:table-cell;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'playername\',\'='+tmpWins[i]["player"]+'\');addPlaysFilter(\'winner\',\''+tmpWins[i]["player"]+'\');}" href="javascript:{void(0);}">'+tmpWins[i]["wins"]+'</a></div>';
+        tmpHTML+='<div style="display:table-cell;">'+tmpWins[i]["average"]+'%</div>';
         tmpHTML+='</div>';
-        SPLUcsv+='"'+key+'","'+SPLUgameStats[key]["TotalPlays"]+'","'+SPLUgameStats[key]["TotalWins"]+'","'+tmpAverage+'"\r\n';
+        SPLUcsv+='"'+key+'","'+SPLUgameStats[key]["TotalPlays"]+'","'+SPLUgameStats[key]["TotalWins"]+'","'+tmpWins[i]["average"]+'"\r\n';
       }
     }
     tmpHTML+='</div>';
