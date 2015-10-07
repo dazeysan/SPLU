@@ -2912,6 +2912,8 @@
             } else if(SPLUplayData[user][plays[i].id].getElementsByTagName("comments")[0].textContent.toLowerCase().indexOf(lines[l].value.toLowerCase())>-1){
                 plays[i].matches++;
             }
+          }else if(lines[l].value.slice(0,1)=="!" && lines[l].value.length==1){
+            plays[i].matches++;
           }
         }
       }
