@@ -3354,6 +3354,7 @@
       }
       var tmpHigh=-999999999;
       var tmpLow=999999999;
+      var tmpSpreadInc=true;
       for(p=0;p<tmpPlayers.length;p++){
         var tmpName="Unknown";
         var tmpNameID="";
@@ -3385,6 +3386,8 @@
         var tmpScore=0;
         if(tmpPlayers[p].getAttribute("score")!="" && isNumeric(tmpPlayers[p].getAttribute("score"))){
           tmpScore=Number(tmpPlayers[p].getAttribute("score"));
+        }else{
+          tmpSpreadInc=false;
         }
         if(tmpScore==0){
           SPLUgameStats[tmpGame]["Players"][tmpNameID]["TotalZeroScores"]++;
@@ -3425,7 +3428,7 @@
         if(tmpScore>tmpHigh){
           tmpHigh=tmpScore;
         }
-        if(tmpScore<tmpLow){
+        if(tmpPlayers[p].getAttribute("score")!="" && tmpScore<tmpLow){
           tmpLow=tmpScore;
         }
         SPLUgameStats[tmpGame]["Players"][tmpNameID]["TotalScore"]+=tmpScore;
@@ -3446,18 +3449,20 @@
           }
         }
       }
-      tmpSpread=tmpHigh-tmpLow;
-      SPLUgameStats[tmpGame]["TotalSpread"]+=tmpSpread;
-      if(tmpSpread>SPLUgameStats[tmpGame]["HighSpread"]){
-        SPLUgameStats[tmpGame]["HighSpread"]=tmpSpread;
-        SPLUgameStats[tmpGame]["HighSpreadPlay"]=tmpPlay;
-      }
-      if(tmpSpread<SPLUgameStats[tmpGame]["LowSpread"]){
-        SPLUgameStats[tmpGame]["LowSpread"]=tmpSpread;
-        SPLUgameStats[tmpGame]["LowSpreadPlay"]=tmpPlay;
-      }
-      if(tmpSpread>0){
-        SPLUgameStats[tmpGame]["TotalSpreads"]++;
+      if(tmpSpreadInc){
+        tmpSpread=tmpHigh-tmpLow;
+        SPLUgameStats[tmpGame]["TotalSpread"]+=tmpSpread;
+        if(tmpSpread>SPLUgameStats[tmpGame]["HighSpread"]){
+          SPLUgameStats[tmpGame]["HighSpread"]=tmpSpread;
+          SPLUgameStats[tmpGame]["HighSpreadPlay"]=tmpPlay;
+        }
+        if(tmpSpread<SPLUgameStats[tmpGame]["LowSpread"]){
+          SPLUgameStats[tmpGame]["LowSpread"]=tmpSpread;
+          SPLUgameStats[tmpGame]["LowSpreadPlay"]=tmpPlay;
+        }
+        if(tmpSpread>0){
+          SPLUgameStats[tmpGame]["TotalSpreads"]++;
+        }
       }
     }
 
