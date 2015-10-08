@@ -3491,8 +3491,8 @@
         tmpLowScore=SPLUgameStats[keyGame]["LowNonZeroScore"];
         tmpHighScore=SPLUgameStats[keyGame]["HighNonZeroScore"];
       }
-      if(SPLUgameStats[tmpGame]["TotalSpread"]>0){
-        tmpAverageSpread=SPLUgameStats[tmpGame]["TotalSpread"]/SPLUgameStats[tmpGame]["TotalSpreads"];
+      if(SPLUgameStats[keyGame]["TotalSpread"]>0){
+        tmpAverageSpread=SPLUgameStats[keyGame]["TotalSpread"]/SPLUgameStats[keyGame]["TotalSpreads"];
         tmpAverageSpread=tmpAverageSpread.toFixed(2);
       }
       if(tmpAverageAllScore>0 || tmpAverageWinScore>0 || tmpAverageDuration>0 || tmpAverageSpread>0){

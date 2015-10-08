@@ -3320,6 +3320,12 @@
           "LowScore":999999999,
           "HighNonZeroScore":-999999999,
           "LowNonZeroScore":999999999,
+          "HighSpread":-999999999,
+          "LowSpread":999999999,
+          "TotalSpread":0,
+          "TotalSpreads":0,
+          "HighSpreadPlay":0,
+          "LowSpreadPlay":0,
           "TotalScore":0,
           "TotalPlays":0,
           "TotalWins":0,
@@ -3346,6 +3352,8 @@
           SPLUgameStats[tmpGame]["DurationLow"]=tmpDuration;
         }
       }
+      var tmpHigh=-999999999;
+      var tmpLow=999999999;
       for(p=0;p<tmpPlayers.length;p++){
         var tmpName="Unknown";
         var tmpNameID="";
@@ -3414,6 +3422,12 @@
           SPLUgameStats[tmpGame]["LowNonZeroScore"]=tmpScore;
           SPLUgameStats[tmpGame]["LowNonZeroScorePlay"]=tmpPlay;
         }
+        if(tmpScore>tmpHigh){
+          tmpHigh=tmpScore;
+        }
+        if(tmpScore<tmpLow){
+          tmpLow=tmpScore;
+        }
         SPLUgameStats[tmpGame]["Players"][tmpNameID]["TotalScore"]+=tmpScore;
         SPLUgameStats[tmpGame]["Players"][tmpNameID]["TotalPlays"]++;
         SPLUgameStats[tmpGame]["TotalScore"]+=tmpScore;
@@ -3432,6 +3446,19 @@
           }
         }
       }
+      tmpSpread=tmpHigh-tmpLow;
+      SPLUgameStats[tmpGame]["TotalSpread"]+=tmpSpread;
+      if(tmpSpread>SPLUgameStats[tmpGame]["HighSpread"]){
+        SPLUgameStats[tmpGame]["HighSpread"]=tmpSpread;
+        SPLUgameStats[tmpGame]["HighSpreadPlay"]=tmpPlay;
+      }
+      if(tmpSpread<SPLUgameStats[tmpGame]["LowSpread"]){
+        SPLUgameStats[tmpGame]["LowSpread"]=tmpSpread;
+        SPLUgameStats[tmpGame]["LowSpreadPlay"]=tmpPlay;
+      }
+      if(tmpSpread>0){
+        SPLUgameStats[tmpGame]["TotalSpreads"]++;
+      }
     }
 
     tmpHTML="";
@@ -3439,6 +3466,7 @@
       tmpAverageAllScore=0;
       tmpAverageWinScore=0;
       tmpAverageDuration=0;
+      tmpAverageSpread=0;
       tmpTotalPlays=SPLUgameStats[keyGame]["TotalPlays"];
       tmpHTML+='<span style="font-style:italic;color:rgb(213, 85, 198);font-weight:bold;">'+SPLUgameStats[keyGame].Game+'</span>';
       if(SPLUgameStats[keyGame]["TotalScore"]!=0){
@@ -3463,7 +3491,11 @@
         tmpLowScore=SPLUgameStats[keyGame]["LowNonZeroScore"];
         tmpHighScore=SPLUgameStats[keyGame]["HighNonZeroScore"];
       }
-      if(tmpAverageAllScore>0 || tmpAverageWinScore>0 || tmpAverageDuration>0){
+      if(SPLUgameStats[keyGame]["TotalSpread"]>0){
+        tmpAverageSpread=SPLUgameStats[keyGame]["TotalSpread"]/SPLUgameStats[keyGame]["TotalSpreads"];
+        tmpAverageSpread=tmpAverageSpread.toFixed(2);
+      }
+      if(tmpAverageAllScore>0 || tmpAverageWinScore>0 || tmpAverageDuration>0 || tmpAverageSpread>0){
         tmpHTML+='<div style="display:table; border-spacing:5px 2px; text-align:right; padding-bottom:10px;">'
         +'<div style="display:table-row;">'
           +'<div style="display:table-cell;font-weight:bold;">Stat</div>'
@@ -3495,6 +3527,14 @@
           tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["DurationLow"]+'</div>';
           tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["DurationHigh"]+'</div>';
           tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["TotalDurations"]+'</div></div>';
+        }
+        if(tmpAverageSpread>0){
+          tmpHTML+='<div style="display:table-row;">';
+          tmpHTML+='<div style="display:table-cell;">Spread</div>';
+          tmpHTML+='<div style="display:table-cell;">'+tmpAverageSpread+'</div>';
+          tmpHTML+='<div style="display:table-cell;"><a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLUgameStats[keyGame]["LowSpreadPlay"].id+');}">'+SPLUgameStats[keyGame]["LowSpread"]+'</a></div>';
+          tmpHTML+='<div style="display:table-cell;"><a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLUgameStats[keyGame]["HighSpreadPlay"].id+');}">'+SPLUgameStats[keyGame]["HighSpread"]+'</a></div>';
+          tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["TotalSpreads"]+'</div></div>';
         }
         tmpHTML+='</div>';
       }
