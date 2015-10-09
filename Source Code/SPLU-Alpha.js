@@ -953,6 +953,9 @@
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'new\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
                   +'<i style="transform: translate(1px, 0px);" class="fa fa-li display:block"></i>New'
                 +'</li>'
+                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'score\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
+                  +'<i style="transform: translate(1px, 0px);" class="fa fa-li display:block"></i>Score'
+                +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'playercount\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
                   +'<i class="fa fa-li">&#xf0c0;</i>Player Count'
                 +'</li>'
@@ -3104,6 +3107,31 @@
           }
         }
       }
+      if(filtertype=="score"){
+        for(i=0;i<plays.length;i++){
+          if(SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0]!==undefined){
+            tmpPlayers=SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
+            for(p=0;p<tmpPlayers.length;p++){
+              tmpScore=tmpPlayers[p].getAttribute("score");
+              if(lines[l].value=="eq"){
+                if(tmpScore==lines[l].parentNode.children[2].value){
+                  plays[i].matches++;
+                }
+              }
+              if(lines[l].value=="lt"){
+                if(tmpScore<lines[l].parentNode.children[2].value){
+                  plays[i].matches++;
+                }
+              }
+              if(lines[l].value=="gt"){
+                if(tmpScore>lines[l].parentNode.children[2].value){
+                  plays[i].matches++;
+                }
+              }
+            }
+          }
+        }
+      }
 
     }
     var tmpLines=document.getElementsByName("SPLU.PlaysFiltersLine").length;
@@ -3150,6 +3178,14 @@
         +' <input type="text" name="SPLU.PlaysFiltersLine2" data-SPLU-FilterType="playercountvalue" onKeyPress="eventFilterLineEnter(event)" style="width:25px;"/>';
       }
       
+      if(filter=="score"){
+        tmpHTML+='Score:<select name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="score" onChange="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);}">'
+        +'<option value="eq">Exactly</option>'
+        +'<option value="lt">Less Than</option>'
+        +'<option value="gt">Greater Than</option>'
+        +' <input type="text" name="SPLU.PlaysFiltersLine2" data-SPLU-FilterType="scorevalue" onKeyPress="eventFilterLineEnter(event)" style="width:25px;"/>';
+      }
+
       if(filter=="daterange"){
         tmpHTML+='Begin:<input type="text" style="font-size:8pt;width:70px;" placeholder="YYYY-MM-DD" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="begindate" onKeyPress="eventFilterLineEnter(event)"/> End:<input type="text" style="font-size:8pt;width:70px;" placeholder="YYYY-MM-DD" name="SPLU.PlaysFiltersLine2" data-SPLU-FilterType="enddate" onKeyPress="eventFilterLineEnter(event)"/>';
       }
@@ -3354,6 +3390,7 @@
       }
       var tmpHigh=-999999999;
       var tmpLow=999999999;
+      var tmpSpreadInc=true;
       for(p=0;p<tmpPlayers.length;p++){
         var tmpName="Unknown";
         var tmpNameID="";
@@ -3385,6 +3422,8 @@
         var tmpScore=0;
         if(tmpPlayers[p].getAttribute("score")!="" && isNumeric(tmpPlayers[p].getAttribute("score"))){
           tmpScore=Number(tmpPlayers[p].getAttribute("score"));
+        }else{
+          tmpSpreadInc=false;
         }
         if(tmpScore==0){
           SPLUgameStats[tmpGame]["Players"][tmpNameID]["TotalZeroScores"]++;
@@ -3425,7 +3464,7 @@
         if(tmpScore>tmpHigh){
           tmpHigh=tmpScore;
         }
-        if(tmpScore<tmpLow){
+        if(tmpPlayers[p].getAttribute("score")!="" && tmpScore<tmpLow){
           tmpLow=tmpScore;
         }
         SPLUgameStats[tmpGame]["Players"][tmpNameID]["TotalScore"]+=tmpScore;
@@ -3446,18 +3485,20 @@
           }
         }
       }
-      tmpSpread=tmpHigh-tmpLow;
-      SPLUgameStats[tmpGame]["TotalSpread"]+=tmpSpread;
-      if(tmpSpread>SPLUgameStats[tmpGame]["HighSpread"]){
-        SPLUgameStats[tmpGame]["HighSpread"]=tmpSpread;
-        SPLUgameStats[tmpGame]["HighSpreadPlay"]=tmpPlay;
-      }
-      if(tmpSpread<SPLUgameStats[tmpGame]["LowSpread"]){
-        SPLUgameStats[tmpGame]["LowSpread"]=tmpSpread;
-        SPLUgameStats[tmpGame]["LowSpreadPlay"]=tmpPlay;
-      }
-      if(tmpSpread>0){
-        SPLUgameStats[tmpGame]["TotalSpreads"]++;
+      if(tmpSpreadInc){
+        tmpSpread=tmpHigh-tmpLow;
+        SPLUgameStats[tmpGame]["TotalSpread"]+=tmpSpread;
+        if(tmpSpread>SPLUgameStats[tmpGame]["HighSpread"]){
+          SPLUgameStats[tmpGame]["HighSpread"]=tmpSpread;
+          SPLUgameStats[tmpGame]["HighSpreadPlay"]=tmpPlay;
+        }
+        if(tmpSpread<SPLUgameStats[tmpGame]["LowSpread"]){
+          SPLUgameStats[tmpGame]["LowSpread"]=tmpSpread;
+          SPLUgameStats[tmpGame]["LowSpreadPlay"]=tmpPlay;
+        }
+        if(tmpSpread>0){
+          SPLUgameStats[tmpGame]["TotalSpreads"]++;
+        }
       }
     }
 
