@@ -3114,24 +3114,26 @@
             for(p=0;p<tmpPlayers.length;p++){
               tmpScore=tmpPlayers[p].getAttribute("score");
               tmpCompare=lines[l].parentNode.children[2].value;
-              console.log("score:"+tmpScore+", Compare:"+lines[l].value+" "+tmpCompare);
               if(lines[l].value=="eq"){
                 if(tmpScore==tmpCompare){
-                  console.log("==");
                   plays[i].matches++;
                   break;
                 }
               }
               if(lines[l].value=="lt"){
                 if(Number(tmpScore)<Number(tmpCompare) && tmpScore!=""){
-                  console.log("lt");
                   plays[i].matches++;
                   break;
                 }
               }
               if(lines[l].value=="gt"){
                 if(Number(tmpScore)>Number(tmpCompare)){
-                  console.log("gt");
+                  plays[i].matches++;
+                  break;
+                }
+              }
+              if(lines[l].value=="in"){
+                if(tmpScore.toLowerCase().indexOf(tmpCompare.toLowerCase())>-1){
                   plays[i].matches++;
                   break;
                 }
@@ -3191,6 +3193,7 @@
         +'<option value="eq">Exactly</option>'
         +'<option value="lt">Less Than</option>'
         +'<option value="gt">Greater Than</option>'
+        +'<option value="in">Contains</option>'
         +' <input type="text" name="SPLU.PlaysFiltersLine2" data-SPLU-FilterType="scorevalue" onKeyPress="eventFilterLineEnter(event)" style="width:25px;"/>';
       }
 
