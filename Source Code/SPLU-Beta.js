@@ -953,6 +953,9 @@
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'new\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
                   +'<i style="transform: translate(1px, 0px);" class="fa fa-li display:block"></i>New'
                 +'</li>'
+                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'score\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
+                  +'<i style="transform: translate(1px, 0px);" class="fa fa-li fa-dartboard display:block"></i>Score'
+                +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'playercount\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
                   +'<i class="fa fa-li">&#xf0c0;</i>Player Count'
                 +'</li>'
@@ -3104,6 +3107,39 @@
           }
         }
       }
+      if(filtertype=="score"){
+        for(i=0;i<plays.length;i++){
+          if(SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0]!==undefined){
+            tmpPlayers=SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
+            for(p=0;p<tmpPlayers.length;p++){
+              tmpScore=tmpPlayers[p].getAttribute("score");
+              tmpCompare=lines[l].parentNode.children[2].value;
+              console.log("score:"+tmpScore+", Compare:"+lines[l].value+" "+tmpCompare);
+              if(lines[l].value=="eq"){
+                if(tmpScore==tmpCompare){
+                  console.log("==");
+                  plays[i].matches++;
+                  break;
+                }
+              }
+              if(lines[l].value=="lt"){
+                if(Number(tmpScore)<Number(tmpCompare) && tmpScore!=""){
+                  console.log("lt");
+                  plays[i].matches++;
+                  break;
+                }
+              }
+              if(lines[l].value=="gt"){
+                if(Number(tmpScore)>Number(tmpCompare)){
+                  console.log("gt");
+                  plays[i].matches++;
+                  break;
+                }
+              }
+            }
+          }
+        }
+      }
 
     }
     var tmpLines=document.getElementsByName("SPLU.PlaysFiltersLine").length;
@@ -3150,6 +3186,14 @@
         +' <input type="text" name="SPLU.PlaysFiltersLine2" data-SPLU-FilterType="playercountvalue" onKeyPress="eventFilterLineEnter(event)" style="width:25px;"/>';
       }
       
+      if(filter=="score"){
+        tmpHTML+='Score:<select name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="score" onChange="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);}">'
+        +'<option value="eq">Exactly</option>'
+        +'<option value="lt">Less Than</option>'
+        +'<option value="gt">Greater Than</option>'
+        +' <input type="text" name="SPLU.PlaysFiltersLine2" data-SPLU-FilterType="scorevalue" onKeyPress="eventFilterLineEnter(event)" style="width:25px;"/>';
+      }
+
       if(filter=="daterange"){
         tmpHTML+='Begin:<input type="text" style="font-size:8pt;width:70px;" placeholder="YYYY-MM-DD" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="begindate" onKeyPress="eventFilterLineEnter(event)"/> End:<input type="text" style="font-size:8pt;width:70px;" placeholder="YYYY-MM-DD" name="SPLU.PlaysFiltersLine2" data-SPLU-FilterType="enddate" onKeyPress="eventFilterLineEnter(event)"/>';
       }
@@ -3181,7 +3225,7 @@
           +'<input id="SPLUtypeFilterButtonValue" value="boardgame" type="hidden" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'"/>';
       }
       
-      if(filter!="objecttype" && filter!="excludeexpansions" && filter!="excludenowinstats" && filter!="excludeincomplete" && filter!="daterange" && filter!="playercount"){
+      if(filter!="objecttype" && filter!="excludeexpansions" && filter!="excludenowinstats" && filter!="excludeincomplete" && filter!="daterange" && filter!="playercount" && filter!="score"){
         tmpHTML+=filterName+': <input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" onKeyPress="eventFilterLineEnter(event)" value="'+filterVal+'"/>'; 
       }  
       

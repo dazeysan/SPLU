@@ -3113,19 +3113,27 @@
             tmpPlayers=SPLUplayData[user][plays[i].id].getElementsByTagName("players")[0].getElementsByTagName("player");
             for(p=0;p<tmpPlayers.length;p++){
               tmpScore=tmpPlayers[p].getAttribute("score");
+              tmpCompare=lines[l].parentNode.children[2].value;
+              console.log("score:"+tmpScore+", Compare:"+lines[l].value+" "+tmpCompare);
               if(lines[l].value=="eq"){
-                if(tmpScore==lines[l].parentNode.children[2].value){
+                if(tmpScore==tmpCompare){
+                  console.log("==");
                   plays[i].matches++;
+                  break;
                 }
               }
               if(lines[l].value=="lt"){
-                if(tmpScore<lines[l].parentNode.children[2].value){
+                if(Number(tmpScore)<Number(tmpCompare) && tmpScore!=""){
+                  console.log("lt");
                   plays[i].matches++;
+                  break;
                 }
               }
               if(lines[l].value=="gt"){
-                if(tmpScore>lines[l].parentNode.children[2].value){
+                if(Number(tmpScore)>Number(tmpCompare)){
+                  console.log("gt");
                   plays[i].matches++;
+                  break;
                 }
               }
             }
@@ -3217,7 +3225,7 @@
           +'<input id="SPLUtypeFilterButtonValue" value="boardgame" type="hidden" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'"/>';
       }
       
-      if(filter!="objecttype" && filter!="excludeexpansions" && filter!="excludenowinstats" && filter!="excludeincomplete" && filter!="daterange" && filter!="playercount"){
+      if(filter!="objecttype" && filter!="excludeexpansions" && filter!="excludenowinstats" && filter!="excludeincomplete" && filter!="daterange" && filter!="playercount" && filter!="score"){
         tmpHTML+=filterName+': <input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" onKeyPress="eventFilterLineEnter(event)" value="'+filterVal+'"/>'; 
       }  
       
