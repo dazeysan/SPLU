@@ -3914,6 +3914,9 @@
     }else{
       showHideEditButtons("hide");
     }
+    if(document.getElementById("SPLU.Plays-"+SPLUcurrentPlayShown).style.textDecoration=="underline"){
+      document.getElementById("SPLU.Plays-"+SPLUcurrentPlayShown).style.textDecoration=="";
+    }
     document.getElementById("SPLU.Plays-"+id).style.textDecoration="underline";
     SPLUcurrentPlayShown=id;
   }
