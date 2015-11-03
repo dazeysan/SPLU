@@ -50,6 +50,7 @@
     var SPLUlistOfPlays=[];
     var SPLUhistoryOpened=0;
     var SPLUlastGameSaved="";
+    var SPLUcurrentPlayShown="";
     var SPLUdateToday="";
     var SPLUdateYesterday="";
     var SPLUdateDayBefore="";
@@ -2633,6 +2634,7 @@
       tmpExp[i].checked=false;
     }
     highlightDayButton();
+    SPLUcurrentPlayShown="";
   }
   
   function setDateField(date){
@@ -2848,12 +2850,15 @@
           if(SPLUplayData[tmpUser][tmpPlayId].deleted){
             tmpDecoration="text-decoration:line-through;";
           }
+          if(SPLUlastGameSaved==tmpPlayId){
+            tmpDecoration+="background-color:rgb(248, 223, 36);";
+          }
+          if(SPLUcurrentPlayShown==tmpPlayId){
+            tmpDecoration+="text-decoration:underline";
+          }
           tmpCopyDiv='';
           if(copyMode){
             tmpCopyDiv='<div id="SPLUcopyID-'+tmpPlayId+'" style="display:table-cell;"><input type="checkbox" name="SPLUcopyBox" data-SPLUcopyBox="'+tmpPlayId+'"/></div>';
-          }
-          if(SPLUlastGameSaved==tmpPlayId){
-            tmpDecoration+="background-color:aqua;";
           }
           tmpHTML+='<div id="SPLU.Plays-'+tmpPlayId+'" style="display:table-row;'+tmpDecoration+'">'+tmpCopyDiv+'<div style="display:table-cell;">'+tmpPlayDate+' - <a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+tmpPlayId+');}">'+tmpPlayGame+'</a></div></div>';
         }
@@ -3909,6 +3914,8 @@
     }else{
       showHideEditButtons("hide");
     }
+    document.getElementById("SPLU.Plays-"+id).style.textDecoration="underline";
+    SPLUcurrentPlayShown=id;
   }
   
   function showHideEditButtons(action){
