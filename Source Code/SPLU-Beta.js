@@ -3883,15 +3883,19 @@
   function loadPlay(id){
 	  console.log(id);
     SPLUprevGameID=0;
+    tmpChild=0;
+    if(document.getElementById("SPLUcopyID-"+SPLUcurrentPlayShown)!==undefined){
+      tmpChild=1;
+    }
     try{
-      if(document.getElementById("SPLU.Plays-"+SPLUcurrentPlayShown).childNodes[0].style.border=="2px dotted purple"){
-        document.getElementById("SPLU.Plays-"+SPLUcurrentPlayShown).childNodes[0].style.border="";
+      if(document.getElementById("SPLU.Plays-"+SPLUcurrentPlayShown).childNodes[tmpChild].style.border=="2px dotted purple"){
+        document.getElementById("SPLU.Plays-"+SPLUcurrentPlayShown).childNodes[tmpChild].style.border="";
       }
     }catch(err){
       console.log(err);
     }
     clearForm("clear");
-    document.getElementById("SPLU.Plays-"+id).childNodes[0].style.border="2px dotted purple";
+    document.getElementById("SPLU.Plays-"+id).childNodes[tmpChild].style.border="2px dotted purple";
     SPLUcurrentPlayShown=id;
     tmpPlay=SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][id];
     console.log("Found");
