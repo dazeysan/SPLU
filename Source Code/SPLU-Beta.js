@@ -2410,8 +2410,6 @@
   function deleteGamePlay(){
     if (confirm("Press OK to delete this play") == true) {
       document.getElementById('BRresults').innerHTML="Deleting...";
-      
-      
       xmlhttp=new XMLHttpRequest();
       xmlhttp.open("POST","/geekplay.php",true);
       xmlhttp.onload=function(responseJSON,responseText){
@@ -2428,10 +2426,8 @@
       };
       xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
       xmlhttp.send("version=2&action=delete&playid="+tmpPlay.id);
-
       saveGamePlay2('delete');
-
-      
+      SPLUlastGameSaved=tmpPlay.id;
     }
   }
   
@@ -2847,6 +2843,7 @@
           tmpPlayDate=SPLUplayData[tmpUser][tmpPlayId].attributes.date.value;
           tmpPlayGame=SPLUplayData[tmpUser][tmpPlayId].getElementsByTagName("item")[0].attributes.name.value;
           tmpDecoration="";
+          tmpDecoration2="";
           if(SPLUplayData[tmpUser][tmpPlayId].deleted){
             tmpDecoration="text-decoration:line-through;";
           }
@@ -2854,13 +2851,13 @@
             tmpDecoration+="background-color:rgb(248, 223, 36);";
           }
           if(SPLUcurrentPlayShown==tmpPlayId){
-            tmpDecoration+="text-decoration:underline";
+            tmpDecoration2+="border:2px dotted purple;";
           }
           tmpCopyDiv='';
           if(copyMode){
             tmpCopyDiv='<div id="SPLUcopyID-'+tmpPlayId+'" style="display:table-cell;"><input type="checkbox" name="SPLUcopyBox" data-SPLUcopyBox="'+tmpPlayId+'"/></div>';
           }
-          tmpHTML+='<div id="SPLU.Plays-'+tmpPlayId+'" style="display:table-row;'+tmpDecoration+'">'+tmpCopyDiv+'<div style="display:table-cell;">'+tmpPlayDate+' - <a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+tmpPlayId+');}">'+tmpPlayGame+'</a></div></div>';
+          tmpHTML+='<div id="SPLU.Plays-'+tmpPlayId+'" style="display:table-row;'+tmpDecoration+'">'+tmpCopyDiv+'<div style="display:table-cell;'+tmpDecoration2+'">'+tmpPlayDate+' - <a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+tmpPlayId+');}">'+tmpPlayGame+'</a></div></div>';
         }
       }
       tmpHTML+='</div>';
@@ -3886,7 +3883,16 @@
   function loadPlay(id){
 	  console.log(id);
     SPLUprevGameID=0;
+    try{
+      if(document.getElementById("SPLU.Plays-"+SPLUcurrentPlayShown).childNodes[0].style.border=="2px dotted purple"){
+        document.getElementById("SPLU.Plays-"+SPLUcurrentPlayShown).childNodes[0].style.border="";
+      }
+    }catch(err){
+      console.log(err);
+    }
     clearForm("clear");
+    document.getElementById("SPLU.Plays-"+id).childNodes[0].style.border="2px dotted purple";
+    SPLUcurrentPlayShown=id;
     tmpPlay=SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][id];
     console.log("Found");
     if(tmpPlay.getElementsByTagName("players")[0]!==undefined){
@@ -3914,11 +3920,6 @@
     }else{
       showHideEditButtons("hide");
     }
-    if(document.getElementById("SPLU.Plays-"+SPLUcurrentPlayShown).style.textDecoration=="underline"){
-      document.getElementById("SPLU.Plays-"+SPLUcurrentPlayShown).style.textDecoration=="";
-    }
-    document.getElementById("SPLU.Plays-"+id).style.textDecoration="underline";
-    SPLUcurrentPlayShown=id;
   }
   
   function showHideEditButtons(action){
