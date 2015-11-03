@@ -71,6 +71,7 @@
     var SPLUstatLocationSort="location";
     var SPLUstatLuckSort="-count";
     var SPLUstatWinsSort="-wins";
+    var SPLUcopyMode=false;
     
     var observer=new MutationObserver(function(){
       if(document.getElementById('selimage9999').innerHTML.slice(0,4)=="<div"){
@@ -2830,8 +2831,10 @@
     }else{
       if(copyMode){
         showPlaysTab('copymode');
+        SPLUcopyMode=true;
       } else {
         showPlaysTab('filters');
+        SPLUcopyMode=false;
       }
       var tmpHTML="";
       var tmpSortCount=0;
@@ -3884,7 +3887,7 @@
 	  console.log(id);
     SPLUprevGameID=0;
     tmpChild=0;
-    if(document.getElementById("SPLUcopyID-"+SPLUcurrentPlayShown)!==undefined){
+    if(SPLUcopyMode){
       tmpChild=1;
     }
     try{
