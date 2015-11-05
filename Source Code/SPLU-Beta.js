@@ -15,6 +15,101 @@
       if(responseJSON.target.status==200){
         console.log("result 200 fetching user");
         SPLUuser=JSON.parse(responseJSON.target.responseText);
+
+        if(!SPLUuser.loggedIn){
+          alert("You aren't logged in.");
+          throw new Error("You aren't logged in.");
+        }
+        
+        var LoggedInAs=SPLUuser.username;
+        //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
+        //Check if the user is logged in to BGG, throw an error if not
+        //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
+        var SPLUversion="5.5.1";
+
+        var SPLU={};
+        var SPLUplayId="";
+
+        var NumOfPlayers=0;
+        var PlayerCount=0;
+        var LocationList=true;
+        var PlayerList=true;
+        
+        tmp=new Date();
+        var SPLUtodayDate=new Date(tmp.setMinutes(tmp.getMinutes()-tmp.getTimezoneOffset()));
+        var SPLUtoday=SPLUtodayDate.toISOString().slice(0,10);
+        var SPLUtodayDateZero=new Date(SPLUtoday);
+        var SPLUgameID=0;
+        var SPLUgameTitle="";
+        var SPLUprevGameID=-1;
+        var ExpansionsToLog=0;
+        var SPLUwinners=[];
+        var SPLUlocationCount=0;
+        var SPLUcurrentFilter="All";
+        var SPLUcurrentGroup="";
+        var SPLUcalendar="";
+        var SPLUfamilyList="";
+        var SPLUfamilyID="-1";
+        var SPLUexpansionsLoaded=false;
+        var SPLUfamilyLoaded=false;
+        var SPLUplays={};
+        var SPLUplay={};
+        var SPLUobjecttype="";
+        var SPLUplaysPage=1;
+        var SPLUplayData={};
+        var SPLUplayFetch={};
+        var SPLUplayFetchFail=0;
+        var SPLUplaysFiltersCount=0;
+        var SPLUedit={};
+        var SPLUlistOfPlays=[];
+        var SPLUhistoryOpened=0;
+        var SPLUlastGameSaved="";
+        var SPLUcurrentPlayShown="";
+        var SPLUdateToday="";
+        var SPLUdateYesterday="";
+        var SPLUdateDayBefore="";
+        var SPLUcopyContinue=true;
+        var SPLUcopyID="0";
+        var SPLUcopySelectedAll=false;
+        var SPLUcopyCopied=0;
+        var SPLUcopyTotal=0;
+        var SPLUtimeouts={};
+        var SPLUwindowHeight=0;
+        var SPLUplaysListTab="filters";
+        var SPLUplayer={};
+        var SPLUdragDiv="";
+        var SPLUdragSourceDiv = null;
+        var SPLUfavoritesPlayers=[];
+        var SPLUfavoritesEditing="";
+        var SPLUzeroScoreStats=false;
+        var SPLUstatLocationSort="location";
+        var SPLUstatLuckSort="-count";
+        var SPLUstatWinsSort="-wins";
+        var SPLUcopyMode=false;
+        
+        var observer=new MutationObserver(function(){
+          if(document.getElementById('selimage9999').innerHTML.slice(0,4)=="<div"){
+            document.getElementById('BRthumbButtons').style.display="none";
+          }else{
+            document.getElementById('BRthumbButtons').style.display="block";
+          }
+          document.getElementById('BRresults').innerHTML='';
+          document.getElementById('SPLU.ExpansionPane').innerHTML='';
+          document.getElementById('SPLU.FamilyPane').innerHTML='';
+          document.getElementById('BRlogExpansions').style.display="none";
+          document.getElementById('SPLU.ExpansionsHeading').style.borderTop="2px solid blue";
+          document.getElementById('SPLU.FamilyHeading').style.borderTop="";
+          SPLUexpansionsLoaded=false;
+          SPLUfamilyLoaded=false;
+        });
+
+        //Insert FontAwsome CSS
+        tmpLink=document.createElement('link');
+        tmpLink.type="text/css";
+        tmpLink.rel="stylesheet";
+        tmpLink.href="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/font-awesome/css/font-awesome.min.css";
+        document.getElementsByTagName("head")[0].appendChild(tmpLink);
+
       }else{
         console.log("other status code, can't determin user");
       }
@@ -22,100 +117,6 @@
     oReq.open("get","/api/users/current",true);
     oReq.send();
 
-    if(!SPLUuser.loggedIn){
-      alert("You aren't logged in.");
-      throw new Error("You aren't logged in.");
-    }
-    
-    var LoggedInAs=SPLUuser.username;
-    //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
-    //Check if the user is logged in to BGG, throw an error if not
-    //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.5.1";
-
-    var SPLU={};
-    var SPLUplayId="";
-
-    var NumOfPlayers=0;
-    var PlayerCount=0;
-    var LocationList=true;
-    var PlayerList=true;
-    
-    tmp=new Date();
-    var SPLUtodayDate=new Date(tmp.setMinutes(tmp.getMinutes()-tmp.getTimezoneOffset()));
-    var SPLUtoday=SPLUtodayDate.toISOString().slice(0,10);
-    var SPLUtodayDateZero=new Date(SPLUtoday);
-    var SPLUgameID=0;
-    var SPLUgameTitle="";
-    var SPLUprevGameID=-1;
-    var ExpansionsToLog=0;
-    var SPLUwinners=[];
-    var SPLUlocationCount=0;
-    var SPLUcurrentFilter="All";
-    var SPLUcurrentGroup="";
-    var SPLUcalendar="";
-    var SPLUfamilyList="";
-    var SPLUfamilyID="-1";
-    var SPLUexpansionsLoaded=false;
-    var SPLUfamilyLoaded=false;
-    var SPLUplays={};
-    var SPLUplay={};
-    var SPLUobjecttype="";
-    var SPLUplaysPage=1;
-    var SPLUplayData={};
-    var SPLUplayFetch={};
-    var SPLUplayFetchFail=0;
-    var SPLUplaysFiltersCount=0;
-    var SPLUedit={};
-    var SPLUlistOfPlays=[];
-    var SPLUhistoryOpened=0;
-    var SPLUlastGameSaved="";
-    var SPLUcurrentPlayShown="";
-    var SPLUdateToday="";
-    var SPLUdateYesterday="";
-    var SPLUdateDayBefore="";
-    var SPLUcopyContinue=true;
-    var SPLUcopyID="0";
-    var SPLUcopySelectedAll=false;
-    var SPLUcopyCopied=0;
-    var SPLUcopyTotal=0;
-    var SPLUtimeouts={};
-    var SPLUwindowHeight=0;
-    var SPLUplaysListTab="filters";
-    var SPLUplayer={};
-    var SPLUdragDiv="";
-    var SPLUdragSourceDiv = null;
-    var SPLUfavoritesPlayers=[];
-    var SPLUfavoritesEditing="";
-    var SPLUzeroScoreStats=false;
-    var SPLUstatLocationSort="location";
-    var SPLUstatLuckSort="-count";
-    var SPLUstatWinsSort="-wins";
-    var SPLUcopyMode=false;
-    
-    var observer=new MutationObserver(function(){
-      if(document.getElementById('selimage9999').innerHTML.slice(0,4)=="<div"){
-        document.getElementById('BRthumbButtons').style.display="none";
-      }else{
-        document.getElementById('BRthumbButtons').style.display="block";
-      }
-      document.getElementById('BRresults').innerHTML='';
-      document.getElementById('SPLU.ExpansionPane').innerHTML='';
-      document.getElementById('SPLU.FamilyPane').innerHTML='';
-      document.getElementById('BRlogExpansions').style.display="none";
-      document.getElementById('SPLU.ExpansionsHeading').style.borderTop="2px solid blue";
-      document.getElementById('SPLU.FamilyHeading').style.borderTop="";
-      SPLUexpansionsLoaded=false;
-      SPLUfamilyLoaded=false;
-    });
-
-    //Insert FontAwsome CSS
-    tmpLink=document.createElement('link');
-    tmpLink.type="text/css";
-    tmpLink.rel="stylesheet";
-    tmpLink.href="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/font-awesome/css/font-awesome.min.css";
-    document.getElementsByTagName("head")[0].appendChild(tmpLink);
-    
   function initSPLU(){
     NumOfPlayers=0;
     PlayerCount=0;
