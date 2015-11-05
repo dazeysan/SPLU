@@ -14,7 +14,7 @@
       console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
       if(responseJSON.target.status==200){
         console.log("result 200 fetching user");
-        SPLUuser=JSON.parse(this.responseJSON.target.responseText);
+        SPLUuser=JSON.parse(responseJSON.target.responseText);
       }else{
         console.log("other status code, can't determin user");
       }
