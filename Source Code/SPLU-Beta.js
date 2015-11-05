@@ -13,9 +13,8 @@
     oReq.onload=function(responseJSON){
       console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
       if(responseJSON.target.status==200){
-        window.resj=responseJSON;
         console.log("result 200 fetching user");
-        SPLUuser=JSON.parse(this.responseJSON);
+        SPLUuser=JSON.parse(this.responseJSON.target.responseText);
       }else{
         console.log("other status code, can't determin user");
       }
