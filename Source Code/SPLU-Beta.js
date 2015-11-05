@@ -8,6 +8,7 @@
     //Check if SPLU is already open, throw an error if not
     if(document.getElementById('SPLUwindow')){throw new Error("SPLU Already Running");}
     
+    var LoggedInAs="";
     //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
@@ -4764,7 +4765,7 @@
       if(responseJSON.target.status==200){
         console.log("result 200 fetching user");
         SPLUuser=JSON.parse(responseJSON.target.responseText);
-        var LoggedInAs=SPLUuser.username;
+        LoggedInAs=SPLUuser.username;
         if(!SPLUuser.loggedIn){
           alert("You aren't logged in.");
           throw new Error("You aren't logged in.");
