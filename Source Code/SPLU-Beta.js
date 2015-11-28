@@ -72,7 +72,9 @@
     var SPLUstatLocationSort="location";
     var SPLUstatLuckSort="-count";
     var SPLUstatWinsSort="-wins";
+    var SPLUstatGameList="game";
     var SPLUcopyMode=false;
+    var SPLUcombine=false;  //Temp variable, see getStatsGameDetails
     
     var observer=new MutationObserver(function(){
       if(document.getElementById('selimage9999').innerHTML.slice(0,4)=="<div"){
@@ -1008,6 +1010,7 @@
           +'Stat: <select class="fa" id="SPLU.SelectStat" onChange="javascript:{loadStats(\'choose\');}">'
             +'<option class="fa" style="display:block;" value="PlaysWins" selected>&#xf091; Wins</option>'
             +'<option class="fa" style="display:block;" value="BeginnersLuck">&#x2618; Beginner\'s Luck</option>'
+            +'<option class="fa" style="display:block;" value="GameList">&#xee34; Game List</option>'
             +'<option class="fa" style="display:block;" value="GameDetails">&#xf201; Game Details</option>'
             +'<option class="fa" style="display:block;" value="Locations">&#xf041; Locations</option>'
           +'</select>'
@@ -3340,6 +3343,10 @@
       window.setTimeout(function(){getStatsLocations(tmpUser,SPLUstatLocationSort);},25);
       document.getElementById('SPLUcsvDownload').style.display="";
     }
+    if(stat=="GameList"){
+      window.setTimeout(function(){getStatsGameList(tmpUser,SPLUstatGameList);},25);
+      document.getElementById('SPLUcsvDownload').style.display="";
+    }
   }
 
   function isNumeric(n) {
@@ -3369,7 +3376,12 @@
       } catch(err) {
         continue;
       }
-      var tmpGame=tmpPlay.getElementsByTagName("item")[0].getAttribute("objectid");
+      //Temporary variable and test of combining game scores so you can see all of the TTR series scores together for example
+      if(SPLUcombine==true){
+        tmpGame=-1;
+      }else{
+        tmpGame=tmpPlay.getElementsByTagName("item")[0].getAttribute("objectid");
+      }
       if(SPLUgameStats[tmpGame]===undefined){
         SPLUgameStats[tmpGame]={
           "HighScore":-999999999,
@@ -3396,6 +3408,9 @@
           "Players":{},
           "Game":tmpPlay.getElementsByTagName("item")[0].getAttribute("name")
         };
+        if(SPLUcombine==true){
+          SPLUgameStats[tmpGame]["Game"]="*Multiple Games*";
+        }
       }
       var tmpDuration=Number(tmpPlay.getAttribute("length"));
       if(tmpDuration>0){
@@ -3883,6 +3898,63 @@
     document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
     document.getElementById("SPLU.PlaysLoadingDiv").style.display="none";
   }
+  
+  function getStatsGameList(tmpUser,sort){
+    SPLUstatGameList=sort;
+    SPLUgameStats={};
+    for(i=0;i<SPLUlistOfPlays.length;i++){
+      if(SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].deleted){
+        continue;
+      }
+      var tmpPlay=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id];
+      var tmpGame=tmpPlay.getElementsByTagName("item")[0].getAttribute("objectid");
+      if(SPLUgameStats[tmpGame]===undefined){
+        SPLUgameStats[tmpGame]={
+          "GameName":tmpPlay.getElementsByTagName("item")[0].getAttribute("name"),
+          "TotalPlays":0
+        };
+      }
+      SPLUgameStats[tmpGame]["TotalPlays"]++;
+    }
+    tmpGames=[];
+    for(key in SPLUgameStats){
+      if (SPLUgameStats.hasOwnProperty(key)) {
+        tmpGames.push({game:SPLUgameStats[key]["GameName"],plays:SPLUgameStats[key]["TotalPlays"]});
+      }
+    }
+    //Sorting by "player" first to get alpha order amoung numeric groups.
+    //Really should check if they are already sorting by player so as not to run it twice.
+    tmpGames.sort(dynamicSortMultipleCI("game"));
+    tmpGames.sort(dynamicSortMultipleCI(sort));
+    tmpSortGame="game";
+    tmpSortPlays="plays";
+    tmpClassPlayer="fa fa-sort-alpha-asc";
+    tmpClassPlays="fa fa-sort-amount-asc";
+    if(sort=="game"){
+      tmpSortGame="-game";
+      tmpClassPlayer="fa fa-sort-alpha-desc";
+    }else if(sort=="plays"){
+      tmpSortPlays="-plays";
+      tmpClassPlays="fa fa-sort-amount-desc";
+    }
+    tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
+      +'<div style="display:table-row;">'
+      +'<div style="display:table-cell;font-weight:bold;width:75%;text-align:center;"><a onclick="javascript:{getStatsGameList(\''+tmpUser+'\',\''+tmpSortGame+'\');}" href="javascript:{void(0);}">Game <i class="'+tmpClassPlayer+'"></i></a></div>'
+      +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsGameList(\''+tmpUser+'\',\''+tmpSortPlays+'\');}" href="javascript:{void(0);}">Plays <i class="'+tmpClassPlays+'"></i></a></div>'
+      +'</div>';
+    SPLUcsv='"Player","Play Count"\r\n';
+    for(i=0;i<tmpGames.length;i++){
+      tmpHTML+='<div style="display:table-row;" onMouseOver="javascript:{this.style.backgroundColor=\'yellow\';}" onMouseOut="javascript:{this.style.backgroundColor=\'#f1f8fb\';}">';
+      tmpHTML+='<div style="display:table-cell;text-align:left;">'+tmpGames[i]["game"]+'</div>';
+      tmpHTML+='<div style="display:table-cell;padding-right:10px;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'gamename\',\'='+tmpGames[i]["game"]+'\');}" href="javascript:{void(0);}">'+tmpGames[i]["plays"]+'</a></div>';
+      tmpHTML+='</div>';
+      SPLUcsv+='"'+tmpGames[i]["game"]+'","'+tmpGames[i]["plays"]+'"\r\n';
+    }
+    tmpHTML+='</div>';
+    document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
+    document.getElementById("SPLU.PlaysLoadingDiv").style.display="none";
+  }
+
   
   function loadPlay(id){
 	  console.log(id);
