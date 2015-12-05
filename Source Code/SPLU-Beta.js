@@ -31,6 +31,7 @@
     var SPLUprevGameID=-1;
     var ExpansionsToLog=0;
     var SPLUwinners=[];
+    var SPLUwinnersScores=[];
     var SPLUlocationCount=0;
     var SPLUcurrentFilter="All";
     var SPLUcurrentGroup="";
@@ -2140,10 +2141,12 @@
   function getWinners(){
     winboxes=document.getElementsByClassName('SPLU.WinBox');
     SPLUwinners=[];
+    SPLUwinnersScores=[];
     comment="";
     for(i=0;i<winboxes.length;i++){
       if(winboxes[i].checked){
         SPLUwinners.push(document.getElementsByName('players['+winboxes[i].name.slice(8,winboxes[i].name.indexOf("]"))+'][name]')[0].value);
+        SPLUwinnersScores.push(document.getElementsByName('players['+winboxes[i].name.slice(8,winboxes[i].name.indexOf("]"))+'][score]')[0].value);
       }
     }
     return(SPLUwinners.length);
@@ -2162,6 +2165,10 @@
       }
       if(comment!=""){
         comment+=" won";
+        if(SPLUwinners.length==1 && SPLUwinnersScores[0]!=""){
+          comment+=" with a score of ";
+          comment+=SPLUwinnersScores[0];
+        }
       }
       document.getElementById("quickplay_comments99").value=comment;
     }
