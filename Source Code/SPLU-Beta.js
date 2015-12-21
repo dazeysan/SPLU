@@ -2864,10 +2864,10 @@
             tmpDecoration="text-decoration:line-through;";
           }
           if(SPLUlastGameSaved==tmpPlayId){
-            tmpDecoration+="border:2px dotted purple;";
+            tmpDecoration2+="border:2px dotted purple;";
           }
           if(SPLUcurrentPlayShown==tmpPlayId){
-            tmpDecoration2+="background-color:rgb(248, 223, 36);";
+            tmpDecoration+="background-color:rgb(248, 223, 36);";
           }
           tmpCopyDiv='';
           if(copyMode){
