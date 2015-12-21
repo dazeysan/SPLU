@@ -74,6 +74,7 @@
     var SPLUstatLuckSort="-count";
     var SPLUstatWinsSort="-wins";
     var SPLUstatGameList="game";
+    var SPLUstatGameDaysSince="days";
     var SPLUcopyMode=false;
     var SPLUcombine=false;  //Temp variable, see getStatsGameDetails
     
@@ -1014,6 +1015,7 @@
             +'<option class="fa" style="display:block;" value="GameList">&#xee34; Game List</option>'
             +'<option class="fa" style="display:block;" value="GameDetails">&#xf201; Game Details</option>'
             +'<option class="fa" style="display:block;" value="Locations">&#xf041; Locations</option>'
+            +'<option class="fa" style="display:block;" value="GameDaysSince">&#xf272; Days Since...</option>'
           +'</select>'
           +'<span style="margin-left: 10px;" id="SPLUzeroScoreStatsDiv">'
             +'Include Zeros:<input style="vertical-align: middle;" id="SPLUzeroScoreStatsCheck" onChange="javascript:{SPLUzeroScoreStats=document.getElementById(\'SPLUzeroScoreStatsCheck\').checked;loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);}" type="checkbox">'
@@ -3354,6 +3356,10 @@
       window.setTimeout(function(){getStatsGameList(tmpUser,SPLUstatGameList);},25);
       document.getElementById('SPLUcsvDownload').style.display="";
     }
+    if(stat=="GameDaysSince"){
+      window.setTimeout(function(){getStatsGameDaysSince(tmpUser,SPLUstatGameDaysSince);},25);
+      document.getElementById('SPLUcsvDownload').style.display="";
+    }
   }
 
   function isNumeric(n) {
@@ -3971,6 +3977,67 @@
       tmpHTML+='<div style="display:table-cell;padding-right:10px;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'gamename\',\'='+tmpGames[i]["game"]+'\');}" href="javascript:{void(0);}">'+tmpGames[i]["plays"]+'</a></div>';
       tmpHTML+='</div>';
       SPLUcsv+='"'+tmpGames[i]["game"]+'","'+tmpGames[i]["plays"]+'"\r\n';
+    }
+    tmpHTML+='</div>';
+    document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
+    document.getElementById("SPLU.PlaysLoadingDiv").style.display="none";
+  }
+
+  function getStatsGameDaysSince(tmpUser,sort){
+    SPLUstatGameList=sort;
+    SPLUgameStats={};
+    for(i=0;i<SPLUlistOfPlays.length;i++){
+      if(SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].deleted){
+        continue;
+      }
+      var tmpPlay=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id];
+      var tmpGame=tmpPlay.getElementsByTagName("item")[0].getAttribute("objectid");
+      var tmpDate=new Date(tmpPlay.getAttribute("date"));
+      if(SPLUgameStats[tmpGame]===undefined){
+        SPLUgameStats[tmpGame]={
+          "GameName":tmpPlay.getElementsByTagName("item")[0].getAttribute("name"),
+          "DaysSincePlayed":99999
+        };
+      }
+      var tmpDiff=Math.round((SPLUtodayDateZero-tmpDate)/(1000*60*60*24));
+      if(tmpDiff<SPLUgameStats[tmpGame]["DaysSincePlayed"]){
+        SPLUgameStats[tmpGame]["DaysSincePlayed"]=tmpDiff;
+      }
+    }
+    tmpGames=[];
+    for(key in SPLUgameStats){
+      if (SPLUgameStats.hasOwnProperty(key)) {
+        tmpGames.push({game:SPLUgameStats[key]["GameName"],days:SPLUgameStats[key]["DaysSincePlayed"]});
+      }
+    }
+    //Sorting by "game" first to get alpha order amoung numeric groups.
+    tmpGames.sort(dynamicSortMultipleCI("game"));
+    tmpGames.sort(dynamicSortMultipleCI(sort));
+    tmpSortGame="game";
+    tmpSortDays="days";
+    tmpClassPlayer="fa fa-sort-alpha-asc";
+    tmpClassDays="fa fa-sort-amount-asc";
+    if(sort=="game"){
+      tmpSortGame="-game";
+      tmpClassPlayer="fa fa-sort-alpha-desc";
+    }else if(sort=="days"){
+      tmpSortDays="-days";
+      tmpClassDays="fa fa-sort-amount-desc";
+    }
+    tmpHTML='';
+    //tmpHTML+='<div>H-Index: '+tmpHIndex2+'</div>';
+    tmpHTML+='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
+      +'<div style="display:table-row;">'
+      +'<div style="display:table-cell;font-weight:bold;width:75%;text-align:center;"><a onclick="javascript:{getStatsGameDaysSince(\''+tmpUser+'\',\''+tmpSortGame+'\');}" href="javascript:{void(0);}">Game <i class="'+tmpClassPlayer+'"></i></a></div>'
+      +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsGameDaysSince(\''+tmpUser+'\',\''+tmpSortDays+'\');}" href="javascript:{void(0);}">Days <i class="'+tmpClassDays+'"></i></a></div>'
+      +'</div>';
+    SPLUcsv='"Game","Play Count"\r\n';
+    for(i=0;i<tmpGames.length;i++){
+      tmpHTML+='<div style="display:table-row;" onMouseOver="javascript:{this.style.backgroundColor=\'yellow\';}" onMouseOut="javascript:{this.style.backgroundColor=\'#f1f8fb\';}">';
+      tmpHTML+='<div style="display:table-cell;text-align:left;">'+tmpGames[i]["game"]+'</div>';
+      tmpHTML+='<div style="display:table-cell;padding-right:10px;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'gamename\',\'='+tmpGames[i]["game"]+'\');}" href="javascript:{void(0);}">'+tmpGames[i]["days"]+'</a></div>';
+      tmpHTML+='</div>';
+      SPLUcsv+='"'+tmpGames[i]["game"]+'","'+tmpGames[i]["days"]+'"\r\n';
     }
     tmpHTML+='</div>';
     document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
