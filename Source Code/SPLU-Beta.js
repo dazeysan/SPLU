@@ -3984,7 +3984,7 @@
   }
 
   function getStatsGameDaysSince(tmpUser,sort){
-    SPLUstatGameList=sort;
+    SPLUstatGameDaysSince=sort;
     SPLUgameStats={};
     for(i=0;i<SPLUlistOfPlays.length;i++){
       if(SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].deleted){
