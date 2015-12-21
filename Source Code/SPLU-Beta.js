@@ -2437,7 +2437,7 @@
         }
       };
       xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-      xmlhttp.send("version=2&action=delete&playid="+tmpPlay.id);
+      xmlhttp.send("finalize=1&action=delete&playid="+tmpPlay.id);
       saveGamePlay2('delete');
       SPLUlastGameSaved=tmpPlay.id;
     }
@@ -3924,13 +3924,26 @@
       SPLUgameStats[tmpGame]["TotalPlays"]++;
     }
     tmpGames=[];
+    tmpHIndex={};
     for(key in SPLUgameStats){
       if (SPLUgameStats.hasOwnProperty(key)) {
         tmpGames.push({game:SPLUgameStats[key]["GameName"],plays:SPLUgameStats[key]["TotalPlays"]});
+        //H-Index
+        if(tmpHIndex[SPLUgameStats[key]["TotalPlays"]]===undefined){
+          tmpHIndex[SPLUgameStats[key]["TotalPlays"]]=0;
+        }
+        tmpHIndex[SPLUgameStats[key]["TotalPlays"]]++;
       }
     }
-    //Sorting by "player" first to get alpha order amoung numeric groups.
-    //Really should check if they are already sorting by player so as not to run it twice.
+    tmpHIndex2="";
+    for(key in tmpHIndex){
+      if (tmpHIndex.hasOwnProperty(key)) {
+        if(tmpHIndex[key]>=key){
+          tmpHIndex2=key;
+        }
+      }
+    }
+    //Sorting by "game" first to get alpha order amoung numeric groups.
     tmpGames.sort(dynamicSortMultipleCI("game"));
     tmpGames.sort(dynamicSortMultipleCI(sort));
     tmpSortGame="game";
@@ -3944,7 +3957,9 @@
       tmpSortPlays="-plays";
       tmpClassPlays="fa fa-sort-amount-desc";
     }
-    tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
+    tmpHTML='';
+    //tmpHTML+='<div>H-Index: '+tmpHIndex2+'</div>';
+    tmpHTML+='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
       +'<div style="display:table-row;">'
       +'<div style="display:table-cell;font-weight:bold;width:75%;text-align:center;"><a onclick="javascript:{getStatsGameList(\''+tmpUser+'\',\''+tmpSortGame+'\');}" href="javascript:{void(0);}">Game <i class="'+tmpClassPlayer+'"></i></a></div>'
       +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsGameList(\''+tmpUser+'\',\''+tmpSortPlays+'\');}" href="javascript:{void(0);}">Plays <i class="'+tmpClassPlays+'"></i></a></div>'
