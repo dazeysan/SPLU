@@ -961,7 +961,7 @@
                   +'<i style="transform: translate(1px, 0px);" class="fa fa-li display:block"></i>New'
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'score\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i style="transform: translate(1px, 0px);" class="fa fa-li fa-dartboard display:block"></i>Score'
+                  +'<i style="transform: translate(4px, 0px); font-size: 12px;" class="fa fa-li fa-dartboard display:block"></i>Score'
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'playercount\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
                   +'<i class="fa fa-li">&#xf0c0;</i>Player Count'
@@ -2864,10 +2864,10 @@
             tmpDecoration="text-decoration:line-through;";
           }
           if(SPLUlastGameSaved==tmpPlayId){
-            tmpDecoration+="background-color:rgb(248, 223, 36);";
+            tmpDecoration2+="border:2px dotted purple;";
           }
           if(SPLUcurrentPlayShown==tmpPlayId){
-            tmpDecoration2+="border:2px dotted purple;";
+            tmpDecoration+="background-color:rgb(248, 223, 36);";
           }
           tmpCopyDiv='';
           if(copyMode){
@@ -4053,14 +4053,14 @@
       tmpChild=1;
     }
     try{
-      if(document.getElementById("SPLU.Plays-"+SPLUcurrentPlayShown).childNodes[tmpChild].style.border=="2px dotted purple"){
-        document.getElementById("SPLU.Plays-"+SPLUcurrentPlayShown).childNodes[tmpChild].style.border="";
+      if(document.getElementById("SPLU.Plays-"+SPLUcurrentPlayShown).childNodes[tmpChild].style.backgroundColor=="rgb(248, 223, 36)"){
+        document.getElementById("SPLU.Plays-"+SPLUcurrentPlayShown).childNodes[tmpChild].style.backgroundColor="";
       }
     }catch(err){
       console.log(err);
     }
     clearForm("clear");
-    document.getElementById("SPLU.Plays-"+id).childNodes[tmpChild].style.border="2px dotted purple";
+    document.getElementById("SPLU.Plays-"+id).childNodes[tmpChild].style.backgroundColor="rgb(248, 223, 36)";
     SPLUcurrentPlayShown=id;
     tmpPlay=SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][id];
     console.log("Found");
