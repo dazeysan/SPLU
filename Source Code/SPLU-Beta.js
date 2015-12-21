@@ -2864,10 +2864,10 @@
             tmpDecoration="text-decoration:line-through;";
           }
           if(SPLUlastGameSaved==tmpPlayId){
-            tmpDecoration+="background-color:rgb(248, 223, 36);";
+            tmpDecoration+="border:2px dotted purple;";
           }
           if(SPLUcurrentPlayShown==tmpPlayId){
-            tmpDecoration2+="border:2px dotted purple;";
+            tmpDecoration2+="background-color:rgb(248, 223, 36);";
           }
           tmpCopyDiv='';
           if(copyMode){
@@ -4053,14 +4053,14 @@
       tmpChild=1;
     }
     try{
-      if(document.getElementById("SPLU.Plays-"+SPLUcurrentPlayShown).childNodes[tmpChild].style.border=="2px dotted purple"){
-        document.getElementById("SPLU.Plays-"+SPLUcurrentPlayShown).childNodes[tmpChild].style.border="";
+      if(document.getElementById("SPLU.Plays-"+SPLUcurrentPlayShown).childNodes[tmpChild].style.backgroundColor=="rgb(248, 223, 36)"){
+        document.getElementById("SPLU.Plays-"+SPLUcurrentPlayShown).childNodes[tmpChild].style.backgroundColor="";
       }
     }catch(err){
       console.log(err);
     }
     clearForm("clear");
-    document.getElementById("SPLU.Plays-"+id).childNodes[tmpChild].style.border="2px dotted purple";
+    document.getElementById("SPLU.Plays-"+id).childNodes[tmpChild].style.backgroundColor="rgb(248, 223, 36)";
     SPLUcurrentPlayShown=id;
     tmpPlay=SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][id];
     console.log("Found");
