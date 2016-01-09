@@ -1870,7 +1870,7 @@
       tmpName=decodeURIComponent(SPLU.Players[player].Name);
       tmpUser=decodeURIComponent(SPLU.Players[player].Username);
       tmpColor=decodeURIComponent(SPLU.Players[player].Color);
-    } else if(SPLU.Players[player]===undefined){
+    } else if(SPLU.Players[player]===undefined && player!=-1){
       console.log(player+" does not exist.");
       return;
     }
