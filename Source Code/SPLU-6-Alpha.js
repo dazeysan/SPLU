@@ -190,7 +190,7 @@
             +'<div style="display:table-row;">'
               +'<div style="display:inline;">'
                 +'<input id="playdate99" type="hidden" value="'+SPLUtoday+'" name="playdate"/>'
-                //+'<input id="playdateinput99" tabindex="10" style="width:75px;" type="text" oninput="highlightDayButton();" onkeyup="parseDate(this,$(\'playdate99\'),$(\'playdatestatus99\') );" value="'+SPLUtoday+'" autocomplete="off" name="dateinput"/>'
+                //+'<input id="playdateinput99" tabindex="10" style="width:75px;" type="text" oninput="highlightDayButton();" /*onkeyup="parseDate(this,$(\'playdate99\'),$(\'playdatestatus99\') );"*/ value="'+SPLUtoday+'" autocomplete="off" name="dateinput"/>'
                 +'<input id="playdateinput99" tabindex="10" style="width:75px;" type="us-date" placeholder="yyyy-mm-dd" value="'+SPLUtoday+'" autocomplete="off" name="dateinput">'
               +'</div>'
               +'<div id="playdatestatus99" class="sf" style="font-style:italic; font-size:0;display:inline;">'
@@ -1885,6 +1885,7 @@
       if(player.attributes.new.value==1){
         tmpNew="checked";
       }
+    //Need to fix this so it can handle bad input, along with fixing bad save data
     } else if(SPLU.Players[player]===undefined && player!=-1){
       console.log(player+" does not exist.");
       return;
@@ -2671,8 +2672,14 @@
   
   function setDateField(date){
     document.getElementById('playdateinput99').value=date;
-    parseDate(document.getElementById('playdateinput99'),$('playdate99'),$('playdatestatus99'));
+    //parseDate(document.getElementById('playdateinput99'),$('playdate99'),$('playdatestatus99'));
+    console.log("Valid Date: "+isValidDate(document.getElementById('playdateinput99')));
     highlightDayButton();
+  }
+  
+  function isValidDate(dateString) {
+    var regEx = /^\d{4}-\d{2}-\d{2}$/;
+    return dateString.match(regEx) != null;
   }
 
   function eventPlaysPlayerEnter(e){
