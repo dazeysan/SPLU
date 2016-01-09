@@ -104,7 +104,7 @@
   //Insert W2UI script and CSS
   tmpScript=document.createElement('script');
   tmpScript.type="text/javascript";
-  tmpScript.href="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/scripts/w2ui-1.4.3.min.js";
+  tmpScript.src="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/scripts/w2ui-1.4.3.min.js";
   document.getElementsByTagName("head")[0].appendChild(tmpScript);
   tmpLink=document.createElement('link');
   tmpLink.type="text/css";
