@@ -1279,9 +1279,10 @@
     setPlayers("reset");
 
     //New Calendar Stuff
-    var month = (new Date()).getMonth() + 1;
-    var year  = (new Date()).getFullYear();
+    //var month = (new Date()).getMonth() + 1;
+    //var year  = (new Date()).getFullYear();
     $('input[type=us-date]').w2field('date', { format: 'yyyy-mm-dd'});
+    console.log("just after calendar code");
   }
   
   function highlightDayButton(){
