@@ -1866,13 +1866,13 @@
       if(player.attributes.new.value==1){
         tmpNew="checked";
       }
-    } else if(SPLU.Players[player]===undefined){
-      console.log(player+" does not exist.");
-      return;
     } else if(player!=-1){
       tmpName=decodeURIComponent(SPLU.Players[player].Name);
       tmpUser=decodeURIComponent(SPLU.Players[player].Username);
       tmpColor=decodeURIComponent(SPLU.Players[player].Color);
+    } else if(SPLU.Players[player]===undefined && player!=-1){
+      console.log(player+" does not exist.");
+      return;
     }
     var paddedNum=NumOfPlayers+"";
     while(paddedNum.length<2){
