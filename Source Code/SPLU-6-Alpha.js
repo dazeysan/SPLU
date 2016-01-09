@@ -1088,13 +1088,6 @@
   }
   
   function finalSetup(){
-    //New Calendar Stuff
-    $(function () {
-      var month = (new Date()).getMonth() + 1;
-      var year  = (new Date()).getFullYear();
-      $('input[type=us-date]').w2field('date', { format: 'yyyy-mm-dd'});
-    });
-
     highlightDayButton();
     loadPlayers();  
     loadLocations();
@@ -1284,6 +1277,13 @@
     tmpDiv.innerHTML='<div id="SPLU.PlayerSaveHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
     document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
     setPlayers("reset");
+
+    //New Calendar Stuff
+    $(function () {
+      var month = (new Date()).getMonth() + 1;
+      var year  = (new Date()).getFullYear();
+      $('input[type=us-date]').w2field('date', { format: 'yyyy-mm-dd'});
+    });
   }
   
   function highlightDayButton(){
