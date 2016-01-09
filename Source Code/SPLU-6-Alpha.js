@@ -190,7 +190,7 @@
             +'<div style="display:table-row;">'
               +'<div style="display:inline;">'
                 +'<input id="playdate99" type="hidden" value="'+SPLUtoday+'" name="playdate"/>'
-                //+'<input id="playdateinput99" tabindex="10" style="width:75px;" type="text" oninput="highlightDayButton();" /*onkeyup="parseDate(this,$(\'playdate99\'),$(\'playdatestatus99\') );"*/ value="'+SPLUtoday+'" autocomplete="off" name="dateinput"/>'
+                //+'<input id="playdateinput99" tabindex="10" style="width:75px;" type="text" oninput="highlightDayButton();" onkeyup="parseDate(this,$(\'playdate99\'),$(\'playdatestatus99\') );" value="'+SPLUtoday+'" autocomplete="off" name="dateinput"/>'
                 +'<input id="playdateinput99" tabindex="10" style="width:75px;" type="us-date" placeholder="yyyy-mm-dd" value="'+SPLUtoday+'" autocomplete="off" name="dateinput">'
               +'</div>'
               +'<div id="playdatestatus99" class="sf" style="font-style:italic; font-size:0;display:inline;">'
