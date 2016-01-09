@@ -1885,9 +1885,9 @@
         tmpNew="checked";
       }
     } else if(player!=-1){
-      tmpName=decodeURIComponent(SPLU.Players[player].Name);
-      tmpUser=decodeURIComponent(SPLU.Players[player].Username);
-      tmpColor=decodeURIComponent(SPLU.Players[player].Color);
+      tmpName="";
+      tmpUser="";
+      tmpColor="";
     } else if(SPLU.Players[player]===undefined && player!=-1){
       console.log(player+" does not exist.");
       return;
