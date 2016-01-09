@@ -1473,7 +1473,7 @@
 
   
   function setObjectType(type){
-    VoidInstantSearch({itemid:'9999',uniqueid:'546e9ffd96dfc'});
+    //VoidInstantSearch({itemid:'9999',uniqueid:'546e9ffd96dfc'});
     SPLUexpansionsLoaded=false;
     SPLUfamilyLoaded=false;
     if(type=="boardgame"){
@@ -2656,7 +2656,7 @@
     setPlayers(action);
     showHideEditButtons("hide");
     if(SPLU.Settings.DateField.Reset){setDateField(SPLUtoday);}
-    if(SPLU.Settings.GameField.Reset){VoidInstantSearch({itemid:'9999',uniqueid:'546e9ffd96dfc'});}
+    if(SPLU.Settings.GameField.Reset){/*VoidInstantSearch({itemid:'9999',uniqueid:'546e9ffd96dfc'});*/}
     document.getElementById("twitter").checked=SPLU.Settings.TwitterField.Enabled;
     setTwitterIcons();
     //Don't do this or it clears the submit details.
