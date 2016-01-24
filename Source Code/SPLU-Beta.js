@@ -1,4 +1,4 @@
-// SPLU 5.5.3 Beta
+// SPLU 5.5.4 Beta
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -12,7 +12,7 @@
     //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.5.3";
+    var SPLUversion="5.5.4";
 
     var SPLU={};
     var SPLUplayId="";
@@ -77,23 +77,9 @@
     var SPLUstatGameDaysSince="days";
     var SPLUcopyMode=false;
     var SPLUcombine=false;  //Temp variable, see getStatsGameDetails
+    var SPLUsearchResults={};
+    var SPLUsearchResultsLength=20;
     
-    var observer=new MutationObserver(function(){
-      if(document.getElementById('selimage9999').innerHTML.slice(0,4)=="<div"){
-        document.getElementById('BRthumbButtons').style.display="none";
-      }else{
-        document.getElementById('BRthumbButtons').style.display="block";
-      }
-      document.getElementById('BRresults').innerHTML='';
-      document.getElementById('SPLU.ExpansionPane').innerHTML='';
-      document.getElementById('SPLU.FamilyPane').innerHTML='';
-      document.getElementById('BRlogExpansions').style.display="none";
-      document.getElementById('SPLU.ExpansionsHeading').style.borderTop="2px solid blue";
-      document.getElementById('SPLU.FamilyHeading').style.borderTop="";
-      SPLUexpansionsLoaded=false;
-      SPLUfamilyLoaded=false;
-    });
-
     //Insert FontAwsome CSS
     tmpLink=document.createElement('link');
     tmpLink.type="text/css";
@@ -139,7 +125,7 @@
     
     tmpDiv=document.createElement('div');
     tmpHTML= '<div id="closeButton" style="position:absolute;top:0px;right:0px;">'
-              +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();observer.disconnect();BRlogMain.parentNode.removeChild(BRlogMain);}" style="border-bottom:2px solid blue;border-left:2px solid blue;padding:0px 10px;border-bottom-left-radius:5px;border-top-right-radius:15px;background-color:lightGrey;font-size:large;font-weight:900;color:red;">X</a>'
+              +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();BRlogMain.parentNode.removeChild(BRlogMain);}" style="border-bottom:2px solid blue;border-left:2px solid blue;padding:0px 10px;border-bottom-left-radius:5px;border-top-right-radius:15px;background-color:lightGrey;font-size:large;font-weight:900;color:red;">X</a>'
             +'</div>'
             +'<div style="position:absolute;top:60px;right:5px;">'
               +'<a href="javascript:{void(0);}" onClick="javascript:{showSettingsPane(\'button\');}" id="BRshowHideBtn">'
@@ -269,13 +255,9 @@
               +'<a href="javascript:{void(0);}" onClick="javascript:{setObjectType(\'rpgitem\');}" id="SPLU.SelectRPGItem" style="padding:0px 5px;border:1px solid black; border-left:1px dotted black;">Item</a>'
             +'</div>'
             +'<input name="objectid" value="" id="objectid9999" type="hidden"/>'
-            +'<input style="margin:3px 0px 0px;" autocomplete="off" class="geekinput_medium" name="geekitemname" id="q546e9ffd96dfc" tabindex="60" placeholder="enter a game title" onClick="this.select();" onkeydown="return StartInstantSearch({event: event,itemid: \'9999\',objecttype: SPLUobjecttype,onclick: \'\',extraonclick: \'\',uniqueid: \'546e9ffd96dfc\',formname: \'\',textareaname: \'\',inline: \'\',userobject: null} );" type="text">'
+            +'<input style="margin:3px 0px 0px;" autocomplete="off" class="geekinput_medium" name="geekitemname" id="q546e9ffd96dfc" tabindex="60" placeholder="enter a game title" onClick="this.select();" onkeydown="SPLUsearchDelay();" type="text">'
+            +'<div id="SPLUsearchResultsDIV" style="display:hidden; background-color: rgb(255, 255, 255); position: absolute; padding: 5px; z-index: 579; margin-right: 12px; min-width: 130px;"></div>'
             +'<a href="javascript:{void(0);}" onClick="javascript:{showFavsPane(\'button\');}" id="favoritesGoTo" style="border:4px solid lightblue;border-radius:4px"><span style="position: relative;" class="fa-stack"><i style="color: white; transform: translate(-6px, -9px); font-size: 3.7em; position: absolute;" class="fa fa-stack-2x fa-square-sharp"></i><i style="color: red; font-size: 1.6em; position: absolute; top: 0px;" class="fa fa-stack-2x fa-heart"></i><i style="transform: scaleX(-1); left: 4px; color: white; top: 7px; font-size: 1em; text-shadow: 0px 2px rgb(255, 255, 255); position: absolute;" class="fa fa-stack-2x fa-arrow-fat"></i><i style="font-size: 0.8em; transform: scaleX(-1); position: absolute; top: 10px; left: 4px; color: rgb(5, 167, 5);" class="fa fa-stack-2x fa-arrow-fat"></i></span></a>'
-            +'<span id="instantsearch546e9ffd96dfc" style="display: none;">'
-              +'<div class="searchbox_results">'
-                +'<div id="instantsearchresults546e9ffd96dfc"></div>'
-              +'</div>'
-            +'</span>'
             +'<div id="objectiddisp546e9ffd96dfc" style="display:none;">'
               +'ID:'
             +'</div>'
@@ -389,7 +371,7 @@
         +'</div>'
         +'<div class="BRcells" id="SPLUresetFormDiv">'
           +'<div>'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{clearForm(\'reset\');VoidInstantSearch({itemid:\'9999\',uniqueid:\'546e9ffd96dfc\'});}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="ResetFormBtn"><i class="fa fa-repeat display:block" style="color: red; vertical-align: middle; text-align: center; transform: translate(-3px, 0px) scaleX(-1); font-size: 1.5em; font-weight: bold;"></i></a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{clearForm(\'reset\');clearSearchResult();}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="ResetFormBtn"><i class="fa fa-repeat display:block" style="color: red; vertical-align: middle; text-align: center; transform: translate(-3px, 0px) scaleX(-1); font-size: 1.5em; font-weight: bold;"></i></a>'
           +'</div>'
         +'</div>'
         +'<div class="BRcells">'
@@ -1064,8 +1046,6 @@
     //listenerForPopText("filtericon","Apply Filter to These Results");
     //listenerForPopText("floppydiskicon","Remember This Player");
 
-    observer.observe(document.getElementById('selimage9999'),{childList: true});
-
     fetchSaveData();
   }
   
@@ -1454,7 +1434,6 @@
 
   
   function setObjectType(type){
-    VoidInstantSearch({itemid:'9999',uniqueid:'546e9ffd96dfc'});
     SPLUexpansionsLoaded=false;
     SPLUfamilyLoaded=false;
     if(type=="boardgame"){
@@ -1493,6 +1472,7 @@
       document.getElementById('SPLU.SelectRPG').style.backgroundColor="";
       document.getElementById('SPLU.SelectRPGItem').style.backgroundColor="#F8DF24";
     }
+    clearSearchResult();
   }
 
   //Sorting functions found on StackOverflow
@@ -2637,7 +2617,7 @@
     setPlayers(action);
     showHideEditButtons("hide");
     if(SPLU.Settings.DateField.Reset){setDateField(SPLUtoday);}
-    if(SPLU.Settings.GameField.Reset){VoidInstantSearch({itemid:'9999',uniqueid:'546e9ffd96dfc'});}
+    if(SPLU.Settings.GameField.Reset){clearSearchResult();}
     document.getElementById("twitter").checked=SPLU.Settings.TwitterField.Enabled;
     setTwitterIcons();
     //Don't do this or it clears the submit details.
@@ -3369,6 +3349,100 @@
     return !isNaN(parseFloat(n)) && isFinite(n);
   }
   
+  var SPlUsearchDelayTimeout;    
+  function SPLUsearchDelay() {
+    SPLUsearchResultsLength=20;
+    if ( SPlUsearchDelayTimeout ) {
+      clearTimeout( SPlUsearchDelayTimeout );
+      SPlUsearchDelayTimeout = setTimeout( SPLUsearchForGames, 500 );
+    } else {
+      SPlUsearchDelayTimeout = setTimeout( SPLUsearchForGames, 500 );
+    }
+  }
+
+  function SPLUsearchForGames() {
+    document.getElementById('SPLUsearchResultsDIV').style.display="";
+    document.getElementById('SPLUsearchResultsDIV').innerHTML="Searching...";
+    var oReq=new XMLHttpRequest();
+    var tmpJSON="";
+    oReq.onload=function(responseJSON){
+      tmpJSON=JSON.parse(responseJSON.target.response);
+      window.tmp=responseJSON;
+      console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
+      if (responseJSON.target.status=="200"){
+        showSearchResults(tmpJSON);
+      } else {
+        console.log("other status code, no search results");
+      }
+    };
+    var tmpText=document.getElementById('q546e9ffd96dfc').value;
+    var tmpType=SPLUobjecttype;
+    var tmpQuery='/geeksearch.php?action=search&q='+tmpText+'&objecttype='+tmpType+'&showcount='+SPLUsearchResultsLength;
+    oReq.open("POST",tmpQuery,true);
+    //Set the following header so that we get a JSON object instead of HTML
+    oReq.setRequestHeader("Accept","application/json, text/plain, */*");
+    oReq.send();
+  }
+  
+  function showSearchResults(results){
+    tmpHTML="";
+    if (results['items'].length>0){
+      for (i=0; i<results['items'].length; i++){
+        SPLUsearchResults[results['items'][i].objectid]=results['items'][i];
+        tmpName=results['items'][i].name;
+        tmpYear=results['items'][i].yearpublished;
+        if(tmpYear>10000000){
+          tmpYear=tmpYear-4294967296;
+        }
+        tmpHTML+='<a onClick=\'javascript:{chooseSearchResult('+results['items'][i].objectid+');}\'>';
+        console.log(tmpName);
+        tmpHTML+=tmpName;
+        if(tmpYear!=0){
+          tmpHTML+=' ('+tmpYear+')';
+        }
+        tmpHTML+="</a></br>";
+      }
+    } else {
+      tmpHTML+="No Results.";
+    }
+    if (results['items'].length>=SPLUsearchResultsLength){
+      SPLUsearchResultsLength+=20;
+      tmpHTML+='<a onClick=\'javascript:{SPLUsearchForGames();}\'>load more...</a>';
+    }
+    document.getElementById('SPLUsearchResultsDIV').innerHTML=tmpHTML;
+  }
+
+  function chooseSearchResult(objectid){
+    item=SPLUsearchResults[objectid];
+    console.log(item);
+    setObjectType(item.subtype);
+    document.getElementById('objectid9999').value=item.objectid;
+    tmpImage=item.rep_imageid;
+    if (tmpImage==0){
+      tmpImage='1657689';
+    }
+    document.getElementById('selimage9999').innerHTML='<a><img src="https://cf.geekdo-images.com/images/pic'+tmpImage+'_mt.jpg" onError="this.onerror=null;this.src=\'https://cf.geekdo-images.com/images/pic'+tmpImage+'_mt.png\';"/></a>';
+    document.getElementById('q546e9ffd96dfc').value=item.name;
+    SPLUsearchResultsLength=20;
+    document.getElementById('SPLUsearchResultsDIV').style.display="none";
+    document.getElementById('BRthumbButtons').style.display="block";
+  }
+  
+  function clearSearchResult() {
+    document.getElementById('selimage9999').innerHTML='';
+    document.getElementById('objectid9999').value='';
+    document.getElementById('q546e9ffd96dfc').value='';
+    document.getElementById('BRthumbButtons').style.display='none';
+    document.getElementById('BRresults').innerHTML='';
+    document.getElementById('SPLU.ExpansionPane').innerHTML='';
+    document.getElementById('SPLU.FamilyPane').innerHTML='';
+    document.getElementById('BRlogExpansions').style.display="none";
+    document.getElementById('SPLU.ExpansionsHeading').style.borderTop="2px solid blue";
+    document.getElementById('SPLU.FamilyHeading').style.borderTop="";
+    SPLUexpansionsLoaded=false;
+    SPLUfamilyLoaded=false;
+  }
+
   function SPLUdownloadText(filename, text) {
     //From Stackoverflow
     var element = document.createElement('a');
@@ -4086,12 +4160,33 @@
     }
     setObjectType(tmpPlay.getElementsByTagName("subtypes")[0].getElementsByTagName("subtype")[0].getAttribute("value"));
     tmpItem=tmpPlay.getElementsByTagName("item")[0];
-    SetInstantSearchObject({itemid:'9999',objecttype:tmpItem.attributes.objecttype.value,objectid:tmpItem.attributes.objectid.value, name:tmpItem.attributes.name.value,uniqueid:'546e9ffd96dfc'} );
+    getRepImage(tmpItem.attributes.objectid.value, 'selimage9999');
     if(document.getElementById("SPLU.PlaysLogger").value==LoggedInAs&&!SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][id].deleted){
       showHideEditButtons("show");
     }else{
       showHideEditButtons("hide");
     }
+  }
+  
+  function getRepImage(objectid, div){
+    console.log(objectid);
+    var oReq=new XMLHttpRequest();
+    var tmpJSON="";
+    oReq.onload=function(responseJSON){
+      tmpJSON=JSON.parse(responseJSON.target.response);
+      window.tmp=responseJSON;
+      console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
+      if (responseJSON.target.status=="200"){
+        document.getElementById(div).innerHTML='<a><img src="https://cf.geekdo-images.com/images/pic'+tmpJSON.imageid+'_mt.'+tmpJSON.extension+'"/></a>';
+      } else {
+        console.log("other status code, no image results");
+      }
+    };
+    var tmpQuery='/geekimage.php?objecttype=thing&action=getdefaultimageid&ajax=1&objectid='+objectid;
+    oReq.open("POST",tmpQuery,true);
+    //Set the following header so that we get a JSON object instead of HTML
+    oReq.setRequestHeader("Accept","application/json");
+    oReq.send();
   }
   
   function showHideEditButtons(action){
