@@ -2750,6 +2750,11 @@
     for(i=0;i<SPLUplays[player][page].getElementsByTagName("play").length;i++){
       SPLUplayData[player][SPLUplays[player][page].getElementsByTagName("play")[i].id]=SPLUplays[player][page].getElementsByTagName("play")[i];
     }
+    if(SPLUplays[player][page].getElementsByTagName("plays")[0].getAttribute("total")==0 && Object.keys(SPLUplayData[player]).length>2){
+      //BGG is returing the wrong total
+      SPLUplayData[player]["total"]=Object.keys(SPLUplayData[player]).length;
+      SPLUplayData[player]["approximate"]=1;
+    }
     if(!multiple){
       if(player==document.getElementById("SPLU.PlaysLogger").value){
         loadPlays(player,false);
@@ -2765,7 +2770,7 @@
     SPLUcopySelectedAll=false;
     document.getElementById('CopyPlaysSelectAllBtn').style.display="";
     document.getElementById('CopyPlaysDeselectAllBtn').style.display="none";
-    if(Object.keys(SPLUplayData[tmpUser]).length<3){
+    if(SPLUplayData[tmpUser]["total"]==0){
       document.getElementById('SPLU.PlaysStatus').innerHTML='<div>No Plays Found.</div>';
       document.getElementById('SPLU.PlaysList').innerHTML='';
       document.getElementById('SPLU.PlaysMenu').style.display='none';
