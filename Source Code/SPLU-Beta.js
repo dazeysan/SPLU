@@ -2765,7 +2765,7 @@
     SPLUcopySelectedAll=false;
     document.getElementById('CopyPlaysSelectAllBtn').style.display="";
     document.getElementById('CopyPlaysDeselectAllBtn').style.display="none";
-    if(SPLUplayData[tmpUser]["total"]==0){
+    if(Object.keys(SPLUplayData[tmpUser]).length<3){
       document.getElementById('SPLU.PlaysStatus').innerHTML='<div>No Plays Found.</div>';
       document.getElementById('SPLU.PlaysList').innerHTML='';
       document.getElementById('SPLU.PlaysMenu').style.display='none';
