@@ -1516,7 +1516,7 @@
     }
     return function (a,b) {
       if(isNumeric(a[property]) || isNumeric(b[property])){
-        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+        var result = (parseFloat(a[property]) < parseFloat(b[property])) ? -1 : (parseFloat(a[property]) > parseFloat(b[property])) ? 1 : 0;
       }else{
         var result = (a[property].toLowerCase() < b[property].toLowerCase()) ? -1 : (a[property].toLowerCase() > b[property].toLowerCase()) ? 1 : 0;
       }
@@ -3901,9 +3901,11 @@
     tmpSortPlayer="player";
     tmpSortPlays="plays";
     tmpSortWins="wins";
+    tmpSortAverage="average";
     tmpClassPlayer="fa fa-sort-alpha-asc";
     tmpClassPlays="fa fa-sort-amount-asc";
     tmpClassWins="fa fa-sort-amount-asc";
+    tmpClassAverage="fa fa-sort-amount-asc";
     if(sort=="player"){
       tmpSortPlayer="-player";
       tmpClassPlayer="fa fa-sort-alpha-desc";
@@ -3913,13 +3915,16 @@
     }else if(sort=="wins"){
       tmpSortWins="-wins";
       tmpClassWins="fa fa-sort-amount-desc";
+    }else if(sort=="average"){
+      tmpSortAverage="-average";
+      tmpClassAverage="fa fa-sort-amount-desc";
     }
     tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
       +'<div style="display:table-row;">'
-      +'<div style="display:table-cell;font-weight:bold;width:40%;text-align:center;"><a onclick="javascript:{getStatsPlaysWins(\''+tmpUser+'\',\''+tmpSortPlayer+'\');}" href="javascript:{void(0);}">Player <i class="'+tmpClassPlayer+'"></i></a></div>'
+      +'<div style="display:table-cell;font-weight:bold;width:35%;text-align:center;"><a onclick="javascript:{getStatsPlaysWins(\''+tmpUser+'\',\''+tmpSortPlayer+'\');}" href="javascript:{void(0);}">Player <i class="'+tmpClassPlayer+'"></i></a></div>'
       +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsPlaysWins(\''+tmpUser+'\',\''+tmpSortPlays+'\');}" href="javascript:{void(0);}">Plays <i class="'+tmpClassPlays+'"></i></a></div>'
       +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsPlaysWins(\''+tmpUser+'\',\''+tmpSortWins+'\');}" href="javascript:{void(0);}">Wins <i class="'+tmpClassWins+'"></i></a></div>'
-      +'<div style="display:table-cell;font-weight:bold;">Average</div>'
+      +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsPlaysWins(\''+tmpUser+'\',\''+tmpSortAverage+'\');}" href="javascript:{void(0);}">Average <i class="'+tmpClassWins+'"></i></a></div>'
       +'</div>';
     SPLUcsv='"Player","Play Count","Wins","Average"\r\n';
     for(i=0;i<tmpWins.length;i++){
