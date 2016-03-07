@@ -1008,7 +1008,7 @@
           +'<span id="SPLUcsvDownload" style="margin-left:50px;vertical-align:top;">'
             +'<a href="javascript:{void(0);}" onClick="javascript:{SPLUdownloadText(\'SPLU-Export.csv\',SPLUcsv);}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/save-csv.png""></a>'
           +'</span>'
-          +'<div id="SPLU.StatsPlayerDiv" style="display: none;">Player: <select class="fa" id="SPLU.SelectStatPlayer" onChange="javascript:{loadStats(\'WinsByGame\');"></select></div>'
+          +'<div id="SPLU.StatsPlayerDiv" style="display: none;">Player: <select class="fa" id="SPLU.SelectStatPlayer" onChange="javascript:{setWinsByGamePlayer(\'\');}"></select></div>'
         +'</div>'
         +'<div id="SPLU.StatsContent" style="display:none;overflow-y: auto; width: 315px;"></div>';
     tmpDiv.innerHTML+=tmpHTML;
@@ -3953,6 +3953,14 @@
     document.getElementById("SPLU.PlaysLoadingDiv").style.display="none";
   }
 
+  function setWinsByGamePlayer(player){
+    if(player==""){
+      player=document.getElementById("SPLU.SelectStatPlayer").value;
+    }
+    tmpUser=document.getElementById('SPLU.PlaysLogger').value;
+    window.setTimeout(function(){getStatsWinsByGame(tmpUser,player,SPLUstatWinsByGameSort);},25);
+  }
+  
   function getStatsWinsByGame(tmpUser,tmpPlayer,sort){
     SPLUstatWinsByGameSort=sort;
     SPLUgameStats={};
