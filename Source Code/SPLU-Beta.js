@@ -73,7 +73,7 @@
     var SPLUstatLocationSort="location";
     var SPLUstatLuckSort="-count";
     var SPLUstatWinsSort="-wins";
-    var SPLUstatWinsByGameSort="average";
+    var SPLUstatWinsByGameSort="-average";
     var SPLUstatWinsByGamePlayer="";
     var SPLUstatGameList="game";
     var SPLUstatGameDaysSince="days";
@@ -995,7 +995,7 @@
         +'<div id="SPLU.StatsMenu" style="display:none;">'
           +'Stat: <select class="fa" id="SPLU.SelectStat" onChange="javascript:{loadStats(\'choose\');}">'
             +'<option class="fa" style="display:block;" value="PlaysWins" selected>&#xf091; Wins</option>'
-            +'<option class="fa" style="display:block;" value="WinsByGame" selected>&#xf091; Wins by Game</option>'
+            +'<option class="fa" style="display:block;" value="WinsByGame">&#xf091; Wins by Game</option>'
             +'<option class="fa" style="display:block;" value="BeginnersLuck">&#x2618; Beginner\'s Luck</option>'
             +'<option class="fa" style="display:block;" value="GameList">&#xee34; Game List</option>'
             +'<option class="fa" style="display:block;" value="GameDetails">&#xf201; Game Details</option>'
