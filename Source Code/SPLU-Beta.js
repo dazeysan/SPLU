@@ -2490,11 +2490,11 @@
     tmpName=SPLU.Settings.DefaultLocation.Name;
     select.options.length=0;
     if(tmpName=="-blank-"){
-      select.options[1]=new Option("-blank-", "-blank-", false, true);
+      select.options[0]=new Option("-blank-", "-blank-", false, true);
     } else {
-      select.options[1]=new Option("-blank-", "-blank-", false, false);
+      select.options[0]=new Option("-blank-", "-blank-", false, false);
     }
-    var i=2;
+    var i=1;
     for(var key in SPLU.Locations){
       if (SPLU.Locations.hasOwnProperty(key)) {
         if(tmpName==key){
