@@ -223,7 +223,7 @@
               +'<input type="text" placeholder="click or type a location" id="quickplay_location99" onFocus="javascript:{this.select();}" onkeydown="SPLUsearchLocationDelay();" tabindex="20" name="location" style="width: 175px; border:none;"/>'
               +'<a href="javascript:{void(0);}" onClick="javascript:{saveLocation();}" style="vertical-align:middle;" id="SPLU.SaveLocationButton"><span class="fa-stack"><i class="fa fa-stack-2x fa-floppy2" style="font-size: 1.3em; color: black; vertical-align: middle; transform: translate(2px, 4px);"></i></span></a>'
             +'</div>'
-            +'<div id="SPLUsearchLocationsResultsDIV" style="background-color: rgb(255, 255, 255); position: absolute; padding: 5px; z-index: 579; margin-right: 12px; min-width: 130px;"></div>'
+            +'<div id="SPLUsearchLocationsResultsDIV" style="background-color: rgb(255, 255, 255); position: absolute; padding: 5px; z-index: 579; margin-right: 12px; min-width: 130px; display:none;"></div>'
             +'<a href="javascript:{void(0);}" onClick="javascript:{showHideLocations();}" id="BRlocsBtn" style="padding-left:1px; vertical-align:middle;"><span id="SPLU.LocationButtonIconCollapse" style="display:inline-block;"><i class="fa fa-caret-up display:block" style="color: black; font-size: 2em; transform: translate(1px, 4px);"></i></span><span id="SPLU.LocationButtonIconExpand" style="display:none;"><i class="fa fa-caret-down display:block" style="color: black; font-size: 2em; transform: translate(1px, 4px);"></i></span></a>'
             +'<div style="display:inline-block; position:absolute; padding-top:2px;padding-left:4px;">'
               +'<a href="javascript:{void(0);}" onClick="javascript:{showLocationsPane(\'button\');}" id="showLocationsPaneBtn">'
@@ -2326,7 +2326,7 @@
     }else{
       document.getElementById('SPLU.LocationList').style.display="none";
       document.getElementById('SPLU.LocationButtonIconExpand').style.display="inline-block";
-   document.getElementById('SPLU.LocationButtonIconCollapse').style.display="none";
+      document.getElementById('SPLU.LocationButtonIconCollapse').style.display="none";
       LocationList=false;
       if(update){
         SPLU.Settings.LocationList.Visible=false;
@@ -2335,6 +2335,13 @@
     }
   }
   
+  function HideLocations(){
+    document.getElementById('SPLU.LocationList').style.display="none";
+    document.getElementById('SPLU.LocationButtonIconExpand').style.display="inline-block";
+    document.getElementById('SPLU.LocationButtonIconCollapse').style.display="none";
+    LocationList=false;
+  }
+
   function hidePlayers(){
     document.getElementById('SPLU.PlayerList').style.display="none";
     document.getElementById('SPLU.SavedNamesButtonIconExpand').style.display="inline-block";
@@ -2408,7 +2415,8 @@
     }else{
       document.getElementById(('quickplay_location99')).value=decodeURIComponent(SPLU.Locations[location].Name);
     }
-    showHideLocations();
+    HideLocations();
+    document.getElementById('SPLUsearchLocationsResultsDIV').style.display="none";
   }
 
   var SPLUsearchLocationDelayTimeout;    
@@ -2428,15 +2436,20 @@
       document.getElementById('SPLUsearchLocationsResultsDIV').style.display="none";
       return;
     }
+    console.log(tmpText);
     document.getElementById('SPLUsearchLocationsResultsDIV').style.display="";
     document.getElementById('SPLUsearchLocationsResultsDIV').innerHTML="Searching...";
     tmpHTML="";
-    for (i=0; i<SPLU.Locations.length; i++){
-      if (SPLU.Locations[i].Name.toLowerCase().indexOf(tmpText.toLowerCase())>-1){
-        tmpHTML+=SPLU.Locations[i].Name+"<br/>";
-        //tmpHTML+='<a onClick=\'javascript:{chooseSearchResult('+results['items'][i].objectid+');}\'>';
-        //tmpHTML+="</a></br>";
+    for (key in SPLU.Locations){
+      if (SPLU.Locations.hasOwnProperty(key)) {
+        console.log(SPLU.Locations[key].Name);
+        if (SPLU.Locations[key].Name.toLowerCase().indexOf(tmpText.toLowerCase())>-1){
+          tmpHTML+='<a onClick=\'javascript:{insertLocation('+key+');}\'>'+decodeURIComponent(SPLU.Locations[key].Name)+"</a><br/>";
+        }
       }
+    }
+    if (tmpHTML==""){
+      document.getElementById('SPLUsearchLocationsResultsDIV').style.display="none";
     }
     document.getElementById('SPLUsearchLocationsResultsDIV').innerHTML=tmpHTML;
   }
