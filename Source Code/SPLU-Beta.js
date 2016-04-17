@@ -220,7 +220,7 @@
         +'<div class="BRcells">'
           +'<div id="SPLU.LocationField" style="width:275px;">'
             +'<div id="SPLU.fakeLocationBox" style="width:200px; display:inline-block; -moz-appearance:textfield; -webkit-appearance:textfield;">'
-              +'<input type="text" placeholder="click or type a location" id="quickplay_location99" onFocus="javascript:{this.select();}" onkeydown="SPLUsearchLocationDelay();" tabindex="20" name="location" style="width: 175px; border:none;"/>'
+              +'<input type="text" placeholder="click or type a location" id="SPLU_PlayedAt" onFocus="javascript:{this.select();}" onkeydown="SPLUsearchLocationDelay();" tabindex="20" name="location" style="width: 175px; border:none;"/>'
               +'<a href="javascript:{void(0);}" onClick="javascript:{saveLocation();}" style="vertical-align:middle;" id="SPLU.SaveLocationButton"><span class="fa-stack"><i class="fa fa-stack-2x fa-floppy2" style="font-size: 1.3em; color: black; vertical-align: middle; transform: translate(2px, 4px);"></i></span></a>'
             +'</div>'
             +'<div id="SPLUsearchLocationsResultsDIV" style="background-color: rgb(255, 255, 255); position: absolute; padding: 5px; z-index: 579; margin-right: 12px; min-width: 130px; display:none;"></div>'
@@ -1585,14 +1585,14 @@
   }
   
   function saveLocation(){
-    if(document.getElementById('quickplay_location99').value!=""){
+    if(document.getElementById('SPLU_PlayedAt').value!=""){
       var tmpLoc=0;
       for(var key in SPLU.Locations){
         if (SPLU.Locations.hasOwnProperty(key)) {
           tmpLoc++;
         }
       }
-      SPLU.Locations[tmpLoc]={"Name":encodeURIComponent(document.getElementById('quickplay_location99').value)};
+      SPLU.Locations[tmpLoc]={"Name":encodeURIComponent(document.getElementById('SPLU_PlayedAt').value)};
       SPLUremote.Locations=SPLU.Locations;
       saveSooty("BRresults","Thinking...","Saved",function(){
         loadLocations();
@@ -2411,9 +2411,9 @@
   
   function insertLocation(location){
     if(location==-1){
-      document.getElementById(('quickplay_location99')).value="";
+      document.getElementById(('SPLU_PlayedAt')).value="";
     }else{
-      document.getElementById(('quickplay_location99')).value=decodeURIComponent(SPLU.Locations[location].Name);
+      document.getElementById(('SPLU_PlayedAt')).value=decodeURIComponent(SPLU.Locations[location].Name);
     }
     HideLocations();
     document.getElementById('SPLUsearchLocationsResultsDIV').style.display="none";
@@ -2431,7 +2431,7 @@
   }
 
   function SPLUsearchForLocations() {
-    var tmpText=document.getElementById('quickplay_location99').value;
+    var tmpText=document.getElementById('SPLU_PlayedAt').value;
     if (tmpText==""){
       document.getElementById('SPLUsearchLocationsResultsDIV').style.display="none";
       return;
@@ -2633,7 +2633,7 @@
         if(inputs[n].name.slice(-6)=="][new]"&&SPLU.Settings.PlayerNewColumn.Reset){inputs[n].checked=false;}
         if(inputs[n].name.slice(-6)=="][win]"&&SPLU.Settings.PlayerWinColumn.Reset){inputs[n].checked=false;}
       }
-      if(SPLU.Settings.LocationField.Reset){document.getElementById('quickplay_location99').value="";}
+      if(SPLU.Settings.LocationField.Reset){document.getElementById('SPLU_PlayedAt').value="";}
       if(SPLU.Settings.QuantityField.Reset){document.getElementById('quickplay_quantity99').value="1";}
       if(SPLU.Settings.DurationField.Reset){document.getElementById('quickplay_duration99').value="";}
       if(SPLU.Settings.IncompleteField.Reset){document.getElementById('incomplete').checked=false;}
@@ -2650,7 +2650,7 @@
     while(document.getElementsByClassName('SPLUrows').length>0){
       removePlayerRow(document.getElementsByClassName('SPLUrows')[0].parentNode.id.slice(14));
     }
-    document.getElementById('quickplay_location99').value="";
+    document.getElementById('SPLU_PlayedAt').value="";
     if(SPLU.Settings.LocationList.Visible&&!LocationList){
       showHideLocations(false);
     }
@@ -4368,7 +4368,7 @@
       }
     }
     setDateField(tmpPlay.attributes.date.value);
-    document.getElementById('quickplay_location99').value=tmpPlay.attributes.location.value;
+    document.getElementById('SPLU_PlayedAt').value=tmpPlay.attributes.location.value;
     hideLocations();
     hidePlayers();
     document.getElementById('quickplay_quantity99').value=tmpPlay.attributes.quantity.value;
@@ -4486,9 +4486,9 @@
         }
       }
     }
-    if(document.getElementById('quickplay_location99').value!=""){
+    if(document.getElementById('SPLU_PlayedAt').value!=""){
       sentence+=" in "; 
-      sentence+=document.getElementById('quickplay_location99').value;
+      sentence+=document.getElementById('SPLU_PlayedAt').value;
       sentence+=".";
     }else{
       sentence+=".";
