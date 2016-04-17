@@ -1353,7 +1353,7 @@
       "PlayerGroups":{"Visible":false},
       "TwitterField":{"Enabled":false,"Visible":false,"Reset":true},
       "ExpansionWinStats":{"Enabled":false},
-      "DefaultPlayer":{"Name":"-blank-"}
+      "DefaultPlayer":{"Name":"-blank-"},
       "DefaultLocation":{"Name":"-blank-"}
     }
   }
