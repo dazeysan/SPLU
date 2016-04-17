@@ -1449,6 +1449,7 @@
       document.getElementById('SPLU.SelectVGG').style.backgroundColor="";
       document.getElementById('SPLU.SelectRPG').style.backgroundColor="";
       document.getElementById('SPLU.SelectRPGItem').style.backgroundColor="";
+      document.getElementById('objecttype9999').value="thing";
     }
     if(type=="videogame"){
       SPLUobjecttype="videogame";
@@ -1458,6 +1459,7 @@
       document.getElementById('SPLU.SelectVGG').style.backgroundColor="#F8DF24";
       document.getElementById('SPLU.SelectRPG').style.backgroundColor="";
       document.getElementById('SPLU.SelectRPGItem').style.backgroundColor="";
+      document.getElementById('objecttype9999').value="thing";
     }
     if(type=="rpg"){
       SPLUobjecttype="rpg";
@@ -1467,6 +1469,7 @@
       document.getElementById('SPLU.SelectVGG').style.backgroundColor="";
       document.getElementById('SPLU.SelectRPG').style.backgroundColor="#F8DF24";
       document.getElementById('SPLU.SelectRPGItem').style.backgroundColor="";
+      document.getElementById('objecttype9999').value="family";
     }
     if(type=="rpgitem"){
       SPLUobjecttype="rpgitem";
@@ -1476,6 +1479,7 @@
       document.getElementById('SPLU.SelectVGG').style.backgroundColor="";
       document.getElementById('SPLU.SelectRPG').style.backgroundColor="";
       document.getElementById('SPLU.SelectRPGItem').style.backgroundColor="#F8DF24";
+      document.getElementById('objecttype9999').value="thing";
     }
     clearSearchResult();
   }
@@ -2595,7 +2599,7 @@
     }else{
       SPLUtimeouts[0]=setTimeout(function(){document.getElementById('BRresults').innerHTML="Timed Out. Try Again.";}, 10000);
     }
-    new Request.JSON({url:'/geekplay.php',data:'ajax=1&action=save&version=2&objecttype=thing'+tmpID+querystring,onComplete:function(responseJSON,responseText){
+    new Request.JSON({url:'/geekplay.php',data:'ajax=1&action=save&version=2'+tmpID+querystring,onComplete:function(responseJSON,responseText){
         clearTimeout(SPLUtimeouts[SPLUcopyID]);
         if(responseJSON===undefined){
           document.getElementById('BRresults').innerHTML="Error. Try Again.";
@@ -3288,7 +3292,7 @@
             +'<div id="SPLUtypeFilterButtonVideo" onClick="javascript:{highlightFilterTypeButton(\'videogame\');}" style="display:inline;border:1.5px solid black;padding:0px 2px;">'
               +'<i style="transform: translate(0px, 0.3px);" class="fa"></i> Video'
             +'</div>'
-            +'<div id="SPLUtypeFilterButtonRPG" onClick="javascript:{highlightFilterTypeButton(\'rpgitem\');}" style="display:inline;border:1.5px solid black;padding:0px 2px;">'
+            +'<div id="SPLUtypeFilterButtonRPG" onClick="javascript:{highlightFilterTypeButton(\'rpg\');}" style="display:inline;border:1.5px solid black;padding:0px 2px;">'
               +'<i class="fa">&#xee07;</i> RPG'
             +'</div>'
           +'</div>'
@@ -4412,7 +4416,7 @@
         console.log("other status code, no image results");
       }
     };
-    var tmpQuery='/geekimage.php?objecttype=thing&action=getdefaultimageid&ajax=1&objectid='+objectid;
+    var tmpQuery='/geekimage.php?objecttype='+document.getElementById('objecttype9999').value+'&action=getdefaultimageid&ajax=1&objectid='+objectid;
     oReq.open("POST",tmpQuery,true);
     //Set the following header so that we get a JSON object instead of HTML
     oReq.setRequestHeader("Accept","application/json");
