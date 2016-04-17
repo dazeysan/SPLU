@@ -220,9 +220,10 @@
         +'<div class="BRcells">'
           +'<div id="SPLU.LocationField" style="width:275px;">'
             +'<div id="SPLU.fakeLocationBox" style="width:200px; display:inline-block; -moz-appearance:textfield; -webkit-appearance:textfield;">'
-              +'<input type="text" placeholder="click or type a location" id="quickplay_location99" onFocus="javascript:{this.select();}" tabindex="20" name="location" style="width: 175px; border:none;"/>'
+              +'<input type="text" placeholder="click or type a location" id="quickplay_location99" onFocus="javascript:{this.select();}" onkeydown="SPLUsearchLocationDelay();" tabindex="20" name="location" style="width: 175px; border:none;"/>'
               +'<a href="javascript:{void(0);}" onClick="javascript:{saveLocation();}" style="vertical-align:middle;" id="SPLU.SaveLocationButton"><span class="fa-stack"><i class="fa fa-stack-2x fa-floppy2" style="font-size: 1.3em; color: black; vertical-align: middle; transform: translate(2px, 4px);"></i></span></a>'
             +'</div>'
+            +'<div id="SPLUsearchLocationsResultsDIV" style="background-color: rgb(255, 255, 255); position: absolute; padding: 5px; z-index: 579; margin-right: 12px; min-width: 130px;"></div>'
             +'<a href="javascript:{void(0);}" onClick="javascript:{showHideLocations();}" id="BRlocsBtn" style="padding-left:1px; vertical-align:middle;"><span id="SPLU.LocationButtonIconCollapse" style="display:inline-block;"><i class="fa fa-caret-up display:block" style="color: black; font-size: 2em; transform: translate(1px, 4px);"></i></span><span id="SPLU.LocationButtonIconExpand" style="display:none;"><i class="fa fa-caret-down display:block" style="color: black; font-size: 2em; transform: translate(1px, 4px);"></i></span></a>'
             +'<div style="display:inline-block; position:absolute; padding-top:2px;padding-left:4px;">'
               +'<a href="javascript:{void(0);}" onClick="javascript:{showLocationsPane(\'button\');}" id="showLocationsPaneBtn">'
@@ -1609,6 +1610,7 @@
     }
   }
   
+  //Now I don't remember how this was supposed to work
   function suggestLocation(loc,event,source){
     var suggestBox=document.getElementById("SPLUlocationSuggest");
     suggestBox.value="";
@@ -2207,6 +2209,7 @@
     document.getElementById('selimage9999').innerHTML='<a><img src="'+SPLU.Favorites[id].thumbnail+'"/></a>';
     document.getElementById('q546e9ffd96dfc').value=SPLU.Favorites[id].title;
     document.getElementById('BRlogFavs').style.display="none";
+    document.getElementById('SPLUsearchResultsDIV').style.display="none";
     if(SPLU.Favorites[id].players!==undefined){
       while(document.getElementsByClassName('SPLUrows').length>0){
         removePlayerRow(document.getElementsByClassName('SPLUrows')[0].parentNode.id.slice(14));
@@ -2408,6 +2411,36 @@
     showHideLocations();
   }
 
+  var SPLUsearchLocationDelayTimeout;    
+  function SPLUsearchLocationDelay() {
+    SPLUsearchResultsLength=20;
+    if ( SPLUsearchLocationDelayTimeout ) {
+      clearTimeout( SPLUsearchLocationDelayTimeout );
+      SPLUsearchLocationDelayTimeout = setTimeout( SPLUsearchForLocations, 500 );
+    } else {
+      SPLUsearchLocationDelayTimeout = setTimeout( SPLUsearchForLocations, 500 );
+    }
+  }
+
+  function SPLUsearchForLocations() {
+    var tmpText=document.getElementById('quickplay_location99').value;
+    if (tmpText==""){
+      document.getElementById('SPLUsearchLocationsResultsDIV').style.display="none";
+      return;
+    }
+    document.getElementById('SPLUsearchLocationsResultsDIV').style.display="";
+    document.getElementById('SPLUsearchLocationsResultsDIV').innerHTML="Searching...";
+    tmpHTML="";
+    for (i=0; i<SPLU.Locations.length; i++){
+      if (SPLU.Locations[i].Name.toLowerCase().indexOf(tmpText.toLowerCase())>-1){
+        tmpHTML+=SPLU.Locations[i].Name+"<br/>";
+        //tmpHTML+='<a onClick=\'javascript:{chooseSearchResult('+results['items'][i].objectid+');}\'>';
+        //tmpHTML+="</a></br>";
+      }
+    }
+    document.getElementById('SPLUsearchLocationsResultsDIV').innerHTML=tmpHTML;
+  }
+  
   function deleteGamePlay(){
     if (confirm("Press OK to delete this play") == true) {
       document.getElementById('BRresults').innerHTML="Deleting...";
@@ -3364,18 +3397,23 @@
     return !isNaN(parseFloat(n)) && isFinite(n);
   }
   
-  var SPlUsearchDelayTimeout;    
+  var SPLUsearchDelayTimeout;    
   function SPLUsearchDelay() {
     SPLUsearchResultsLength=20;
-    if ( SPlUsearchDelayTimeout ) {
-      clearTimeout( SPlUsearchDelayTimeout );
-      SPlUsearchDelayTimeout = setTimeout( SPLUsearchForGames, 500 );
+    if ( SPLUsearchDelayTimeout ) {
+      clearTimeout( SPLUsearchDelayTimeout );
+      SPLUsearchDelayTimeout = setTimeout( SPLUsearchForGames, 500 );
     } else {
-      SPlUsearchDelayTimeout = setTimeout( SPLUsearchForGames, 500 );
+      SPLUsearchDelayTimeout = setTimeout( SPLUsearchForGames, 500 );
     }
   }
 
   function SPLUsearchForGames() {
+    var tmpText=document.getElementById('q546e9ffd96dfc').value;
+    if (tmpText==""){
+      document.getElementById('SPLUsearchResultsDIV').style.display="none";
+      return;
+    }
     document.getElementById('SPLUsearchResultsDIV').style.display="";
     document.getElementById('SPLUsearchResultsDIV').innerHTML="Searching...";
     var oReq=new XMLHttpRequest();
@@ -3385,12 +3423,20 @@
       window.tmp=responseJSON;
       console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
       if (responseJSON.target.status=="200"){
-        showSearchResults(tmpJSON);
+        showSearchResults(tmpJSON,tmpFavs);
       } else {
         console.log("other status code, no search results");
       }
     };
-    var tmpText=document.getElementById('q546e9ffd96dfc').value;
+    var tmpFavs={};
+    for (key in SPLU.Favorites){
+      if (SPLU.Favorites[key].title2 === undefined){
+        SPLU.Favorites[key].title2="";
+      }
+      if (SPLU.Favorites[key].title.toLowerCase().indexOf(tmpText.toLowerCase())>-1 || SPLU.Favorites[key].title2.toLowerCase().indexOf(tmpText.toLowerCase())>-1){
+        tmpFavs[key]=SPLU.Favorites[key];
+      }
+    }
     var tmpType=SPLUobjecttype;
     var tmpQuery='/geeksearch.php?action=search&q='+tmpText+'&objecttype='+tmpType+'&showcount='+SPLUsearchResultsLength;
     oReq.open("POST",tmpQuery,true);
@@ -3399,8 +3445,17 @@
     oReq.send();
   }
   
-  function showSearchResults(results){
+  function showSearchResults(results,favorites){
     tmpHTML="";
+    for (key in favorites){
+      if (favorites.hasOwnProperty(key)) {
+        tmpTitle=favorites[key].title2;
+        if (tmpTitle==""){
+          tmpTitle=favorites[key].title;
+        }
+        tmpHTML+='<i style="color: red;" class="fa fa-heart"></i> <a onClick="javascript:{chooseFavorite(\''+key+'\');}">'+tmpTitle+'</a><br/>';
+      }
+    }
     if (results['items'].length>0){
       for (i=0; i<results['items'].length; i++){
         SPLUsearchResults[results['items'][i].objectid]=results['items'][i];
