@@ -1,4 +1,4 @@
-// SPLU 5.5.6 Beta
+// SPLU 5.5.7 Beta
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -12,7 +12,7 @@
     //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.5.6";
+    var SPLUversion="5.5.7";
 
     var SPLU={};
     var SPLUplayId="";
@@ -685,6 +685,11 @@
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
+      +'<div style="display:table-row;">'
+      +'<div style="display:table-cell; text-align:right;">Default Location <select id="SPLU.SelectDefaultLocation" onChange="javascript:{SPLU.Settings.DefaultLocation.Name=document.getElementById(\'SPLU.SelectDefaultLocation\').value;}"></select></div>'
+      +'<div style="display:table-cell; text-align:center;"></div>'
+      +'<div style="display:table-cell; text-align:center;"></div>'
+      +'</div>'
       +'</div>'
       +'<div style="display:table; padding-top:15px;">'
       +'<div style="display:table-row;">'
@@ -1245,6 +1250,7 @@
     tmpDiv.innerHTML='<div id="SPLU.PlayerSaveHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
     document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
     setPlayers("reset");
+    setLocations("reset");
   }
   
   function highlightDayButton(){
@@ -1284,7 +1290,23 @@
       insertPlayer(-1);
     }
   }
-  
+
+  function setLocations(action){
+    tmpName=SPLU.Settings.DefaultLocation.Name;
+    if(action=="reset"){
+      if(tmpName!="-none-"){
+        if(tmpName=="-blank-"){
+          document.getElementById('SPLU_PlayedAt').value="";
+        } else {
+          insertLocation(tmpName);
+        }
+      }
+    }
+    if(action=="blank"){
+      document.getElementById('SPLU_PlayedAt').value="";
+    }
+  }
+
   function setTwitterIcons(){
     var tmpIcons=document.getElementsByClassName('SPLUtwitterIcon');
     var tmpDisplay="none";
@@ -1332,6 +1354,7 @@
       "TwitterField":{"Enabled":false,"Visible":false,"Reset":true},
       "ExpansionWinStats":{"Enabled":false},
       "DefaultPlayer":{"Name":"-blank-"}
+      "DefaultLocation":{"Name":"-blank-"}
     }
   }
   
@@ -2457,6 +2480,33 @@
     document.getElementById('SPLUsearchLocationsResultsDIV').innerHTML=tmpHTML;
   }
   
+  function loadDefaultLocationList(){
+    select=document.getElementById('SPLU.SelectDefaultLocation');
+    tmpName=SPLU.Settings.DefaultLocation.Name;
+    select.options.length=0;
+    if(tmpName=="-none-"){
+      select.options[0]=new Option("-none-", "-none-", false, true);
+    } else {
+      select.options[0]=new Option("-none-", "-none-", false, false);
+    }
+    if(tmpName=="-blank-"){
+      select.options[1]=new Option("-blank-", "-blank-", false, true);
+    } else {
+      select.options[1]=new Option("-blank-", "-blank-", false, false);
+    }
+    var i=2;
+    for(var key in SPLU.Locations){
+      if (SPLU.Locations.hasOwnProperty(key)) {
+        if(tmpName==key){
+          select.options[i]=new Option(decodeURIComponent(SPLU.Locations[key].Name), key, false, true);
+        }else{
+          select.options[i]=new Option(decodeURIComponent(SPLU.Locations[key].Name), key, false, false);
+        }
+        i++;
+      }
+    }
+  }
+  
   function deleteGamePlay(){
     if (confirm("Press OK to delete this play") == true) {
       document.getElementById('BRresults').innerHTML="Deleting...";
@@ -2672,6 +2722,7 @@
     NumOfPlayers=0;
     PlayerCount=0;
     setPlayers(action);
+    setLocation(action);
     showHideEditButtons("hide");
     if(SPLU.Settings.DateField.Reset){setDateField(SPLUtoday);}
     if(SPLU.Settings.GameField.Reset){clearSearchResult();}
