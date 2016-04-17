@@ -220,7 +220,7 @@
         +'<div class="BRcells">'
           +'<div id="SPLU.LocationField" style="width:275px;">'
             +'<div id="SPLU.fakeLocationBox" style="width:200px; display:inline-block; -moz-appearance:textfield; -webkit-appearance:textfield;">'
-              +'<input type="text" placeholder="click or type a location" id="SPLU_PlayedAt" onFocus="javascript:{this.select();}" onblur="javascript:{document.getElementById(\'SPLUsearchLocationsResultsDIV\').style.display=\'none\';}" onkeydown="SPLUsearchLocationDelay();" tabindex="20" name="location" style="width: 175px; border:none;"/>'
+              +'<input type="text" placeholder="click or type a location" id="SPLU_PlayedAt" onFocus="javascript:{this.select();}" onblur="javascript:{document.getElementById(\'SPLUsearchLocationsResultsDIV\').style.display=\'none\';}" onkeydown="SPLUsearchLocationDelay(event);" tabindex="20" name="location" style="width: 175px; border:none;"/>'
               +'<a href="javascript:{void(0);}" onClick="javascript:{saveLocation();}" style="vertical-align:middle;" id="SPLU.SaveLocationButton"><span class="fa-stack"><i class="fa fa-stack-2x fa-floppy2" style="font-size: 1.3em; color: black; vertical-align: middle; transform: translate(2px, 4px);"></i></span></a>'
             +'</div>'
             +'<div id="SPLUsearchLocationsResultsDIV" style="background-color: rgb(255, 255, 255); position: absolute; padding: 5px; z-index: 579; margin-right: 12px; min-width: 130px; display:none;"></div>'
@@ -2420,7 +2420,11 @@
   }
 
   var SPLUsearchLocationDelayTimeout;    
-  function SPLUsearchLocationDelay() {
+  function SPLUsearchLocationDelay(e) {
+    if (e.keyCode=="9"){
+      clearTimeout( SPLUsearchLocationDelayTimeout );
+      return;
+    }
     SPLUsearchResultsLength=20;
     if ( SPLUsearchLocationDelayTimeout ) {
       clearTimeout( SPLUsearchLocationDelayTimeout );
@@ -2559,6 +2563,10 @@
     for(n=0; n<inputs.length; n++){
       if(inputs[n].name=="geekitemname" || inputs[n].name=="imageid"){
         continue;
+      }
+      if(inputs[n].name=="objectid" && inputs[n].value==""){
+        document.getElementById('BRresults').innerHTML="Hey! You didn't choose a game.";
+        return;
       }
       if(inputs[n].type=='checkbox'){
         if(inputs[n].checked){
