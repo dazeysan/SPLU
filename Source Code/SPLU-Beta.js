@@ -1138,6 +1138,7 @@
     loadFilters();
     loadGroups();
     loadDefaultPlayersList();
+    loadDefaultLocationList();
     SPLUcalendar = new YAHOO.widget.Calendar('SPLU.Calendar');
     var tmp=new Date();
     var tmp2=new Date();
@@ -1250,7 +1251,7 @@
     tmpDiv.innerHTML='<div id="SPLU.PlayerSaveHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
     document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
     setPlayers("reset");
-    setLocations("reset");
+    setLocation("reset");
   }
   
   function highlightDayButton(){
@@ -1291,14 +1292,16 @@
     }
   }
 
-  function setLocations(action){
+  function setLocation(action){
     tmpName=SPLU.Settings.DefaultLocation.Name;
     if(action=="reset"){
-      if(tmpName!="-none-"){
-        if(tmpName=="-blank-"){
-          document.getElementById('SPLU_PlayedAt').value="";
+      if(tmpName=="-blank-"){
+        document.getElementById('SPLU_PlayedAt').value="";
+      } else {
+        if(SPLU.Settings.LocationList.Visible){
+          insertLocation(tmpName,false);
         } else {
-          insertLocation(tmpName);
+          insertLocation(tmpName,true);
         }
       }
     }
@@ -1627,7 +1630,7 @@
     tmpDiv.innerHTML="";
     for(var key in SPLU.Locations){
       if (SPLU.Locations.hasOwnProperty(key)) {
-        tmpDiv.innerHTML+='<div style="padding: 5px 2px 0px 0px; float: left;"><a href="javascript:{void(0);}" onClick="javascript:{insertLocation('+key+');}" onMouseDown="javascript:{this.style.backgroundColor=\'#eff708\';}" onMouseUp="javascript:{this.style.backgroundColor=\'#A4DFF3\';}" style="border:1px dotted green;padding:0px 2px;">'+decodeURIComponent(SPLU.Locations[key].Name)+'</a></div>';
+        tmpDiv.innerHTML+='<div style="padding: 5px 2px 0px 0px; float: left;"><a href="javascript:{void(0);}" onClick="javascript:{insertLocation('+key+',true);}" onMouseDown="javascript:{this.style.backgroundColor=\'#eff708\';}" onMouseUp="javascript:{this.style.backgroundColor=\'#A4DFF3\';}" style="border:1px dotted green;padding:0px 2px;">'+decodeURIComponent(SPLU.Locations[key].Name)+'</a></div>';
       }
     }
   }
@@ -2243,7 +2246,7 @@
       }
     }
     if(SPLU.Favorites[id].location!==undefined){
-      insertLocation(SPLU.Favorites[id].location);
+      insertLocation(SPLU.Favorites[id].location,true);
     }
   }
   
@@ -2431,13 +2434,15 @@
     xmlhttp.send("version=2&objecttype=thing&objectid=98000&playid="+SPLUplayId+"&action=save&quantity=0&comments="+fixedEncodeURIComponent(JSON.stringify(SPLUremote))+"&playdate=1452-04-15&B1=Save");
   }
   
-  function insertLocation(location){
+  function insertLocation(location, hide){
     if(location==-1){
       document.getElementById(('SPLU_PlayedAt')).value="";
     }else{
       document.getElementById(('SPLU_PlayedAt')).value=decodeURIComponent(SPLU.Locations[location].Name);
     }
-    HideLocations();
+    if (hide){
+      HideLocations();
+    }
     document.getElementById('SPLUsearchLocationsResultsDIV').style.display="none";
   }
 
@@ -2470,7 +2475,7 @@
       if (SPLU.Locations.hasOwnProperty(key)) {
         //console.log(SPLU.Locations[key].Name);
         if (SPLU.Locations[key].Name.toLowerCase().indexOf(tmpText.toLowerCase())>-1){
-          tmpHTML+='<a onClick=\'javascript:{insertLocation('+key+');}\'>'+decodeURIComponent(SPLU.Locations[key].Name)+"</a><br/>";
+          tmpHTML+='<a onClick=\'javascript:{insertLocation('+key+',true);}\'>'+decodeURIComponent(SPLU.Locations[key].Name)+"</a><br/>";
         }
       }
     }
@@ -2484,11 +2489,6 @@
     select=document.getElementById('SPLU.SelectDefaultLocation');
     tmpName=SPLU.Settings.DefaultLocation.Name;
     select.options.length=0;
-    if(tmpName=="-none-"){
-      select.options[0]=new Option("-none-", "-none-", false, true);
-    } else {
-      select.options[0]=new Option("-none-", "-none-", false, false);
-    }
     if(tmpName=="-blank-"){
       select.options[1]=new Option("-blank-", "-blank-", false, true);
     } else {
@@ -4893,6 +4893,7 @@
     document.getElementById('SPLUwindow').style.minWidth="610px";
     document.getElementById('BRlogSettings').style.display="table-cell";
     loadDefaultPlayersList();
+    loadDefaultLocationList();
   }
   
   function showExpansionsPane(source){
