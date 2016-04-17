@@ -681,12 +681,7 @@
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
       +'<div style="display:table-row;" class="SPLUsettingAltRows">'
-      +'<div style="display:table-cell; text-align:right;">Default Player</div>'
-      +'<div style="display:table-cell; text-align:center;"></div>'
-      +'<div style="display:table-cell; text-align:center;"></div>'
-      +'</div>'
-      +'<div style="display:table-row;" class="SPLUsettingAltRows">'
-      +'<div style="display:table-cell; text-align:right;"><select id="SPLU.SelectDefaultPlayer" onChange="javascript:{SPLU.Settings.DefaultPlayer.Name=document.getElementById(\'SPLU.SelectDefaultPlayer\').value;}"></select></div>'
+      +'<div style="display:table-cell; text-align:right;">Default Player <select id="SPLU.SelectDefaultPlayer" onChange="javascript:{SPLU.Settings.DefaultPlayer.Name=document.getElementById(\'SPLU.SelectDefaultPlayer\').value;}"></select></div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
@@ -2414,7 +2409,6 @@
   }
   
   function insertLocation(location){
-    console.log("abc");
     if(location==-1){
       document.getElementById(('SPLU_PlayedAt')).value="";
     }else{
@@ -2445,7 +2439,7 @@
       document.getElementById('SPLUsearchLocationsResultsDIV').style.display="none";
       return;
     }
-    console.log(tmpText);
+    //console.log(tmpText);
     document.getElementById('SPLUsearchLocationsResultsDIV').style.display="";
     document.getElementById('SPLUsearchLocationsResultsDIV').innerHTML="Searching...";
     tmpHTML="";
