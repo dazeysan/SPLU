@@ -220,7 +220,7 @@
         +'<div class="BRcells">'
           +'<div id="SPLU.LocationField" style="width:275px;">'
             +'<div id="SPLU.fakeLocationBox" style="width:200px; display:inline-block; -moz-appearance:textfield; -webkit-appearance:textfield;">'
-              +'<input type="text" placeholder="click or type a location" id="SPLU_PlayedAt" onFocus="javascript:{this.select();}" onblur="javascript:{document.getElementById(\'SPLUsearchLocationsResultsDIV\').style.display=\'none\';}" onkeydown="SPLUsearchLocationDelay(event);" tabindex="20" name="location" style="width: 175px; border:none;"/>'
+              +'<input type="text" placeholder="click or type a location" id="SPLU_PlayedAt" onFocus="javascript:{this.select();}" onblur="javascript:{window.setTimeout(function(){document.getElementById(\'SPLUsearchLocationsResultsDIV\').style.display=\'none\';},100);}" onkeydown="SPLUsearchLocationDelay(event);" tabindex="20" name="location" style="width: 175px; border:none;"/>'
               +'<a href="javascript:{void(0);}" onClick="javascript:{saveLocation();}" style="vertical-align:middle;" id="SPLU.SaveLocationButton"><span class="fa-stack"><i class="fa fa-stack-2x fa-floppy2" style="font-size: 1.3em; color: black; vertical-align: middle; transform: translate(2px, 4px);"></i></span></a>'
             +'</div>'
             +'<div id="SPLUsearchLocationsResultsDIV" style="background-color: rgb(255, 255, 255); position: absolute; padding: 5px; z-index: 579; margin-right: 12px; min-width: 130px; display:none;"></div>'
@@ -2414,6 +2414,7 @@
   }
   
   function insertLocation(location){
+    console.log("abc");
     if(location==-1){
       document.getElementById(('SPLU_PlayedAt')).value="";
     }else{
@@ -2450,7 +2451,7 @@
     tmpHTML="";
     for (key in SPLU.Locations){
       if (SPLU.Locations.hasOwnProperty(key)) {
-        console.log(SPLU.Locations[key].Name);
+        //console.log(SPLU.Locations[key].Name);
         if (SPLU.Locations[key].Name.toLowerCase().indexOf(tmpText.toLowerCase())>-1){
           tmpHTML+='<a onClick=\'javascript:{insertLocation('+key+');}\'>'+decodeURIComponent(SPLU.Locations[key].Name)+"</a><br/>";
         }
