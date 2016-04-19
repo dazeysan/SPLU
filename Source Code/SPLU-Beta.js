@@ -720,8 +720,11 @@
         +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogFavs\').style.display=\'none\';}" style="border:2px solid #F30F27;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/close_pane.png"></a>'
         +'</div>'
         +'<span style="font-variant:small-caps; font-weight:bold;">'
-          +'<center>Favorites</center>'
-          +'<br />'
+          +'<div style="float: left; padding-left: 20px; position: absolute;">'
+            +'<a href="javascript:{void(0);}" onclick="javascript:{addFavorite(true);}" id="favoritesCustomAddToList" style="padding:4px;"><span class="fa-stack"><i style="color: white; transform: translate(-6px, -9px); font-size: 3.7em;" class="fa fa-stack-2x"></i><i style="color: red; font-size: 1.6em;" class="fa fa-stack-2x fa-heart"></i><i class="fa fa-stack-2x fa-gift" style="color: rgb(5, 167, 5); transform: scaleX(-1) translate(-4px, 6px); font-size: 1.2em; text-shadow: 1px -1px rgb(255, 255, 255), 1px 1px rgb(255, 255, 255), -1px -1px rgb(255, 255, 255);"></i></span></a>'
+          +'</div>'
+        +'<center>Favorites</center>'
+        +'<br />'
         +'</span>'
         +'<div id="SPLU.FavoritesStatus"></div>'
         +'<div id="SPLU.FavoritesList" style="overflow-y:auto; width:220px;"></div>'
@@ -1032,6 +1035,7 @@
     listenerForPopText("SaveGamePlayBtnDupe","Submit but Keep Player Data Onscreen");
     listenerForPopText("favoritesGoTo","Choose from your Favorites list");
     listenerForPopText("favoritesAddToList","Add to Favorites");
+    listenerForPopText("favoritesCustomAddToList","Add currently selected Game, Location, Players, and Expansions to Favorites");
     listenerForPopText("expansionLoggingButton","Log an expansion");
     listenerForPopText("ResetSettingsOption","Check these items to clear their values when you press <b>Submit & Duplicate</b>");
     listenerForPopText("SPLU.DateFieldReset","Date will also reset when clicking <b>Submit</b>");
