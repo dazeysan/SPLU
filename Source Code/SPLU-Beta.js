@@ -2279,6 +2279,7 @@
   function chooseFavorite(id){
     console.log(id);
     setObjectType(SPLU.Favorites[id].objecttype);
+    document.getElementById('SPLU_ExpansionsQuantity').innerHTML="";
     document.getElementById('objectid9999').value=SPLU.Favorites[id].objectid;
     document.getElementById('selimage9999').innerHTML='<a><img src="'+SPLU.Favorites[id].thumbnail+'"/></a>';
     document.getElementById('q546e9ffd96dfc').value=SPLU.Favorites[id].title;
@@ -2786,6 +2787,7 @@
     }
     highlightDayButton();
     SPLUcurrentPlayShown="";
+    SPLUprevGameID=0;
   }
   
   function setDateField(date){
@@ -3586,7 +3588,7 @@
           }
         }
         if(favorites[key].expansions!==undefined){
-          if(favorites[key].players.length>0){
+          if(favorites[key].expansions.length>0){
             tmpMarkers+='<i class="fa fa-star" style="color: rgb(211, 60, 199);"></i>';
           }
         }
@@ -3636,6 +3638,7 @@
     SPLUsearchResultsLength=20;
     document.getElementById('SPLUsearchResultsDIV').style.display="none";
     document.getElementById('BRthumbButtons').style.display="block";
+    document.getElementById('SPLU_ExpansionsQuantity').innerHTML="";
   }
   
   function clearSearchResult() {
@@ -4742,7 +4745,19 @@
       document.getElementById('SPLU.ExpansionPane').innerHTML+=tmpHTML;
     }
     if(SPLUexpansionsFromFavorite.length>0){
-      //Add code to check the expansions that are saved in the favorite
+      var tmpExp=document.getElementsByClassName('BRexpLogBox');
+      for(i=0;i<tmpExp.length;i++){
+        for(f=0;f<SPLUexpansionsFromFavorite.length;f++){
+          if(tmpExp[i].id==SPLUexpansionsFromFavorite[f].id){
+            tmpExp[i].checked=true;
+            SPLUexpansionsFromFavorite.splice(f, 1);
+          }
+        }
+      }
+    }
+    //Check if the length is still > 0 as this would indicate there are Family items to fetch and check as well
+    if(SPLUexpansionsFromFavorite.length>0){
+      showFamilyTab();
     }
   }
   
@@ -4796,6 +4811,17 @@
       }
       tmpHTML+='</div>';
       document.getElementById('SPLU.FamilyPane').innerHTML+=tmpHTML;
+      if(SPLUexpansionsFromFavorite.length>0){
+        var tmpExp=document.getElementsByClassName('BRexpLogBox');
+        for(i=0;i<tmpExp.length;i++){
+          for(f=0;f<SPLUexpansionsFromFavorite.length;f++){
+            if(tmpExp[i].id==SPLUexpansionsFromFavorite[f].id){
+              tmpExp[i].checked=true;
+              SPLUexpansionsFromFavorite.splice(f, 1);
+            }
+          }
+        }
+      }
     }
   }
 
@@ -4986,7 +5012,7 @@
           }
         }
         if(SPLU.Favorites[key].expansions!==undefined){
-          if(SPLU.Favorites[key].players.length>0){
+          if(SPLU.Favorites[key].expansions.length>0){
             tmpMarkers+='<i class="fa fa-star" style="color: rgb(211, 60, 199);"></i>';
           }
         }
