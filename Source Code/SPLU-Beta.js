@@ -3585,6 +3585,11 @@
             tmpMarkers+='<i class="fa fa-user" style="color: rgb(211, 60, 199);"></i>';
           }
         }
+        if(favorites[key].expansions!==undefined){
+          if(favorites[key].players.length>0){
+            tmpMarkers+='<i class="fa fa-star" style="color: rgb(211, 60, 199);"></i>';
+          }
+        }
         if(tmpMarkers!=" "){
           tmpMarkers+=" ";
         }
@@ -4978,6 +4983,11 @@
         if(SPLU.Favorites[key].players!==undefined){
           if(SPLU.Favorites[key].players.length>0){
             tmpMarkers+='<i class="fa fa-user" style="color: rgb(211, 60, 199);"></i>';
+          }
+        }
+        if(SPLU.Favorites[key].expansions!==undefined){
+          if(SPLU.Favorites[key].players.length>0){
+            tmpMarkers+='<i class="fa fa-star" style="color: rgb(211, 60, 199);"></i>';
           }
         }
         tmpTitle=SPLU.Favorites[key].title;
