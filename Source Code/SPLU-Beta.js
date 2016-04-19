@@ -2288,6 +2288,7 @@
     setObjectType(SPLU.Favorites[id].objecttype);
     document.getElementById('SPLU_ExpansionsQuantity').innerHTML="";
     document.getElementById('objectid9999').value=SPLU.Favorites[id].objectid;
+    SPLUgameID=SPLU.Favorites[id].objectid;
     document.getElementById('selimage9999').innerHTML='<a><img src="'+SPLU.Favorites[id].thumbnail+'"/></a>';
     document.getElementById('q546e9ffd96dfc').value=SPLU.Favorites[id].title;
     document.getElementById('BRlogFavs').style.display="none";
@@ -3642,6 +3643,7 @@
     console.log(item);
     setObjectType(item.subtype);
     document.getElementById('objectid9999').value=item.objectid;
+    SPLUgameID=item.objectid;
     tmpImage=item.rep_imageid;
     if (tmpImage==0){
       tmpImage='1657689';
@@ -4911,7 +4913,7 @@
       }
     }else{
       var tmpExp=SPLUexpansionsFromFavorite;
-      for(i=0; i<SPLUexpansionsFromFavorite.length; i++){
+      for(i=0; i<tmpExp.length; i++){
         tmpExp[i].checked=true;
         ExpansionsToLog++;
       }
@@ -4924,6 +4926,7 @@
         if(tmpExp[i].checked){
           document.getElementById('SPLUexpansionResults').innerHTML='Waiting for '+ExpansionsToLog+' expansions to be logged.';
           var QPR="";
+          //Don't bother with status message if they haven't opened Expansion pane after loading Favorite
           if(SPLUexpansionsFromFavorite.length==0){
             if(tmpExp[i].getAttribute('data-tab')=="expansion"){
               QPR="QPresultsExp";
