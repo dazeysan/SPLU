@@ -721,11 +721,12 @@
         +'</div>'
         +'<span style="font-variant:small-caps; font-weight:bold;">'
           +'<div style="float: left; padding-left: 20px; position: absolute;">'
-            +'<a href="javascript:{void(0);}" onclick="javascript:{addFavorite(true);}" id="favoritesCustomAddToList" style="padding:4px;"><span class="fa-stack"><i style="color: white; transform: translate(-6px, -9px); font-size: 3.7em;" class="fa fa-stack-2x"></i><i style="color: red; font-size: 1.6em;" class="fa fa-stack-2x fa-heart"></i><i class="fa fa-stack-2x fa-gift" style="color: rgb(5, 167, 5); transform: scaleX(-1) translate(-4px, 6px); font-size: 1.2em; text-shadow: 1px -1px rgb(255, 255, 255), 1px 1px rgb(255, 255, 255), -1px -1px rgb(255, 255, 255);"></i></span></a>'
+            +'<a href="javascript:{void(0);}" onclick="javascript:{addCustomFavorite();}" id="favoritesCustomAddToList" style="padding:4px;"><span class="fa-stack"><i style="color: white; transform: translate(-6px, -9px); font-size: 3.7em;" class="fa fa-stack-2x"></i><i style="color: red; font-size: 1.6em;" class="fa fa-stack-2x fa-heart"></i><i class="fa fa-stack-2x fa-gift" style="color: rgb(5, 167, 5); transform: scaleX(-1) translate(-4px, 6px); font-size: 1.2em; text-shadow: 1px -1px rgb(255, 255, 255), 1px 1px rgb(255, 255, 255), -1px -1px rgb(255, 255, 255);"></i></span></a>'
           +'</div>'
         +'<center>Favorites</center>'
         +'<br />'
         +'</span>'
+        +'<div id="SPLU.FavoritesCustomNameDiv" style="display:none;"><input style="margin-bottom: 10px; margin-left: 23px;" id="SPLU.FavoritesCustomName" type="text"><div style="display: inline;"><a style="" href="javascript:{void(0);}" onclick="javascript:{addFavorite(true);}"><span style="transform: translate(-1px, 3px);" class="fa-stack"><i style="color: white; transform: translate(0px, -3px); font-size: 1.4em;" class="fa fa-stack-2x fa-square-sharp"></i><i style="font-size: 1.3em; color: black;" class="fa fa-stack-2x fa-floppy2"></i></span></a></div></div>'
         +'<div id="SPLU.FavoritesStatus"></div>'
         +'<div id="SPLU.FavoritesList" style="overflow-y:auto; width:220px;"></div>'
     tmpDiv.innerHTML+=tmpHTML;
@@ -2221,6 +2222,11 @@
     }
   }
   
+  function addCustomFavorite(){
+    document.getElementById('SPLU.FavoritesCustomNameDiv').style.display="";
+    document.getElementById('SPLU.FavoritesCustomName').value=document.getElementById('q546e9ffd96dfc').value;
+  }
+  
   function addFavorite(custom){
     var id=document.getElementById('objectid9999').value;
     tmp=Math.random();
@@ -2234,7 +2240,8 @@
     };
     if(custom){
       SPLU.Favorites[tmpid].location=document.getElementById(('SPLU_PlayedAt')).value;
-      SPLU.Favorites[tmpid].title2="";
+      SPLU.Favorites[tmpid].title2=document.getElementById('SPLU.FavoritesCustomName').value;
+      document.getElementById('SPLU.FavoritesCustomNameDiv').style.display="none";
       SPLU.Favorites[tmpid].players=[];
       for(i=1; i<=NumOfPlayers; i++){
         tmpPlayer={"attributes":{
