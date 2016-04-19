@@ -2194,10 +2194,17 @@
   
   function expansionListComment(){
     var comment="";
-    var expansions=document.getElementsByClassName('BRexpLogBox');
-    for(i=0;i<expansions.length;i++){
-      if(expansions[i].checked){
-        comment+="-"+expansions[i].getAttribute("data-SPLU-ExpName")+"\n";
+    if(SPLUexpansionsFromFavorite.length>0){
+      expansions=SPLUexpansionsFromFavorite;
+      for(i=0;i<expansions.length;i++){
+        comment+="-"+expansions[i].name+"\n";
+      }
+    }else{
+      expansions=document.getElementsByClassName('BRexpLogBox');
+      for(i=0;i<expansions.length;i++){
+        if(expansions[i].checked){
+          comment+="-"+expansions[i].getAttribute("data-SPLU-ExpName")+"\n";
+        }
       }
     }
     var CommentBox=document.getElementById("quickplay_comments99");
@@ -2263,7 +2270,7 @@
       if(tmpExp.length>0){
         for(i=0;i<tmpExp.length;i++){
           if(tmpExp[i].checked){
-            SPLU.Favorites[tmpid].expansions.push({"type":tmpExp[i].getAttribute('data-tab'),"id":tmpExp[i].id});
+            SPLU.Favorites[tmpid].expansions.push({"type":tmpExp[i].getAttribute('data-tab'),"id":tmpExp[i].id,"name":tmpExp[i].getAttribute('data-SPLU-ExpName')});
           }
         }
       }
@@ -2304,6 +2311,9 @@
       SPLUexpansionsFromFavorite=[]
       for(i=0;i<SPLU.Favorites[id].expansions.length;i++){
         SPLUexpansionsFromFavorite.push(SPLU.Favorites[id].expansions[i]);
+      }
+      if(SPLU.Settings.ExpansionComments.Visible){
+        expansionListComment();
       }
     }else{
       SPLUexpansionsFromFavorite=[];
