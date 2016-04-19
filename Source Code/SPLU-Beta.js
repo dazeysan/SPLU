@@ -2301,7 +2301,10 @@
       hideLocations();
     }
     if(SPLU.Favorites[id].expansions!==undefined){
-      SPLUexpansionsFromFavorite=SPLU.Favorites[id].expansions;
+      SPLUexpansionsFromFavorite=[]
+      for(i=0;i<SPLU.Favorites[id].expansions.length;i++){
+        SPLUexpansionsFromFavorite.push(SPLU.Favorites[id].expansions[i]);
+      }
     }else{
       SPLUexpansionsFromFavorite=[];
     }
