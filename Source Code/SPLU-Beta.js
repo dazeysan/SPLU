@@ -2295,18 +2295,22 @@
     document.getElementById('SPLUsearchResultsDIV').style.display="none";
     document.getElementById('BRthumbButtons').style.display="block";
     if(SPLU.Favorites[id].players!==undefined){
-      while(document.getElementsByClassName('SPLUrows').length>0){
-        removePlayerRow(document.getElementsByClassName('SPLUrows')[0].parentNode.id.slice(14));
-      }
-      NumOfPlayers=0;
-      PlayerCount=0;
-      for(p=0;p<SPLU.Favorites[id].players.length;p++){
-        insertPlayer(SPLU.Favorites[id].players[p]);
+      if(SPLU.Favorites[id].players.length>0){
+        while(document.getElementsByClassName('SPLUrows').length>0){
+          removePlayerRow(document.getElementsByClassName('SPLUrows')[0].parentNode.id.slice(14));
+        }
+        NumOfPlayers=0;
+        PlayerCount=0;
+        for(p=0;p<SPLU.Favorites[id].players.length;p++){
+          insertPlayer(SPLU.Favorites[id].players[p]);
+        }
       }
     }
     if(SPLU.Favorites[id].location!==undefined){
-      document.getElementById(('SPLU_PlayedAt')).value=SPLU.Favorites[id].location;
-      hideLocations();
+      if(SPLU.Favorites[id].location!=""){
+        document.getElementById(('SPLU_PlayedAt')).value=SPLU.Favorites[id].location;
+        hideLocations();
+      }
     }
     if(SPLU.Favorites[id].expansions!==undefined){
       SPLUexpansionsFromFavorite=[]
