@@ -39,6 +39,7 @@
     var SPLUfamilyList="";
     var SPLUfamilyID="-1";
     var SPLUexpansionsLoaded=false;
+    var SPLUexpansionsFromFavorite=[];
     var SPLUfamilyLoaded=false;
     var SPLUplays={};
     var SPLUplay={};
@@ -276,10 +277,11 @@
               +'<div style="display:table-cell; vertical-align:top;">'
                 +'<div id="BRthumbButtons" style="display:none">'
                   +'<div style="padding-bottom:5px; padding-top:7px;">'
-                    +'<a href="javascript:{void(0);}" onClick="javascript:{saveFavorite();}" id="favoritesAddToList" style="padding:4px;"><span class="fa-stack"><i style="color: white; transform: translate(-6px, -9px); font-size: 3.7em;" class="fa fa-stack-2x">&#xee22;</i><i style="color: red; font-size: 1.6em;" class="fa fa-stack-2x fa-heart"></i><i class="fa fa-stack-2x fa-plus" style="color: rgb(5, 167, 5); transform: scaleX(-1) translate(-4px, 6px); font-size: 1.2em; text-shadow: 1px -1px rgb(255, 255, 255), 1px 1px rgb(255, 255, 255), -1px -1px rgb(255, 255, 255);"></i></span></a>'
+                    +'<a href="javascript:{void(0);}" onClick="javascript:{addFavorite(false);}" id="favoritesAddToList" style="padding:4px;"><span class="fa-stack"><i style="color: white; transform: translate(-6px, -9px); font-size: 3.7em;" class="fa fa-stack-2x">&#xee22;</i><i style="color: red; font-size: 1.6em;" class="fa fa-stack-2x fa-heart"></i><i class="fa fa-stack-2x fa-plus" style="color: rgb(5, 167, 5); transform: scaleX(-1) translate(-4px, 6px); font-size: 1.2em; text-shadow: 1px -1px rgb(255, 255, 255), 1px 1px rgb(255, 255, 255), -1px -1px rgb(255, 255, 255);"></i></span></a>'
                   +'</div>'
                   +'<div>'
                     +'<a javascript:{void(0);}" onClick="javascript:{SPLUgameID=document.getElementById(\'objectid9999\').value;showExpansionsPane(\'button\');}" id="expansionLoggingButton" style="padding:4px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/log_expansion.png" border="0"></a>'
+                    +'<span id="SPLU_ExpansionsQuantity" style="padding-left: 3px;"></span>'
                   +'</div>'
                 +'</div>'
               +'</div>'
@@ -2208,7 +2210,7 @@
     }
   }
   
-  function saveFavorite(){
+  function addFavorite(custom){
     var id=document.getElementById('objectid9999').value;
     tmp=Math.random();
     tmpid=id+'_'+tmp.toString().slice(-4);
@@ -2219,6 +2221,53 @@
       "sortorder":0,
       "objecttype":SPLUobjecttype
     };
+    if(custom){
+      SPLU.Favorites[tmpid].location=document.getElementById(('SPLU_PlayedAt')).value;
+      SPLU.Favorites[tmpid].title2="";
+      SPLU.Favorites[tmpid].players=[];
+      for(i=1; i<=NumOfPlayers; i++){
+        tmpPlayer={"attributes":{
+          "name":{},
+          "username":{},
+          "color":{},
+          "startposition":{},
+          "score":{},
+          "rating":{},
+          "win":{},
+          "new":{}
+        }};
+        console.log(i);
+        if(document.getElementsByName("players["+i+"][name]").length==0){
+          continue;
+        }
+        tmpPlayer.attributes.name.value=document.getElementsByName("players["+i+"][name]")[0].value;
+        tmpPlayer.attributes.username.value=document.getElementsByName("players["+i+"][username]")[0].value;
+        tmpPlayer.attributes.color.value=document.getElementsByName("players["+i+"][color]")[0].value;
+        tmpPlayer.attributes.startposition.value=document.getElementsByName("players["+i+"][position]")[0].value;
+        tmpPlayer.attributes.score.value=document.getElementsByName("players["+i+"][score]")[0].value;
+        tmpPlayer.attributes.rating.value=document.getElementsByName("players["+i+"][rating]")[0].value;
+        if(document.getElementsByName("players["+i+"][win]")[0].checked){
+          tmpPlayer.attributes.win.value=1;
+        }else{
+          tmpPlayer.attributes.win.value=0;
+        }
+        if(document.getElementsByName("players["+i+"][new]")[0].checked){
+          tmpPlayer.attributes.new.value=1;
+        }else{
+          tmpPlayer.attributes.new.value=0;
+        }
+        SPLU.Favorites[tmpid].players.push(tmpPlayer);
+      }
+      SPLU.Favorites[tmpid].expansions=[];
+      var tmpExp=document.getElementsByClassName('BRexpLogBox');
+      if(tmpExp.length>0){
+        for(i=0;i<tmpExp.length;i++){
+          if(tmpExp[i].checked){
+            SPLU.Favorites[tmpid].expansions.push({"type":tmpExp[i].getAttribute('data-tab'),"id":tmpExp[i].id});
+          }
+        }
+      }
+    }
     SPLUremote.Favorites[tmpid]=SPLU.Favorites[tmpid];
     saveSooty("SPLU.GameStatus","Thinking...","Added",function(){
       if (document.getElementById('BRlogFavs').style.display=="table-cell") {
@@ -2235,6 +2284,7 @@
     document.getElementById('q546e9ffd96dfc').value=SPLU.Favorites[id].title;
     document.getElementById('BRlogFavs').style.display="none";
     document.getElementById('SPLUsearchResultsDIV').style.display="none";
+    document.getElementById('BRthumbButtons').style.display="block";
     if(SPLU.Favorites[id].players!==undefined){
       while(document.getElementsByClassName('SPLUrows').length>0){
         removePlayerRow(document.getElementsByClassName('SPLUrows')[0].parentNode.id.slice(14));
@@ -2246,8 +2296,15 @@
       }
     }
     if(SPLU.Favorites[id].location!==undefined){
-      insertLocation(SPLU.Favorites[id].location,true);
+      document.getElementById(('SPLU_PlayedAt')).value=SPLU.Favorites[id].location;
+      hideLocations();
     }
+    if(SPLU.Favorites[id].expansions!==undefined){
+      SPLUexpansionsFromFavorite=SPLU.Favorites[id].expansions;
+    }else{
+      SPLUexpansionsFromFavorite=[];
+    }
+    updateExpansionsQuantityField();
   }
   
   function deleteFavorite(id){
@@ -2360,13 +2417,6 @@
     }
   }
   
-  function HideLocations(){
-    document.getElementById('SPLU.LocationList').style.display="none";
-    document.getElementById('SPLU.LocationButtonIconExpand').style.display="inline-block";
-    document.getElementById('SPLU.LocationButtonIconCollapse').style.display="none";
-    LocationList=false;
-  }
-
   function hidePlayers(){
     document.getElementById('SPLU.PlayerList').style.display="none";
     document.getElementById('SPLU.SavedNamesButtonIconExpand').style.display="inline-block";
@@ -2436,9 +2486,9 @@
   
   function insertLocation(location, hide){
     if(location==-1){
-      document.getElementById(('SPLU_PlayedAt')).value="";
+      document.getElementById('SPLU_PlayedAt').value="";
     }else{
-      document.getElementById(('SPLU_PlayedAt')).value=decodeURIComponent(SPLU.Locations[location].Name);
+      document.getElementById('SPLU_PlayedAt').value=decodeURIComponent(SPLU.Locations[location].Name);
     }
     if (hide){
       HideLocations();
@@ -3524,7 +3574,21 @@
         if (tmpTitle==""){
           tmpTitle=favorites[key].title;
         }
-        tmpHTML+='<i style="color: red;" class="fa fa-heart"></i> <a onClick="javascript:{chooseFavorite(\''+key+'\');}">'+tmpTitle+'</a><br/>';
+        tmpMarkers=" ";
+        if(favorites[key].location!==undefined){
+          if(favorites[key].location!=""){
+            tmpMarkers+='<i class="fa fa-map-marker" style="color: rgb(211, 60, 199);"></i>';
+          }
+        }
+        if(favorites[key].players!==undefined){
+          if(favorites[key].players.length>0){
+            tmpMarkers+='<i class="fa fa-user" style="color: rgb(211, 60, 199);"></i>';
+          }
+        }
+        if(tmpMarkers!=" "){
+          tmpMarkers+=" ";
+        }
+        tmpHTML+='<i style="color: red;" class="fa fa-heart"></i>'+tmpMarkers+'<a onClick="javascript:{chooseFavorite(\''+key+'\');}">'+tmpTitle+'</a><br/>';
       }
     }
     if (results['items'].length>0){
@@ -4667,10 +4731,13 @@
       for(i=0;i<BRexpList.length;i++){
         tmpExpID=BRexpList[i].id;
         tmpExpName=BRexpList[i].getAttribute("value");
-        tmpHTML+='<div style="display:table-row;"><div style="display:table-cell;"><input type="checkbox" id="'+tmpExpID+'" class="BRexpLogBox" data-tab="expansion" data-SPLU-ExpName="'+tmpExpName+'" onClick="javascript:{if(SPLU.Settings.ExpansionComments.Visible){expansionListComment();}}"/> '+tmpExpName+'</div><div style="display:table-cell; width:50px;" id="QPresultsExp'+tmpExpID+'" name="QPresults'+tmpExpID+'"></div></div>';
+        tmpHTML+='<div style="display:table-row;"><div style="display:table-cell;"><input type="checkbox" id="'+tmpExpID+'" class="BRexpLogBox" data-tab="expansion" data-SPLU-ExpName="'+tmpExpName+'" onClick="javascript:{updateExpansionsQuantityField();if(SPLU.Settings.ExpansionComments.Visible){expansionListComment();}}"/> '+tmpExpName+'</div><div style="display:table-cell; width:50px;" id="QPresultsExp'+tmpExpID+'" name="QPresults'+tmpExpID+'"></div></div>';
       }
       tmpHTML+='</div>';
       document.getElementById('SPLU.ExpansionPane').innerHTML+=tmpHTML;
+    }
+    if(SPLUexpansionsFromFavorite.length>0){
+      //Add code to check the expansions that are saved in the favorite
     }
   }
   
@@ -4681,6 +4748,26 @@
     oReq.onload=loadExpansions;
     oReq.open("get","/xmlapi2/thing?type=boardgame&id="+SPLUgameID,true);
     oReq.send();
+  }
+  
+  function updateExpansionsQuantityField(){
+    console.log("upExp");
+    tmpQty=0;
+    if(SPLUexpansionsFromFavorite.length==0){
+      var tmpExp=document.getElementsByClassName('BRexpLogBox');
+      for(i=0;i<tmpExp.length;i++){
+        if(tmpExp[i].checked){
+          tmpQty++;
+        }
+      }
+    }else{
+      tmpQty=SPLUexpansionsFromFavorite.length;
+    }
+    if(tmpQty==0){
+      document.getElementById('SPLU_ExpansionsQuantity').innerHTML="";
+    }else{
+      document.getElementById('SPLU_ExpansionsQuantity').innerHTML=tmpQty+" Expansions Selected";
+    }
   }
 
   function loadFamily(){
@@ -4700,7 +4787,7 @@
       for(i=0;i<BRexpList.length;i++){
         tmpExpID=BRexpList[i].getAttribute("id");
         tmpExpName=BRexpList[i].getAttribute("value");
-        tmpHTML+='<div style="display:table-row;"><div style="display:table-cell;"><input type="checkbox" id="'+tmpExpID+'" class="BRexpLogBox" data-tab="family" data-SPLU-ExpName="'+tmpExpName+'" onClick="javascript:{if(SPLU.Settings.ExpansionComments.Visible){expansionListComment();}}"/> '+tmpExpName+'</div><div style="display:table-cell; width:50px;" id="QPresultsFam'+tmpExpID+'" name="QPresults'+tmpExpID+'"></div></div>';
+        tmpHTML+='<div style="display:table-row;"><div style="display:table-cell;"><input type="checkbox" id="'+tmpExpID+'" class="BRexpLogBox" data-tab="family" data-SPLU-ExpName="'+tmpExpName+'" onClick="javascript:{updateExpansionsQuantityField();if(SPLU.Settings.ExpansionComments.Visible){expansionListComment();}}"/> '+tmpExpName+'</div><div style="display:table-cell; width:50px;" id="QPresultsFam'+tmpExpID+'" name="QPresults'+tmpExpID+'"></div></div>';
       }
       tmpHTML+='</div>';
       document.getElementById('SPLU.FamilyPane').innerHTML+=tmpHTML;
@@ -4771,9 +4858,17 @@
 
   function saveExpansionPlays(action){
     ExpansionsToLog=0;
-    var tmpExp=document.getElementsByClassName('BRexpLogBox');
-    for(i=0;i<tmpExp.length;i++){
-      if(tmpExp[i].checked){
+    if(SPLUexpansionsFromFavorite.length==0){
+      var tmpExp=document.getElementsByClassName('BRexpLogBox');
+      for(i=0;i<tmpExp.length;i++){
+        if(tmpExp[i].checked){
+          ExpansionsToLog++;
+        }
+      }
+    }else{
+      var tmpExp=SPLUexpansionsFromFavorite;
+      for(i=0; i<SPLUexpansionsFromFavorite.length; i++){
+        tmpExp[i].checked=true;
         ExpansionsToLog++;
       }
     }
@@ -4785,13 +4880,15 @@
         if(tmpExp[i].checked){
           document.getElementById('SPLUexpansionResults').innerHTML='Waiting for '+ExpansionsToLog+' expansions to be logged.';
           var QPR="";
-          if(tmpExp[i].getAttribute('data-tab')=="expansion"){
-            QPR="QPresultsExp";
-          }else{
-            QPR="QPresultsFam";
+          if(SPLUexpansionsFromFavorite.length==0){
+            if(tmpExp[i].getAttribute('data-tab')=="expansion"){
+              QPR="QPresultsExp";
+            }else{
+              QPR="QPresultsFam";
+            }
+            var results=$(QPR+tmpExp[i].id);
+            results.innerHTML="Saving...";
           }
-          var results=$(QPR+tmpExp[i].id);
-          results.innerHTML="Saving...";
           var form=$('myform');
           var inputs=form.getElementsByTagName('input');
           var querystring="";
@@ -4832,14 +4929,16 @@
             querystring+="&nowinstats=1";
           }
           new Request.JSON({url:'/geekplay.php',data:'ajax=1&action=save&version=2&objecttype=thing'+querystring,onComplete:function(responseJSON,responseText){
-            var results=document.getElementsByName('QPresults'+responseJSON.html.slice(29,responseJSON.html.indexOf("?")));
-            for(var i=0;i<results.length;i++){
-              if(responseJSON.html.slice(-5)=="></a>"){
-                results[i].innerHTML=responseJSON.html.slice(7,-4)+"Logged</a>";
-              }else{
-                results[i].innerHTML=responseJSON.html;
+            if(SPLUexpansionsFromFavorite.length==0){
+              var results=document.getElementsByName('QPresults'+responseJSON.html.slice(29,responseJSON.html.indexOf("?")));
+              for(var i=0;i<results.length;i++){
+                if(responseJSON.html.slice(-5)=="></a>"){
+                  results[i].innerHTML=responseJSON.html.slice(7,-4)+"Logged</a>";
+                }else{
+                  results[i].innerHTML=responseJSON.html;
+                }
+                insertBlank(results[i].id);
               }
-              insertBlank(results[i].id);
             }
             ExpansionsToLog--;
             document.getElementById('SPLUexpansionResults').innerHTML='Waiting for '+ExpansionsToLog+' expansions to be logged.';
@@ -4869,11 +4968,28 @@
         if(SPLU.Favorites.hasOwnProperty(key)){size++};
         if(size % 2==1){
           tmpHTML+='<div style="display:table-row;">';
-        } 
+        }
+        tmpMarkers="";
+        if(SPLU.Favorites[key].location!==undefined){
+          if(SPLU.Favorites[key].location!=""){
+            tmpMarkers+='<i class="fa fa-map-marker" style="color: rgb(211, 60, 199);"></i>';
+          }
+        }
+        if(SPLU.Favorites[key].players!==undefined){
+          if(SPLU.Favorites[key].players.length>0){
+            tmpMarkers+='<i class="fa fa-user" style="color: rgb(211, 60, 199);"></i>';
+          }
+        }
+        tmpTitle=SPLU.Favorites[key].title;
+        if(SPLU.Favorites[key].title2 !== undefined){
+          if(SPLU.Favorites[key].title2 != ""){
+            tmpTitle=SPLU.Favorites[key].title2;
+          }
+        }
         tmpHTML+='<div style="display:table-cell; max-width:110px; padding-top:10px;">'
           +'<a href="javascript:{void(0);}" onClick="javascript:{chooseFavorite(\''+key+'\');}"><img src="'+SPLU.Favorites[key].thumbnail+'"></a>'
           +'<a href="javascript:{void(0);}" onClick="javascript:{deleteFavorite(\''+key+'\');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/red_circle_x.png" style="vertical-align:top; position: relative; margin-left: -8px; margin-top: -8px;"/></a>'
-          +'<br/>'+SPLU.Favorites[key].title+'</div>';
+          +'<br/>'+tmpMarkers+' '+decodeURIComponent(tmpTitle)+'</div>';
         if(size % 2==0){
           tmpHTML+='</div>';
         }
