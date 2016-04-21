@@ -2686,7 +2686,7 @@
     }
   }
   
-  function saveGamePlay(action){
+  function saveGamePlay(action){  
     var form=document.forms['SPLUform'];
     var inputs=form.getElementsByTagName('input');
     var querystring="";
@@ -2727,7 +2727,10 @@
     }else{
       SPLUtimeouts[0]=setTimeout(function(){document.getElementById('BRresults').innerHTML="Timed Out. Try Again.";}, 10000);
     }
-    new Request.JSON({url:'/geekplay.php',data:'ajax=1&action=save&version=2'+tmpID+querystring,onComplete:function(responseJSON,responseText){
+    xmlhttp=new XMLHttpRequest();
+    xmlhttp.open("POST","/geekplay.php",true);
+    xmlhttp.onload=function(responseJSON,responseText){
+      console.log("onload()");
         clearTimeout(SPLUtimeouts[SPLUcopyID]);
         if(responseJSON===undefined){
           document.getElementById('BRresults').innerHTML="Error. Try Again.";
@@ -2735,11 +2738,13 @@
             copyPlays(SPLUcopyID,"undefined");
           }
         }
-        document.getElementById('BRresults').innerHTML=responseJSON.html;
+        tmpJSON=JSON.parse(responseJSON.target.response);
+        document.getElementById('BRresults').innerHTML=tmpJSON.html;
         window.resJ=responseJSON;
+        window.resT=responseText;
         console.log(responseText);
-        if(responseJSON.playid!==undefined){
-          SPLUlastGameSaved=responseJSON.playid;
+        if(tmpJSON.playid!==undefined){
+          SPLUlastGameSaved=tmpJSON.playid;
           insertBlank('BRresults');
           if(SPLUedit.submit){
             fetchPlays(LoggedInAs,0,false,SPLUedit.objectid,SPLUedit.playdate);
@@ -2754,9 +2759,11 @@
           if(action=="copy"){
             copyPlays(SPLUcopyID,responseJSON.target.status);
           }
-
         }
-      }}).send();
+    };
+    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xmlhttp.setRequestHeader("Accept","application/json, text/plain, */*");
+    xmlhttp.send('ajax=1&action=save&version=2'+tmpID+querystring);
   }
   
   function saveGamePlay2(action){
@@ -5028,14 +5035,18 @@
           if(SPLU.Settings.ExpansionWinStats.Enabled){
             querystring+="&nowinstats=1";
           }
-          new Request.JSON({url:'/geekplay.php',data:'ajax=1&action=save&version=2&objecttype=thing'+querystring,onComplete:function(responseJSON,responseText){
+          xmlhttp=new XMLHttpRequest();
+          xmlhttp.open("POST","/geekplay.php",true);
+          xmlhttp.onload=function(responseJSON,responseText){
+            console.log("onload()");
+            tmpJSON=JSON.parse(responseJSON.target.response);
             if(SPLUexpansionsFromFavorite.length==0){
-              var results=document.getElementsByName('QPresults'+responseJSON.html.slice(29,responseJSON.html.indexOf("?")));
+              var results=document.getElementsByName('QPresults'+tmpJSON.html.slice(29,tmpJSON.html.indexOf("?")));
               for(var i=0;i<results.length;i++){
-                if(responseJSON.html.slice(-5)=="></a>"){
-                  results[i].innerHTML=responseJSON.html.slice(7,-4)+"Logged</a>";
+                if(tmpJSON.html.slice(-5)=="></a>"){
+                  results[i].innerHTML=tmpJSON.html.slice(7,-4)+"Logged</a>";
                 }else{
-                  results[i].innerHTML=responseJSON.html;
+                  results[i].innerHTML=tmpJSON.html;
                 }
                 insertBlank(results[i].id);
               }
@@ -5046,8 +5057,9 @@
               document.getElementById('SPLUexpansionResults').innerHTML='';
               saveGamePlay2(action);
             }
-          }}).send();
-        }
+          };
+        xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        xmlhttp.send('ajax=1&action=save&version=2&objecttype=thing'+querystring);        }
       }
     }
   }
