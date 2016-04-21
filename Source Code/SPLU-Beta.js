@@ -3345,32 +3345,28 @@
       }
       if(filtertype=="duration"){
         for(i=0;i<plays.length;i++){
-              tmpLength=SPLUplayData[user][plays[i].id].getAttribute("length");
-              tmpCompare=lines[l].parentNode.children[2].value;
-              if(lines[l].value=="eq"){
-                if(tmpLength==tmpCompare){
-                  plays[i].matches++;
-                  break;
-                }
-              }
-              if(lines[l].value=="lt"){
-                if(Number(tmpLength)<Number(tmpCompare) && tmpLength!=""){
-                  plays[i].matches++;
-                  break;
-                }
-              }
-              if(lines[l].value=="gt"){
-                if(Number(tmpLength)>Number(tmpCompare)){
-                  plays[i].matches++;
-                  break;
-                }
-              }
-              if(lines[l].value=="in"){
-                if(tmpLength.toLowerCase().indexOf(tmpCompare.toLowerCase())>-1){
-                  plays[i].matches++;
-                  break;
-                }
-              }
+          tmpLength=SPLUplayData[user][plays[i].id].getAttribute("length");
+          tmpCompare=lines[l].parentNode.children[2].value;
+          if(lines[l].value=="eq"){
+            if(tmpLength==tmpCompare){
+              plays[i].matches++;
+            }
+          }
+          if(lines[l].value=="lt"){
+            if(Number(tmpLength)<Number(tmpCompare) && tmpLength!=""){
+              plays[i].matches++;
+            }
+          }
+          if(lines[l].value=="gt"){
+            if(Number(tmpLength)>Number(tmpCompare)){
+              plays[i].matches++;
+            }
+          }
+          if(lines[l].value=="in"){
+            if(tmpLength.toLowerCase().indexOf(tmpCompare.toLowerCase())>-1){
+              plays[i].matches++;
+            }
+          }
         }
       }
 
