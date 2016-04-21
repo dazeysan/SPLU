@@ -2013,7 +2013,7 @@
     if(player==after){
       return;
     }
-    var form=$('SPLUform');
+    var form=document.forms['SPLUform'];
     var inputs=form.getElementsByTagName('input');
     SPLUplayers={};
     for(n=0; n<inputs.length; n++){
@@ -2687,7 +2687,7 @@
   }
   
   function saveGamePlay(action){
-    var form=$('SPLUform');
+    var form=document.forms['SPLUform'];
     var inputs=form.getElementsByTagName('input');
     var querystring="";
     var value="";
@@ -2761,7 +2761,7 @@
   
   function saveGamePlay2(action){
     if(action=="dupe"){
-      var form=$('SPLUform');
+      var form=document.forms['SPLUform'];
       var inputs=form.getElementsByTagName('input');
       for(n=0; n<inputs.length; n++){
         if(inputs[n].name.slice(-6)=="[name]"&&SPLU.Settings.PlayerNameColumn.Reset){inputs[n].value="";}
@@ -4989,7 +4989,7 @@
             var results=$(QPR+tmpExp[i].id);
             results.innerHTML="Saving...";
           }
-          var form=$('SPLUform');
+          var form=document.forms['SPLUform'];
           var inputs=form.getElementsByTagName('input');
           var querystring="";
           var value="";
