@@ -2923,7 +2923,7 @@
       SPLUplayData[player][SPLUplays[player][page].getElementsByTagName("play")[i].id]=SPLUplays[player][page].getElementsByTagName("play")[i];
     }
     if(SPLUplays[player][page].getElementsByTagName("plays")[0].getAttribute("total")==0 && Object.keys(SPLUplayData[player]).length>2){
-      //BGG is returing the wrong total
+      //BGG is returning the wrong total
       SPLUplayData[player]["total"]=Object.keys(SPLUplayData[player]).length;
       SPLUplayData[player]["approximate"]=1;
     }
@@ -3370,9 +3370,6 @@
   
   function addPlaysFilter(filter,filterVal){
     document.getElementById('SPLUfilterDrop').style.display="none";
-    //if(filter=="GUI"){
-    //  filter=document.getElementById("SPLU.SelectPlaysFilter").value;
-    //}
     var filterName="";
     if(filter!="add" && filter!="---" && filter!="DEL"){
       SPLUplaysFiltersCount++;
@@ -4082,7 +4079,7 @@
         }
       }
     }
-    //Sorting by "player" first to get alpha order amoung numeric groups.
+    //Sorting by "player" first to get alpha order among numeric groups.
     //Really should check if they are already sorting by player so as not to run it twice.
     tmpStats.sort(dynamicSortMultipleCI("player"));
     tmpStats.sort(dynamicSortMultipleCI(sort));
@@ -4307,7 +4304,6 @@
       +'</div>';
     SPLUcsv='"Player","Play Count","Wins","Average"\r\n';
     for(i=0;i<tmpWins.length;i++){
-      //if(SPLUgameStats[key]["TotalNewWins"]!=0){
         tmpHTML+='<div style="display:table-row;" onMouseOver="javascript:{this.style.backgroundColor=\'yellow\';}" onMouseOut="javascript:{this.style.backgroundColor=\'#f1f8fb\';}">';
         tmpHTML+='<div style="display:table-cell;text-align:left;">'+tmpWins[i]["game"]+'</div>';
         tmpHTML+='<div style="display:table-cell;padding-right:10px;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'gamename\',\'='+tmpWins[i]["game"]+'\');}" href="javascript:{void(0);}">'+tmpWins[i]["plays"]+'</a></div>';
@@ -4315,7 +4311,6 @@
         tmpHTML+='<div style="display:table-cell;">'+tmpWins[i]["average"]+'%</div>';
         tmpHTML+='</div>';
         SPLUcsv+='"'+tmpWins[i]["player"]+'","'+tmpWins[i]["plays"]+'","'+tmpWins[i]["wins"]+'","'+tmpWins[i]["average"]+'"\r\n';
-      //}
     }
     tmpHTML+='</div>';
     document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
