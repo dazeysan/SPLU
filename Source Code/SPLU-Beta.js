@@ -1131,7 +1131,7 @@
       }
     }
     
-    //Set the ObjectType accoring to the site they are currently on
+    //Set the ObjectType according to the site they are currently on
     if(window.location.host.slice(-17)=="boardgamegeek.com"){
       setObjectType("boardgame");
     }
@@ -1542,7 +1542,7 @@
     }
   }
 
-  //Case Insinsitive version
+  //Case Insensitive version
   function dynamicSortCI(property) {
     var sortOrder = 1;
     if(property[0] === "-") {
@@ -4147,7 +4147,7 @@
         tmpWins.push({player:key,plays:SPLUgameStats[key]["TotalPlays"],wins:SPLUgameStats[key]["TotalWins"],average:tmpAverage});
       }
     }
-    //Sorting by "player" first to get alpha order amoung numeric groups.
+    //Sorting by "player" first to get alpha order among numeric groups.
     //Really should check if they are already sorting by player so as not to run it twice.
     tmpWins.sort(dynamicSortMultipleCI("player"));
     tmpWins.sort(dynamicSortMultipleCI(sort));
@@ -4419,7 +4419,7 @@
         }
       }
     }
-    //Sorting by "game" first to get alpha order amoung numeric groups.
+    //Sorting by "game" first to get alpha order among numeric groups.
     tmpGames.sort(dynamicSortMultipleCI("game"));
     tmpGames.sort(dynamicSortMultipleCI(sort));
     tmpSortGame="game";
@@ -4480,7 +4480,7 @@
         tmpGames.push({game:SPLUgameStats[key]["GameName"],days:SPLUgameStats[key]["DaysSincePlayed"]});
       }
     }
-    //Sorting by "game" first to get alpha order amoung numeric groups.
+    //Sorting by "game" first to get alpha order among numeric groups.
     tmpGames.sort(dynamicSortMultipleCI("game"));
     tmpGames.sort(dynamicSortMultipleCI(sort));
     tmpSortGame="game";
@@ -4771,8 +4771,6 @@
         SPLUfamilyList.push(tmpLinks[i]);
       }
     }
-    //SPLUfamilyList=this.responseXML.getElementsByTagName("boardgamefamily");
-    //if(!this.responseXML.getElementsByTagName('boardgameexpansion').length){
     if(!BRexpList.length){
       document.getElementById('SPLU.ExpansionPane').innerHTML+='<div>No Expansions Found.</div>';
     }else{
