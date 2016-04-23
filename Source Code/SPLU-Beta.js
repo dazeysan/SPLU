@@ -1644,29 +1644,7 @@
       }
     }
   }
-  
-  //Now I don't remember how this was supposed to work
-  function suggestLocation(loc,event,source){
-    var suggestBox=document.getElementById("SPLUlocationSuggest");
-    suggestBox.value="";
-    console.log("value: "+loc.value);
-    console.log("code: "+event.keyCode);
-    if(loc.value!=""){
-      for(key in SPLU.Locations){
-        tmpName=decodeURIComponent(SPLU.Locations[key].Name);
-        if(loc.value == tmpName.slice(0,loc.value.length)){
-          console.log("Match: "+tmpName);
-          suggestBox.value=tmpName;
-          if(event.keyCode==13 || source=="blur"){
-            loc.value=tmpName;
-            suggestBox.value="";
-          }
-          break;
-        }
-      }
-    }
-  }
-  
+    
   function savePlayer(id){
     if(document.getElementsByName('players['+id+'][name]')[0].value!=""||document.getElementsByName('players['+id+'][username]')[0].value!=""){
       var tmpPly=0;
@@ -2686,7 +2664,7 @@
     }
   }
   
-  function saveGamePlay(action){  
+  function saveGamePlay(action){
     var form=document.forms['SPLUform'];
     var inputs=form.getElementsByTagName('input');
     var querystring="";
@@ -5546,8 +5524,8 @@
           initSPLU();
         }
       }else{
-        console.log("other status code, can't determin user");
-        alert("Can't determin who you are.  Reload, Login if needed and try again.");
+        console.log("other status code, can't determine user");
+        alert("Can't determine who you are.  Reload, Login if needed and try again.");
         throw new Error("Can't determine user.");
       }
     };
