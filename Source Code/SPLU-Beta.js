@@ -1472,45 +1472,40 @@
   function setObjectType(type){
     SPLUexpansionsLoaded=false;
     SPLUfamilyLoaded=false;
+    var tmpGameName=document.getElementById('q546e9ffd96dfc');
+    var tmpExpButton=document.getElementById('expansionLoggingButton');
+    var tmpButtonBGG=document.getElementById('SPLU.SelectBGG');
+    var tmpButtonVGG=document.getElementById('SPLU.SelectVGG');
+    var tmpButtonRPG=document.getElementById('SPLU.SelectRPG');
+    var tmpButtonRPGitem=document.getElementById('SPLU.SelectRPGItem');
+    var tmpID=document.getElementById('objecttype9999');
+    tmpExpButton.style.display="none";
+    tmpButtonBGG.style.backgroundColor="";
+    tmpButtonVGG.style.backgroundColor="";
+    tmpButtonRPG.style.backgroundColor="";
+    tmpButtonRPGitem.style.backgroundColor="";
+    tmpID.value="thing";
     if(type=="boardgame"){
       SPLUobjecttype="boardgame";
-      document.getElementById('q546e9ffd96dfc').placeholder="enter board game";
-      document.getElementById('expansionLoggingButton').style.display="block";
-      document.getElementById('SPLU.SelectBGG').style.backgroundColor="#F8DF24";
-      document.getElementById('SPLU.SelectVGG').style.backgroundColor="";
-      document.getElementById('SPLU.SelectRPG').style.backgroundColor="";
-      document.getElementById('SPLU.SelectRPGItem').style.backgroundColor="";
-      document.getElementById('objecttype9999').value="thing";
+      tmpGameName.placeholder="enter board game";
+      tmpExpButton.style.display="block";
+      tmpButtonBGG.style.backgroundColor="#F8DF24";
     }
     if(type=="videogame"){
       SPLUobjecttype="videogame";
-      document.getElementById('q546e9ffd96dfc').placeholder="enter video game";
-      document.getElementById('expansionLoggingButton').style.display="none";
-      document.getElementById('SPLU.SelectBGG').style.backgroundColor="";
-      document.getElementById('SPLU.SelectVGG').style.backgroundColor="#F8DF24";
-      document.getElementById('SPLU.SelectRPG').style.backgroundColor="";
-      document.getElementById('SPLU.SelectRPGItem').style.backgroundColor="";
-      document.getElementById('objecttype9999').value="thing";
+      tmpGameName.placeholder="enter video game";
+      tmpButtonVGG.style.backgroundColor="#F8DF24";
     }
     if(type=="rpg"){
       SPLUobjecttype="rpg";
-      document.getElementById('q546e9ffd96dfc').placeholder="enter RPG";
-      document.getElementById('expansionLoggingButton').style.display="none";
-      document.getElementById('SPLU.SelectBGG').style.backgroundColor="";
-      document.getElementById('SPLU.SelectVGG').style.backgroundColor="";
-      document.getElementById('SPLU.SelectRPG').style.backgroundColor="#F8DF24";
-      document.getElementById('SPLU.SelectRPGItem').style.backgroundColor="";
-      document.getElementById('objecttype9999').value="family";
+      tmpGameName.placeholder="enter RPG";
+      tmpButtonRPG.style.backgroundColor="#F8DF24";
+      tmpID.value="family";
     }
     if(type=="rpgitem"){
       SPLUobjecttype="rpgitem";
-      document.getElementById('q546e9ffd96dfc').placeholder="enter RPG item";
-      document.getElementById('expansionLoggingButton').style.display="none";
-      document.getElementById('SPLU.SelectBGG').style.backgroundColor="";
-      document.getElementById('SPLU.SelectVGG').style.backgroundColor="";
-      document.getElementById('SPLU.SelectRPG').style.backgroundColor="";
-      document.getElementById('SPLU.SelectRPGItem').style.backgroundColor="#F8DF24";
-      document.getElementById('objecttype9999').value="thing";
+      tmpGameName.placeholder="enter RPG item";
+      tmpButtonRPGitem.style.backgroundColor="#F8DF24";
     }
     clearSearchResult();
   }
