@@ -966,9 +966,6 @@
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'comments\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
                   +'<i class="fa fa-li">&#xf27b;</i>Comments'
                 +'</li>'
-                +'<li style="cursor:default;font-family:courier;top:2px;left:-5px;">'
-                  +'&mdash;&mdash;EXCLUDE&mdash;&mdash;'
-                +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'excludeexpansions\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
                   +'<i class="fa fa-li">&#xf0eb;</i>Expansions'
                 +'</li>'
@@ -2808,6 +2805,22 @@
     highlightDayButton();
   }
 
+  //BGG's original parseDate() function
+  function parseDate(src,dst,status){
+    date=Date.parse(src.value);
+    if(date){
+      dst.value=date.toString("yyyy-MM-dd");
+      status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:3px;'> "+date.toString("yyyy-MM-dd");
+    }else{
+      if(src.get('value').length){
+        dst.value='';status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/delete.png' style='position:relative; top:3px;'> Invalid Date";
+      }else{
+        dst.value='';
+        status.innerHTML='';
+      }
+    }
+  }
+  
   function eventPlaysPlayerEnter(e){
     if(e.keyCode === 13){
       getRecentPlays(false);
@@ -3228,11 +3241,24 @@
         for(i=0;i<plays.length;i++){
           if(SPLUplayData[user][plays[i].id].getElementsByTagName("subtypes")[0]!==undefined){
             var tmpTypes=SPLUplayData[user][plays[i].id].getElementsByTagName("subtypes")[0].getElementsByTagName("subtype");
-            plays[i].matches++;
-            for(t=0;t<tmpTypes.length;t++){
-              if(tmpTypes[t].getAttribute("value").toLowerCase().indexOf("expansion")>-1){
+            if(lines[l].value=="excluded"){
+              plays[i].matches++;
+              for(t=0;t<tmpTypes.length;t++){
+                if(tmpTypes[t].getAttribute("value").toLowerCase().indexOf("expansion")>-1){
+                  plays[i].matches--;
+                  break;
+                }
+              }
+            }else if(lines[l].value=="only"){
+              plays[i].matches++;
+              var tmpCount=0;
+              for(t=0;t<tmpTypes.length;t++){
+                if(tmpTypes[t].getAttribute("value").toLowerCase().indexOf("expansion")>-1){
+                  tmpCount++;
+                }
+              }
+              if(tmpCount<=0){
                 plays[i].matches--;
-                break;
               }
             }
           }
@@ -3240,14 +3266,20 @@
       }
       if(filtertype=="excludenowinstats"){
         for(i=0;i<plays.length;i++){
-          if(SPLUplayData[user][plays[i].id].getAttribute("nowinstats")==0){
+          if(SPLUplayData[user][plays[i].id].getAttribute("nowinstats")==0 && lines[l].value=="excluded"){
+            plays[i].matches++;
+          }
+          if(SPLUplayData[user][plays[i].id].getAttribute("nowinstats")==1 && lines[l].value=="only"){
             plays[i].matches++;
           }
         }
       }
       if(filtertype=="excludeincomplete"){
         for(i=0;i<plays.length;i++){
-          if(SPLUplayData[user][plays[i].id].getAttribute("incomplete")==0){
+          if(SPLUplayData[user][plays[i].id].getAttribute("incomplete")==0 && lines[l].value=="excluded"){
+            plays[i].matches++;
+          }
+          if(SPLUplayData[user][plays[i].id].getAttribute("incomplete")==1 && lines[l].value=="only"){
             plays[i].matches++;
           }
         }
@@ -3415,15 +3447,39 @@
       }
       
       if(filter=="excludeexpansions"){
-        tmpHTML+='Expansions Excluded<input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" style="display:none;" value="expansion">';
+        tmpHTML+='Expansions: <div style="display:inline;cursor:pointer;">'
+            +'<div id="SPLUexpansionsFilterButtonExclude" onClick="javascript:{highlightExpansionButton(\'excluded\');}" style="display:inline;border:1.5px solid black;padding:0px 7px 0px 2px;background-color:yellow;">'
+              +'Exclude'
+            +'</div>'
+            +'<div id="SPLUexpansionsFilterButtonOnly" onClick="javascript:{highlightExpansionButton(\'only\');}" style="display:inline;border:1.5px solid black;padding:0px 2px 0px 7px;">'
+              +'Only'
+            +'</div>'
+          +'</div>'
+          +'<input id="SPLUexpansionsFilterButtonValue" value="excluded" type="hidden" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'"/>';
       }
       
       if(filter=="excludenowinstats"){
-        tmpHTML+='No Win Stats Excluded<input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" style="display:none;" value="excludenowinstats">';
+        tmpHTML+='No Win Stats: <div style="display:inline;cursor:pointer;">'
+            +'<div id="SPLUnowinstatsFilterButtonExclude" onClick="javascript:{highlightNowinstatsButton(\'excluded\');}" style="display:inline;border:1.5px solid black;padding:0px 7px 0px 2px;background-color:yellow;">'
+              +'Exclude'
+            +'</div>'
+            +'<div id="SPLUnowinstatsFilterButtonOnly" onClick="javascript:{highlightNowinstatsButton(\'only\');}" style="display:inline;border:1.5px solid black;padding:0px 2px 0px 7px;">'
+              +'Only'
+            +'</div>'
+          +'</div>'
+          +'<input id="SPLUnowinstatsFilterButtonValue" value="excluded" type="hidden" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'"/>';
       }
       
       if(filter=="excludeincomplete"){
-        tmpHTML+='Incomplete Excluded<input type="text" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'" style="display:none;" value="excludeincomplete">';
+        tmpHTML+='Incomplete: <div style="display:inline;cursor:pointer;">'
+            +'<div id="SPLUincompleteFilterButtonExclude" onClick="javascript:{highlightIncompleteButton(\'excluded\');}" style="display:inline;border:1.5px solid black;padding:0px 7px 0px 2px;background-color:yellow;">'
+              +'Exclude'
+            +'</div>'
+            +'<div id="SPLUincompleteFilterButtonOnly" onClick="javascript:{highlightIncompleteButton(\'only\');}" style="display:inline;border:1.5px solid black;padding:0px 2px 0px 7px;">'
+              +'Only'
+            +'</div>'
+          +'</div>'
+          +'<input id="SPLUincompleteFilterButtonValue" value="excluded" type="hidden" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="'+filter+'"/>';
       }
       
       if(filter=="objecttype"){
@@ -3479,6 +3535,51 @@
       buttonRPG.style.backgroundColor="yellow";
     }
     document.getElementById('SPLUtypeFilterButtonValue').value=type;
+    loadPlays(document.getElementById('SPLU.PlaysLogger').value,false);
+  }
+
+  function highlightExpansionButton(option){
+    buttonExclude=document.getElementById('SPLUexpansionsFilterButtonExclude');
+    buttonOnly=document.getElementById('SPLUexpansionsFilterButtonOnly');
+    buttonExclude.style.backgroundColor="";
+    buttonOnly.style.backgroundColor="";
+    if(option=="excluded"){
+      buttonExclude.style.backgroundColor="yellow";
+    }
+    if(option=="only"){
+      buttonOnly.style.backgroundColor="yellow";
+    }
+    document.getElementById('SPLUexpansionsFilterButtonValue').value=option;
+    loadPlays(document.getElementById('SPLU.PlaysLogger').value,false);
+  }
+
+    function highlightNowinstatsButton(option){
+    buttonExclude=document.getElementById('SPLUnowinstatsFilterButtonExclude');
+    buttonOnly=document.getElementById('SPLUnowinstatsFilterButtonOnly');
+    buttonExclude.style.backgroundColor="";
+    buttonOnly.style.backgroundColor="";
+    if(option=="excluded"){
+      buttonExclude.style.backgroundColor="yellow";
+    }
+    if(option=="only"){
+      buttonOnly.style.backgroundColor="yellow";
+    }
+    document.getElementById('SPLUnowinstatsFilterButtonValue').value=option;
+    loadPlays(document.getElementById('SPLU.PlaysLogger').value,false);
+  }
+
+    function highlightIncompleteButton(option){
+    buttonExclude=document.getElementById('SPLUincompleteFilterButtonExclude');
+    buttonOnly=document.getElementById('SPLUincompleteFilterButtonOnly');
+    buttonExclude.style.backgroundColor="";
+    buttonOnly.style.backgroundColor="";
+    if(option=="excluded"){
+      buttonExclude.style.backgroundColor="yellow";
+    }
+    if(option=="only"){
+      buttonOnly.style.backgroundColor="yellow";
+    }
+    document.getElementById('SPLUincompleteFilterButtonValue').value=option;
     loadPlays(document.getElementById('SPLU.PlaysLogger').value,false);
   }
 
