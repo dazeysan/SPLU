@@ -35,7 +35,7 @@
     var SPLUlocationCount=0;
     var SPLUcurrentFilter="All";
     var SPLUcurrentGroup="";
-    //var SPLUcalendar="";
+    var SPLUcalendar="";
     var SPLUfamilyList="";
     var SPLUfamilyID="-1";
     var SPLUexpansionsLoaded=false;
@@ -1156,7 +1156,7 @@
     loadDefaultLocationList();
     
     //New Pickaday calendar
-    var picker = new Pikaday(
+    SPLUcalendar = new Pikaday(
     {
         field: document.getElementById('playdateinput99'),
         trigger: document.getElementById('SPLUdatePickerTrigger'),
@@ -2826,6 +2826,7 @@
   function setDateField(date){
     document.getElementById('playdateinput99').value=date;
     parseDate(document.getElementById('playdateinput99'),$('playdate99'),$('playdatestatus99'));
+    document.getElementById('playdateinput99').onchange();
     highlightDayButton();
   }
 
