@@ -1156,11 +1156,11 @@
     loadDefaultLocationList();
     
     //New Pikaday calendar
-    if(Pikaday===undefined){
+    //if(Pikaday===undefined){
       window.setTimeout(function(){addCalendar();},1500);
-    }else{
-      addCalendar();
-    }
+    //}else{
+    //  addCalendar();
+    //}
         
     //SPLUcalendar = new YAHOO.widget.Calendar('SPLU.Calendar');
     //var tmp=new Date();
@@ -2821,7 +2821,6 @@
     document.getElementById('playdateinput99').value=date;
     parseDate(document.getElementById('playdateinput99'),$('playdate99'),$('playdatestatus99'));
     SPLUcalendar.setDate(new Date(Date.parse(document.getElementById('playdateinput99').value)));
-    highlightDayButton();
   }
 
   function addCalendar(){
@@ -2837,7 +2836,7 @@
     });
   }
 
-  //BGG's original parseDate() function
+  //BGG's original parseDate() function (modified a bit)
   function parseDate(src,dst,status){
     date=Date.parse(src.value);
     if(date){
@@ -2851,6 +2850,7 @@
         status.innerHTML='';
       }
     }
+    highlightDayButton();
   }
   
   function eventPlaysPlayerEnter(e){
