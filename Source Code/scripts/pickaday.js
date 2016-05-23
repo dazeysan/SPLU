@@ -670,7 +670,8 @@
          */
         toString: function(format)
         {
-            return !isDate(this._d) ? '' : hasMoment ? moment(this._d).format(format || this._o.format) : this._d.toDateString();
+            //Modified to return YYYY-MM-DD format
+            return !isDate(this._d) ? '' : hasMoment ? moment(this._d).format(format || this._o.format) : this._d.toString("yyyy-MM-dd");
         },
 
         /**

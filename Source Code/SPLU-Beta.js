@@ -2826,7 +2826,7 @@
   function setDateField(date){
     document.getElementById('playdateinput99').value=date;
     parseDate(document.getElementById('playdateinput99'),$('playdate99'),$('playdatestatus99'));
-    document.getElementById('playdateinput99').onchange();
+    SPLUcalendar.setDate(new Date(Date.parse(document.getElementById('playdateinput99').value)));
     highlightDayButton();
   }
 
