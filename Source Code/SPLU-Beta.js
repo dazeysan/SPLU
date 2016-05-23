@@ -1161,7 +1161,11 @@
         field: document.getElementById('playdateinput99'),
         trigger: document.getElementById('SPLUdatePickerTrigger'),
         firstDay: 0,
-        yearRange: 10
+        yearRange: 10,
+        format: 'YYYY-MM-DD',
+        onSelect: function() {
+            parseDate(document.getElementById('playdateinput99'),$('playdate99'),$('playdatestatus99'));
+        }
     });
     
     //SPLUcalendar = new YAHOO.widget.Calendar('SPLU.Calendar');
