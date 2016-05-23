@@ -1162,7 +1162,7 @@
         trigger: document.getElementById('SPLUdatePickerTrigger'),
         firstDay: 0,
         yearRange: 10,
-        format: 'YYYY-MM-DD',
+        format: 'yyyy-MM-dd',
         onSelect: function() {
             parseDate(document.getElementById('playdateinput99'),$('playdate99'),$('playdatestatus99'));
         }
