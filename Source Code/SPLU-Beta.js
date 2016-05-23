@@ -1,4 +1,4 @@
-// SPLU 5.5.7 Beta
+// SPLU 5.5.8 Beta
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -12,7 +12,7 @@
     //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.5.7";
+    var SPLUversion="5.5.8";
 
     var SPLU={};
     var SPLUplayId="";
@@ -35,7 +35,7 @@
     var SPLUlocationCount=0;
     var SPLUcurrentFilter="All";
     var SPLUcurrentGroup="";
-    var SPLUcalendar="";
+    //var SPLUcalendar="";
     var SPLUfamilyList="";
     var SPLUfamilyID="-1";
     var SPLUexpansionsLoaded=false;
@@ -107,7 +107,18 @@
     tmpDiv.style.border="1px Solid Black";
     tmpDiv.style.padding="3px";
     document.getElementById("SPLUmain").appendChild(tmpDiv);
-    
+
+    //Insert code for Pickaday calendar Copyright © 2014 David Bushell
+    var pickscript=document.createElement('script');
+    pickscript.type="text/javascript";
+    pickscript.src='https://rawgit.com/dazeysan/SPLU/master/Source%20Code/scripts/pickaday.js';
+    document.body.appendChild(pickscript);
+    var pickstyle=document.createElement("link");
+    pickstyle.type="text/css";
+    pickstyle.rel="stylesheet";
+    pickstyle.href="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/scripts/pickaday.css";
+    document.getElementsByTagName('head')[0].appendChild(pickstyle);
+
     var style=document.createElement('style');
     style.type='text/css';
     style.id="BRstyle";
@@ -173,11 +184,8 @@
               +'<div id="playdatestatus99" class="sf" style="font-style:italic; font-size:0;display:inline;">'
                 +'<span class="fa-stack"><i style="color: white; font-size: 1em; transform: translate(0px, 2px);" class="fa fa-stack-2x fa-square"></i><i style="color: rgb(13, 138, 13); font-size: 1.3em;" class="fa fa-stack-2x fa-check-circle"></i></span>'+SPLUtoday
               +'</div>'
-              +'<div style="display:inline;">'
-                +'<a href="javascript:{void(0);}" onClick="javascript:{showHideCalendar();}"><span style="transform: translate(-2px, 3px);" class="fa-stack"><i style="color: rgb(246, 227, 209); font-size: 1.8em;" class="fa fa-stack-2x fa-square-sharp"></i><i style="color: rgb(96, 4, 4); font-size: 1.2em;" class="fa fa-stack-2x fa-calendar"></i></span></a>'
-              +'</div>'
-              +'<div id="SPLU.Calendar" style="position:absolute;z-index:600;display:none;">'
-                +'C'
+              +'<div id="SPLUdatePickerTrigger" style="display:inline;">'
+                +'<span style="transform: translate(-2px, 3px);" class="fa-stack"><i style="color: rgb(246, 227, 209); font-size: 1.8em;" class="fa fa-stack-2x fa-square-sharp"></i><i style="color: rgb(96, 4, 4); font-size: 1.2em;" class="fa fa-stack-2x fa-calendar"></i></span>'
               +'</div>'
             +'</div>'
             +'<div style="display:table-row;">'
@@ -1146,12 +1154,22 @@
     loadGroups();
     loadDefaultPlayersList();
     loadDefaultLocationList();
-    SPLUcalendar = new YAHOO.widget.Calendar('SPLU.Calendar');
-    var tmp=new Date();
-    var tmp2=new Date();
-    tmp2.setMinutes(tmp.getMinutes()-tmp.getTimezoneOffset())
-    SPLUcalendar.cfg.setProperty("maxdate",tmp2);
-    SPLUcalendar.selectEvent.subscribe(function(){tmp3=new Date();selectedDate=new Date(SPLUcalendar.getSelectedDates()[0].setMinutes(SPLUcalendar.getSelectedDates()[0].getMinutes()-tmp3.getTimezoneOffset()));setDateField(selectedDate.toISOString().slice(0,selectedDate.toISOString().indexOf("T")));showHideCalendar();});
+    
+    //New Pickaday calendar
+    var picker = new Pikaday(
+    {
+        field: document.getElementById('playdateinput99'),
+        trigger: document.getElementById('SPLUdatePickerTrigger'),
+        firstDay: 0,
+        yearRange: 10
+    });
+    
+    //SPLUcalendar = new YAHOO.widget.Calendar('SPLU.Calendar');
+    //var tmp=new Date();
+    //var tmp2=new Date();
+    //tmp2.setMinutes(tmp.getMinutes()-tmp.getTimezoneOffset())
+    //SPLUcalendar.cfg.setProperty("maxdate",tmp2);
+    //SPLUcalendar.selectEvent.subscribe(function(){tmp3=new Date();selectedDate=new Date(SPLUcalendar.getSelectedDates()[0].setMinutes(SPLUcalendar.getSelectedDates()[0].getMinutes()-tmp3.getTimezoneOffset()));setDateField(selectedDate.toISOString().slice(0,selectedDate.toISOString().indexOf("T")));showHideCalendar();});
     document.getElementById('q546e9ffd96dfc').value=getGameTitle();
     
     var tmpDiv=document.createElement('span');
@@ -2450,6 +2468,7 @@
     }
   }
   
+  /*
   function showHideCalendar(){
     cal=document.getElementById('SPLU.Calendar');
     if(cal.style.display=="none"){
@@ -2459,6 +2478,7 @@
       cal.style.display="none";
     }
   }
+  */
   
   function saveSettings(text){
     document.getElementById('SPLU.SettingsStatus').innerHTML="Thinking";
