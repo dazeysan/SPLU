@@ -108,15 +108,15 @@
     tmpDiv.style.padding="3px";
     document.getElementById("SPLUmain").appendChild(tmpDiv);
 
-    //Insert code for Pickaday calendar Copyright © 2014 David Bushell
+    //Insert code for Pikaday calendar Copyright © 2014 David Bushell
     var pickscript=document.createElement('script');
     pickscript.type="text/javascript";
-    pickscript.src='https://rawgit.com/dazeysan/SPLU/master/Source%20Code/scripts/pickaday.js';
+    pickscript.src='https://rawgit.com/dazeysan/SPLU/master/Source%20Code/scripts/pikaday.js';
     document.body.appendChild(pickscript);
     var pickstyle=document.createElement("link");
     pickstyle.type="text/css";
     pickstyle.rel="stylesheet";
-    pickstyle.href="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/scripts/pickaday.css";
+    pickstyle.href="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/scripts/pikaday.css";
     document.getElementsByTagName('head')[0].appendChild(pickstyle);
 
     var style=document.createElement('style');
@@ -1155,19 +1155,13 @@
     loadDefaultPlayersList();
     loadDefaultLocationList();
     
-    //New Pickaday calendar
-    SPLUcalendar = new Pikaday(
-    {
-        field: document.getElementById('playdateinput99'),
-        trigger: document.getElementById('SPLUdatePickerTrigger'),
-        firstDay: 0,
-        yearRange: 10,
-        format: 'yyyy-MM-dd',
-        onSelect: function() {
-            parseDate(document.getElementById('playdateinput99'),$('playdate99'),$('playdatestatus99'));
-        }
-    });
-    
+    //New Pikaday calendar
+    if(Pikaday===undefined){
+      window.setTimeout(function(){addCalendar();},1500);
+    }else{
+      addCalendar();
+    }
+        
     //SPLUcalendar = new YAHOO.widget.Calendar('SPLU.Calendar');
     //var tmp=new Date();
     //var tmp2=new Date();
@@ -2828,6 +2822,19 @@
     parseDate(document.getElementById('playdateinput99'),$('playdate99'),$('playdatestatus99'));
     SPLUcalendar.setDate(new Date(Date.parse(document.getElementById('playdateinput99').value)));
     highlightDayButton();
+  }
+
+  function addCalendar(){
+  SPLUcalendar = new Pikaday(
+    {
+        field: document.getElementById('playdateinput99'),
+        trigger: document.getElementById('SPLUdatePickerTrigger'),
+        firstDay: 0,
+        yearRange: 5,
+        onSelect: function() {
+            parseDate(document.getElementById('playdateinput99'),$('playdate99'),$('playdatestatus99'));
+        }
+    });
   }
 
   //BGG's original parseDate() function
