@@ -2846,10 +2846,10 @@
 
   //BGG's original parseDate() function (modified a bit)
   function parseDate(src,dst,status){
-    tmpDate=Date.parse(src.value);
-    if(tmpDate){
+    date=Date.parse(src.value);
+    if(date){
       dst.value=date.toString("yyyy-MM-dd");
-      status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:3px;'> "+tmpDate.toString("yyyy-MM-dd");
+      status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:3px;'> "+date.toString("yyyy-MM-dd");
     }else{
       if(src.get('value').length){
         dst.value='';status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/delete.png' style='position:relative; top:3px;'> Invalid Date";
