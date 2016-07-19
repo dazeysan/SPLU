@@ -5152,7 +5152,7 @@
               for(var i=0;i<results.length;i++){
                 if(tmpJSON.html.slice(-5)=="></a>"){
                   results[i].innerHTML=tmpJSON.html.slice(7,-4)+"Logged</a>";
-                  fetchPlays(LoggedInAs,0,false,tmpExp[i].id,document.getElementById('playdate99').value);
+                  fetchPlays(LoggedInAs,0,false,tmpJSON.html.slice(29,tmpJSON.html.indexOf("?")),document.getElementById('playdate99').value);
                 }else{
                   results[i].innerHTML=tmpJSON.html;
                 }
