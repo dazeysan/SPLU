@@ -2545,7 +2545,15 @@
     for (key in SPLU.Locations){
       if (SPLU.Locations.hasOwnProperty(key)) {
         //console.log(SPLU.Locations[key].Name);
-        if (SPLU.Locations[key].Name.toLowerCase().indexOf(tmpText.toLowerCase())>-1){
+        if (SPLU.Locations[key].Name.toLowerCase().indexOf(tmpText.toLowerCase())==0){
+          tmpHTML+='<a onClick=\'javascript:{insertLocation('+key+',true);}\'>'+decodeURIComponent(SPLU.Locations[key].Name)+"</a><br/>";
+        }
+      }
+    }
+    for (key in SPLU.Locations){
+      if (SPLU.Locations.hasOwnProperty(key)) {
+        //console.log(SPLU.Locations[key].Name);
+        if (SPLU.Locations[key].Name.toLowerCase().indexOf(tmpText.toLowerCase())>0){
           tmpHTML+='<a onClick=\'javascript:{insertLocation('+key+',true);}\'>'+decodeURIComponent(SPLU.Locations[key].Name)+"</a><br/>";
         }
       }
@@ -2838,10 +2846,10 @@
 
   //BGG's original parseDate() function (modified a bit)
   function parseDate(src,dst,status){
-    date=Date.parse(src.value);
-    if(date){
+    tmpDate=Date.parse(src.value);
+    if(tmpDate){
       dst.value=date.toString("yyyy-MM-dd");
-      status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:3px;'> "+date.toString("yyyy-MM-dd");
+      status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:3px;'> "+tmpDate.toString("yyyy-MM-dd");
     }else{
       if(src.get('value').length){
         dst.value='';status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/delete.png' style='position:relative; top:3px;'> Invalid Date";
@@ -5144,6 +5152,7 @@
               for(var i=0;i<results.length;i++){
                 if(tmpJSON.html.slice(-5)=="></a>"){
                   results[i].innerHTML=tmpJSON.html.slice(7,-4)+"Logged</a>";
+                  fetchPlays(LoggedInAs,0,false,tmpExp[i].id,document.getElementById('playdate99').value);
                 }else{
                   results[i].innerHTML=tmpJSON.html;
                 }
