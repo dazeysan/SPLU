@@ -2452,7 +2452,7 @@
       PlayerList=true;
       if(update){
         SPLU.Settings.PlayerList.Visible=true;
-        document.getElementById('SPLU.LocationListCheck').checked=true;
+        document.getElementById('SPLU.PlayerListCheck').checked=true;
       }
     }else{
       document.getElementById('SPLU.PlayerList').style.display="none";
@@ -2461,7 +2461,7 @@
       PlayerList=false;
       if(update){
         SPLU.Settings.PlayerList.Visible=false;
-        document.getElementById('SPLU.LocationListCheck').checked=false;
+        document.getElementById('SPLU.PlayerListCheck').checked=false;
       }
     }
   }
@@ -2776,7 +2776,12 @@
         if(inputs[n].name.slice(-6)=="][new]"&&SPLU.Settings.PlayerNewColumn.Reset){inputs[n].checked=false;}
         if(inputs[n].name.slice(-6)=="][win]"&&SPLU.Settings.PlayerWinColumn.Reset){inputs[n].checked=false;}
       }
-      if(SPLU.Settings.LocationField.Reset){document.getElementById('SPLU_PlayedAt').value="";}
+      if(SPLU.Settings.LocationField.Reset){document.getElementById('SPLU_PlayedAt').value=decodeURIComponent(SPLU.Locations[SPLU.Settings.DefaultLocation.Name].Name);}
+      if(SPLU.Settings.LocationList.Reset && SPLU.Settings.LocationList.Visible){
+        document.getElementById('SPLU.LocationList').style.display="block";
+      } else {
+        document.getElementById('SPLU.LocationList').style.display="none";
+      }
       if(SPLU.Settings.QuantityField.Reset){document.getElementById('quickplay_quantity99').value="1";}
       if(SPLU.Settings.DurationField.Reset){document.getElementById('quickplay_duration99').value="";}
       if(SPLU.Settings.IncompleteField.Reset){document.getElementById('incomplete').checked=false;}
