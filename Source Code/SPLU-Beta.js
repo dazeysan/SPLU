@@ -2894,6 +2894,12 @@
         document.getElementById('SPLU.PlaysStatus').innerHTML+=" of "+Math.ceil(SPLUplayData[player]["total"]/100);
       }
       getString="/xmlapi2/plays?username="+player+"&page="+page;
+      if(gameid!=0){
+        getString+="&id="+gameid;
+        if(page==1 && multiple==true){
+          SPLUplayFetch[player]=[];
+        }
+      }
     }else{
       document.getElementById('SPLU.PlaysStatus').innerHTML="Fetching plays from "+date;
       page=1;
@@ -2919,14 +2925,25 @@
     oReq.send();
   }
   
-  function getAllPlays(player){
-    console.log("getAllPlays("+player+")");
-    if(Math.ceil(SPLUplayData[player]["total"]/100)>(SPLUplayFetch[player].length-1)){
-      for(i=1;i<=Math.ceil(SPLUplayData[player]["total"]/100);i++){
-        if(SPLUplayFetch[player][i]===undefined){
-          SPLUplayFetch[player][i]=0;
+  function getAllPlays(player,gameid){
+    console.log("getAllPlays("+player+","+gameid+")");
+      if(gameid==0){
+       if(Math.ceil(SPLUplayData[player]["total"]/100)>(SPLUplayFetch[player].length-1)){
+        for(i=1;i<=Math.ceil(SPLUplayData[player]["total"]/100);i++){
+          if(SPLUplayFetch[player][i]===undefined){
+            SPLUplayFetch[player][i]=0;
+          }
         }
       }
+    } else {
+      if(Math.ceil(SPLUplayData[player]["game"][gameid]["total"]/100)>(SPLUplayFetch[player].length-1)){
+        for(i=1;i<=Math.ceil(SPLUplayData[player]["game"][gameid]["total"]/100);i++){
+          if(SPLUplayFetch[player][i]===undefined){
+            SPLUplayFetch[player][i]=0;
+          }
+        }
+      }
+
     }
     if(SPLUplayFetchFail<5){
       for(i=1;i<SPLUplayFetch[player].length;i++){
@@ -2939,7 +2956,7 @@
         }
         if(SPLUplayFetch[player][i]==0){
           SPLUplayFetch[player][i]=-1;
-          window.setTimeout(function(){fetchPlays(player,i,true,0,0);},2500);
+          window.setTimeout(function(){fetchPlays(player,i,true,gameid,0);},2500);
           break;
         }
       }
@@ -2955,6 +2972,7 @@
     }
     if(tmpStatus==1){
       loadPlays(player,false);
+      SPLUplayFetch[player]=[];
     }else{
       console.log("Still Fetching");
     }
@@ -2974,6 +2992,13 @@
         SPLUplayData[player]["total"]=SPLUplays[player][page].getElementsByTagName("plays")[0].getAttribute("total");
         SPLUplayData[player]["approximate"]=0;
       }else{
+        if(SPLUplayData[player]["game"]===undefined){
+          SPLUplayData[player]["game"]={};
+        }
+        if(SPLUplayData[player]["game"][gameid]===undefined){
+          SPLUplayData[player]["game"][gameid]={};
+        }
+        SPLUplayData[player]["game"][gameid]["total"]=SPLUplays[player][page].getElementsByTagName("plays")[0].getAttribute("total");
         SPLUplayData[player]["approximate"]=1;
       }
     }
@@ -2990,7 +3015,7 @@
         loadPlays(player,false);
       }
     }else{
-      getAllPlays(player);
+      getAllPlays(player,gameid);
     }
   }
 
@@ -3024,7 +3049,7 @@
       SPLUlistOfPlays=[];
       tmpHTML='<div id="SPLU.PlaysTable" style="display:table;">';
       for(key in SPLUplayData[tmpUser]){
-        if(key=="total"||key=="approximate"||SPLUplayData[tmpUser][key].attributes.date.value=="1452-04-15"){
+        if(key=="total"||key=="approximate"||key=="game"||SPLUplayData[tmpUser][key].attributes.date.value=="1452-04-15"){
           continue;
         }
         SPLUlistOfPlays.push({id:key,date:SPLUplayData[tmpUser][key].attributes.date.value});
