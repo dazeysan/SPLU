@@ -917,11 +917,14 @@
             +'<div style="background-color:lightgrey;width:120px;border:1px solid gray;border-radius:6px;padding:2px;cursor:pointer;height:15px"><span id="SPLU.GetNextText">Get next 100</span> | <span  onclick="javascript:{if(document.getElementById(\'SPLUfetchDrop\').style.display==\'none\'){document.getElementById(\'SPLUfetchDrop\').style.display=\'\';}else{document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}}"><i style="float: right; height: 15px; background-color: lightgrey; margin-top: -2px; margin-right: 3px; padding: 4px 2px 0px;" class="fa">&#xf078;</i></span></div>'
             +'<div style="position:absolute;border:1px solid blue;background-color:rgb(206,214,233);display:none;cursor:pointer;z-index:573;" id="SPLUfetchDrop">'
               +'<ul class="fa-ul" style="padding-right:8px;">'
-                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{getRecentPlays(false);}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i class="fa fa-li">&#xee01;</i>Get Recent'
-                +'</li>'
-                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{getRecentPlays(true);}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
+                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{getRecentPlays(true);document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
                   +'<i class="fa fa-li">&#xf007;</i>Get All'
+                +'</li>'
+                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{getGamePlays();document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
+                  +'<i class="fa fa-li">&#xf007;</i>Get -Game-'
+                +'</li>'
+                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{getRecentPlays(false);document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
+                  +'<i class="fa fa-li">&#xee01;</i>Get Recent'
                 +'</li>'
               +'</ul>'
             +'</div>'
@@ -2883,6 +2886,11 @@
     return false;
   }
 
+  function getGamePlays(){
+    player=document.getElementById("SPLU.PlaysLogger").value;
+    fetchPlays(player,1,true,SPLUgameID,0);
+  }
+  
   function getRecentPlays(multiple){
     document.getElementById("SPLU.PlaysPlayers").style.display="none";
     tmpUser=document.getElementById("SPLU.PlaysLogger").value;
