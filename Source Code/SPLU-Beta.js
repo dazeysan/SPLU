@@ -2891,7 +2891,11 @@
       if(SPLUplayData[player]===undefined){
         document.getElementById('SPLU.PlaysStatus').innerHTML+=" of ??";
       } else {
-        document.getElementById('SPLU.PlaysStatus').innerHTML+=" of "+Math.ceil(SPLUplayData[player]["total"]/100);
+        if(gameid==0){
+          document.getElementById('SPLU.PlaysStatus').innerHTML+=" of "+Math.ceil(SPLUplayData[player]["total"]/100);
+        } else {
+          document.getElementById('SPLU.PlaysStatus').innerHTML+=" of "+Math.ceil(SPLUplayData[player]["game"][gameid]["total"]/100);
+        }
       }
       getString="/xmlapi2/plays?username="+player+"&page="+page;
       if(gameid!=0){
