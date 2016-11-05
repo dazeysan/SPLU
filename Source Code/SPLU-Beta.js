@@ -918,13 +918,13 @@
             +'<div style="position:absolute;border:1px solid blue;background-color:rgb(206,214,233);display:none;cursor:pointer;z-index:573;" id="SPLUfetchDrop">'
               +'<ul class="fa-ul" style="padding-right:8px;">'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{getRecentPlays(true);document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i class="fa fa-li">&#xf007;</i>Get All'
+                  +'Get All'
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{getGamePlays();document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i class="fa fa-li">&#xf007;</i>Get -Game-'
+                  +'Get -Game-'
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{getRecentPlays(false);document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i class="fa fa-li">&#xee01;</i>Get Recent'
+                  +'Get Recent'
                 +'</li>'
               +'</ul>'
             +'</div>'
@@ -2841,6 +2841,7 @@
     highlightDayButton();
     SPLUcurrentPlayShown="";
     SPLUprevGameID=0;
+    SPLUgameID=0;
   }
   
   function setDateField(date){
@@ -2887,8 +2888,10 @@
   }
 
   function getGamePlays(){
-    player=document.getElementById("SPLU.PlaysLogger").value;
-    fetchPlays(player,1,true,SPLUgameID,0);
+    if(SPLUgameID!=0){
+      player=document.getElementById("SPLU.PlaysLogger").value;
+      fetchPlays(player,1,true,SPLUgameID,0);
+    }
   }
   
   function getRecentPlays(multiple){
@@ -2912,6 +2915,12 @@
         if(gameid==0){
           document.getElementById('SPLU.PlaysStatus').innerHTML+=" of "+Math.ceil(SPLUplayData[player]["total"]/100);
         } else {
+          if(SPLUplayData[player]["game"]===undefined){
+            SPLUplayData[player]["game"]={};
+          }
+          if(SPLUplayData[player]["game"][gameid]===undefined){
+            SPLUplayData[player]["game"][gameid]={};
+          }
           document.getElementById('SPLU.PlaysStatus').innerHTML+=" of "+Math.ceil(SPLUplayData[player]["game"][gameid]["total"]/100);
         }
       }
