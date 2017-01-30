@@ -1080,7 +1080,7 @@
     //listenerForPopText("filtericon","Apply Filter to These Results");
     //listenerForPopText("floppydiskicon","Remember This Player");
 
-    fetchSaveData();
+    finalSetup();
     //End initSPLU()
   }
   
@@ -1505,7 +1505,7 @@
       console.log(this.readyState+"|"+this.status);
       if (this.readyState == "4"){
         SPLUi18n=JSON.parse(this.responseText);
-        window.setTimeout(function(){finalSetup();},500);
+        window.setTimeout(function(){initSPLU();},500);
       }
     };
     xhr.timeout = 5000;
@@ -5741,7 +5741,7 @@
         alert("You aren't logged in.");
         throw new Error("You aren't logged in.");
       }else{
-        initSPLU();
+        fetchSaveData();
       }
     }else{
       console.log("other status code, can't determine user");
