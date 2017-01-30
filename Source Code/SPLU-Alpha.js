@@ -82,6 +82,7 @@
     var SPLUcombine=false;  //Temp variable, see getStatsGameDetails
     var SPLUsearchResults={};
     var SPLUsearchResultsLength=20;
+    var SPLUi18n={};
     
     //Insert FontAwsome CSS
     tmpLink=document.createElement('link');
@@ -1498,7 +1499,24 @@
 
   function fetchLanguageFile(lang){
     console.log("fetchLanguageFile("+lang+")");
-    finalSetup();
+    var requestURL="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/i18n/"+lang+".json";
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+      console.log(this.readyState+"|"+this.status);
+      if (this.readyState == "4"){
+        SPLUi18n=JSON.parse(this.responseText);
+        window.setTimeout(function(){finalSetup();},500);
+      }
+    };
+    xhr.timeout = 5000;
+    xhr.ontimeout = function (e) {
+      //Timed out, check last state received, maybe error and offer to retry
+      console.log("xhr.ontimeout");
+    };
+    xhr.open("GET", requestURL, true);
+    xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xhr.setRequestHeader("Accept","application/json, text/plain, */*");
+    xhr.send();
   }
   
   function setObjectType(type){
