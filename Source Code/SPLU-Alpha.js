@@ -1464,7 +1464,7 @@
             oReq2.onload = function(){
               tmp2=this.responseXML;
               SPLUplayId=tmp2.getElementsByTagName("play")[0].id;
-              finalSetup();
+              fetchLanguageFile(SPLU.Settings.i18n);
             };
             oReq2.open("get", "/xmlapi2/plays?username="+LoggedInAs+"&mindate=1452-04-15&maxdate=1452-04-15&id=98000", true);
             oReq2.send();
@@ -1484,10 +1484,10 @@
           delete SPLU.GameStats;
           tmp="Version Updated to "+SPLU.Version;
           saveSooty("BRresults","Updating Version...",tmp,function(){
-            finalSetup();
+            fetchLanguageFile(SPLU.Settings.i18n);
           });
         }else{
-          finalSetup();
+          fetchLanguageFile(SPLU.Settings.i18n);
         }
       }
       SPLUremote=SPLU;
@@ -1496,6 +1496,10 @@
     oReq.send();
   }
 
+  function fetchLanguageFile(lang){
+    console.log("fetchLanguageFile("+lang+")");
+    finalSetup();
+  }
   
   function setObjectType(type){
     SPLUexpansionsLoaded=false;
