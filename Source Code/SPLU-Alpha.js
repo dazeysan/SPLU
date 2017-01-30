@@ -83,6 +83,7 @@
     var SPLUsearchResults={};
     var SPLUsearchResultsLength=20;
     var SPLUi18n={};
+    var SPLUi18nList={};
     
     //Insert FontAwsome CSS
     tmpLink=document.createElement('link');
@@ -201,11 +202,11 @@
           +'</div>'
         +'</div>'
         +'<div class="BRcells" style="padding-right:20px;">'
-          +'<div id="SPLU.QuantityField" style="margin-bottom:5px;width:75px;">'
+          +'<div id="SPLU.QuantityField" style="margin-bottom:5px;">'
             +'<span style="font-size:xx-small;">'+SPLUi18n.MainQuantity+': </span>'
             +'<input type="text" id="quickplay_quantity99" name="quantity" value="1" tabindex="30" style="width: 20px;"/>'
           +'</div>'
-          +'<div id="SPLU.DurationField" style="width:75px;">'
+          +'<div id="SPLU.DurationField" style="">'
             +'<span style="font-size:xx-small;">'+SPLUi18n.MainDuration+': </span>'
             +'<input type="text" id="quickplay_duration99" name="length" value="" tabindex="40" style="width: 20px;"/>'
           +'</div>'
@@ -701,6 +702,12 @@
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
+      +'<div style="display:table-row;" class="SPLUsettingAltRows">'
+      +'<div style="display:table-cell; text-align:right;">Language: <select id="SPLU.SelectLanguage" onChange="javascript:{SPLU.Settings.i18n=document.getElementById(\'SPLU.SelectLanguage\').value;}"></select></div>'
+      +'<div style="display:table-cell; text-align:center;"></div>'
+      +'<div style="display:table-cell; text-align:center;"></div>'
+      +'</div>'
+
       +'</div>'
       +'<div style="display:table; padding-top:15px;">'
       +'<div style="display:table-row;">'
@@ -1503,7 +1510,7 @@
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
       console.log(this.readyState+"|"+this.status);
-      if (this.readyState == "4"){
+      if (this.readyState == "4" && this.status=="200"){
         SPLUi18n=JSON.parse(this.responseText);
         window.setTimeout(function(){initSPLU();},500);
       }
@@ -1511,14 +1518,53 @@
     xhr.timeout = 5000;
     xhr.ontimeout = function (e) {
       //Timed out, check last state received, maybe error and offer to retry
-      console.log("xhr.ontimeout");
+      console.log("xhr.ontimeout-fetchLanguageFile()");
     };
     xhr.open("GET", requestURL, true);
     xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    xhr.setRequestHeader("Accept","application/json, text/plain, */*");
+    xhr.setRequestHeader("Accept","application/json, text/plain, */*");/**/
     xhr.send();
   }
   
+  function fetchLanguageList(){
+    console.log("fetchLanguageList()");
+    var requestURL="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/i18n/list.json";
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+      console.log(this.readyState+"|"+this.status);
+      if (this.readyState == "4" && this.status=="200"){
+        SPLUi18nList=JSON.parse(this.responseText);
+        window.setTimeout(function(){loadLanguageList();},100);
+      }
+    };
+    xhr.timeout = 5000;
+    xhr.ontimeout = function (e) {
+      //Timed out, check last state received, maybe error and offer to retry
+      console.log("xhr.ontimeout-fetchLanguageList()");
+    };
+    xhr.open("GET", requestURL, true);
+    xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xhr.setRequestHeader("Accept","application/json, text/plain, */*");/**/
+    xhr.send();
+  }
+
+  function loadLanguageList(){
+    select=document.getElementById('SPLU.SelectLanguage');
+    tmpLang=SPLU.Settings.i18n;
+    select.options.length=0;
+    var i=0;
+    for(var key in SPLUi18nList){
+      if (SPLUi18nList.hasOwnProperty(key)) {
+        if(tmpLang==key){
+          select.options[i]=new Option(decodeURIComponent(SPLUi18nList[key].LocalName), key, false, true);
+        }else{
+          select.options[i]=new Option(decodeURIComponent(SPLUi18nList[key].LocalName), key, false, false);
+        }
+        i++;
+      }
+    }
+  }
+
   function setObjectType(type){
     SPLUexpansionsLoaded=false;
     SPLUfamilyLoaded=false;
@@ -5333,6 +5379,9 @@
     document.getElementById('BRlogSettings').style.display="table-cell";
     loadDefaultPlayersList();
     loadDefaultLocationList();
+    if(SPLUi18nList===undefined){
+      fetchLanguageList();
+    }
   }
   
   function showExpansionsPane(source){
