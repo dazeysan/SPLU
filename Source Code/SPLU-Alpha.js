@@ -5379,7 +5379,7 @@
     document.getElementById('BRlogSettings').style.display="table-cell";
     loadDefaultPlayersList();
     loadDefaultLocationList();
-    if(SPLUi18nList===undefined){
+    if(SPLUi18nList.en===undefined){
       fetchLanguageList();
     }
   }
