@@ -1897,14 +1897,14 @@
     tmpName=SPLU.Settings.DefaultPlayer.Name;
     select.options.length=0;
     if(tmpName=="-none-"){
-      select.options[0]=new Option(SPLUi18n.SettingsNone, "-none-", false, true);
+      select.options[0]=new Option("-"+SPLUi18n.SettingsNone+"-", "-none-", false, true);
     } else {
-      select.options[0]=new Option(SPLUi18n.SettingsNone, "-none-", false, false);
+      select.options[0]=new Option("-"+SPLUi18n.SettingsNone+"-", "-none-", false, false);
     }
     if(tmpName=="-blank-"){
-      select.options[1]=new Option(SPLUi18n.SettingsBlank, "-blank-", false, true);
+      select.options[1]=new Option("-"+SPLUi18n.SettingsBlank+"-", "-blank-", false, true);
     } else {
-      select.options[1]=new Option(SPLUi18n.SettingsBlank, "-blank-", false, false);
+      select.options[1]=new Option("-"+SPLUi18n.SettingsBlank+"-", "-blank-", false, false);
     }
     var i=2;
     for(var key in SPLU.Players){
@@ -2259,8 +2259,10 @@
         }
       }
       if(comment!=""){
+        //Todo - i18n
         comment+=" won";
         if(SPLUwinners.length==1 && SPLUwinnersScores[0]!=""){
+          //Todo - i18n
           comment+=" with a score of ";
           comment+=SPLUwinnersScores[0];
         }
@@ -2285,11 +2287,14 @@
       }
     }
     var CommentBox=document.getElementById("quickplay_comments99");
+    //Todo - i18n
     var tmp=CommentBox.value.indexOf("Played with the following expansions:");
     if(tmp!=-1){
+      //Todo - i18n
       CommentBox.value=CommentBox.value.slice(0,CommentBox.value.indexOf("Played with the following expansions:")).trim();
     }
     if(comment!=""){
+      //Todo - i18n
       CommentBox.value+="\n\nPlayed with the following expansions:\n"+comment;
     }
   }
@@ -2359,7 +2364,7 @@
       }
     }
     SPLUremote.Favorites[tmpid]=SPLU.Favorites[tmpid];
-    saveSooty("SPLU.GameStatus","Thinking...","Added",function(){
+    saveSooty("SPLU.GameStatus",SPLUi18n.StatusThinking,SPLUi18n.StatusAdded,function(){
       if (document.getElementById('BRlogFavs').style.display=="table-cell") {
         showFavsPane("add");
       }
@@ -2415,7 +2420,7 @@
     }
     delete SPLU.Favorites[id];
     delete SPLUremote.Favorites[id];
-    saveSooty("SPLU.GameStatus","Thinking...","Deleted",function(){
+    saveSooty("SPLU.GameStatus",SPLUi18n.StatusThinking,SPLUi18n.StatusDeleted,function(){
       showFavsPane("delete");
     });
 
@@ -2562,11 +2567,11 @@
   */
   
   function saveSettings(text){
-    document.getElementById('SPLU.SettingsStatus').innerHTML="Thinking";
+    document.getElementById('SPLU.SettingsStatus').innerHTML=SPLUi18n.StatusThinking;
     SPLU.Settings["CommentsField"]["Width"]=document.getElementById('quickplay_comments99').style.width;
     SPLU.Settings["CommentsField"]["Height"]=document.getElementById('quickplay_comments99').style.height;
     SPLUremote.Settings=SPLU.Settings;
-    saveSooty("SPLU.SettingsStatus","Thinking...",text,function(){});
+    saveSooty("SPLU.SettingsStatus",SPLUi18n.StatusThinking,text,function(){});
   }
 
   function saveSooty(statusID, statusLoading, statusSuccess, onloadFunction){
@@ -2580,7 +2585,7 @@
         window.setTimeout(function(){ document.getElementById(statusID).innerHTML=""}, 3000);
         onloadFunction();
       }else{
-        document.getElementById(statusID).innerHTML="<img style='vertical-align:bottom;padding-top:5px;' src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/alert.gif'><span style='background-color:red;color:white;font-weight:bold;'>Error Code: "+responseJSON.target.status+"</span>";
+        document.getElementById(statusID).innerHTML="<img style='vertical-align:bottom;padding-top:5px;' src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/alert.gif'><span style='background-color:red;color:white;font-weight:bold;'>"+SPLUi18n.StatusErrorCode+": "+responseJSON.target.status+"</span>";
       }
     };
     document.getElementById(statusID).innerHTML=statusLoading;
@@ -2623,7 +2628,7 @@
     }
     //console.log(tmpText);
     document.getElementById('SPLUsearchLocationsResultsDIV').style.display="";
-    document.getElementById('SPLUsearchLocationsResultsDIV').innerHTML="Searching...";
+    document.getElementById('SPLUsearchLocationsResultsDIV').innerHTML=SPLUi18n.StatusSearching;
     tmpHTML="";
     for (key in SPLU.Locations){
       if (SPLU.Locations.hasOwnProperty(key)) {
@@ -2652,9 +2657,9 @@
     tmpName=SPLU.Settings.DefaultLocation.Name;
     select.options.length=0;
     if(tmpName=="-blank-"){
-      select.options[0]=new Option("-blank-", "-blank-", false, true);
+      select.options[0]=new Option("-"+SPLUi18n.SettingsBlank+"-", "-blank-", false, true);
     } else {
-      select.options[0]=new Option("-blank-", "-blank-", false, false);
+      select.options[0]=new Option("-"+SPLUi18n.SettingsBlank+"-", "-blank-", false, false);
     }
     var i=1;
     for(var key in SPLU.Locations){
@@ -2670,8 +2675,8 @@
   }
   
   function deleteGamePlay(){
-    if (confirm("Press OK to delete this play") == true) {
-      document.getElementById('BRresults').innerHTML="Deleting...";
+    if (confirm(SPLUi18n.PopupAlertDeletePlayOK) == true) {
+      document.getElementById('BRresults').innerHTML=SPLUi18n.StatusDeleting;
       xmlhttp=new XMLHttpRequest();
       xmlhttp.open("POST","/geekplay.php",true);
       xmlhttp.onload=function(responseJSON,responseText){
@@ -2679,11 +2684,11 @@
         window.rest=responseText;
         console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
         if(responseJSON.target.status==200){
-          document.getElementById('BRresults').innerHTML="Play Deleted.  <a href='"+responseJSON.target.responseURL+"' target='_blank'>View your plays</a>";
+          document.getElementById('BRresults').innerHTML=SPLUi18n.StatusPlayDeleted+".  <a href='"+responseJSON.target.responseURL+"' target='_blank'>"+SPLUi18n.StatusViewYourPlays+"</a>";
           SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][tmpPlay.id].deleted=true;
           loadPlays(document.getElementById("SPLU.PlaysLogger").value,false);
         }else{
-          document.getElementById('BRresults').innerHTML="An Error Occurred";
+          document.getElementById('BRresults').innerHTML=SPLUi18n.StatusErrorOccurred;
         }
       };
       xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
@@ -2719,9 +2724,11 @@
       return;
     }else{
       document.getElementById('SPLUcopyID-'+lastCopied).innerHTML='<a href="javascript:{void(0);}" onClick="javascript:{copyPlays('+lastCopied+',\'retry\');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/alert.gif">';
-      document.getElementById('BRresults').innerHTML="Timed Out. Try Again.";
+      document.getElementById('BRresults').innerHTML=SPLUi18n.StatusTimedOutTryAgain;
       SPLUcopyCopied--;
-      document.getElementById('CopyPlaysStatus').innerHTML='Copied '+SPLUcopyCopied+' of '+SPLUcopyTotal+'.  Hit a snag.<br/><a href="javascript:{void(0);}" onClick="javascript:{copyPlays('+lastCopied+',\'retry\');}">Keep Going?</a>';
+      tmpCopied = SPLUi18n.StatusCopied.replace("$1", SPLUcopyCopied);
+      tmpCopied = tmpCopied.replace("$2", SPLUcopyTotal);
+      document.getElementById('CopyPlaysStatus').innerHTML=tmpCopied+'.  '+SPLUi18n.StatusHitASnag+'<br/><a href="javascript:{void(0);}" onClick="javascript:{copyPlays('+lastCopied+',\'retry\');}">'+SPLUi18n.SatusKeepGoing?+'</a>';
       SPLUcopyContinue=false;
     }
     if(SPLUcopyContinue){
@@ -2735,13 +2742,17 @@
           SPLUcopyID=tmpPlayID;
           document.getElementById('SPLUcopyID-'+tmpPlayID).innerHTML='<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/progress.gif">';
           window.setTimeout(function(){saveGamePlay("copy");},2000);
-          document.getElementById('CopyPlaysStatus').innerHTML='Copying '+SPLUcopyCopied+' of '+SPLUcopyTotal;
+          tmpCopying = SPLUi18n.StatusCopying.replace("$1", SPLUcopyCopied);
+          tmpCopying = tmpCopying.replace("$2", SPLUcopyTotal);
+          document.getElementById('CopyPlaysStatus').innerHTML=tmpCopying+'.';
           break;
         }
       }
       if(tmpFinished){
         SPLUcopyCopied--;
-        document.getElementById('CopyPlaysStatus').innerHTML='Copied '+SPLUcopyCopied+' of '+SPLUcopyTotal+'.  Finished';
+        tmpCopied = SPLUi18n.StatusCopied.replace("$1", SPLUcopyCopied);
+        tmpCopied = tmpCopied.replace("$2", SPLUcopyTotal);
+        document.getElementById('CopyPlaysStatus').innerHTML=tmpCopied+'.  '+SPLUi18n.StatusFinished;
       }
     }
   }
@@ -2776,7 +2787,7 @@
         continue;
       }
       if(inputs[n].name=="objectid" && inputs[n].value==""){
-        document.getElementById('BRresults').innerHTML="Hey! You didn't choose a game.";
+        document.getElementById('BRresults').innerHTML=SPLUi18n.StatusNoGameSelected;
         return;
       }
       if(inputs[n].type=='checkbox'){
