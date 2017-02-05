@@ -2728,7 +2728,7 @@
       SPLUcopyCopied--;
       tmpCopied = SPLUi18n.StatusCopied.replace("$1", SPLUcopyCopied);
       tmpCopied = tmpCopied.replace("$2", SPLUcopyTotal);
-      document.getElementById('CopyPlaysStatus').innerHTML=tmpCopied+'.  '+SPLUi18n.StatusHitASnag+'<br/><a href="javascript:{void(0);}" onClick="javascript:{copyPlays('+lastCopied+',\'retry\');}">'+SPLUi18n.SatusKeepGoing?+'</a>';
+      document.getElementById('CopyPlaysStatus').innerHTML=tmpCopied+'.  '+SPLUi18n.StatusHitASnag+'<br/><a href="javascript:{void(0);}" onClick="javascript:{copyPlays('+lastCopied+',\'retry\');}">'+SPLUi18n.SatusKeepGoing+'</a>';
       SPLUcopyContinue=false;
     }
     if(SPLUcopyContinue){
