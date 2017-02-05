@@ -213,17 +213,17 @@
         +'</div>'
         +'<div class="BRcells" style="padding-right:20px;position:relative;width:90px;">'
           +'<div id="SPLU.IncompleteField" style="position:absolute;top:5px;right:0px;padding-right:10px;">'
-            +'<label style="font-size:xx-small;">Incomplete: '
+            +'<label style="font-size:xx-small;">'+SPLUi18n.MainIncomplete+': '
               +'<input type="checkbox" id="incomplete" name="incomplete" value="1" tabindex="45" />'
             +'</label>'
           +'</div>'
           +'<div id="SPLU.NoWinStatsField" style="position:absolute;top:25px;right:0px;padding-right:10px;">'
-            +'<label style="font-size:xx-small;">No Win Stats: '
+            +'<label style="font-size:xx-small;">'+SPLUi18n.MainNoWinStats+': '
               +'<input type="checkbox" id="nowinstats" name="nowinstats" value="1" tabindex="47" />'
             +'</label>'
           +'</div>'
           +'<div id="SPLU.TwitterField" style="position:absolute;top:45px;right:0px;padding-right:10px;">'
-            +'<label style="font-size:xx-small;">Tweet This: '
+            +'<label style="font-size:xx-small;">'+SPLUi18n.MainTweetThis+': '
               +'<input type="checkbox" id="twitter" name="twitter" value="1" tabindex="49" onClick="javascript:{setTwitterIcons();}"/>'
             +'</label>'
           +'</div>'
@@ -231,7 +231,7 @@
         +'<div class="BRcells">'
           +'<div id="SPLU.LocationField" style="width:275px;">'
             +'<div id="SPLU.fakeLocationBox" style="width:200px; display:inline-block; -moz-appearance:textfield; -webkit-appearance:textfield;">'
-              +'<input type="text" placeholder="click or type a location" id="SPLU_PlayedAt" onFocus="javascript:{this.select();}" onblur="javascript:{window.setTimeout(function(){document.getElementById(\'SPLUsearchLocationsResultsDIV\').style.display=\'none\';},100);}" onkeydown="SPLUsearchLocationDelay(event);" tabindex="20" name="location" style="width: 175px; border:none;"/>'
+              +'<input type="text" placeholder="'+SPLUi18n.MainPlaceholderLocation+'" id="SPLU_PlayedAt" onFocus="javascript:{this.select();}" onblur="javascript:{window.setTimeout(function(){document.getElementById(\'SPLUsearchLocationsResultsDIV\').style.display=\'none\';},100);}" onkeydown="SPLUsearchLocationDelay(event);" tabindex="20" name="location" style="width: 175px; border:none;"/>'
               +'<a href="javascript:{void(0);}" onClick="javascript:{saveLocation();}" style="vertical-align:middle;" id="SPLU.SaveLocationButton"><span class="fa-stack"><i class="fa fa-stack-2x fa-floppy2" style="font-size: 1.3em; color: black; vertical-align: middle; transform: translate(2px, 4px);"></i></span></a>'
             +'</div>'
             +'<div id="SPLUsearchLocationsResultsDIV" style="background-color: rgb(255, 255, 255); position: absolute; padding: 5px; z-index: 579; margin-right: 12px; min-width: 130px; display:none;"></div>'
@@ -257,19 +257,19 @@
       +'<div style="display:table-row;">'
         +'<div class="BRcells">'
           +'<div id="SPLU.CommentsField">'
-            +'<textarea id="quickplay_comments99" tabindex="50" style="width:314px; height:109px; font:99% arial,helvetica,clean,sans-serif" name="comments;" placeholder="write a comment";></textarea>'
+            +'<textarea id="quickplay_comments99" tabindex="50" style="width:314px; height:109px; font:99% arial,helvetica,clean,sans-serif" name="comments;" placeholder="'+SPLUi18n.MainPlaceholderComments+'";></textarea>'
           +'</div>'
         +'</div>'
         +'<div class="BRcells" style="margin-top:5px;vertical-align:top;">'
           +'<div id="SPLU.GameField">'
             +'<div id="SPLU.DomainButtons">'
-              +'<a href="javascript:{void(0);}" onClick="javascript:{setObjectType(\'boardgame\');}" id="SPLU.SelectBGG" style="padding:0px 5px;border:1px solid black;">BGG</a>'
-              +'<a href="javascript:{void(0);}" onClick="javascript:{setObjectType(\'videogame\');}" id="SPLU.SelectVGG" style="padding:0px 5px;border:1px solid black;">VGG</a>'
-              +'<a href="javascript:{void(0);}" onClick="javascript:{setObjectType(\'rpg\');}" id="SPLU.SelectRPG" style="padding:0px 5px;border:1px solid black; border-right:1px dotted black;">RPG</a>'
-              +'<a href="javascript:{void(0);}" onClick="javascript:{setObjectType(\'rpgitem\');}" id="SPLU.SelectRPGItem" style="padding:0px 5px;border:1px solid black; border-left:1px dotted black;">Item</a>'
+              +'<a href="javascript:{void(0);}" onClick="javascript:{setObjectType(\'boardgame\');}" id="SPLU.SelectBGG" style="padding:0px 5px;border:1px solid black;">'+SPLUi18n.MainBGG+'</a>'
+              +'<a href="javascript:{void(0);}" onClick="javascript:{setObjectType(\'videogame\');}" id="SPLU.SelectVGG" style="padding:0px 5px;border:1px solid black;">'+SPLUi18n.MainVGG+'</a>'
+              +'<a href="javascript:{void(0);}" onClick="javascript:{setObjectType(\'rpg\');}" id="SPLU.SelectRPG" style="padding:0px 5px;border:1px solid black; border-right:1px dotted black;">'+SPLUi18n.MainRPG+'</a>'
+              +'<a href="javascript:{void(0);}" onClick="javascript:{setObjectType(\'rpgitem\');}" id="SPLU.SelectRPGItem" style="padding:0px 5px;border:1px solid black; border-left:1px dotted black;">'+SPLUi18n.MainRPGItem+'</a>'
             +'</div>'
             +'<input name="objectid" value="" id="objectid9999" type="hidden"/>'
-            +'<input style="margin:3px 0px 0px;" autocomplete="off" class="geekinput_medium" name="geekitemname" id="q546e9ffd96dfc" tabindex="60" placeholder="enter a game title" onClick="this.select();" onkeydown="SPLUsearchDelay();" type="text">'
+            +'<input style="margin:3px 0px 0px;" autocomplete="off" class="geekinput_medium" name="geekitemname" id="q546e9ffd96dfc" tabindex="60" placeholder="'+SPLUi18n.MainPlaceholderBGG+'" onClick="this.select();" onkeydown="SPLUsearchDelay();" type="text">'
             +'<div id="SPLUsearchResultsDIV" style="display:none; background-color: rgb(255, 255, 255); position: absolute; padding: 5px; z-index: 579; margin-right: 12px; min-width: 130px;"></div>'
             +'<a href="javascript:{void(0);}" onClick="javascript:{showFavsPane(\'button\');}" id="favoritesGoTo" style="border:4px solid lightblue;border-radius:4px"><span style="position: relative;" class="fa-stack"><i style="color: white; transform: translate(-6px, -9px); font-size: 3.7em; position: absolute;" class="fa fa-stack-2x fa-square-sharp"></i><i style="color: red; font-size: 1.6em; position: absolute; top: 0px;" class="fa fa-stack-2x fa-heart"></i><i style="transform: scaleX(-1); left: 4px; color: white; top: 7px; font-size: 1em; text-shadow: 0px 2px rgb(255, 255, 255); position: absolute;" class="fa fa-stack-2x fa-arrow-fat"></i><i style="font-size: 0.8em; transform: scaleX(-1); position: absolute; top: 10px; left: 4px; color: rgb(5, 167, 5);" class="fa fa-stack-2x fa-arrow-fat"></i></span></a>'
             +'<div id="objectiddisp546e9ffd96dfc" style="display:none;">'
@@ -891,7 +891,7 @@
         +'<div style="padding-top:10px;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{saveFilters();}" class="SPLUbuttons" style="margin-right:6px;color:black;" id="SavePlayerFilterBtn">Save Filters</a>'
         +'<div id="SPLU.fakeFilterBox" style="display:inline-block;padding:0px 2px; -moz-appearance:textfield; -webkit-appearance:textfield;">'
-        +'<input type="text" id="SPLU.NewFilterName" placeholder="Add a new Filter" style="width:100px;border:none;"></input>'
+        +'<input type="text" id="SPLU.NewFilterName" placeholder="'+SPLUi18n.PlayersPlaceholderAddFilter+'" style="width:100px;border:none;"></input>'
         +'<a href="javascript:{void(0);}" onClick="javascript:{addFilter();}" style="color:black;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/green_circle_plus.png"></a>'
         +'</div>'
         +'</div>'
@@ -900,7 +900,7 @@
         +'<div id="SPLU.GroupsPaneControls" style="display:none;">'
         +'<div style="padding-top:10px;"><a href="javascript:{void(0);}" onClick="javascript:{saveGroups();}" class="SPLUbuttons" style="margin-right:6px;color:black;" id="SavePlayerGroupsBtn">Save Groups</a>'
         +'<div id="SPLU.fakeGroupBox" style="display:inline-block;padding:0px 2px; -moz-appearance:textfield; -webkit-appearance:textfield;">'
-        +'<input type="text" id="SPLU.NewGroupName" placeholder="Add a new Group" style="width:100px;border:none;"></input>'
+        +'<input type="text" id="SPLU.NewGroupName" placeholder="'+SPLUi18n.PlayersPlaceholderAddGroup+'" style="width:100px;border:none;"></input>'
         +'<a href="javascript:{void(0);}" onClick="javascript:{addGroup();}" style="color:black;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/green_circle_plus.png"></a>'
         +'</div>'
         +'</div>'
@@ -917,22 +917,22 @@
           +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogPlays\').style.display=\'none\';}" style="border:2px solid #249631;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/close_pane.png"></a>'
         +'</div>'
         +'<span style="font-variant:small-caps; font-weight:bold;">'
-          +'<center>Logged Plays</center>'
+          +'<center>'+SPLUi18n.PlaysHeader+'</center>'
         +'</span>'
         +'<div>'
           +'<input type="text" id="SPLU.PlaysLogger" value="'+LoggedInAs+'" onClick="javascript:{listFetchedPlayers();}" onKeyPress="eventPlaysPlayerEnter(event);"/>'
           +'<div style="display:inline-block; margin-left:2px;">'
-            +'<div style="background-color:lightgrey;width:120px;border:1px solid gray;border-radius:6px;padding:2px;cursor:pointer;height:15px"><span id="SPLU.GetNextText">Get next 100</span> | <span  onclick="javascript:{if(document.getElementById(\'SPLUfetchDrop\').style.display==\'none\'){document.getElementById(\'SPLUfetchDrop\').style.display=\'\';}else{document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}}"><i style="float: right; height: 15px; background-color: lightgrey; margin-top: -2px; margin-right: 3px; padding: 4px 2px 0px;" class="fa">&#xf078;</i></span></div>'
+            +'<div style="background-color:lightgrey;width:120px;border:1px solid gray;border-radius:6px;padding:2px;cursor:pointer;height:15px"><span id="SPLU.GetNextText">'+SPLUi18n.PlaysGetNext+' 100</span> | <span  onclick="javascript:{if(document.getElementById(\'SPLUfetchDrop\').style.display==\'none\'){document.getElementById(\'SPLUfetchDrop\').style.display=\'\';}else{document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}}"><i style="float: right; height: 15px; background-color: lightgrey; margin-top: -2px; margin-right: 3px; padding: 4px 2px 0px;" class="fa">&#xf078;</i></span></div>'
             +'<div style="position:absolute;border:1px solid blue;background-color:rgb(206,214,233);display:none;cursor:pointer;z-index:573;" id="SPLUfetchDrop">'
               +'<ul class="fa-ul" style="padding-right:8px;">'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{getRecentPlays(true);document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'Get All'
+                  +SPLUi18n.PlaysGetAll
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{getGamePlays();document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'Get -Game-'
+                  +SPLUi18n.PlaysGetGame+' -Game-'
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{getRecentPlays(false);document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'Get Recent'
+                  +SPLUi18n.PlaysGetRecent
                 +'</li>'
               +'</ul>'
             +'</div>'
@@ -960,49 +960,49 @@
             +'<div style="position:absolute;border:1px solid blue;background-color:rgb(206,214,233);display:none;cursor:pointer;z-index:575;" id="SPLUfilterDrop">'
               +'<ul class="fa-ul" style="padding-right:8px;">'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'gamename\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i class="fa fa-li">&#xee01;</i>Game'
+                  +'<i class="fa fa-li">&#xee01;</i>'+SPLUi18n.PlaysFilterGame+''
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'playername\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i class="fa fa-li">&#xf007;</i>Player'
+                  +'<i class="fa fa-li">&#xf007;</i>'+SPLUi18n.PlaysFilterPlayer+''
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'username\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i style="transform: translate(1px, 1px);" class="fa fa-li display:block"></i>Username'
+                  +'<i style="transform: translate(1px, 1px);" class="fa fa-li display:block"></i>'+SPLUi18n.PlaysFilterUsername+''
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'location\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i class="fa fa-li">&#xf041;</i>Location'
+                  +'<i class="fa fa-li">&#xf041;</i>'+SPLUi18n.PlaysFilterLocation+''
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'daterange\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i style="transform: translate(0.5px, 0px);" class="fa fa-li display:block"></i>Date Range'
+                  +'<i style="transform: translate(0.5px, 0px);" class="fa fa-li display:block"></i>'+SPLUi18n.PlaysFilterDateRange+''
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'winner\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i class="fa fa-li">&#xf091;</i>Winner'
+                  +'<i class="fa fa-li">&#xf091;</i>'+SPLUi18n.PlaysFilterWinner+''
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'new\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i style="transform: translate(1px, 0px);" class="fa fa-li display:block"></i>New'
+                  +'<i style="transform: translate(1px, 0px);" class="fa fa-li display:block"></i>'+SPLUi18n.PlaysFilterNew+''
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'score\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i style="transform: translate(4px, 0px); font-size: 1.3em;" class="fa fa-li fa-dartboard display:block"></i>Score'
+                  +'<i style="transform: translate(4px, 0px); font-size: 1.3em;" class="fa fa-li fa-dartboard display:block"></i>'+SPLUi18n.PlaysFilterScore+''
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'duration\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i style="transform: translate(4px, 0px); font-size: 1.3em;" class="fa fa-li fa-clock-o display:block"></i>Duration'
+                  +'<i style="transform: translate(4px, 0px); font-size: 1.3em;" class="fa fa-li fa-clock-o display:block"></i>'+SPLUi18n.PlaysFilterDuration+''
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'playercount\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i class="fa fa-li">&#xf0c0;</i>Player Count'
+                  +'<i class="fa fa-li">&#xf0c0;</i>'+SPLUi18n.PlaysFilterPlayerCount+''
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'objecttype\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i class="fa fa-li">&#xee02;</i>Type of Game'
+                  +'<i class="fa fa-li">&#xee02;</i>'+SPLUi18n.PlaysFilterType+''
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'comments\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i class="fa fa-li">&#xf27b;</i>Comments'
+                  +'<i class="fa fa-li">&#xf27b;</i>'+SPLUi18n.PlaysFilterComments+''
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'excludeexpansions\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i class="fa fa-li">&#xf0eb;</i>Expansions'
+                  +'<i class="fa fa-li">&#xf0eb;</i>'+SPLUi18n.PlaysFilterExpansions+''
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'excludenowinstats\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i style="" class="fa fa-li fa-ribbon-white-circle"></i>No-Win-Stats'
+                  +'<i style="" class="fa fa-li fa-ribbon-white-circle"></i>'+SPLUi18n.PlaysFilterNoWinStats+''
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'excludeincomplete\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +'<i style="transform: translate(-1px, -1px);" class="fa fa-li display:block"></i>Incomplete'
+                  +'<i style="transform: translate(-1px, -1px);" class="fa fa-li display:block"></i>'+SPLUi18n.PlaysFilterIncomplete+''
                 +'</li>'
               +'</ul>'
             +'</div>'
@@ -1011,7 +1011,7 @@
             +'</span>'
           +'<div id="SPLU.PlaysFiltersCurrent"></div>'
             +'<div id="SPLU.PlaysFiltersGoBtn"style="float:right;margin-top:-20px;margin-right:5px;display:none;">'
-              +'<a href="javascript:{void(0);}" onClick="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);}">go</a>'
+              +'<a href="javascript:{void(0);}" onClick="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);}">'+SPLUi18n.PlaysFilterButtonGo+'</a>'
             +'</div>'
           +'</div>'
         +'</div>'
@@ -1030,13 +1030,13 @@
         +'</div>'
         +'<div id="SPLU.StatsMenu" style="display:none;">'
           +'Stat: <select class="fa" id="SPLU.SelectStat" onChange="javascript:{loadStats(\'choose\');}">'
-            +'<option class="fa" style="display:block;" value="PlaysWins" selected>&#xf091; Wins</option>'
-            +'<option class="fa" style="display:block;" value="WinsByGame">&#xf091; Wins by Game</option>'
-            +'<option class="fa" style="display:block;" value="BeginnersLuck">&#x2618; Beginner\'s Luck</option>'
-            +'<option class="fa" style="display:block;" value="GameList">&#xee34; Game List</option>'
-            +'<option class="fa" style="display:block;" value="GameDetails">&#xf201; Game Details</option>'
-            +'<option class="fa" style="display:block;" value="Locations">&#xf041; Locations</option>'
-            +'<option class="fa" style="display:block;" value="GameDaysSince">&#xf272; Days Since...</option>'
+            +'<option class="fa" style="display:block;" value="PlaysWins" selected>&#xf091; '+SPLUi18n.StatsWins+'</option>'
+            +'<option class="fa" style="display:block;" value="WinsByGame">&#xf091; '+SPLUi18n.StatsWinsByGame+'</option>'
+            +'<option class="fa" style="display:block;" value="BeginnersLuck">&#x2618; '+SPLUi18n.StatsBeginnersLuck+'</option>'
+            +'<option class="fa" style="display:block;" value="GameList">&#xee34; '+SPLUi18n.StatsGameList+'</option>'
+            +'<option class="fa" style="display:block;" value="GameDetails">&#xf201; '+SPLUi18n.StatsGameDetails+'</option>'
+            +'<option class="fa" style="display:block;" value="Locations">&#xf041; '+SPLUi18n.StatsLocations+'</option>'
+            +'<option class="fa" style="display:block;" value="GameDaysSince">&#xf272; '+SPLUi18n.StatsDaysSince+'</option>'
           +'</select>'
           +'<span style="margin-left: 10px;" id="SPLUzeroScoreStatsDiv">'
             +'Include Zeros:<input style="vertical-align: middle;" id="SPLUzeroScoreStatsCheck" onChange="javascript:{SPLUzeroScoreStats=document.getElementById(\'SPLUzeroScoreStatsCheck\').checked;loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);}" type="checkbox">'
@@ -1044,7 +1044,7 @@
           +'<span id="SPLUcsvDownload" style="margin-left:50px;vertical-align:top;">'
             +'<a href="javascript:{void(0);}" onClick="javascript:{SPLUdownloadText(\'SPLU-Export.csv\',SPLUcsv);}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/save-csv.png""></a>'
           +'</span>'
-          +'<div id="SPLU.StatsPlayerDiv" style="display: none;">Player: <select class="fa" id="SPLU.SelectStatPlayer" onChange="javascript:{setWinsByGamePlayer(\'\');}"></select></div>'
+          +'<div id="SPLU.StatsPlayerDiv" style="display: none;">'+SPLUi18n.PlaysFilterPlayer+': <select class="fa" id="SPLU.SelectStatPlayer" onChange="javascript:{setWinsByGamePlayer(\'\');}"></select></div>'
         +'</div>'
         +'<div id="SPLU.StatsContent" style="display:none;overflow-y: auto; width: 315px;"></div>';
     tmpDiv.innerHTML+=tmpHTML;
@@ -1061,28 +1061,28 @@
     document.getElementById('SPLUmain').insertBefore(BRlogMain,document.getElementById('SPLUmain').firstChild);
 
     //Set up PopText for buttons and such
-    listenerForPopText("SaveGamePlayBtn","Submit and Clear All Fields");
-    listenerForPopText("SaveGamePlayBtnDupe","Submit but Keep Player Data Onscreen");
-    listenerForPopText("favoritesGoTo","Choose from your Favorites list");
-    listenerForPopText("favoritesAddToList","Add to Favorites");
-    listenerForPopText("favoritesCustomAddToList","Add currently selected Game, Location, Players, and Expansions to Favorites");
-    listenerForPopText("expansionLoggingButton","Log an expansion");
-    listenerForPopText("ResetSettingsOption","Check these items to clear their values when you press <b>Submit & Duplicate</b>");
-    listenerForPopText("SPLU.DateFieldReset","Date will also reset when clicking <b>Submit</b>");
-    listenerForPopText("hideSettingsButton","Shut this Drawer");
-    listenerForPopText("hideExpansionsButton","Shut this Drawer");
-    listenerForPopText("hideFavsButton","Shut this Drawer");
-    listenerForPopText("SPLU.SettingsReset","Reset all settings to default.  Close and re-open SPLU after clicking this.");
-    listenerForPopText("showPlayersPaneBtn","Edit Players");
-    listenerForPopText("showLocationsPaneBtn","Edit Locations");
-    listenerForPopText("SPLU.SaveLocationButton","Save This Location");
-    listenerForPopText("BRplaysBtn","View/Edit Play History");
-    listenerForPopText("ResetFormBtn","Reset All Fields");
-    listenerForPopText("DeleteGamePlayBtn","Delete this Play");
-    listenerForPopText("copymodeicon","Enter Multi-Copy Mode");
-    listenerForPopText("CopyPlaysBtn","Copy the selected plays to your own plays.");
-    listenerForPopText("CopyPlaysSelectAllBtn","Select All Plays");
-    listenerForPopText("CopyPlaysDeselectAllBtn","Deselect All Plays");
+    listenerForPopText("SaveGamePlayBtn",SPLUi18n.PopupButtonSubmit);
+    listenerForPopText("SaveGamePlayBtnDupe",SPLUi18n.PopupButtonSubmitDuplicate);
+    listenerForPopText("favoritesGoTo",SPLUi18n.PopupButtonFavorites);
+    listenerForPopText("favoritesAddToList",SPLUi18n.PopupButtonAddFavorite);
+    listenerForPopText("favoritesCustomAddToList",SPLUi18n.PopupButtonAddFavorite2);
+    listenerForPopText("expansionLoggingButton",SPLUi18n.PopupExpansions);
+    listenerForPopText("ResetSettingsOption",SPLUi18n.PopupTextSettingsReset);
+    listenerForPopText("SPLU.DateFieldReset",SPLUi18n.PopupFieldSettingsResetDate);
+    listenerForPopText("hideSettingsButton",SPLUi18n.PopupButtonShutPane);
+    listenerForPopText("hideExpansionsButton",SPLUi18n.PopupButtonShutPane);
+    listenerForPopText("hideFavsButton",SPLUi18n.PopupButtonShutPane);
+    listenerForPopText("SPLU.SettingsReset",SPLUi18n.PopupButtonResetAllSettings);
+    listenerForPopText("showPlayersPaneBtn",SPLUi18n.PopupButtonEditPlayers);
+    listenerForPopText("showLocationsPaneBtn",SPLUi18n.PopupButtonEditLocations);
+    listenerForPopText("SPLU.SaveLocationButton",SPLUi18n.PopupButtonSaveLocation);
+    listenerForPopText("BRplaysBtn",SPLUi18n.PopupButtonViewPlays);
+    listenerForPopText("ResetFormBtn",SPLUi18n.PopupButtonResetForm);
+    listenerForPopText("DeleteGamePlayBtn",SPLUi18n.PopupButtonDeletePlay);
+    listenerForPopText("copymodeicon",SPLUi18n.PopupTabMultiCopy);
+    listenerForPopText("CopyPlaysBtn",SPLUi18n.PopupButtonCopyPlays);
+    listenerForPopText("CopyPlaysSelectAllBtn",SPLUi18n.PopupButtonSelectAllPlays);
+    listenerForPopText("CopyPlaysDeselectAllBtn",SPLUi18n.PopupButtonDeselectAllPlays);
     //listenerForPopText("statisticsicon","Basic Stats");
     //listenerForPopText("filtericon","Apply Filter to These Results");
     //listenerForPopText("floppydiskicon","Remember This Player");
@@ -1583,24 +1583,24 @@
     tmpID.value="thing";
     if(type=="boardgame"){
       SPLUobjecttype="boardgame";
-      tmpGameName.placeholder="enter board game";
+      tmpGameName.placeholder=SPLUi18n.MainPlaceholderBGG;
       tmpExpButton.style.display="block";
       tmpButtonBGG.style.backgroundColor="#F8DF24";
     }
     if(type=="videogame"){
       SPLUobjecttype="videogame";
-      tmpGameName.placeholder="enter video game";
+      tmpGameName.placeholder=SPLUi18n.MainPlaceholderVGG;
       tmpButtonVGG.style.backgroundColor="#F8DF24";
     }
     if(type=="rpg"){
       SPLUobjecttype="rpg";
-      tmpGameName.placeholder="enter RPG";
+      tmpGameName.placeholder=SPLUi18n.MainPlaceholderRPG;
       tmpButtonRPG.style.backgroundColor="#F8DF24";
       tmpID.value="family";
     }
     if(type=="rpgitem"){
       SPLUobjecttype="rpgitem";
-      tmpGameName.placeholder="enter RPG item";
+      tmpGameName.placeholder=SPLUi18n.MainPlaceholderRPGItem;
       tmpButtonRPGitem.style.backgroundColor="#F8DF24";
     }
     clearSearchResult();
