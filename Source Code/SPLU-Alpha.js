@@ -929,7 +929,7 @@
                   +SPLUi18n.PlaysGetAll
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{getGamePlays();document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
-                  +SPLUi18n.PlaysGetGame+' -Game-'
+                  +SPLUi18n.PlaysGetGame+
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{getRecentPlays(false);document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
                   +SPLUi18n.PlaysGetRecent
@@ -1029,7 +1029,7 @@
           +'<div id="CopyPlaysStatus"></div>'
         +'</div>'
         +'<div id="SPLU.StatsMenu" style="display:none;">'
-          +'Stat: <select class="fa" id="SPLU.SelectStat" onChange="javascript:{loadStats(\'choose\');}">'
+          +SPLUi18n.StatsStat+': <select class="fa" id="SPLU.SelectStat" onChange="javascript:{loadStats(\'choose\');}">'
             +'<option class="fa" style="display:block;" value="PlaysWins" selected>&#xf091; '+SPLUi18n.StatsWins+'</option>'
             +'<option class="fa" style="display:block;" value="WinsByGame">&#xf091; '+SPLUi18n.StatsWinsByGame+'</option>'
             +'<option class="fa" style="display:block;" value="BeginnersLuck">&#x2618; '+SPLUi18n.StatsBeginnersLuck+'</option>'
@@ -1490,8 +1490,8 @@
           SPLU.Version=SPLUversion;
           SPLUremote=SPLU;
           delete SPLU.GameStats;
-          tmp="Version Updated to "+SPLU.Version;
-          saveSooty("BRresults","Updating Version...",tmp,function(){
+          tmp=SPLUi18n.StatusVersionUpdatedTo+SPLU.Version;
+          saveSooty("BRresults",SPLUi81n.StatusUpdatingVersion,tmp,function(){
             fetchLanguageFile(SPLU.Settings.i18n);
           });
         }else{
@@ -1704,7 +1704,7 @@
   
   function insertBlank(id){
     var child=1;
-    if(document.getElementById(id).childNodes[0].innerHTML=="Logged"){
+    if(document.getElementById(id).childNodes[0].innerHTML==SPLUi18n.StatusLogged){
       child=0;
     }
     document.getElementById(id).childNodes[child].setAttribute("target","_blank");
@@ -1720,7 +1720,7 @@
       }
       SPLU.Locations[tmpLoc]={"Name":encodeURIComponent(document.getElementById('SPLU_PlayedAt').value)};
       SPLUremote.Locations=SPLU.Locations;
-      saveSooty("BRresults","Thinking...","Saved",function(){
+      saveSooty("BRresults",SPLUi18n.StatusThinking,SPLUi18n.StatusSaved,function(){
         loadLocations();
       });
     }
@@ -1746,7 +1746,7 @@
       }
       SPLU.Players[(document.getElementsByName('players['+id+'][name]')[0].value.replace(/ /g,'').toLowerCase()+tmpPly)]={"Name":document.getElementsByName('players['+id+'][name]')[0].value,"Username":document.getElementsByName('players['+id+'][username]')[0].value,"Color":document.getElementsByName('players['+id+'][color]')[0].value,"SortOrder":"0"};
       SPLUremote.Players=SPLU.Players;
-      saveSooty("BRresults","Thinking...","Saved",function(){
+      saveSooty("BRresults",SPLUi18n.StatusThinking,SPLUi18n.StatusSaved,function(){
         loadPlayers();
         if(document.getElementById('BRlogPlayers').style.display=="table-cell"){
           showPlayersPane("save");
@@ -1783,7 +1783,7 @@
           BRplayersDiv.innerHTML+='<div style="padding: 5px 2px 0px 0px; float: left;"><a href="javascript:{void(0);}" onClick="javascript:{insertPlayer(\''+players[key]+'\');}" onMouseDown="javascript:{this.style.backgroundColor=\'#eff708\';}" onMouseUp="javascript:{this.style.backgroundColor=\'#A4DFF3\';}" style="border:1px dotted green;padding:0px 2px;">'+BRtmpName+'</a></div>';
         }
       }
-      BRplayersDiv.innerHTML+='<div style="padding: 5px 2px 0px 0px; float: left;"><a href="javascript:{void(0);}" onClick="javascript:{insertPlayer(-1);}" onMouseDown="javascript:{this.style.backgroundColor=\'#eff708\';}" onMouseUp="javascript:{this.style.backgroundColor=\'#A4DFF3\';}" style="border:1px dotted;padding:0px 2px;">Other</a></div>';
+      BRplayersDiv.innerHTML+='<div style="padding: 5px 2px 0px 0px; float: left;"><a href="javascript:{void(0);}" onClick="javascript:{insertPlayer(-1);}" onMouseDown="javascript:{this.style.backgroundColor=\'#eff708\';}" onMouseUp="javascript:{this.style.backgroundColor=\'#A4DFF3\';}" style="border:1px dotted;padding:0px 2px;">'+SPLUi18n.MainOther+'</a></div>';
     }
     if(SPLU.Settings["PlayerGroups"].Visible){
       var groups=[];
@@ -1849,17 +1849,17 @@
     select.options.length=0;
     select2.options.length=0;
     if(SPLUcurrentFilter=="All"){
-      select.options[0]=new Option("All", "All", true, true);
+      select.options[0]=new Option(SPLUi18n.MainAll, "All", true, true);
       select2.options[0]=new Option("---", "---", true, true);
-      select.options[1]=new Option("All Groups", "Groups", true, false);
+      select.options[1]=new Option(SPLUi18n.MainAllGroups, "Groups", true, false);
     }else if(SPLUcurrentFilter=="Groups"){
-      select.options[0]=new Option("All", "All", true, false);
+      select.options[0]=new Option(SPLUi18n.MainAll, "All", true, false);
       select2.options[0]=new Option("---", "---", true, false);
-      select.options[1]=new Option("All Groups", "Groups", true, true);
+      select.options[1]=new Option(SPLUi18n.MainAllGroups, "Groups", true, true);
     }else{
-      select.options[0]=new Option("All", "All", true, false);
+      select.options[0]=new Option(SPLUi18n.MainAll, "All", true, false);
       select2.options[0]=new Option("---", "---", true, false);
-      select.options[1]=new Option("All Groups", "Groups", true, false);
+      select.options[1]=new Option(SPLUi18n.MainAllGroups, "Groups", true, false);
     }
     var i=2;
     for(var key in SPLU.Filters){
@@ -1897,14 +1897,14 @@
     tmpName=SPLU.Settings.DefaultPlayer.Name;
     select.options.length=0;
     if(tmpName=="-none-"){
-      select.options[0]=new Option("-none-", "-none-", false, true);
+      select.options[0]=new Option(SPLUi18n.SettingsNone, "-none-", false, true);
     } else {
-      select.options[0]=new Option("-none-", "-none-", false, false);
+      select.options[0]=new Option(SPLUi18n.SettingsNone, "-none-", false, false);
     }
     if(tmpName=="-blank-"){
-      select.options[1]=new Option("-blank-", "-blank-", false, true);
+      select.options[1]=new Option(SPLUi18n.SettingsBlank, "-blank-", false, true);
     } else {
-      select.options[1]=new Option("-blank-", "-blank-", false, false);
+      select.options[1]=new Option(SPLUi18n.SettingsBlank, "-blank-", false, false);
     }
     var i=2;
     for(var key in SPLU.Players){
