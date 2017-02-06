@@ -33,6 +33,7 @@
   "CalendarFri": "Fri",
   "CalendarSat": "Sat",
   "CalendarSun": "Sun",
+  "CalendarInvalidDate": "Invalid Date",
   "MainQuantity": "Quantity",
   "MainDuration": "Duration",
   "MainIncomplete": "Incomplete",

@@ -1,6 +1,7 @@
 {
   "@metadata": {
     "authors": [
+      "nieva",
       "dazeysan",
       "kataclysm"
     ]
@@ -33,6 +34,7 @@
   "CalendarFri": "vie",
   "CalendarSat": "sáb",
   "CalendarSun": "dom",
+  "CalendarInvalidDate": "Invalid Date",
   "MainQuantity": "Cantidad",
   "MainDuration": "Duración",
   "MainIncomplete": "Incompleta",
