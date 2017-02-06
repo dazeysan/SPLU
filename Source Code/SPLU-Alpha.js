@@ -2588,7 +2588,11 @@
         document.getElementById(statusID).innerHTML="<img style='vertical-align:bottom;padding-top:5px;' src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/alert.gif'><span style='background-color:red;color:white;font-weight:bold;'>"+SPLUi18n.StatusErrorCode+": "+responseJSON.target.status+"</span>";
       }
     };
-    document.getElementById(statusID).innerHTML=statusLoading;
+    if(document.getElementById(statusID)==null){
+      console.log(statusLoading);
+    }else{
+      document.getElementById(statusID).innerHTML=statusLoading;
+    }
     xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     xmlhttp.send("version=2&objecttype=thing&objectid=98000&playid="+SPLUplayId+"&action=save&quantity=0&comments="+fixedEncodeURIComponent(JSON.stringify(SPLUremote))+"&playdate=1452-04-15&B1=Save");
   }
