@@ -2581,7 +2581,11 @@
     xmlhttp.onload=function(responseJSON){
       console.log("onload()");
       if(responseJSON.target.status==200){
-        document.getElementById(statusID).innerHTML=statusSuccess;
+        if(document.getElementById(statusID)==null){
+          console.log(statusSuccess);
+        }else{
+          document.getElementById(statusID).innerHTML=statusSuccess;
+        }
         window.setTimeout(function(){ document.getElementById(statusID).innerHTML=""}, 3000);
         onloadFunction();
       }else{
