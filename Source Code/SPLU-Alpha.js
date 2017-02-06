@@ -2581,6 +2581,7 @@
     xmlhttp.onload=function(responseJSON){
       console.log("onload()");
       if(responseJSON.target.status==200){
+        ////Should really just fix boot order rather than testing this////
         if(document.getElementById(statusID)==null){
           console.log(statusSuccess);
         }else{
@@ -4237,7 +4238,7 @@
         +'</div>';
         if(tmpAverageAllScore>0){
           tmpHTML+='<div style="display:table-row;">';
-          tmpHTML+='<div style="display:table-cell;">'+SPLUi18.StatsRowsAllScores+'</div>';
+          tmpHTML+='<div style="display:table-cell;">'+SPLUi18n.StatsRowsAllScores+'</div>';
           tmpHTML+='<div style="display:table-cell;">'+tmpAverageAllScore+'</div>';
           tmpHTML+='<div style="display:table-cell;">'+tmpLowScore+'</div>';
           tmpHTML+='<div style="display:table-cell;">'+tmpHighScore+'</div>';
@@ -4245,7 +4246,7 @@
         }
         if(tmpAverageWinScore>0){
           tmpHTML+='<div style="display:table-row;">';
-          tmpHTML+='<div style="display:table-cell;">'+SPLUi18.StatsRowsWinningScores+'</div>';
+          tmpHTML+='<div style="display:table-cell;">'+SPLUi18n.StatsRowsWinningScores+'</div>';
           tmpHTML+='<div style="display:table-cell;">'+tmpAverageWinScore+'</div>';
           tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["WinLowScore"]+'</div>';
           tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["WinHighScore"]+'</div>';
@@ -4253,7 +4254,7 @@
         }
         if(tmpAverageDuration>0){
           tmpHTML+='<div style="display:table-row;">';
-          tmpHTML+='<div style="display:table-cell;">'+SPLUi18.StatsRowsDuration+'</div>';
+          tmpHTML+='<div style="display:table-cell;">'+SPLUi18n.StatsRowsDuration+'</div>';
           tmpHTML+='<div style="display:table-cell;">'+tmpAverageDuration+' min</div>';
           tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["DurationLow"]+'</div>';
           tmpHTML+='<div style="display:table-cell;">'+SPLUgameStats[keyGame]["DurationHigh"]+'</div>';
@@ -4261,7 +4262,7 @@
         }
         if(tmpAverageSpread>0){
           tmpHTML+='<div style="display:table-row;">';
-          tmpHTML+='<div style="display:table-cell;">'+SPLUi18.StatsRowsSpread+'</div>';
+          tmpHTML+='<div style="display:table-cell;">'+SPLUi18n.StatsRowsSpread+'</div>';
           tmpHTML+='<div style="display:table-cell;">'+tmpAverageSpread+'</div>';
           tmpHTML+='<div style="display:table-cell;"><a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLUgameStats[keyGame]["LowSpreadPlay"].id+');}">'+SPLUgameStats[keyGame]["LowSpread"]+'</a></div>';
           tmpHTML+='<div style="display:table-cell;"><a href="javascript:{void(0);}" onClick="javascript:{loadPlay('+SPLUgameStats[keyGame]["HighSpreadPlay"].id+');}">'+SPLUgameStats[keyGame]["HighSpread"]+'</a></div>';
