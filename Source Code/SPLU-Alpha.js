@@ -1491,7 +1491,7 @@
           SPLUremote=SPLU;
           delete SPLU.GameStats;
           tmp=SPLUi18n.StatusVersionUpdatedTo+SPLU.Version;
-          saveSooty("BRresults",SPLUi81n.StatusUpdatingVersion,tmp,function(){
+          saveSooty("BRresults",SPLUi18n.StatusUpdatingVersion,tmp,function(){
             fetchLanguageFile(SPLU.Settings.i18n);
           });
         }else{
