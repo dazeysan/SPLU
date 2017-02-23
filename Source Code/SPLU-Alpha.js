@@ -336,7 +336,7 @@
           +'</div>'
           +'<div class="SPLUplayerCells" id="SPLU.PlayerPositionColumnHeader">'
             +'<div id="SPLU.PlayerPositionColumn" class="SPLUheader">'
-              +'<center>Start<br/>'+SPLUi18n.MainStartPosition+'</center>'
+              +'<center>'+SPLUi18n.MainStartPosition+'</center>'
             +'</div>'
           +'</div>'
           +'<div class="SPLUplayerCells" id="SPLU.PlayerScoreColumnHeader">'
