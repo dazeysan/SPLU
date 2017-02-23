@@ -3007,7 +3007,7 @@
     var getString="";
     if(page>0){
       var tmpFetch=SPLUi18n.StatusFetchingPageOf.replace("$1", page);
-      //document.getElementById('SPLU.PlaysStatus').innerHTML="Fetching Page: "+page;
+      document.getElementById('SPLU.PlaysStatus').innerHTML="";
       if(SPLUplayData[player]===undefined){
         document.getElementById('SPLU.PlaysStatus').innerHTML+=tmpFetch.replace("$2", "??");;
       } else {
