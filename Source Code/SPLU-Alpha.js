@@ -5080,7 +5080,7 @@
       }
     }
     if(!BRexpList.length){
-      document.getElementById('SPLU.ExpansionPane').innerHTML+='<div>No Expansions Found.</div>';
+      document.getElementById('SPLU.ExpansionPane').innerHTML+='<div>'+SPLUi18n.StatusNoExpansionsFound+'</div>';
     }else{
       //BRexpList=this.responseXML.getElementsByTagName("boardgameexpansion");
       var tmpHTML="";
@@ -5112,7 +5112,7 @@
   
   function fetchExpansions(){
     SPLUprevGameID=SPLUgameID;
-    document.getElementById('SPLU.ExpansionPane').innerHTML="Loading Expansions...<img src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/progress.gif'/>";
+    document.getElementById('SPLU.ExpansionPane').innerHTML=SPLUi18n.StatusLoadingExpansions+"<img src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/progress.gif'/>";
     var oReq=new XMLHttpRequest();
     oReq.onload=loadExpansions;
     oReq.open("get","/xmlapi2/thing?type=boardgame&id="+SPLUgameID,true);
@@ -5135,7 +5135,7 @@
     if(tmpQty==0){
       document.getElementById('SPLU_ExpansionsQuantity').innerHTML="";
     }else{
-      document.getElementById('SPLU_ExpansionsQuantity').innerHTML=tmpQty+" Expansions Selected";
+      document.getElementById('SPLU_ExpansionsQuantity').innerHTML=tmpQty+" "+SPLUi18n.StatusExpansionsSelected;
     }
   }
 
@@ -5148,7 +5148,7 @@
     document.getElementById('BRexpPlayQTY').value=SPLU.Settings.ExpansionQuantity.Value;
     document.getElementById('SPLU.ExpansionDetailsCheck').checked=SPLU.Settings.ExpansionDetails.Include;
     if(!this.responseXML.getElementsByTagName('link').length){
-      document.getElementById('SPLU.FamilyPane').innerHTML+='<div>No Family Items Found.</div>';
+      document.getElementById('SPLU.FamilyPane').innerHTML+='<div>'+SPLUi18n.StatusNoFamilyItemsFound+'</div>';
     }else{
       BRexpList=this.responseXML.getElementsByTagName("link");
       var tmpHTML="";
@@ -5176,7 +5176,7 @@
 
   function fetchFamily(id){
     SPLUprevGameID=SPLUgameID;
-    document.getElementById('SPLU.FamilyPane').innerHTML="Loading Family Items...<img src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/progress.gif'/>";
+    document.getElementById('SPLU.FamilyPane').innerHTML=SPLUi18n.StatusLoadingFamilyItems+"<img src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/progress.gif'/>";
     SPLUfamilyID="-1";
     var name=document.getElementById('q546e9ffd96dfc').value;
     if(id==-1){
@@ -5189,9 +5189,9 @@
       SPLUfamilyID=id;
     }
     if(SPLUfamilyID==-1){
-      tmpHTML="No Matching Family Found.<br/><br/>";
+      tmpHTML=SPLUi18n.StatusNoMatchingFamilyFound+"<br/><br/>";
       if(SPLUfamilyList.length>=1){
-        tmpHTML+="Please choose from the following Families:<br/>";
+        tmpHTML+=SPLUi18n.StatusPleaseChooseFamily+":<br/>";
         for(var i=0;i<SPLUfamilyList.length;i++){
           tmpHTML+='&nbsp;-&nbsp;<a href="javascript:{void(0);}" onClick="javascript:{fetchFamily(\''+SPLUfamilyList[0].id+'\');}">'+SPLUfamilyList[i].getAttribute("value")+'</a><br/>';
         }
@@ -5258,7 +5258,9 @@
     }else{
       for(i=0;i<tmpExp.length;i++){
         if(tmpExp[i].checked){
-          document.getElementById('SPLUexpansionResults').innerHTML='Waiting for '+ExpansionsToLog+' expansions to be logged.';
+          tmpWaiting = SPLUi18n.StatusWaitingForExpansionsToBeLogged.replace("$1", ExpansionsToLog);
+          document.getElementById('SPLUexpansionResults').innerHTML=tmpWaiting;
+          //document.getElementById('SPLUexpansionResults').innerHTML='Waiting for '+ExpansionsToLog+' expansions to be logged.';
           var QPR="";
           //Don't bother with status message if they haven't opened Expansion pane after loading Favorite
           if(SPLUexpansionsFromFavorite.length==0){
@@ -5268,7 +5270,7 @@
               QPR="QPresultsFam";
             }
             var results=$(QPR+tmpExp[i].id);
-            results.innerHTML="Saving...";
+            results.innerHTML=SPLUi18n.StatusSaving;
           }
           var form=document.forms['SPLUform'];
           var inputs=form.getElementsByTagName('input');
@@ -5276,7 +5278,7 @@
           var value="";
           var tmpComments="";
           if(SPLU.Settings.ExpansionLinkParent.Enabled){
-            tmpComments="Logged as part of this [geekurl=/play/"+SPLUlastGameSaved+"]Parent Play[/geekurl]\r\n"
+            tmpComments=SPLUi18n.CommentLoggedAsPartOfThis+" [geekurl=/play/"+SPLUlastGameSaved+"]"+SPLUi18n.CommentParentPlay+"[/geekurl]\r\n"
           }
           if(SPLU.Settings.ExpansionDetails.Include){
             for(n=0; n<inputs.length; n++){
@@ -5318,7 +5320,7 @@
               var results=document.getElementsByName('QPresults'+tmpJSON.html.slice(29,tmpJSON.html.indexOf("?")));
               for(var i=0;i<results.length;i++){
                 if(tmpJSON.html.slice(-5)=="></a>"){
-                  results[i].innerHTML=tmpJSON.html.slice(7,-4)+"Logged</a>";
+                  results[i].innerHTML=tmpJSON.html.slice(7,-4)+SPLUi18n.StatusLogged+"</a>";
                   fetchPlays(LoggedInAs,0,false,tmpJSON.html.slice(29,tmpJSON.html.indexOf("?")),document.getElementById('playdate99').value);
                 }else{
                   results[i].innerHTML=tmpJSON.html;
@@ -5327,7 +5329,9 @@
               }
             }
             ExpansionsToLog--;
-            document.getElementById('SPLUexpansionResults').innerHTML='Waiting for '+ExpansionsToLog+' expansions to be logged.';
+            tmpWaiting = SPLUi18n.StatusWaitingForExpansionsToBeLogged.replace("$1", ExpansionsToLog);
+            document.getElementById('SPLUexpansionResults').innerHTML=tmpWaiting;
+            //document.getElementById('SPLUexpansionResults').innerHTML='Waiting for '+ExpansionsToLog+' expansions to be logged.';
             if(ExpansionsToLog==0){
               document.getElementById('SPLUexpansionResults').innerHTML='';
               saveGamePlay2(action);
@@ -5388,7 +5392,9 @@
     }
     tmpHTML+='</div>';
     document.getElementById('SPLU.FavoritesList').innerHTML=tmpHTML;
-    document.getElementById('SPLU.FavoritesStatus').innerHTML='<center>You have '+size+' Favorites.</center><br/>';
+    tmpFavs = SPLUi18n.StatusYouHaveFavorites.replace("$1", size);
+    document.getElementById('SPLU.FavoritesStatus').innerHTML='<center>'+tmpFavs+'</center><br/>';
+    //document.getElementById('SPLU.FavoritesStatus').innerHTML='<center>You have '+size+' Favorites.</center><br/>';
   }
     
   function showSettingsPane(source){
@@ -5473,7 +5479,7 @@
   }
   
   function saveLocations(){
-    document.getElementById('SPLU.LocationsStatus').innerHTML="Thinking...";
+    document.getElementById('SPLU.LocationsStatus').innerHTML=SPLUi18n.StatusThinking;
     SPLU.Locations={};
     var locations=document.getElementsByClassName('EditLocationsField');
     for(i=0;i<locations.length;i++){
@@ -5482,7 +5488,7 @@
       }
     }
     SPLUremote.Locations=SPLU.Locations;
-    saveSooty("SPLU.LocationsStatus","Thinking...","Saved",function(){
+    saveSooty("SPLU.LocationsStatus",SPLUi18n.StatusThinking,SPLUi18n.StatusSaved,function(){
       loadLocations();
       showLocationsPane("save");
     });

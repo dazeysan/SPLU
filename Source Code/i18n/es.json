@@ -253,9 +253,13 @@
   "StatusExpansionsSelected": "Expansiones seleccionadas",
   "StatusNoFamilyItemsFound": "No encontrados otros juegos de su familia.",
   "StatusLoadingFamilyItems": "Cargando juegos de la familia...",
+  "StatusNoMatchingFamilyFound": "No Matching Family Found.",
+  "StatusPleaseChooseFamily": "Please choose from the following Families",
   "StatusWaitingForExpansionsToBeLogged": "Apuntando partidas de expansión: $1 ...",
   "StatusYouHaveFavorites": "Tienes $1 favoritos.",
   "StatusUnsavedGroupsFilters": "Hay grupos y/o filtros sin salvar.",
   "StatusUnsavedGroups": "Hay grupos sin salvar.",
-  "StatusUnsavedFilters": "Hay filtros sin salvar."
+  "StatusUnsavedFilters": "Hay filtros sin salvar.",
+  "CommentLoggedAsPartOfThis": "Logged as part of this",
+  "CommentParentPlay": "Parent Play"
 }

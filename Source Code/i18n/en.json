@@ -252,9 +252,13 @@
   "StatusExpansionsSelected": "Expansions Selected",
   "StatusNoFamilyItemsFound": "No Family Items Found.",
   "StatusLoadingFamilyItems": "Loading Family Items...",
+  "StatusNoMatchingFamilyFound": "No Matching Family Found.",
+  "StatusPleaseChooseFamily": "Please choose from the following Families",
   "StatusWaitingForExpansionsToBeLogged": "Waiting for $1 expansions to be logged.",
   "StatusYouHaveFavorites": "You have $1 Favorites.",
   "StatusUnsavedGroupsFilters": "You have unsaved groups and/or filters.",
   "StatusUnsavedGroups": "You have unsaved groups.",
-  "StatusUnsavedFilters": "You have unsaved filters."
+  "StatusUnsavedFilters": "You have unsaved filters.",
+  "CommentLoggedAsPartOfThis": "Logged as part of this",
+  "CommentParentPlay": "Parent Play"
 }
