@@ -2382,6 +2382,7 @@
     document.getElementById('BRlogFavs').style.display="none";
     document.getElementById('SPLUsearchResultsDIV').style.display="none";
     document.getElementById('BRthumbButtons').style.display="block";
+    SPLUexpansionsFromFavorite=[]
     if(SPLU.Favorites[id].players!==undefined){
       if(SPLU.Favorites[id].players.length>0){
         while(document.getElementsByClassName('SPLUrows').length>0){
@@ -3981,6 +3982,7 @@
     console.log(item);
     setObjectType(item.subtype);
     document.getElementById('objectid9999').value=item.objectid;
+    SPLUexpansionsFromFavorite=[]
     SPLUgameID=item.objectid;
     tmpImage=item.rep_imageid;
     if (tmpImage==0){
