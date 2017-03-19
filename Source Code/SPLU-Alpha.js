@@ -2820,11 +2820,11 @@
       SPLUedit.submit=true;
     }
     querystring+="&comments="+encodeURIComponent(form["quickplay_comments99"].value);
-    document.getElementById('BRresults').innerHTML="Saving...";
+    document.getElementById('BRresults').innerHTML=SPLUi18n.StatusSaving;
     if(action=="copy"){
       SPLUtimeouts[SPLUcopyID]=setTimeout(function(){copyPlays(SPLUcopyID,"timeout");}, 10000);
     }else{
-      SPLUtimeouts[0]=setTimeout(function(){document.getElementById('BRresults').innerHTML="Timed Out. Try Again.";}, 10000);
+      SPLUtimeouts[0]=setTimeout(function(){document.getElementById('BRresults').innerHTML=SPLUi18n.StatusTimedOutTryAgain;}, 10000);
     }
     xmlhttp=new XMLHttpRequest();
     xmlhttp.open("POST","/geekplay.php",true);
@@ -2832,7 +2832,7 @@
       console.log("onload()");
         clearTimeout(SPLUtimeouts[SPLUcopyID]);
         if(responseJSON===undefined){
-          document.getElementById('BRresults').innerHTML="Error. Try Again.";
+          document.getElementById('BRresults').innerHTML=SPLUi18n.StatusErrorTryAgain;
           if(action=="copy"){
             copyPlays(SPLUcopyID,"undefined");
           }
@@ -5053,10 +5053,10 @@
   }
   
   function saveExpansionQuantity(){
-    document.getElementById('SPLU.ExpansionsPaneStatus').innerHTML="Saving...";
+    document.getElementById('SPLU.ExpansionsPaneStatus').innerHTML=SPLUi18n.StatusSaving;
     SPLU.Settings.ExpansionQuantity.Value=document.getElementById('BRexpPlayQTY').value;
     SPLUremote.Settings.ExpansionQuantity.Value=SPLU.Settings.ExpansionQuantity.Value;
-    saveSooty("SPLU.ExpansionsPaneStatus","Thinking...","Saved",function(){});
+    saveSooty("SPLU.ExpansionsPaneStatus",SPLUi18n.StatusThinking,SPLUi18n.StatusSaved,function(){});
   }
   
   function loadExpansions(){
@@ -5070,6 +5070,7 @@
     document.getElementById('SPLU.ExpansionDetailsCheck').checked=SPLU.Settings.ExpansionDetails.Include;
     tmpLinks=this.responseXML.getElementsByTagName("link");
     SPLUfamilyList=[];
+    SPLUintegrationList=[];
     BRexpList=[];
     for(i=0;i<tmpLinks.length;i++){
       if(tmpLinks[i].getAttribute("type")=="boardgameexpansion"){
@@ -5077,6 +5078,9 @@
       }
       if(tmpLinks[i].getAttribute("type")=="boardgamefamily"){
         SPLUfamilyList.push(tmpLinks[i]);
+      }
+      if(tmpLinks[i].getAttribute("type")=="boardgameintegration"){
+        SPLUintegrationList.push(tmpLinks[i]);
       }
     }
     if(!BRexpList.length){
@@ -5089,6 +5093,14 @@
         tmpExpID=BRexpList[i].id;
         tmpExpName=BRexpList[i].getAttribute("value");
         tmpHTML+='<div style="display:table-row;"><div style="display:table-cell;"><input type="checkbox" id="'+tmpExpID+'" class="BRexpLogBox" data-tab="expansion" data-SPLU-ExpName="'+tmpExpName+'" onClick="javascript:{updateExpansionsQuantityField();if(SPLU.Settings.ExpansionComments.Visible){expansionListComment();}}"/> '+tmpExpName+'</div><div style="display:table-cell; width:50px;" id="QPresultsExp'+tmpExpID+'" name="QPresults'+tmpExpID+'"></div></div>';
+      }
+      if(SPLUintegrationList.length > 0) {
+        tmpHTML+='<div style="display:table-row;"><div style="display:table-cell; color:black; padding-top:10px;">'+SPLUi18n.ExpansionsIntegrations+':</div><div style="display:table-cell; width:50px;"></div></div>';
+      }
+      for(i=0;i<SPLUintegrationList.length;i++){
+        tmpIntID=SPLUintegrationList[i].id;
+        tmpIntName=SPLUintegrationList[i].getAttribute("value");
+        tmpHTML+='<div style="display:table-row;"><div style="display:table-cell;"><input type="checkbox" id="'+tmpIntID+'" class="BRexpLogBox" data-tab="expansion" data-SPLU-ExpName="'+tmpIntName+'" onClick="javascript:{updateExpansionsQuantityField();if(SPLU.Settings.ExpansionComments.Visible){expansionListComment();}}"/> '+tmpIntName+'</div><div style="display:table-cell; width:50px;" id="QPresultsExp'+tmpIntID+'" name="QPresults'+tmpIntID+'"></div></div>';
       }
       tmpHTML+='</div>';
       document.getElementById('SPLU.ExpansionPane').innerHTML+=tmpHTML;
@@ -5582,7 +5594,7 @@
   }
   
   function savePlayers(){
-    document.getElementById('SPLU.PlayersStatus').innerHTML="Thinking...";
+    document.getElementById('SPLU.PlayersStatus').innerHTML=SPLUi18n.StatusThinking;
     SPLU.Players={};
     var players=document.getElementsByClassName('EditPlayersField');
     for(i=0;i<players.length;i++){
@@ -5604,7 +5616,7 @@
       }
     }
     SPLUremote.Players=SPLU.Players;
-    saveSooty("SPLU.PlayersStatus","Thinking...","Saved",function(){
+    saveSooty("SPLU.PlayersStatus",SPLUi18n.StatusThinking,SPLUi18n.StatusSaved,function(){
       loadPlayers();
       showPlayersPane("save");
     });
@@ -5615,16 +5627,16 @@
       var index=SPLU.Groups[key].indexOf(id);
       if(index>=0){
        SPLU.Groups[key].splice(index,1);
-        document.getElementById('SPLU.PlayersStatus').innerHTML="<span style='color:red;'>You have unsaved groups and/or filters.</span>";
-        document.getElementById('SPLU.GroupsStatus').innerHTML="<span style='color:red;'>You have unsaved groups.</span>";
+        document.getElementById('SPLU.PlayersStatus').innerHTML="<span style='color:red;'>"+SPLUi18n.StatusUnsavedGroupsFilters+"</span>";
+        document.getElementById('SPLU.GroupsStatus').innerHTML="<span style='color:red;'>"+SPLUi18n.StatusUnsavedGroups+"</span>";
       }
     }
     for(var key in SPLU.Filters){
       var index=SPLU.Filters[key].indexOf(id);
       if(index>=0){
         SPLU.Filters[key].splice(index,1);
-        document.getElementById('SPLU.PlayersStatus').innerHTML="<span style='color:red;'>You have unsaved groups and/or filters.</span>";
-        document.getElementById('SPLU.FiltersStatus').innerHTML="<span style='color:red;'>You have unsaved filters.</span>";
+        document.getElementById('SPLU.PlayersStatus').innerHTML="<span style='color:red;'>"+SPLUi18n.StatusUnsavedGroupsFilters+"</span>";
+        document.getElementById('SPLU.FiltersStatus').innerHTML="<span style='color:red;'>"+SPLUi18n.StatusUnsavedFilters+"</span>";
       }
     }
   }
@@ -5710,7 +5722,7 @@
         }
       }
       loadPlayers();
-      document.getElementById('SPLU.FiltersStatus').innerHTML="<span style='color:red;'>You have unsaved filters.</span>";
+      document.getElementById('SPLU.FiltersStatus').innerHTML="<span style='color:red;'>"+SPLUi18n.StatusUnsavedFilters+"</span>";
     }else{
       id.checked=false;
     }
@@ -5728,15 +5740,15 @@
         checks[i].checked=false;
       }
       filter.value="";
-      document.getElementById('SPLU.FiltersStatus').innerHTML="<span style='color:red;'>You have unsaved filters.</span>";
+      document.getElementById('SPLU.FiltersStatus').innerHTML="<span style='color:red;'>"+SPLUi18n.StatusUnsavedFilters+"</span>";
     }
   }
   
   function saveFilters(){
-    document.getElementById('SPLU.FiltersStatus').innerHTML="Thinking...";
+    document.getElementById('SPLU.FiltersStatus').innerHTML=SPLUi18n.StatusThinking;
     document.getElementById('SPLU.PlayersStatus').innerHTML="";
     SPLUremote.Filters=SPLU.Filters;
-    saveSooty("SPLU.FiltersStatus","Thinking...","Saved",function(){});
+    saveSooty("SPLU.FiltersStatus",SPLUi18n.StatusThinking,SPLUi18n.StatusSaved,function(){});
   }
 
   function removeFilter(){
@@ -5744,7 +5756,7 @@
     if(filter!="---"){
       delete SPLU.Filters[filter];
       setFilter("delete");
-      document.getElementById('SPLU.FiltersStatus').innerHTML="<span style='color:red;'>You have unsaved filters.</span>";
+      document.getElementById('SPLU.FiltersStatus').innerHTML="<span style='color:red;'>"+SPLUi18n.StatusUnsavedFilters+"</span>";
     }
   }
 
@@ -5758,7 +5770,7 @@
           SPLU.Groups[SPLUcurrentGroup].splice(index, 1);
         }
       }
-      document.getElementById('SPLU.GroupsStatus').innerHTML="<span style='color:red;'>You have unsaved groups.</span>";
+      document.getElementById('SPLU.GroupsStatus').innerHTML="<span style='color:red;'>"+SPLUi18n.StatusUnsavedGroups+"</span>";
     }else{
       id.checked=false;
     }
@@ -5776,7 +5788,7 @@
         checks[i].checked=false;
       }
       group.value="";
-      document.getElementById('SPLU.GroupsStatus').innerHTML="<span style='color:red;'>You have unsaved groups.</span>";
+      document.getElementById('SPLU.GroupsStatus').innerHTML="<span style='color:red;'>"+SPLUi18n.StatusUnsavedGroups+"</span>";
     }
   }
   
@@ -5788,15 +5800,15 @@
       if(SPLUcurrentFilter=="All"){
         loadPlayers();
       }
-      document.getElementById('SPLU.GroupsStatus').innerHTML="<span style='color:red;'>You have unsaved groups.</span>";
+      document.getElementById('SPLU.GroupsStatus').innerHTML="<span style='color:red;'>"+SPLUi18n.StatusUnsavedGroups+"</span>";
     }
   }
   
   function saveGroups(){
-    document.getElementById('SPLU.GroupsStatus').innerHTML="Thinking...";
+    document.getElementById('SPLU.GroupsStatus').innerHTML=SPLUi18n.StatusThinking;
     document.getElementById('SPLU.PlayersStatus').innerHTML="";
     SPLUremote.Groups=SPLU.Groups;
-    saveSooty("SPLU.GroupsStatus","Thinking...","Saved",function(){});
+    saveSooty("SPLU.GroupsStatus",SPLUi18n.StatusThinking,SPLUi18n.StatusSaved,function(){});
   }
 
   function insertGroup(group){
