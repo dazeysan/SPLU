@@ -173,6 +173,10 @@
     daybeforeText=SPLUtempDate.toUTCString().slice(0,3);
     SPLUdateDayBefore=SPLUtempDate.toISOString().slice(0,10);
     
+    todayText=SPLUi18n['Calendar'+todayText];
+    yesterdayText=SPLUi18n['Calendar'+yesterdayText];
+    daybeforeText=SPLUi18n['Calendar'+daybeforeText];
+    
     var tmpDiv=document.createElement('div');
     var tmpHTML='<div style="display:table;">'
       +'<div style="display:table-row;">'
@@ -922,7 +926,7 @@
         +'<div>'
           +'<input type="text" id="SPLU.PlaysLogger" value="'+LoggedInAs+'" onClick="javascript:{listFetchedPlayers();}" onKeyPress="eventPlaysPlayerEnter(event);"/>'
           +'<div style="display:inline-block; margin-left:2px;">'
-            +'<div style="background-color:lightgrey;width:120px;border:1px solid gray;border-radius:6px;padding:2px;cursor:pointer;height:15px"><span id="SPLU.GetNextText">'+SPLUi18n.PlaysGetNext+' 100</span> | <span  onclick="javascript:{if(document.getElementById(\'SPLUfetchDrop\').style.display==\'none\'){document.getElementById(\'SPLUfetchDrop\').style.display=\'\';}else{document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}}"><i style="float: right; height: 15px; background-color: lightgrey; margin-top: -2px; margin-right: 3px; padding: 4px 2px 0px;" class="fa">&#xf078;</i></span></div>'
+            +'<div style="background-color:lightgrey;border:1px solid gray;border-radius:6px;padding:2px;cursor:pointer;height:15px"><span id="SPLU.GetNextText">'+SPLUi18n.PlaysGetNext+' 100</span> | <span  onclick="javascript:{if(document.getElementById(\'SPLUfetchDrop\').style.display==\'none\'){document.getElementById(\'SPLUfetchDrop\').style.display=\'\';}else{document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}}"><i style="float: right; height: 15px; background-color: lightgrey; margin-top: -2px; margin-right: 3px; padding: 4px 2px 0px;" class="fa">&#xf078;</i></span></div>'
             +'<div style="position:absolute;border:1px solid blue;background-color:rgb(206,214,233);display:none;cursor:pointer;z-index:573;" id="SPLUfetchDrop">'
               +'<ul class="fa-ul" style="padding-right:8px;">'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{getRecentPlays(true);document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
