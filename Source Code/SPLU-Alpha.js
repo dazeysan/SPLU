@@ -2993,6 +2993,8 @@
   function getGamePlays(){
     if(SPLUgameID!=0){
       player=document.getElementById("SPLU.PlaysLogger").value;
+      removePlaysFilters("gamename");
+      window.setTimeout(function(){addPlaysFilter("gamename","="+document.getElementById('q546e9ffd96dfc').value);},500);
       fetchPlays(player,1,true,SPLUgameID,0);
     }
   }
@@ -3610,6 +3612,17 @@
       loadPlays(document.getElementById('SPLU.PlaysLogger').value,false);
     }
     return false;
+  }
+  
+  function removePlaysFilters(filter){
+    //Remove all of the plays filters that match filter
+    var list=document.getElementsByName('SPLU.PlaysFiltersLine');
+    for(i=list.length-1; i>=0; i--){
+      if(list[i].getAttribute('data-splu-filtertype')==filter){
+        var parent=list[i].parentNode;
+        parent.parentElement.removeChild(parent);
+      }
+    }
   }
   
   function addPlaysFilter(filter,filterVal){
