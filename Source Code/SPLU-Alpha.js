@@ -1,4 +1,4 @@
-// SPLU 5.6.00 Beta
+// SPLU 5.6.01 Alpha
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -12,7 +12,7 @@
     //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.6.00";
+    var SPLUversion="5.6.01";
 
     var SPLU={};
     var SPLUplayId="";
@@ -1536,8 +1536,11 @@
     }
     if (SPLUverifySave){
       console.log("Invalid data found and removed. Settings need to be saved.");
+      //document.getElementById('BRresults').innerHTML=SPLUi18n.StatusInvalidDataFoundandRemoved;
+      return true;
     }else{
       console.log("Settings look fine.");
+      return false;
     }
   }
   
@@ -1582,7 +1585,8 @@
         }
       }else{
         SPLU=JSON.parse(tmp.getElementsByTagName('comments')[0].textContent);
-        verifyData();
+        //Check for invalid data
+        var invaldData = verifyData();
         SPLUplayId=tmp.getElementsByTagName("play")[0].id;
         if(SPLUversion != SPLU.Version){
           console.log("Different Versions");
@@ -1596,6 +1600,10 @@
           });
         }else{
           fetchLanguageFile(SPLU.Settings.i18n);
+          //Update the saved data if invalid settings were found, but we don't need to if we've updated the version as it will save the new data anyways.
+          if (invalidData){
+            saveSooty("BRresults",SPLUi18n.StatusThinking,SPLUi18n.StatusInvalidDataFoundandRemoved,function(){});
+          }
         }
       }
       SPLUremote=SPLU;

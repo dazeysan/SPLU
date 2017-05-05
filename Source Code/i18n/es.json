@@ -261,6 +261,7 @@
   "StatusUnsavedGroupsFilters": "Hay grupos y/o filtros sin salvar.",
   "StatusUnsavedGroups": "Hay grupos sin salvar.",
   "StatusUnsavedFilters": "Hay filtros sin salvar.",
+  "StatusInvalidDataFoundandRemoved": "Invalid data found and removed, check your settings.",
   "CommentLoggedAsPartOfThis": "Logged as part of this",
   "CommentParentPlay": "Parent Play"
 }

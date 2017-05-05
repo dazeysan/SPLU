@@ -260,6 +260,7 @@
   "StatusUnsavedGroupsFilters": "You have unsaved groups and/or filters.",
   "StatusUnsavedGroups": "You have unsaved groups.",
   "StatusUnsavedFilters": "You have unsaved filters.",
+  "StatusInvalidDataFoundandRemoved": "Invalid data found and removed, check your settings.",
   "CommentLoggedAsPartOfThis": "Logged as part of this",
   "CommentParentPlay": "Parent Play"
 }
