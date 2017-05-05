@@ -1586,7 +1586,7 @@
       }else{
         SPLU=JSON.parse(tmp.getElementsByTagName('comments')[0].textContent);
         //Check for invalid data
-        var invaldData = verifyData();
+        var invalidData = verifyData();
         SPLUplayId=tmp.getElementsByTagName("play")[0].id;
         if(SPLUversion != SPLU.Version){
           console.log("Different Versions");
