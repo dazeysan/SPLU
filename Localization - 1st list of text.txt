@@ -1,0 +1,292 @@
+Text Needed:
+--Pikaday--
+Previous Month
+Next Month
+January
+February
+March
+April
+May
+June
+July
+August
+September
+October
+November
+December
+Monday
+Tuesday
+Wednesday
+Thursday
+Friday
+Saturday
+Sunday
+Mon
+Tue
+Wed
+Thu
+Fri
+Sat
+Sun
+
+--Main Window--
+Mon
+Tue
+Wed
+Thu
+Fri
+Sat
+Sun
+Quantity
+Duration
+Incomplete
+No Win Stats
+BGG
+VGG
+RPG
+Item
+write a comment
+enter board game
+Players
+All
+All Groups
+Other
+Name
+Username
+Team\nColor
+Start\nPos
+Score
+Rate
+Win
+New
+Submit
+Submit & Duplicate
+Tweet This
+
+--Settings Pane--
+Settings
+Area
+Visible
+Reset
+Date
+Location
+Saved Location List
+Quantity
+Duration
+Incomplete
+No Win Stats
+Tweet This
+Comments
+Game
+Domain Buttons
+Saved Player Names
+Enable Filters
+Enable Groups
+Player Columns
+Name
+Username
+Team / Color
+Starting Position
+Score
+Rating
+Win
+New
+Other Stuff
+Pop-Up Text
+Summary Sentence
+Noreen's Win Comments
+Sort Players: Alpha
+Sort Groups: Alpha
+Log Details with Expansions
+List Expansions in Comments
+Exclude Expansions from Win Stats
+Link Expansions to Parent Play
+Tweeting on by default
+Default Player
+none
+blank
+Default Location
+Save Settings
+
+--Favorites Pane--
+Favorites
+You have $1 Favorites
+
+--Players Pane--
+Saved Players
+Players
+Name
+Username
+Color
+Save
+New
+Filters
+Name
+Username
+Save Filters
+Add a new Filter
+Groups
+Save Groups
+Add a new Group
+
+--Locations Pane--
+Saved Locations
+Save
+New
+
+--Expansions Pane--
+Expansion Logging
+Expansions
+Family
+Expansion Play Quantity
+OK
+Clear Selection
+
+--Logged Plays Pane--
+Logged Plays
+Get next (100)
+Get -game-
+Get Recent
+Loaded $1 of $2
+Load next (100)
+Showing (100)
+Add a Filter
+Game
+Player
+Username
+Location
+Date Range
+Winner
+New
+Score
+Duration
+Player Count
+Type of Game
+Comments
+Expansions
+No-Win-Stats
+Incomplete
+go
+Begin
+End
+Exactly
+Less Than
+Greater Than
+Contains
+Type
+Board
+Video
+RPG
+Exclude
+Only
+Copy Selected Plays
+Copying $1 of $2
+Copied $1 of $2
+Finished
+
+--Stats View--
+Stat
+Wins
+Player
+Plays
+Wins
+Average
+Wins by Game
+Player
+Game
+Plays
+Wins
+Average
+Beginner's Luck
+Player
+New & Won
+Game List
+Game
+Plays
+Game Details
+Include Zeros
+Stat
+Avg
+Low
+High
+Plays
+Player
+Plays
+Wins
+Low
+High
+AvgPts
+AvgWins
+Locations
+Location
+Plays
+Days Since...
+Game
+Days
+
+--Pop-up Text--
+Submit and Clear All Fields
+Submit but Keep Player Data Onscreen
+Choose from your Favorites list
+Add to Favorites
+Add currently selected Game, Location, Players, and Expansions to Favorites
+Log an expansion
+Check these items to clear their values when you press <b>Submit & Duplicate</b>
+Date will also reset when clicking <b>Submit</b>
+Shut this Drawer
+Shut this Drawer
+Shut this Drawer
+Reset all settings to default.  Close and re-open SPLU after clicking this.
+Edit Players
+Edit Locations
+Save This Location
+View/Edit Play History
+Reset All Fields
+Delete this Play
+Enter Multi-Copy Mode
+Copy the selected plays to your own plays.
+Select All Plays
+Deselect All Plays
+
+--innerHTMLs--
+Logged
+Thinking
+Error Code
+Thinking...
+Saved
+Updating Version...
+Version Updated to
+Added
+Deleted
+Settings Reset. Please close SPLU.
+Searching...
+Deleting...
+Play Deleted.
+View you plays
+An Error Occured
+Timed Out. Try Again.
+Copied $1 of $2
+Hit a snag.
+Keep Going?
+Copying $1 of $2
+Hey! You didn't choose a game.
+Saving...
+Error. Try Again.
+Invalid Date
+Fetching Page $1 of ??
+of
+Fetching plays from
+No Plays Found.
+load more...
+No Expansions Found.
+Loading Expansions...
+Expansions Selected
+No Family Items Found.
+Loading Family Items...
+Waiting for $1 expansions to be logged.
+You have $1 Favorites.
+You have unsaved groups and/or filters.
+You have unsaved groups.
+You have unsaved filters.
+
+

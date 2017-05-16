@@ -1431,6 +1431,104 @@
     SPLU=SPLUtemp;
     return;
   }
+
+  function verifyData(){
+    SPLUverifySave=false;
+    SPLUverifyDefaultPlayer=false;
+    for (var key in SPLU.Players) {
+      if (SPLU.Players.hasOwnProperty(key)) {
+        //console.log(key);
+        if (SPLU.Settings.DefaultPlayer.Name==key){
+          SPLUverifyDefaultPlayer=true;
+          //console.log("Default Player Found: "+key);
+        }
+      }
+    }
+    for (var key in SPLU.Groups) {
+      if (SPLU.Groups.hasOwnProperty(key)) {
+        //console.log(key);
+        if (SPLU.Settings.DefaultPlayer.Name=="group-"+key){
+          SPLUverifyDefaultPlayer=true;
+          //console.log("Default Player Found: group-"+key);
+        }
+      }
+    }
+    if (!SPLUverifyDefaultPlayer){
+      console.log("Default Player not found, resetting to -blank-");
+      SPLU.Settings.DefaultPlayer.Name="-blank-";
+      SPLUverifySave=true;
+    }
+    if (SPLU.Locations[SPLU.Settings.DefaultLocation.Name]===undefined){
+      console.log("location not found, setting to -blank-");
+      SPLU.Settings.DefaultLocation.Name="-blank-";
+      SPLUverifySave=true;
+    }else{
+      //console.log("location found: "+SPLU.Settings.DefaultLocation.Name);
+    }
+    for (var keyG in SPLU.Groups) {
+      if (SPLU.Groups.hasOwnProperty(keyG)) {
+        //console.log(keyG);
+        for (i=SPLU.Groups[keyG].length-1; i>=0; i--){
+          //console.log(" - "+SPLU.Groups[keyG][i]);
+          var SPLUtmpVerify=false;
+          for (var key in SPLU.Players) {
+            if (SPLU.Players.hasOwnProperty(key)) {
+              if (SPLU.Groups[keyG][i]==key){
+                SPLUtmpVerify=true;
+                //console.log("Group Player Found: "+key);
+                break;
+              }
+            }
+          }
+          if (!SPLUtmpVerify){
+            console.log("Group Player Not Found, Removing");
+            SPLU.Groups[keyG].splice(i, 1);
+            SPLUverifySave=true;
+          }
+        }
+      }
+    }
+    for (var keyF in SPLU.Filters) {
+      if (SPLU.Filters.hasOwnProperty(keyF)) {
+        //console.log(keyF);
+        for (i=SPLU.Filters[keyF].length-1; i>=0; i--){
+          //console.log(" - "+SPLU.Filters[keyF][i]);
+          var SPLUtmpVerify=false;
+          for (var key in SPLU.Players) {
+            if (SPLU.Players.hasOwnProperty(key)) {
+              if (SPLU.Filters[keyF][i]==key){
+                SPLUtmpVerify=true;
+                //console.log("Filter Player Found: "+key);
+                break;
+              }
+            }
+          }
+          for (var key in SPLU.Groups) {
+            if (SPLU.Groups.hasOwnProperty(key)) {
+              if (SPLU.Filters[keyF][i]=="group-"+key){
+                SPLUtmpVerify=true;
+                //console.log("Filter Player Found: group-"+key);
+                break;
+              }
+            }
+          }
+          if (!SPLUtmpVerify){
+            console.log("Filter Player Not Found, Removing");
+            SPLU.Filters[keyF].splice(i, 1);
+            SPLUverifySave=true;
+          }
+        }
+      }
+    }
+    if (SPLUverifySave){
+      console.log("Invalid data found and removed. Settings need to be saved.");
+      //document.getElementById('BRresults').innerHTML=SPLUi18n.StatusInvalidDataFoundandRemoved;
+      return true;
+    }else{
+      console.log("Settings look fine.");
+      return false;
+    }
+  }
   
   function fetchSaveData(){
     var tmp="";
@@ -1473,6 +1571,7 @@
         }
       }else{
         SPLU=JSON.parse(tmp.getElementsByTagName('comments')[0].textContent);
+        //Check for invalid data
         SPLUplayId=tmp.getElementsByTagName("play")[0].id;
         if(SPLUversion != SPLU.Version){
           console.log("Different Versions");
@@ -1485,6 +1584,7 @@
             finalSetup();
           });
         }else{
+          //Update the saved data if invalid settings were found, but we don't need to if we've updated the version as it will save the new data anyways.
           finalSetup();
         }
       }
