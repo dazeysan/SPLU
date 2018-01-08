@@ -4985,6 +4985,7 @@
     setObjectType(tmpPlay.getElementsByTagName("subtypes")[0].getElementsByTagName("subtype")[0].getAttribute("value"));
     tmpItem=tmpPlay.getElementsByTagName("item")[0];
     document.getElementById('objectid9999').value=tmpPlay.getElementsByTagName('item')[0].getAttribute('objectid');
+    SPLUgameID=tmpPlay.getElementsByTagName('item')[0].getAttribute('objectid');
     document.getElementById('q546e9ffd96dfc').value=tmpPlay.getElementsByTagName('item')[0].getAttribute('name');
     getRepImage(tmpItem.attributes.objectid.value, 'selimage9999');
     if(document.getElementById("SPLU.PlaysLogger").value==LoggedInAs&&!SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][id].deleted){
