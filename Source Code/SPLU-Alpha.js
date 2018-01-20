@@ -1545,6 +1545,8 @@
   }
   
   function fetchSaveData(){
+    document.getElementById("BRresults").innerHTML="Fetching save data.";
+    window.setTimeout(function(){ document.getElementById("BRresults").innerHTML=""; }, 900);
     var tmp="";
     var oReq = new XMLHttpRequest();
     oReq.onload = function(){
@@ -1626,6 +1628,13 @@
         }
       }
       SPLUremote=SPLU;
+    };
+    oReq.timeout = 1000;
+    oReq.ontimeout = function (e) {
+      //Timed out fetching Sooty plays
+      console.log("Timed out fetching Sooty plays");
+      document.getElementById("BRresults").innerHTML="Timed out fetching save data, retrying in 5 seconds.";
+      window.setTimeout(function(){ fetchSaveData(); }, 5000);
     };
     oReq.open("get","/geekplay.php?action=getplays&ajax=1&currentUser=true&objecttype=thing&pageID=1&showcount=10&objectid=98000&maxdate=1452-04-15&mindate=1452-04-15",true);
     //oReq.open("get", "/xmlapi2/plays?username="+LoggedInAs+"&mindate=1452-04-15&maxdate=1452-04-15&id=98000", true);
