@@ -1569,21 +1569,35 @@
             "Groups":{}
           };
           resetSettings();
+          tmpPlay = {
+            "action": "save"
+            "ajax": 1
+            "comments": JSON.stringify(SPLU)
+            "objectid": "98000"
+            "objecttype": "thing"
+            "playdate": "1452-04-15"
+            "quantity": 0
+            "twitter": false
+          }
           xmlhttp=new XMLHttpRequest();
           xmlhttp.onload=function(){
-            var tmp2="";
-            var oReq2 = new XMLHttpRequest();
-            oReq2.onload = function(){
-              tmp2=this.responseXML;
-              SPLUplayId=tmp2.getElementsByTagName("play")[0].id;
+            //var tmp2="";
+            //var oReq2 = new XMLHttpRequest();
+            //oReq2.onload = function(){
+              //tmp2=this.responseXML;
+              SPLUplayId=JSON.parse(xmlhttp.response).playid
+              //SPLUplayId=tmp2.getElementsByTagName("play")[0].id;
               fetchLanguageFile(SPLU.Settings.i18n);
-            };
-            oReq2.open("get", "/xmlapi2/plays?username="+LoggedInAs+"&mindate=1452-04-15&maxdate=1452-04-15&id=98000", true);
-            oReq2.send();
+            //};
+            //oReq2.open("get", "/xmlapi2/plays?username="+LoggedInAs+"&mindate=1452-04-15&maxdate=1452-04-15&id=98000", true);
+            //oReq2.send();
           };
           xmlhttp.open("POST","/geekplay.php",true);
-          xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-          xmlhttp.send("version=2&objecttype=thing&objectid=98000&action=save&quantity=0&comments="+fixedEncodeURIComponent(JSON.stringify(SPLU))+"&playdate=1452-04-15&B1=Save");
+          xmlhttp.setRequestHeader("Content-type","application/json;charset=utf-8");
+          xmlhttp.setRequestHeader("Accept","application/json, text/plain, */*");
+          xmlhttp.send(JSON.stringify(tmpPlay));
+          //xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+          //xmlhttp.send("version=2&objecttype=thing&objectid=98000&action=save&quantity=0&comments="+fixedEncodeURIComponent(JSON.stringify(SPLU))+"&playdate=1452-04-15&B1=Save");
         }
       }else{
         SPLU=JSON.parse(tmp.plays[0].comments.value);
