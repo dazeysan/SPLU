@@ -2924,6 +2924,8 @@
   }
   
   function saveGamePlay(action){
+    document.getElementById("SPLU.Plays-"+SPLUcurrentPlayShown).childNodes[tmpChild].style.backgroundColor="";
+    SPLUcurrentPlayShown="0"
     var form=document.forms['SPLUform'];
     var inputs=form.getElementsByTagName('input');
     var querystring="";
