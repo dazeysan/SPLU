@@ -1570,14 +1570,14 @@
           };
           resetSettings();
           tmpPlay = {
-            "action": "save"
-            "ajax": "1"
-            "comments": JSON.stringify(SPLU)
-            "objectid": "98000"
-            "objecttype": "thing"
-            "playdate": "1452-04-15"
-            "quantity": "0"
-            "twitter": "false"
+            "action":"save",
+            "ajax":"1",
+            "comments":JSON.stringify(SPLU),
+            "objectid":"98000",
+            "objecttype":"thing",
+            "playdate":"1452-04-15",
+            "quantity":"0",
+            "twitter":"false"
           }
           xmlhttp=new XMLHttpRequest();
           xmlhttp.onload=function(){
