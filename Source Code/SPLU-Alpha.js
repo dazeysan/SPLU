@@ -1551,7 +1551,8 @@
       tmp=JSON.parse(this.response);
       //tmp=this.responseXML;
       //if(tmp.getElementsByTagName('comments').length==0){
-      if(tmp.plays[0].comments.value.length==0){
+      //if(tmp.plays[0].comments.value.length==0){
+      if(tmp.plays[0]===undefined){
         if(false){
           window.setTimeout(function(){fetchSaveData();},250);
           return;
