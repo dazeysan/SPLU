@@ -1607,11 +1607,11 @@
         var invalidData = verifyData();
         SPLUplayId=tmp.plays[0].playid;
         //SPLUplayId=tmp.getElementsByTagName("play")[0].id;
+        SPLUremote=SPLU;
         if(SPLUversion != SPLU.Version){
           console.log("Different Versions");
           compareSPLU();
           SPLU.Version=SPLUversion;
-          SPLUremote=SPLU;
           delete SPLU.GameStats;
           tmp=SPLUi18n.StatusVersionUpdatedTo+SPLU.Version;
           saveSooty("BRresults",SPLUi18n.StatusUpdatingVersion,tmp,function(){
