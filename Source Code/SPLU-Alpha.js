@@ -1548,8 +1548,10 @@
     var tmp="";
     var oReq = new XMLHttpRequest();
     oReq.onload = function(){
-      tmp=this.responseXML;
-      if(tmp.getElementsByTagName('comments').length==0){
+      tmp=JSON.parse(this.response);
+      //tmp=this.responseXML;
+      //if(tmp.getElementsByTagName('comments').length==0){
+      if(tmp.plays[0].comments.value.length==0){
         if(false){
           window.setTimeout(function(){fetchSaveData();},250);
           return;
@@ -1584,7 +1586,8 @@
           xmlhttp.send("version=2&objecttype=thing&objectid=98000&action=save&quantity=0&comments="+fixedEncodeURIComponent(JSON.stringify(SPLU))+"&playdate=1452-04-15&B1=Save");
         }
       }else{
-        SPLU=JSON.parse(tmp.getElementsByTagName('comments')[0].textContent);
+        SPLU=JSON.parse(tmp.plays[0].comments.value);
+        //SPLU=JSON.parse(tmp.getElementsByTagName('comments')[0].textContent);
         //Check for invalid data
         var invalidData = verifyData();
         SPLUplayId=tmp.getElementsByTagName("play")[0].id;
@@ -1608,7 +1611,8 @@
       }
       SPLUremote=SPLU;
     };
-    oReq.open("get", "/xmlapi2/plays?username="+LoggedInAs+"&mindate=1452-04-15&maxdate=1452-04-15&id=98000", true);
+    oReq.open("get","/geekplay.php?action=getplays&ajax=1&currentUser=true&objecttype=thing&pageID=1&showcount=10&objectid=98000&maxdate=1452-04-15&mindate=1452-04-15",true);
+    //oReq.open("get", "/xmlapi2/plays?username="+LoggedInAs+"&mindate=1452-04-15&maxdate=1452-04-15&id=98000", true);
     oReq.send();
   }
 
