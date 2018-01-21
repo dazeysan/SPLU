@@ -212,6 +212,7 @@
   "PopupButtonEditPlayers": "Editar jugadores",
   "PopupButtonEditLocations": "Editar lugares",
   "PopupButtonSaveLocation": "Guardar este lugar",
+  "PopupButtonSavePlayer": "Guardar este jugador",
   "PopupButtonViewPlays": "Ver/Editar historial de partidas",
   "PopupButtonResetForm": "Resetear todos los campos",
   "PopupButtonDeletePlay": "Borrar esta partida",
