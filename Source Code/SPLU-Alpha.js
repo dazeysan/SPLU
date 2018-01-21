@@ -2927,7 +2927,7 @@
     try{
       document.getElementById("SPLU.Plays-"+SPLUcurrentPlayShown).childNodes[tmpChild].style.backgroundColor="";
     } catch(err) {
-      continue;
+      //Nothing
     }
     SPLUcurrentPlayShown="0"
     var form=document.forms['SPLUform'];
