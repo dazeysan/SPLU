@@ -716,7 +716,7 @@
       +'<div style="display:table; padding-top:15px;">'
       +'<div style="display:table-row;">'
       +'<div style="display:table-cell; padding-right:10px;">'
-      +'<a href="javascript:{void(0);}" onClick="javascript:{saveSettings(\'Saved\');}" class="BRbutn" style="border:2px solid black;padding:2px 4px;border-radius:5px;background-color:lightGrey; color:black;">'+SPLUi18n.SettingsSave+'</a>'
+      +'<a href="javascript:{void(0);}" onClick="javascript:{saveSettings(\''+SPLUi18n.StatusSaved+'\');}" class="BRbutn" style="border:2px solid black;padding:2px 4px;border-radius:5px;background-color:lightGrey; color:black;">'+SPLUi18n.SettingsSave+'</a>'
       +'</div>'
       +'<div style="display:table-cell;width:135px;" id="SPLU.SettingsStatus"></div>'
       +'<div style="display:table-cell;" id="SPLU.SettingsReset">'
