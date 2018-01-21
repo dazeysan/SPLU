@@ -1070,7 +1070,7 @@
     listenerForPopText("favoritesGoTo",SPLUi18n.PopupButtonFavorites);
     listenerForPopText("favoritesAddToList",SPLUi18n.PopupButtonAddFavorite);
     listenerForPopText("favoritesCustomAddToList",SPLUi18n.PopupButtonAddFavorite2);
-    listenerForPopText("expansionLoggingButton",SPLUi18n.PopupExpansions);
+    listenerForPopText("expansionLoggingButton",SPLUi18n.PopupButtonExpansions);
     listenerForPopText("ResetSettingsOption",SPLUi18n.PopupTextSettingsReset);
     listenerForPopText("SPLU.DateFieldReset",SPLUi18n.PopupFieldSettingsResetDate);
     listenerForPopText("hideSettingsButton",SPLUi18n.PopupButtonShutPane);
