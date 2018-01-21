@@ -5762,14 +5762,16 @@
       playersColor=document.getElementById('SPLUplayerColor'+p).value;
       playersID=document.getElementById('SPLUplayerID'+p).value;
       if(players[i].value!=""||playersUsername!=""){
-        tmp=Math.random();
-        if(players[i].value==""){
-          tmpPlayersID=playersUsername.replace(/ /g,'').toLowerCase()+tmp.toString().slice(-4);
-        }else{
-          tmpPlayersID=players[i].value.replace(/ /g,'').toLowerCase()+tmp.toString().slice(-4);
-        }
-        if(playersID.slice(0,-4)!=tmpPlayersID.slice(0,-4)){
-          playersID=tmpPlayersID;
+        if(playersID == -1) {
+          tmp=Math.random();
+          if(players[i].value==""){
+            tmpPlayersID=playersUsername.replace(/ /g,'').toLowerCase()+tmp.toString().slice(-4);
+          }else{
+            tmpPlayersID=players[i].value.replace(/ /g,'').toLowerCase()+tmp.toString().slice(-4);
+          }
+          if(playersID.slice(0,-4)!=tmpPlayersID.slice(0,-4)){
+            playersID=tmpPlayersID;
+          }
         }
         SPLU.Players[(playersID)]={"Name":encodeURIComponent(players[i].value),"Username":encodeURIComponent(playersUsername),"Color":encodeURIComponent(playersColor)};
       }
