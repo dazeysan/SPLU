@@ -2924,7 +2924,11 @@
   }
   
   function saveGamePlay(action){
-    document.getElementById("SPLU.Plays-"+SPLUcurrentPlayShown).childNodes[tmpChild].style.backgroundColor="";
+    try{
+      document.getElementById("SPLU.Plays-"+SPLUcurrentPlayShown).childNodes[tmpChild].style.backgroundColor="";
+    } catch(err) {
+      continue;
+    }
     SPLUcurrentPlayShown="0"
     var form=document.forms['SPLUform'];
     var inputs=form.getElementsByTagName('input');
