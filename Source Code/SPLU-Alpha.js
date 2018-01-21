@@ -5092,9 +5092,7 @@
       if(PlayerCount==1&&NumOfPlayers!=1){
         sentence+="solo ";
       }
-      if(document.getElementById('quickplay_quantity99').value==1){
-        sentence+="play of ";  
-      }
+      sentence+="play of ";  
     }else{
       sentence+=document.getElementById('quickplay_quantity99').value;
       if(PlayerCount==1&&NumOfPlayers!=1){
@@ -5169,17 +5167,18 @@
         sentence+=" The game lasted ";
         sentence+=document.getElementById('quickplay_duration99').value;
 
-        if(document.getElementById('quickplay_duration99').value<5){
-          sentence+=" whole";
-        }
         if(document.getElementById('quickplay_duration99').value==1){
           sentence+=" minute.";
         }else{
           sentence+=" minutes.";
-        }  
-        if(document.getElementById('quickplay_quantity99').value>1){
-          sentence+=" Each game lasted ";
-          sentence+=document.getElementById('quickplay_duration99').value;
+        }
+      }
+      if(document.getElementById('quickplay_quantity99').value>1){
+        sentence+=" Each game lasted ";
+        sentence+=document.getElementById('quickplay_duration99').value;
+        if(document.getElementById('quickplay_duration99').value==1){
+          sentence+=" minute.";
+        }else{
           sentence+=" minutes.";
         }
       }
