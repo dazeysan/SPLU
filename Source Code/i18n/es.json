@@ -290,6 +290,6 @@
   "SummarySentence_The_game_lasted_1_minute": " The game lasted 1 minute.",
   "SummarySentence_The_game_lasted_plural_minutes": " The game lasted $1 minutes.",
   "SummarySentence_Each_game_lasted_1_minute": " Each game lasted 1 minute.",
-  "SummarySentence_The_game_lasted_plural_minutes": " Each game lasted $1 minutes.",
+  "SummarySentence_Each_game_lasted_plural_minutes": " Each game lasted $1 minutes.",
   "SummarySentence_Nicely_done": " Nicely done!"
 }
