@@ -5086,106 +5086,115 @@
     document.getElementById('SPLU.SummaryTextField').style.display="block";
     var SPLUselectedDate=new Date(document.getElementById('playdate99').value);
     var sentence="";
-    sentence="You are logging ";
-    if(document.getElementById('quickplay_quantity99').value==1){
-      sentence+="a ";
-      if(PlayerCount==1&&NumOfPlayers!=1){
-        sentence+="solo ";
-      }
-      sentence+="play of ";  
-    }else{
-      sentence+=document.getElementById('quickplay_quantity99').value;
-      if(PlayerCount==1&&NumOfPlayers!=1){
-        sentence+=" solo ";
-      }
-      sentence+=" plays of ";
-    }
-    sentence+=document.getElementById('q546e9ffd96dfc').value;
-    sentence+=", which you played";
+    
+    SenQty = document.getElementById('quickplay_quantity99').value;
+    SenGame = document.getElementById('q546e9ffd96dfc').value;
+    SenLoc = document.getElementById('SPLU_PlayedAt').value;
+    SenDur = document.getElementById('quickplay_duration99').value;
+    SenDate = "";
     if(document.getElementById('playdateinput99').value==SPLUtoday){
-      sentence+=" today";
+      SenDate = SPLUi18n.SummarySentence_today;
+    }else if((SPLUtodayDateZero.getTime()-86400000)==SPLUselectedDate.getTime()){
+      SenDate = SPLUi18n.SummarySentence_yesterday;
+    }else if(SPLUtodayDateZero.getTime()<SPLUselectedDate.getTime()){
+      SenDate = "<span style='background-color:red; color:white; font-weight:bold;'>"+SPLUi18n.SummarySentence_in_the_future+"</span>";
+    }else if((SPLUtodayDateZero.getTime()-SPLUselectedDate.getTime())>3155673600000){
+      SenDate = "<span style='background-color:yellow; color:black; font-weight:bold;'>"+SPLUi18n.SummarySentence_before_you_were_born+"</span>";
+    }else if((SPLUtodayDateZero.getTime()-SPLUselectedDate.getTime())>315567360000){
+      SenDate = "<span style='background-color:yellow; color:black; font-weight:bold;'>"+SPLUi18n.SummarySentence_over_a_decade_ago+"</span>";
+    }else if((SPLUtodayDateZero.getTime()-SPLUselectedDate.getTime())>31556735999){
+      SenDate = "<span style='background-color:yellow; color:black; font-weight:bold;'>"+SPLUi18n.SummarySentence_over_a_year_ago+"</span>";
     }else{
-      if((SPLUtodayDateZero.getTime()-86400000)==SPLUselectedDate.getTime()){
-        sentence+=" yesterday";
-      }else{
-        if(SPLUtodayDateZero.getTime()<SPLUselectedDate.getTime()){
-          sentence+=" <span style='background-color:red; color:white; font-weight:bold;'>IN THE FUTURE</span>";
-        }else{
-          if((SPLUtodayDateZero.getTime()-SPLUselectedDate.getTime())>3155673600000){
-            sentence+=" <span style='background-color:yellow; color:black; font-weight:bold;'>BEFORE YOU WERE BORN</span>";
-          }else{
-            if((SPLUtodayDateZero.getTime()-SPLUselectedDate.getTime())>315567360000){
-              sentence+=" <span style='background-color:yellow; color:black; font-weight:bold;'>OVER A DECADE AGO</span>";
-            }else{
-              if((SPLUtodayDateZero.getTime()-SPLUselectedDate.getTime())>31556735999){
-                sentence+=" <span style='background-color:yellow; color:black; font-weight:bold;'>OVER A YEAR AGO</span>";
-              }else{
-                sentence+=" on ";
-                sentence+=document.getElementById('playdate99').value;
-              }
-            }
-          }
-        }
-      }
+      SenDate = SPLUi18n.SummarySentence_on_date.replace("$1", document.getElementById('playdate99').value);
     }
-    if(document.getElementById('SPLU_PlayedAt').value!=""){
-      sentence+=" in "; 
-      sentence+=document.getElementById('SPLU_PlayedAt').value;
-      sentence+=".";
-    }else{
-      sentence+=".";
-    }
-    if(PlayerCount>1){
-      sentence+=" There were ";
-      sentence+=PlayerCount;
-      sentence+=" players";
-    }
-    getWinners();
-    if(SPLUwinners.length==0&&PlayerCount>1){
-      sentence+=".";
-    }
-    if(SPLUwinners.length==1&&PlayerCount>1){
-      sentence+=" and "+SPLUwinners[0]+" won.";
-    }
-    if(SPLUwinners.length==2&&PlayerCount!=2){
-      sentence+=" and the winners were "+SPLUwinners[0]+" and "+SPLUwinners[1]+".";
-    }
-    if(SPLUwinners.length==3&&SPLUwinners.length!=PlayerCount){
-      sentence+=" and the winners were "+SPLUwinners[0]+", "+SPLUwinners[1]+", and "+SPLUwinners[2]+".";
-    }
-    if(SPLUwinners.length==2&&PlayerCount==2){
-      sentence+=" and they both won.";
-    }
-    if(SPLUwinners.length==PlayerCount&&PlayerCount>2){
-      sentence+=" and everybody won.";
-    }
-    if(SPLUwinners.length>3&&SPLUwinners.length!=PlayerCount){
-      sentence+=" and many winners.";
-    }
-    if(document.getElementById('quickplay_duration99').value!="" && document.getElementById('quickplay_duration99').value!=0){
-      if(document.getElementById('quickplay_quantity99').value==1){
-        sentence+=" The game lasted ";
-        sentence+=document.getElementById('quickplay_duration99').value;
 
-        if(document.getElementById('quickplay_duration99').value==1){
-          sentence+=" minute.";
-        }else{
-          sentence+=" minutes.";
+    if(PlayerCount == 1) { //Solo play
+      if(SenQty == 1) { //Quantity 1
+        if(SenLoc != "") { //Solo play, quantity 1, location specified
+          sentence = SPLUi18n.SummarySentence_You_are_logging_a_solo_play_of_in_location;
+        } else { //Solo play, quantity 1, no location
+          sentence = SPLUi18n.SummarySentence_You_are_logging_a_solo_play_of;
         }
+      } else { //More/less than 1 quantity
+        if(SenLoc != "") { //Solo play, more/less than 1 quantity, location specified
+          sentence = SPLUi18n.SummarySentence_You_are_logging_plural_solo_plays_of_in_location;
+        } else { //Solo play, more/less than 1 quantity, no location
+          sentence = SPLUi18n.SummarySentence_You_are_logging_plural_solo_plays_of;
+        }
+      }   
+    } else { //Multiple players
+      if(SenQty == 1) { //Quantity 1
+        if(SenLoc != "") { //Multiple players, quantity 1, location specified
+          sentence = SPLUi18n.SummarySentence_You_are_logging_a_play_of_in_location;
+        } else { //Multiple players, quantity 1, no location
+          sentence = SPLUi18n.SummarySentence_You_are_logging_a_play_of;
+        }
+      } else { //More/less than 1 quantity
+        if(SenLoc != "") { //Multiple players, more/less than 1 quantity, location specified
+          sentence = SPLUi18n.SummarySentence_You_are_logging_plural_plays_of_in_location;
+        } else { //Multiple players, more/less than 1 quantity, no location
+          sentence = SPLUi18n.SummarySentence_You_are_logging_plural_plays_of;
+        }
+      }   
+    }
+    
+    sentence = sentence.replace("$1",  SenQty);  //$1 = Quantity field
+    sentence = sentence.replace("$2",  SenGame);  //$2 = Game Title
+    sentence = sentence.replace("$3",  SenDate);  //$3 = Calculated date, today, yesterday, IN THE FUTURE, etc.
+    sentence = sentence.replace("$4",  SenLoc);  //$4 = Location field
+    
+    var sentence2="";
+    getWinners();
+    if(PlayerCount>1){
+      if(SPLUwinners.length==0&&PlayerCount>1){ //Multiple players and no winners.
+        sentence2+=SPLUi18n.SummarySentence_There_were_plural_players;
+      }else if(SPLUwinners.length==1&&PlayerCount>1){ //Multiple players and 1 winner.
+      sentence2+=SPLUi18n.SummarySentence_There_were_plural_players_and_1_winner;
+      sentence2=sentence2.replace("$2", SPLUwinners[0]);  //$2 = First winner
+      }else if(SPLUwinners.length==2&&PlayerCount!=2){ //Multiple players and 2 winners.
+        sentence2+=SPLUi18n.SummarySentence_There_were_plural_players_and_2_winners;
+        sentence2=sentence2.replace("$2", SPLUwinners[0]);
+        sentence2=sentence2.replace("$3", SPLUwinners[1]);  //$3 = Second winner
+      }else if(SPLUwinners.length==3&&PlayerCount!=3){ //Multiple players and 3 winners.
+        sentence2+=SPLUi18n.SummarySentence_There_were_plural_players_and_3_winners;
+        sentence2=sentence2.replace("$2", SPLUwinners[0]);
+        sentence2=sentence2.replace("$3", SPLUwinners[1]);
+        sentence2=sentence2.replace("$4", SPLUwinners[2]);  //$4 = Third winner
+      }else if(SPLUwinners.length==2&&PlayerCount==2){ //2 players and 2 winners.
+        sentence2+=SPLUi18n.SummarySentence_There_were_2_players_and_2_winners;
+      }else if(SPLUwinners.length==PlayerCount&&PlayerCount>2){ //Multiple players and everybody won.
+        sentence2+=SPLUi18n.SummarySentence_There_were_plural_players_and_all_won;
+      }else if(SPLUwinners.length>3&&SPLUwinners.length!=PlayerCount){ //Multiple players and more than 3 winners.
+        sentence2+=SPLUi18n.SummarySentence_There_were_plural_players_and_many_winners;
       }
-      if(document.getElementById('quickplay_quantity99').value>1){
-        sentence+=" Each game lasted ";
-        sentence+=document.getElementById('quickplay_duration99').value;
-        if(document.getElementById('quickplay_duration99').value==1){
-          sentence+=" minute.";
-        }else{
-          sentence+=" minutes.";
+    }
+    sentence2=sentence2.replace("$1", PlayerCount);  //$1 = the number of players
+    
+    var sentence3 = "";
+    if(SenDur != "" && SenDur != 0) { //There is a duration
+      if(SenQty == 1) { //Quantity 1
+        if(SenDur == 1) { //Duration 1 minute, Quantity 1
+          sentence3 = SPLUi18n.SummarySentence_The_game_lasted_1_minute;
+        } else { //Duration other than 1 minute, Quantity 1
+          sentence3 = SPLUi18n.SummarySentence_The_game_lasted_plural_minutes;
+        }
+      } else { //Quantity not 1
+        if(SenDur == 1) { //Duration 1 minute, Quantity not 1
+          sentence3 = SPLUi18n.SummarySentence_Each_game_lasted_1_minute;
+        } else { //Duration other than 1 minute, Quantity not 1
+          sentence3 = SPLUi18n.SummarySentence_Each_game_lasted_plural_minutes;
         }
       }
     }
-    if(PlayerCount==1&&NumOfPlayers!=1){
-      sentence+=" Nicely done!";
+    sentence3=sentence3.replace("$1", SenDur); //$1 = Duration Field
+    
+    sentence += sentence2;
+    sentence += sentence3;
+    
+    if(PlayerCount==1){
+      sentence+=SPLUi18n.SummarySentence_Nicely_done;
     }
+    
     document.getElementById('SPLU.SummaryTextField').innerHTML=sentence;
   }
   
