@@ -1572,6 +1572,7 @@
       }else{
         SPLU=JSON.parse(tmp.getElementsByTagName('comments')[0].textContent);
         //Check for invalid data
+        //var invalidData = verifyData();
         SPLUplayId=tmp.getElementsByTagName("play")[0].id;
         if(SPLUversion != SPLU.Version){
           console.log("Different Versions");
@@ -1585,6 +1586,9 @@
           });
         }else{
           //Update the saved data if invalid settings were found, but we don't need to if we've updated the version as it will save the new data anyways.
+          //if (invalidData){
+          //  saveSooty("BRresults","Invalid data found, fixing","Invalid data removed.",function(){});
+          //}
           finalSetup();
         }
       }
