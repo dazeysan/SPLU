@@ -1054,7 +1054,8 @@
           +'</span>'
           +'<div id="SPLU.StatsPlayerDiv" style="display: none;">'+SPLUi18n.PlaysFilterPlayer+': <select class="fa" id="SPLU.SelectStatPlayer" onChange="javascript:{setWinsByGamePlayer(\'\');}"></select></div>'
         +'</div>'
-        +'<div id="SPLU.StatsContent" style="display:none;overflow-y: auto; width: 315px;"></div>';
+        +'<div id="SPLU.StatsContent" style="display:none;overflow-y: auto; width: 315px;"></div>'
+        +'<div id="SPLU.BackupPlaysXML"><input type="button" value="Backup loaded plays to XML file" onClick="javascipt:{downloadPlaysXML();}" /></div>';
     tmpDiv.innerHTML+=tmpHTML;
     BRlogPlays.appendChild(tmpDiv);
     
@@ -3204,6 +3205,25 @@
     oReq.open("get",getString,true);
     oReq.send();
   }
+  
+  function downloadPlaysXML() {
+    player=document.getElementById("SPLU.PlaysLogger").value;
+    console.log("Making text file for download.");
+    filename=player+"-PlaysBackup.txt";
+    textXML="";
+    for(var tmpkey in SPLUplays[player]){
+      textXML+=new XMLSerializer().serializeToString(SPLUplays[player][tmpkey]);
+    }
+    //From Stackoverflow
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(textXML));
+    element.setAttribute('download', filename);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+
   
   function getAllPlays(player,gameid){
     console.log("getAllPlays("+player+","+gameid+")");
