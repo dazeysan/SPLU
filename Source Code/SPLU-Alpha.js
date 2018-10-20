@@ -1,4 +1,4 @@
-// SPLU 5.6.01 Alpha
+// SPLU 5.6.02 Alpha
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -84,6 +84,7 @@
     var SPLUsearchResultsLength=20;
     var SPLUi18n={};
     var SPLUi18nList={};
+    var SPLUimageData={};
     
     //Insert FontAwsome CSS
     tmpLink=document.createElement('link');
@@ -1378,8 +1379,8 @@
   function resetSettings(){
     SPLU.Settings={
       "i18n": "en",
-      "DateField":{"Visible":true,"Reset":false},
-      "LocationField":{"Visible":true,"Reset":false},
+      "DateField":{"Visible":true,"Reset":true},
+      "LocationField":{"Visible":true,"Reset":true},
       "LocationList":{"Visible":true,"Reset":true},
       "QuantityField":{"Visible":true,"Reset":true},
       "DurationField":{"Visible":true,"Reset":true},
@@ -2452,7 +2453,7 @@
     tmpid=id+'_'+tmp.toString().slice(-4);
     SPLU.Favorites[tmpid]={
       "objectid":id,
-      "thumbnail":document.getElementById('selimage9999').childNodes[0].childNodes[0].src,
+      "thumbnail":document.getElementById('selimage9999').childNodes[0].src,
       "title":document.getElementById('q546e9ffd96dfc').value,
       "sortorder":0,
       "objecttype":SPLUobjecttype
@@ -4168,7 +4169,8 @@
     if (tmpImage==0){
       tmpImage='1657689';
     }
-    document.getElementById('selimage9999').innerHTML='<a><img src="https://cf.geekdo-images.com/images/pic'+tmpImage+'_mt.jpg" onError="this.onerror=null;this.src=\'https://cf.geekdo-images.com/images/pic'+tmpImage+'_mt.png\';"/></a>';
+    document.getElementById('selimage9999').innerHTML='Loading<br/>Thubmnail...';
+    fetchImageList(tmpImage, 'div', 'selimage9999', 'micro', '')
     document.getElementById('q546e9ffd96dfc').value=item.name;
     SPLUsearchResultsLength=20;
     document.getElementById('SPLUsearchResultsDIV').style.display="none";
@@ -4189,6 +4191,39 @@
     document.getElementById('SPLU.FamilyHeading').style.borderTop="";
     SPLUexpansionsLoaded=false;
     SPLUfamilyLoaded=false;
+  }
+  
+  function fetchImageList(gameid, tag, id, size, favid) {
+    console.log('fetchImageList('+gameid+', '+tag+', '+id+', '+size+', '+favid+')');
+    var oReq=new XMLHttpRequest();
+    var tmpJSON="";
+    oReq.onload=function(responseJSON){
+      tmpJSON=JSON.parse(responseJSON.target.response);
+      window.tmpimglist=tmpJSON;
+      console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
+      if (responseJSON.target.status=="200"){
+        SPLUimageData[gameid]=tmpJSON;
+        if (tag == "div") {
+          //Display the image in the div
+          document.getElementById(id).innerHTML='<img src="'+SPLUimageData[gameid].item.images[size]+'" />';
+        }
+        if (tag == "img") {
+          //Replace the img src
+          document.getElementById(id).src=SPLUimageData[gameid].item.images[size];
+        }
+        if (favid != "") {
+          SPLU.Favorites[favid].thumbnail = SPLUimageData[gameid].item.images[size];
+        }
+      } else {
+        console.log("other status code, no image results");
+      }
+    };
+    var tmpType=SPLUobjecttype;
+    var tmpQuery='https://api.geekdo.com/api/geekitems?nosession=1&objectid='+gameid+'&objecttype=thing&subtype=boardgame';
+    oReq.open("GET",tmpQuery,true);
+    //Set the following header so that we get a JSON object instead of HTML
+    oReq.setRequestHeader("Accept","application/json, text/plain, */*");
+    oReq.send();
   }
 
   function SPLUdownloadText(filename, text) {
@@ -5060,18 +5095,19 @@
     var tmpJSON="";
     oReq.onload=function(responseJSON){
       tmpJSON=JSON.parse(responseJSON.target.response);
-      window.tmp=responseJSON;
+      window.tmp=tmpJSON;
       console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
       if (responseJSON.target.status=="200"){
-        document.getElementById(div).innerHTML='<a><img src="https://cf.geekdo-images.com/images/pic'+tmpJSON.imageid+'_mt.'+tmpJSON.extension+'"/></a>';
+        document.getElementById(div).innerHTML='<img src="'+tmpJSON.item.images.micro+'"/>';
       } else {
         console.log("other status code, no image results");
       }
     };
-    var tmpQuery='/geekimage.php?objecttype='+document.getElementById('objecttype9999').value+'&action=getdefaultimageid&ajax=1&objectid='+objectid;
-    oReq.open("POST",tmpQuery,true);
+    //var tmpQuery='/geekimage.php?objecttype='+document.getElementById('objecttype9999').value+'&action=getdefaultimageid&ajax=1&objectid='+objectid;
+    var tmpQuery='https://api.geekdo.com/api/geekitems?nosession=1&objectid='+objectid+'&objecttype=thing&subtype=boardgame';
+    oReq.open("GET",tmpQuery,true);
     //Set the following header so that we get a JSON object instead of HTML
-    oReq.setRequestHeader("Accept","application/json");
+    oReq.setRequestHeader("Accept","application/json, text/plain, */*");
     oReq.send();
   }
   
@@ -5558,6 +5594,7 @@
     document.getElementById('BRlogFavs').style.display="table-cell";
     var tmpHTML='<div style="display:table;">';
     var size=0;
+    var old_thumbs = false;
     for(key in SPLU.Favorites){
         if(SPLU.Favorites.hasOwnProperty(key)){size++};
         if(size % 2==1){
@@ -5586,11 +5623,16 @@
           }
         }
         tmpHTML+='<div style="display:table-cell; max-width:110px; padding-top:10px;">'
-          +'<a href="javascript:{void(0);}" onClick="javascript:{chooseFavorite(\''+key+'\');}"><img src="'+SPLU.Favorites[key].thumbnail+'"></a>'
+          +'<a href="javascript:{void(0);}" onClick="javascript:{chooseFavorite(\''+key+'\');}"><img id="SPLU.FavoritesThumb-'+key+'" src="'+SPLU.Favorites[key].thumbnail+'"></a>'
           +'<a href="javascript:{void(0);}" onClick="javascript:{deleteFavorite(\''+key+'\');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/red_circle_x.png" style="vertical-align:top; position: relative; margin-left: -8px; margin-top: -8px;"/></a>'
           +'<br/>'+tmpMarkers+' '+decodeURIComponent(tmpTitle)+'</div>';
         if(size % 2==0){
           tmpHTML+='</div>';
+        }
+        //Check if they have the old thumbnail URLs
+        if (SPLU.Favorites[key].thumbnail.substr(0,36) == "https://cf.geekdo-images.com/images/"){
+          //Old URL detected, set flag to update all thumbnails
+          old_thumbs = true;
         }
     }
     tmpHTML+='</div>';
@@ -5598,6 +5640,18 @@
     tmpFavs = SPLUi18n.StatusYouHaveFavorites.replace("$1", size);
     document.getElementById('SPLU.FavoritesStatus').innerHTML='<center>'+tmpFavs+'</center><br/>';
     //document.getElementById('SPLU.FavoritesStatus').innerHTML='<center>You have '+size+' Favorites.</center><br/>';
+    //Do we need to fetch new thumbnails?
+    if (old_thumbs) {
+      updateFavoriteThumbs();
+    }
+  }
+  
+  function updateFavoriteThumbs(){
+    for(key in SPLU.Favorites){
+      objectid = SPLU.Favorites[key].objectid;
+      fetchImageList(objectid, "img", "SPLU.FavoritesThumb-"+key, "micro", key);
+    }
+
   }
     
   function showSettingsPane(source){
