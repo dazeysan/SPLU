@@ -1479,8 +1479,9 @@
       SPLU.Settings.DefaultPlayer.Name="-blank-";
       SPLUverifySave=true;
     }
-    if (SPLU.Locations[SPLU.Settings.DefaultLocation.Name]===undefined){
+    if (SPLU.Locations[SPLU.Settings.DefaultLocation]===undefined){
       console.log("location not found, setting to -blank-");
+      SPLU.Settings.DefaultLocation = {};
       SPLU.Settings.DefaultLocation.Name="-blank-";
       SPLUverifySave=true;
     }else{
