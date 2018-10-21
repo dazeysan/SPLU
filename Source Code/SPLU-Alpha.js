@@ -1,4 +1,4 @@
-// SPLU 5.6.03 Alpha
+// SPLU 5.6.04 Alpha
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -12,7 +12,7 @@
     //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.6.03";
+    var SPLUversion="5.6.04";
 
     var SPLU={};
     var SPLUplayId="";
@@ -4084,23 +4084,11 @@
       tmpText = tmpText.substr(1);
       exactmatch = tmpText;
       if (SPLUsearchResultsLength == 20) {
-        SPLUsearchResultsLength = 101;
+        SPLUsearchResultsLength = 101; // Fetch 100 results but trick SPLU into not showing the Load Mode button.
       }
     }
     document.getElementById('SPLUsearchResultsDIV').style.display="";
     document.getElementById('SPLUsearchResultsDIV').innerHTML=SPLUi18n.StatusSearching;
-    var oReq=new XMLHttpRequest();
-    var tmpJSON="";
-    oReq.onload=function(responseJSON){
-      tmpJSON=JSON.parse(responseJSON.target.response);
-      window.tmp=responseJSON;
-      console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
-      if (responseJSON.target.status=="200"){
-        showSearchResults(tmpJSON,tmpFavs,exactmatch);
-      } else {
-        console.log("other status code, no search results");
-      }
-    };
     var tmpFavs={};
     for (key in SPLU.Favorites){
       if (SPLU.Favorites[key].title2 === undefined){
@@ -4111,10 +4099,67 @@
       }
     }
     var tmpType=SPLUobjecttype;
+    if (exactmatch == ""){
+      SPLUsearchForGamesLoose(tmpText, tmpType, tmpFavs);
+    } else {
+      SPLUsearchForGamesExact(tmpText, tmpType, tmpFavs);
+    }
+    
+  }
+  
+  function SPLUsearchForGamesLoose(tmpText, tmpType, tmpFavs){
+    //Use the regular search for non-exact matching, maybe they'll update it in the future...
+    var oReq=new XMLHttpRequest();
+    var tmpJSON="";
+    oReq.onload=function(responseJSON){
+      tmpJSON=JSON.parse(responseJSON.target.response);
+      window.tmp=responseJSON;
+      console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
+      if (responseJSON.target.status=="200"){
+        showSearchResults(tmpJSON, tmpFavs, "");
+      } else {
+        console.log("other status code, no search results");
+      }
+    };
     var tmpQuery='/geeksearch.php?action=search&q='+tmpText+'&objecttype='+tmpType+'&showcount='+SPLUsearchResultsLength;
     oReq.open("POST",tmpQuery,true);
     //Set the following header so that we get a JSON object instead of HTML
     oReq.setRequestHeader("Accept","application/json, text/plain, */*");
+    oReq.send();
+
+  }
+  
+  function SPLUsearchForGamesExact(tmpText, tmpType, tmpFavs){
+    //Search for exact matches via XMLAPI2 since the regular search can't
+    var oReq=new XMLHttpRequest();
+    var tmpXML="";
+    oReq.onload=function(){
+      tmpXML=this.responseXML;
+      window.tmp=tmpXML;
+      console.log(this.status);
+      if (this.status=="200"){
+        tmpGameList = tmpXML.getElementsByTagName('item');
+        tmpJSON = {};
+        tmpJSON.items = [];
+        for (i=0; i<tmpGameList.length; i++) {
+          tmpGame = {};
+          tmpGame.objectid = tmpGameList[i].getAttribute('id');
+          tmpGame.name = tmpGameList[i].getElementsByTagName('name')[0].getAttribute('value');
+          if(tmpGameList[i].getElementsByTagName('yearpublished')[0] !== undefined){
+            tmpGame.yearpublished = tmpGameList[i].getElementsByTagName('yearpublished')[0].getAttribute('value');
+          } else {
+            tmpGame.yearpublished = "N/A";
+          }
+          tmpJSON.items.push(tmpGame);
+        }
+        showSearchResults(tmpJSON, tmpFavs, tmpText);
+      } else {
+        console.log("other status code, no search results");
+      }
+    };
+    var tmpQuery='/xmlapi2/search?query='+tmpText+'&type='+tmpType+'&exact=1';
+    oReq.open("POST",tmpQuery,true);
+    oReq.setRequestHeader("Accept","text/xml, text/plain, */*");
     oReq.send();
   }
   
