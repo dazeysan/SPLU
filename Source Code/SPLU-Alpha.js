@@ -3188,6 +3188,7 @@
         getString+="&id="+gameid;
         if(page==1 && multiple==true){
           SPLUplayFetch[player]=[];
+          console.log("Reset SPLUplayFetch[player] to []");
         }
       }
     }else{
@@ -3256,6 +3257,7 @@
     }
     if(SPLUplayFetchFail<5){
       for(i=1;i<SPLUplayFetch[player].length;i++){
+        console.log("-- SPLUplayFetch[player].length="+SPLUplayFetch[player].length);
         if(SPLUplayFetch[player][i]<0){
           SPLUplayFetch[player][i]--;
         }
