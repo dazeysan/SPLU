@@ -4165,7 +4165,7 @@
     document.getElementById('objectid9999').value=item.objectid;
     SPLUexpansionsFromFavorite=[]
     SPLUgameID=item.objectid;
-    tmpImage=item.rep_imageid;
+    tmpImage=item.objectid;
     if (tmpImage==0){
       tmpImage='1657689';
     }
@@ -5651,7 +5651,7 @@
       objectid = SPLU.Favorites[key].objectid;
       fetchImageList(objectid, "img", "SPLU.FavoritesThumb-"+key, "micro", key);
     }
-
+    window.setTimeout(saveSettings("Updated Thumbnails."),5000);
   }
     
   function showSettingsPane(source){
