@@ -1,4 +1,4 @@
-// SPLU 5.6.02 Alpha
+// SPLU 5.6.03 Alpha
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -12,7 +12,7 @@
     //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.6.02";
+    var SPLUversion="5.6.03";
 
     var SPLU={};
     var SPLUplayId="";
@@ -2840,6 +2840,8 @@
           document.getElementById('BRresults').innerHTML=SPLUi18n.StatusPlayDeleted+".  <a href='"+responseJSON.target.responseURL+"' target='_blank'>"+SPLUi18n.StatusViewYourPlays+"</a>";
           SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][tmpPlay.id].deleted=true;
           loadPlays(document.getElementById("SPLU.PlaysLogger").value,false);
+          //Quick and dirty fix for #85 Get Next 100 failing
+          getRecentPlays(false);
         }else{
           document.getElementById('BRresults').innerHTML=SPLUi18n.StatusErrorOccurred;
         }
@@ -4067,9 +4069,17 @@
 
   function SPLUsearchForGames() {
     var tmpText=document.getElementById('q546e9ffd96dfc').value;
-    if (tmpText==""){
+    if (tmpText=="" || tmpText=="="){
       document.getElementById('SPLUsearchResultsDIV').style.display="none";
       return;
+    }
+    var exactmatch = "";
+    if (tmpText.substr(0,1) == "="){
+      tmpText = tmpText.substr(1);
+      exactmatch = tmpText;
+      if (SPLUsearchResultsLength == 20) {
+        SPLUsearchResultsLength = 101;
+      }
     }
     document.getElementById('SPLUsearchResultsDIV').style.display="";
     document.getElementById('SPLUsearchResultsDIV').innerHTML=SPLUi18n.StatusSearching;
@@ -4080,7 +4090,7 @@
       window.tmp=responseJSON;
       console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
       if (responseJSON.target.status=="200"){
-        showSearchResults(tmpJSON,tmpFavs);
+        showSearchResults(tmpJSON,tmpFavs,exactmatch);
       } else {
         console.log("other status code, no search results");
       }
@@ -4102,7 +4112,8 @@
     oReq.send();
   }
   
-  function showSearchResults(results,favorites){
+  function showSearchResults(results,favorites,exactmatch){
+    window.tmpResults = results;
     tmpHTML="";
     for (key in favorites){
       if (favorites.hasOwnProperty(key)) {
@@ -4133,27 +4144,34 @@
       }
     }
     if (results['items'].length>0){
+      results.items.sort(dynamicSortMultipleCI("name"));
+      if (results['items'].length>=SPLUsearchResultsLength){
+        if(exactmatch == "") {
+          SPLUsearchResultsLength+=20;
+        } else {
+          SPLUsearchResultsLength+=100;
+        }
+        tmpHTML+='<a style="border: solid 2px; border-radius: 5px; background: lightgray; margin: 2px; padding: 0px 2px;"onClick=\'javascript:{SPLUsearchForGames();}\'>'+SPLUi18n.StatusLoadMore+'</a><br/>';
+      }
       for (i=0; i<results['items'].length; i++){
-        SPLUsearchResults[results['items'][i].objectid]=results['items'][i];
-        tmpName=results['items'][i].name;
-        tmpYear=results['items'][i].yearpublished;
-        if(tmpYear>10000000){
-          tmpYear=tmpYear-4294967296;
+        if (exactmatch == "" || (exactmatch != "" && results['items'][i].name.toLowerCase() == exactmatch.toLowerCase())){
+          SPLUsearchResults[results['items'][i].objectid]=results['items'][i];
+          tmpName=results['items'][i].name;
+          tmpYear=results['items'][i].yearpublished;
+          if(tmpYear>10000000){
+            tmpYear=tmpYear-4294967296;
+          }
+          tmpHTML+='<a onClick=\'javascript:{chooseSearchResult('+results['items'][i].objectid+');}\'>';
+          console.log(tmpName);
+          tmpHTML+=tmpName;
+          if(tmpYear!=0){
+            tmpHTML+=' ('+tmpYear+')';
+          }
+          tmpHTML+="</a></br>";
         }
-        tmpHTML+='<a onClick=\'javascript:{chooseSearchResult('+results['items'][i].objectid+');}\'>';
-        console.log(tmpName);
-        tmpHTML+=tmpName;
-        if(tmpYear!=0){
-          tmpHTML+=' ('+tmpYear+')';
-        }
-        tmpHTML+="</a></br>";
       }
     } else {
       tmpHTML+=SPLUi18n.StatusNoResults;
-    }
-    if (results['items'].length>=SPLUsearchResultsLength){
-      SPLUsearchResultsLength+=20;
-      tmpHTML+='<a onClick=\'javascript:{SPLUsearchForGames();}\'>'+SPLUi18n.StatusLoadMore+'</a>';
     }
     document.getElementById('SPLUsearchResultsDIV').innerHTML=tmpHTML;
   }
@@ -4170,7 +4188,7 @@
       tmpImage='1657689';
     }
     document.getElementById('selimage9999').innerHTML='Loading<br/>Thubmnail...';
-    fetchImageList(tmpImage, 'div', 'selimage9999', 'micro', '')
+    fetchImageList(tmpImage, 'div', 'selimage9999', 'tallthumb', '')
     document.getElementById('q546e9ffd96dfc').value=item.name;
     SPLUsearchResultsLength=20;
     document.getElementById('SPLUsearchResultsDIV').style.display="none";
@@ -5098,7 +5116,7 @@
       window.tmp=tmpJSON;
       console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
       if (responseJSON.target.status=="200"){
-        document.getElementById(div).innerHTML='<img src="'+tmpJSON.item.images.micro+'"/>';
+        document.getElementById(div).innerHTML='<img src="'+tmpJSON.item.images.tallthumb+'"/>';
       } else {
         console.log("other status code, no image results");
       }
@@ -5649,7 +5667,7 @@
   function updateFavoriteThumbs(){
     for(key in SPLU.Favorites){
       objectid = SPLU.Favorites[key].objectid;
-      fetchImageList(objectid, "img", "SPLU.FavoritesThumb-"+key, "micro", key);
+      fetchImageList(objectid, "img", "SPLU.FavoritesThumb-"+key, "tallthumb", key);
     }
     window.setTimeout(saveSettings("Updated Thumbnails."),5000);
   }
