@@ -290,5 +290,8 @@
   "SummarySentence_The_game_lasted_plural_minutes": " La partita e’ durata $1 minuti.",
   "SummarySentence_Each_game_lasted_1_minute": " Ogni partita e’ durata $1 minuto.",
   "SummarySentence_Each_game_lasted_plural_minutes": " Ogni partita e’ durata $1 minuti.",
-  "SummarySentence_Nicely_done": " Ben fatto!"
+  "SummarySentence_Nicely_done": " Ben fatto!",
+  "NoreenWinComments_Won": " won",
+  "NoreenWinComments_With_a_score_of": " with a score of ",
+  "ExpansionsComments_Played_with_the_following_expansions": "Played with the following expansions:"
 }

@@ -31,6 +31,7 @@
     var SPLUprevGameID=-1;
     var ExpansionsToLog=0;
     var SPLUwinners=[];
+    var SPLUwinnersNoreenText="";
     var SPLUwinnersScores=[];
     var SPLUlocationCount=0;
     var SPLUcurrentFilter="All";
@@ -2391,27 +2392,34 @@
   }
   
   function NoreenWinComment(){
+    oldComment = document.getElementById("quickplay_comments99").value;
+    if (SPLUwinnersNoreenText != ""){
+      oldComment = decodeURIComponent(encodeURIComponent(oldComment).replace(encodeURIComponent(SPLUwinnersNoreenText), ""));
+      oldComment = oldComment.trimEnd();
+    }
+    comment="";
     if(getWinners()>0){
-      comment="";
+      if(oldComment != ""){
+        comment+="\r\n\r\n";
+      }
       winboxes=document.getElementsByClassName('SPLU.WinBox');
       for(i=0; i<SPLUwinners.length; i++){
         if(i==0){
-          comment=SPLUwinners[i];
+          comment+=SPLUwinners[i];
         }else{
           comment+=" & "+SPLUwinners[i];
         }
       }
       if(comment!=""){
-        //Todo - i18n
-        comment+=" won";
+        comment+=SPLUi18n.NoreenWinComments_Won;
         if(SPLUwinners.length==1 && SPLUwinnersScores[0]!=""){
-          //Todo - i18n
-          comment+=" with a score of ";
+          comment+=SPLUi18n.NoreenWinComments_Won;
           comment+=SPLUwinnersScores[0];
         }
       }
-      document.getElementById("quickplay_comments99").value=comment;
+      SPLUwinnersNoreenText=comment.replace("\r\n\r\n", "");
     }
+    document.getElementById("quickplay_comments99").value=oldComment+comment;
   }
   
   function expansionListComment(){
@@ -2430,15 +2438,12 @@
       }
     }
     var CommentBox=document.getElementById("quickplay_comments99");
-    //Todo - i18n
-    var tmp=CommentBox.value.indexOf("Played with the following expansions:");
+    var tmp=CommentBox.value.indexOf(SPLUi18n.ExpansionsComments_Played_with_the_following_expansions);
     if(tmp!=-1){
-      //Todo - i18n
-      CommentBox.value=CommentBox.value.slice(0,CommentBox.value.indexOf("Played with the following expansions:")).trim();
+      CommentBox.value=CommentBox.value.slice(0,CommentBox.value.indexOf(SPLUi18n.ExpansionsComments_Played_with_the_following_expansions)).trim();
     }
     if(comment!=""){
-      //Todo - i18n
-      CommentBox.value+="\n\nPlayed with the following expansions:\n"+comment;
+      CommentBox.value+="\n\n"+SPLUi18n.ExpansionsComments_Played_with_the_following_expansions+"\n"+comment;
     }
   }
   
@@ -2525,6 +2530,7 @@
     document.getElementById('BRlogFavs').style.display="none";
     document.getElementById('SPLUsearchResultsDIV').style.display="none";
     document.getElementById('BRthumbButtons').style.display="block";
+    document.getElementById('expansionLoggingButton').style.display="block";
     SPLUexpansionsFromFavorite=[]
     if(SPLU.Favorites[id].players!==undefined){
       if(SPLU.Favorites[id].players.length>0){
@@ -4193,6 +4199,7 @@
     SPLUsearchResultsLength=20;
     document.getElementById('SPLUsearchResultsDIV').style.display="none";
     document.getElementById('BRthumbButtons').style.display="block";
+    document.getElementById('expansionLoggingButton').style.display="block";
     document.getElementById('SPLU_ExpansionsQuantity').innerHTML="";
   }
   
@@ -4200,7 +4207,8 @@
     document.getElementById('selimage9999').innerHTML='';
     document.getElementById('objectid9999').value='';
     document.getElementById('q546e9ffd96dfc').value='';
-    document.getElementById('BRthumbButtons').style.display='none';
+    document.getElementById('BRthumbButtons').style.display='block';
+    document.getElementById('expansionLoggingButton').style.display="none";
     document.getElementById('BRresults').innerHTML='';
     document.getElementById('SPLU.ExpansionPane').innerHTML='';
     document.getElementById('SPLU.FamilyPane').innerHTML='';
