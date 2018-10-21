@@ -1,4 +1,4 @@
-// SPLU 5.6.04 Alpha
+// SPLU 5.6.05 Alpha
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -12,7 +12,7 @@
     //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.6.04";
+    var SPLUversion="5.6.05";
 
     var SPLU={};
     var SPLUplayId="";
@@ -2458,7 +2458,7 @@
     tmpid=id+'_'+tmp.toString().slice(-4);
     SPLU.Favorites[tmpid]={
       "objectid":id,
-      "thumbnail":document.getElementById('selimage9999').childNodes[0].src,
+      "thumbnail":document.getElementById('SPLU.GameThumb').src,
       "title":document.getElementById('q546e9ffd96dfc').value,
       "sortorder":0,
       "objecttype":SPLUobjecttype
@@ -2525,7 +2525,7 @@
     document.getElementById('SPLU_ExpansionsQuantity').innerHTML="";
     document.getElementById('objectid9999').value=SPLU.Favorites[id].objectid;
     SPLUgameID=SPLU.Favorites[id].objectid;
-    document.getElementById('selimage9999').innerHTML='<a><img src="'+SPLU.Favorites[id].thumbnail+'"/></a>';
+    document.getElementById('selimage9999').innerHTML='<a target="_blank" href="/'+SPLU.Favorites[id].objecttype+'/'+SPLU.Favorites[id].objectid+'"><img id="SPLU.GameThumb" src="'+SPLU.Favorites[id].thumbnail+'"/></a>';
     document.getElementById('q546e9ffd96dfc').value=SPLU.Favorites[id].title;
     document.getElementById('BRlogFavs').style.display="none";
     document.getElementById('SPLUsearchResultsDIV').style.display="none";
@@ -4144,6 +4144,7 @@
         for (i=0; i<tmpGameList.length; i++) {
           tmpGame = {};
           tmpGame.objectid = tmpGameList[i].getAttribute('id');
+          tmpGame.subtype = tmpGameList[i].getAttribute('type');
           tmpGame.name = tmpGameList[i].getElementsByTagName('name')[0].getAttribute('value');
           if(tmpGameList[i].getElementsByTagName('yearpublished')[0] !== undefined){
             tmpGame.yearpublished = tmpGameList[i].getElementsByTagName('yearpublished')[0].getAttribute('value');
@@ -4238,8 +4239,14 @@
     if (tmpImage==0){
       tmpImage='1657689';
     }
+    tmpURL = "";
+    if (item.href === undefined){
+      tmpURL = "/"+item.subtype+"/"+item.objectid;
+    } else {
+      tmpURL = item.href;
+    }
     document.getElementById('selimage9999').innerHTML='Loading<br/>Thubmnail...';
-    fetchImageList(tmpImage, 'div', 'selimage9999', 'tallthumb', '')
+    fetchImageList(tmpImage, 'div', 'selimage9999', 'tallthumb', '', tmpURL)
     document.getElementById('q546e9ffd96dfc').value=item.name;
     SPLUsearchResultsLength=20;
     document.getElementById('SPLUsearchResultsDIV').style.display="none";
@@ -4264,7 +4271,7 @@
     SPLUfamilyLoaded=false;
   }
   
-  function fetchImageList(gameid, tag, id, size, favid) {
+  function fetchImageList(gameid, tag, id, size, favid, tmpURL) {
     console.log('fetchImageList('+gameid+', '+tag+', '+id+', '+size+', '+favid+')');
     var oReq=new XMLHttpRequest();
     var tmpJSON="";
@@ -4274,9 +4281,13 @@
       console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
       if (responseJSON.target.status=="200"){
         SPLUimageData[gameid]=tmpJSON;
-        if (tag == "div") {
+        if (tag == "div" && tmpURL == "") {
           //Display the image in the div
           document.getElementById(id).innerHTML='<img src="'+SPLUimageData[gameid].item.images[size]+'" />';
+        }
+        if (tag == "div" && id == "selimage9999") {
+          //Display the image in the selimage9999 / SPLU.GameThumb div / img
+          document.getElementById(id).innerHTML='<a target="_blank" href="'+tmpURL+'"><img id="SPLU.GameThumb" src="'+SPLUimageData[gameid].item.images[size]+'" /></a>';
         }
         if (tag == "img") {
           //Replace the img src
@@ -5152,7 +5163,8 @@
     document.getElementById('objectid9999').value=tmpPlay.getElementsByTagName('item')[0].getAttribute('objectid');
     SPLUgameID=tmpPlay.getElementsByTagName('item')[0].getAttribute('objectid');
     document.getElementById('q546e9ffd96dfc').value=tmpPlay.getElementsByTagName('item')[0].getAttribute('name');
-    getRepImage(tmpItem.attributes.objectid.value, 'selimage9999');
+    tmpURL = "/"+tmpPlay.getElementsByTagName('subtype')[0].getAttribute('value')+"/"+tmpPlay.getElementsByTagName('item')[0].getAttribute('objectid');
+    getRepImage(tmpItem.attributes.objectid.value, 'selimage9999', tmpURL);
     if(document.getElementById("SPLU.PlaysLogger").value==LoggedInAs&&!SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][id].deleted){
       showHideEditButtons("show");
     }else{
@@ -5160,7 +5172,7 @@
     }
   }
   
-  function getRepImage(objectid, div){
+  function getRepImage(objectid, div, tmpURL){
     console.log(objectid);
     var oReq=new XMLHttpRequest();
     var tmpJSON="";
@@ -5169,7 +5181,7 @@
       window.tmp=tmpJSON;
       console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
       if (responseJSON.target.status=="200"){
-        document.getElementById(div).innerHTML='<img src="'+tmpJSON.item.images.tallthumb+'"/>';
+        document.getElementById(div).innerHTML='<a target="_blank" href="'+tmpURL+'"><img id="SPLU.GameThumb" src="'+tmpJSON.item.images.tallthumb+'"/></a>';
       } else {
         console.log("other status code, no image results");
       }
@@ -5720,7 +5732,7 @@
   function updateFavoriteThumbs(){
     for(key in SPLU.Favorites){
       objectid = SPLU.Favorites[key].objectid;
-      fetchImageList(objectid, "img", "SPLU.FavoritesThumb-"+key, "tallthumb", key);
+      fetchImageList(objectid, "img", "SPLU.FavoritesThumb-"+key, "tallthumb", key, "");
     }
     window.setTimeout(saveSettings("Updated Thumbnails."),5000);
   }
