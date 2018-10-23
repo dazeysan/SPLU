@@ -1480,7 +1480,7 @@
       SPLUverifySave=true;
     }
     try{
-      if (SPLU.Locations[SPLU.Settings.DefaultLocation.Name]===undefined){
+      if (SPLU.Locations[SPLU.Settings.DefaultLocation.Name]===undefined && SPLU.Settings.DefaultLocation.Name != "-blank-"){
         console.log("location not found, setting to -blank-");
         SPLU.Settings.DefaultLocation = {};
         SPLU.Settings.DefaultLocation.Name="-blank-";
