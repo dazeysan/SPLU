@@ -1479,13 +1479,17 @@
       SPLU.Settings.DefaultPlayer.Name="-blank-";
       SPLUverifySave=true;
     }
-    if (SPLU.Locations[SPLU.Settings.DefaultLocation]===undefined){
-      console.log("location not found, setting to -blank-");
-      SPLU.Settings.DefaultLocation = {};
-      SPLU.Settings.DefaultLocation.Name="-blank-";
-      SPLUverifySave=true;
-    }else{
-      //console.log("location found: "+SPLU.Settings.DefaultLocation.Name);
+    try{
+      if (SPLU.Locations[SPLU.Settings.DefaultLocation.Name]===undefined){
+        console.log("location not found, setting to -blank-");
+        SPLU.Settings.DefaultLocation = {};
+        SPLU.Settings.DefaultLocation.Name="-blank-";
+        SPLUverifySave=true;
+      }else{
+        //console.log("location found: "+SPLU.Settings.DefaultLocation.Name);
+      }
+    }catch(err){
+          console.log(err)
     }
     for (var keyG in SPLU.Groups) {
       if (SPLU.Groups.hasOwnProperty(keyG)) {
