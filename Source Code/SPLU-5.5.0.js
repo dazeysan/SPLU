@@ -88,7 +88,7 @@
     tmpLink=document.createElement('link');
     tmpLink.type="text/css";
     tmpLink.rel="stylesheet";
-    tmpLink.href="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/font-awesome/css/font-awesome.min.css";
+    tmpLink.href="https://cdn.jsdelivr.net/gh/dazeysan/SPLU/Source%20Code/font-awesome/css/font-awesome.min.css";
     document.getElementsByTagName("head")[0].appendChild(tmpLink);
     
   function initSPLU(){

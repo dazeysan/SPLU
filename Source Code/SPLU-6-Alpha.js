@@ -98,18 +98,18 @@
   tmpLink=document.createElement('link');
   tmpLink.type="text/css";
   tmpLink.rel="stylesheet";
-  tmpLink.href="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/font-awesome/css/font-awesome.min.css";
+  tmpLink.href="https://cdn.jsdelivr.net/gh/dazeysan/SPLU/Source%20Code/font-awesome/css/font-awesome.min.css";
   document.getElementsByTagName("head")[0].appendChild(tmpLink);
 
   //Insert W2UI script and CSS
   tmpScript=document.createElement('script');
   tmpScript.type="text/javascript";
-  tmpScript.src="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/scripts/w2ui-1.4.3.min.js";
+  tmpScript.src="https://cdn.jsdelivr.net/gh/dazeysan/SPLU/Source%20Code/scripts/w2ui-1.4.3.min.js";
   document.getElementsByTagName("head")[0].appendChild(tmpScript);
   tmpLink=document.createElement('link');
   tmpLink.type="text/css";
   tmpLink.rel="stylesheet";
-  tmpLink.href="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/scripts/w2ui-1.4.3.min.css";
+  tmpLink.href="https://cdn.jsdelivr.net/gh/dazeysan/SPLU/Source%20Code/scripts/w2ui-1.4.3.min.css";
   document.getElementsByTagName("head")[0].appendChild(tmpLink);
     
   function initSPLU(){
