@@ -91,7 +91,7 @@
     tmpLink=document.createElement('link');
     tmpLink.type="text/css";
     tmpLink.rel="stylesheet";
-    tmpLink.href="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/font-awesome/css/font-awesome.min.css";
+    tmpLink.href="https://cdn.jsdelivr.net/gh/dazeysan/SPLU/Source%20Code/font-awesome/css/font-awesome.min.css";
     document.getElementsByTagName("head")[0].appendChild(tmpLink);
     
   function initSPLU(){
@@ -120,7 +120,7 @@
     var pikstyle=document.createElement("link");
     pikstyle.type="text/css";
     pikstyle.rel="stylesheet";
-    pikstyle.href="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/scripts/pikaday.css";
+    pikstyle.href="https://cdn.jsdelivr.net/gh/dazeysan/SPLU/Source%20Code/scripts/pikaday.css";
     document.getElementsByTagName('head')[0].appendChild(pikstyle);
 
     var style=document.createElement('style');
@@ -1655,7 +1655,7 @@
 
   function fetchLanguageFile(lang){
     console.log("fetchLanguageFile("+lang+")");
-    var requestURL="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/i18n/"+lang+".json";
+    var requestURL="https://cdn.jsdelivr.net/gh/dazeysan/SPLU/Source%20Code/i18n/"+lang+".json";
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
       console.log(this.readyState+"|"+this.status);
@@ -1677,7 +1677,7 @@
   
   function fetchLanguageList(){
     console.log("fetchLanguageList()");
-    var requestURL="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/i18n/list.json";
+    var requestURL="https://cdn.jsdelivr.net/gh/dazeysan/SPLU/Source%20Code/i18n/list.json";
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
       console.log(this.readyState+"|"+this.status);
