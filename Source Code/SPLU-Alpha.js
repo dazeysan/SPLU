@@ -1,4 +1,4 @@
-// SPLU 5.7.2 Alpha
+// SPLU 5.7.3 Alpha
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -91,7 +91,7 @@
     tmpLink=document.createElement('link');
     tmpLink.type="text/css";
     tmpLink.rel="stylesheet";
-    tmpLink.href="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/font-awesome/css/font-awesome.min.css";
+    tmpLink.href="https://cdn.jsdelivr.net/gh/dazeysan/SPLU@master/Source%20Code/font-awesome/css/font-awesome.min.css";
     document.getElementsByTagName("head")[0].appendChild(tmpLink);
     
   function initSPLU(){
@@ -115,12 +115,12 @@
     //Insert code for Pikaday calendar Copyright © 2014 David Bushell
     var pikscript=document.createElement('script');
     pikscript.type="text/javascript";
-    pikscript.src='https://rawgit.com/dazeysan/SPLU/master/Source%20Code/scripts/pikaday.js';
+    pikscript.src='https://cdn.jsdelivr.net/gh/dazeysan/SPLU@master/Source%20Code/scripts/pikaday.js';
     document.body.appendChild(pikscript);
     var pikstyle=document.createElement("link");
     pikstyle.type="text/css";
     pikstyle.rel="stylesheet";
-    pikstyle.href="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/scripts/pikaday.css";
+    pikstyle.href="https://cdn.jsdelivr.net/gh/dazeysan/SPLU@master/Source%20Code/scripts/pikaday.css";
     document.getElementsByTagName('head')[0].appendChild(pikstyle);
 
     var style=document.createElement('style');
@@ -1657,7 +1657,7 @@
 
   function fetchLanguageFile(lang){
     console.log("fetchLanguageFile("+lang+")");
-    var requestURL="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/i18n/"+lang+".json";
+    var requestURL="https://cdn.jsdelivr.net/gh/dazeysan/SPLU@master/Source%20Code/i18n/"+lang+".json";
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
       console.log(this.readyState+"|"+this.status);
@@ -1679,7 +1679,7 @@
   
   function fetchLanguageList(){
     console.log("fetchLanguageList()");
-    var requestURL="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/i18n/list.json";
+    var requestURL="https://cdn.jsdelivr.net/gh/dazeysan/SPLU@master/Source%20Code/i18n/list.json";
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
       console.log(this.readyState+"|"+this.status);
