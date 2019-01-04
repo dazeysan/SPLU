@@ -1,4 +1,4 @@
-// SPLU 5.7.1 Current
+// SPLU 5.7.2 Alpha
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -12,7 +12,7 @@
     //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.7.1";
+    var SPLUversion="5.7.2";
 
     var SPLU={};
     var SPLUplayId="";
@@ -786,7 +786,7 @@
             +'<div id="SPLU.ExpansionPaneControls">'
               +'<div style="padding-top:10px;">'+SPLUi18n.ExpansionsQuantity+': '
                 +'<div id="SPLU.fakeExpQtyBox" style="display:inline-block;padding:0px 2px; -moz-appearance:textfield; -webkit-appearance:textfield;">'
-                  +'<input type="text" id="BRexpPlayQTY"/ value=".1" style="width:40px;border:none;">'
+                  +'<input type="text" id="BRexpPlayQTY"/ value="0" style="width:40px;border:none;">'
                   +'<a href="javascript:{void(0);}" onClick="javascript:{saveExpansionQuantity();}" style="vertical-align:middle;" id="SPLU.SaveExpQtyButton"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/save.png"></a>'
                 +'</div>'
                 +'<div style="display:table; padding-top:10px;">'
@@ -1169,6 +1169,8 @@
       }
     }
     
+    //Set the ObjectType to "boardgame" first in case the domain doesn't match those below.
+    setObjectType("boardgame");
     //Set the ObjectType according to the site they are currently on
     if(window.location.host.slice(-17)=="boardgamegeek.com"){
       setObjectType("boardgame");
@@ -1403,7 +1405,7 @@
       "WinComments":{"Visible":false},
       "ExpansionComments":{"Visible":false},
       "DomainButtons":{"Visible":false},
-      "ExpansionQuantity":{"Value":".1"},
+      "ExpansionQuantity":{"Value":"0"},
       "ExpansionDetails":{"Include":true},
       "ExpansionComments":{"Visible":false},
       "ExpansionLinkParent":{"Enabled":false},
@@ -2418,7 +2420,7 @@
       if(comment!=""){
         comment+=SPLUi18n.NoreenWinComments_Won;
         if(SPLUwinners.length==1 && SPLUwinnersScores[0]!=""){
-          comment+=SPLUi18n.NoreenWinComments_Won;
+          comment+=SPLUi18n.NoreenWinComments_With_a_score_of;
           comment+=SPLUwinnersScores[0];
         }
       }
