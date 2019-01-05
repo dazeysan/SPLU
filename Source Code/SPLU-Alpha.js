@@ -5132,7 +5132,7 @@
 
   
   function loadPlay(id){
-	  console.log(id);
+    console.log(id);
     SPLUprevGameID=0;
     tmpChild=0;
     if(SPLUcopyMode){
@@ -5168,6 +5168,7 @@
       document.getElementById('quickplay_comments99').value=tmpPlay.getElementsByTagName("comments")[0].textContent;
     }
     setObjectType(tmpPlay.getElementsByTagName("subtypes")[0].getElementsByTagName("subtype")[0].getAttribute("value"));
+    document.getElementById('expansionLoggingButton').style.display="block";
     tmpItem=tmpPlay.getElementsByTagName("item")[0];
     document.getElementById('objectid9999').value=tmpPlay.getElementsByTagName('item')[0].getAttribute('objectid');
     SPLUgameID=tmpPlay.getElementsByTagName('item')[0].getAttribute('objectid');
