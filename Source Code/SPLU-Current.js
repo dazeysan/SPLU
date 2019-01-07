@@ -1,4 +1,4 @@
-// SPLU 5.7.2 Alpha
+// SPLU 5.7.3 Alpha
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -12,7 +12,7 @@
     //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.7.2";
+    var SPLUversion="5.7.3";
 
     var SPLU={};
     var SPLUplayId="";
@@ -91,7 +91,7 @@
     tmpLink=document.createElement('link');
     tmpLink.type="text/css";
     tmpLink.rel="stylesheet";
-    tmpLink.href="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/font-awesome/css/font-awesome.min.css";
+    tmpLink.href="https://cdn.jsdelivr.net/gh/dazeysan/SPLU@master/Source%20Code/font-awesome/css/font-awesome.min.css";
     document.getElementsByTagName("head")[0].appendChild(tmpLink);
     
   function initSPLU(){
@@ -115,12 +115,12 @@
     //Insert code for Pikaday calendar Copyright © 2014 David Bushell
     var pikscript=document.createElement('script');
     pikscript.type="text/javascript";
-    pikscript.src='https://rawgit.com/dazeysan/SPLU/master/Source%20Code/scripts/pikaday.js';
+    pikscript.src='https://cdn.jsdelivr.net/gh/dazeysan/SPLU@master/Source%20Code/scripts/pikaday.js';
     document.body.appendChild(pikscript);
     var pikstyle=document.createElement("link");
     pikstyle.type="text/css";
     pikstyle.rel="stylesheet";
-    pikstyle.href="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/scripts/pikaday.css";
+    pikstyle.href="https://cdn.jsdelivr.net/gh/dazeysan/SPLU@master/Source%20Code/scripts/pikaday.css";
     document.getElementsByTagName('head')[0].appendChild(pikstyle);
 
     var style=document.createElement('style');
@@ -1657,7 +1657,7 @@
 
   function fetchLanguageFile(lang){
     console.log("fetchLanguageFile("+lang+")");
-    var requestURL="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/i18n/"+lang+".json";
+    var requestURL="https://cdn.jsdelivr.net/gh/dazeysan/SPLU@master/Source%20Code/i18n/"+lang+".json";
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
       console.log(this.readyState+"|"+this.status);
@@ -1679,7 +1679,7 @@
   
   function fetchLanguageList(){
     console.log("fetchLanguageList()");
-    var requestURL="https://rawgit.com/dazeysan/SPLU/master/Source%20Code/i18n/list.json";
+    var requestURL="https://cdn.jsdelivr.net/gh/dazeysan/SPLU@master/Source%20Code/i18n/list.json";
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
       console.log(this.readyState+"|"+this.status);
@@ -3414,6 +3414,8 @@
         SPLUcopyMode=false;
       }
       var tmpHTML="";
+      //Temp warning message about the data not being live.
+      tmpHTML+='<div id="SPLU.PlaysWarning" style="color:red; border-bottom:1px solid black; padding:2px; margin-bottom:5px;">Note: Play history may not show recent changes. <a target="_blank" href="https://boardgamegeek.com/article/30900564#30900564">See this post.</a></div>';
       var tmpSortCount=0;
       var tmpLines=document.getElementsByName("SPLU.PlaysFiltersLine").length;
       for(i=0;i<SPLUlistOfPlays.length;i++){
@@ -5132,7 +5134,7 @@
 
   
   function loadPlay(id){
-	  console.log(id);
+    console.log(id);
     SPLUprevGameID=0;
     tmpChild=0;
     if(SPLUcopyMode){
@@ -5168,6 +5170,7 @@
       document.getElementById('quickplay_comments99').value=tmpPlay.getElementsByTagName("comments")[0].textContent;
     }
     setObjectType(tmpPlay.getElementsByTagName("subtypes")[0].getElementsByTagName("subtype")[0].getAttribute("value"));
+    document.getElementById('expansionLoggingButton').style.display="block";
     tmpItem=tmpPlay.getElementsByTagName("item")[0];
     document.getElementById('objectid9999').value=tmpPlay.getElementsByTagName('item')[0].getAttribute('objectid');
     SPLUgameID=tmpPlay.getElementsByTagName('item')[0].getAttribute('objectid');
