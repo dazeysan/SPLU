@@ -5760,11 +5760,12 @@
     }) 
     if (SPLU.FavoritesOrder!==undefined){
       //Sort the favorites using the saved settings
+      console.log("Sorting Favs using saved settings.");
       FLsort.options.dataIdAttr="data-id";
-      TmpSort=FLsort.toArray();
-      FLsort.sort(TmpSort);
+      FLsort.sort(SPLU.FavoritesOrder);
     } else {
       //Load the current unsorted favorites in to the settings, but don't save
+      console.log("No Favs sort order saved, not sorting.");
       FLsort.options.dataIdAttr="data-id";
       SPLU.FavoritesOrder=FLsort.toArray();
     }
