@@ -133,7 +133,7 @@
     var style=document.createElement('style');
     style.type='text/css';
     style.id="BRstyle";
-    style.innerHTML='.SPLUheader{height:32px; border:1px solid blue; padding:2px 5px;} .SPLUheaderClose{float:right; margin-right:-6px; margin-top:-4px;} .SPLUrows{vertical-align:bottom;} .BRbutn{border:1px dotted green;padding:0px 2px;} .BRcells{display:table-cell; padding-right:10px; padding-bottom:10px;} .SPLUplayerCells{display:table-cell;} .SPLUsettingAltRows{background-color: #80E086;} .SPLUbuttons{border:2px solid blue;padding:2px 4px;border-radius:5px;background-color:lightGrey;color:black;}';
+    style.innerHTML='.SPLUheader{height:32px; border:1px solid blue; padding:2px 5px;} .SPLUheaderClose{float:right; margin-right:-6px; margin-top:-4px;} .SPLUrows{vertical-align:bottom;} .BRbutn{border:1px dotted green;padding:0px 2px;} .BRcells{display:table-cell; padding-right:10px; padding-bottom:10px;} .SPLUplayerCells{display:table-cell;} .SPLUsettingAltRows{background-color: #80E086;} .SPLUbuttons{border:2px solid blue;padding:2px 4px;border-radius:5px;background-color:lightGrey;color:black;} .SPLUfavoritesGridItems{display:inline-block; width:100px; padding:3px; margin:5px;}';
     document.getElementsByTagName('head')[0].appendChild(style);
     
     var BRlogMain=document.createElement('div');
@@ -5692,15 +5692,16 @@
     hidePanes();
     //document.getElementById('SPLU.FavoritesEdit').style.display="none";
     document.getElementById('SPLU.FavoritesList').style.display="";
+    document.getElementById('SPLU.FavoritesList').style.width="250px";
     document.getElementById('SPLU.FavoritesList').style.maxHeight=document.getElementById('BRlogMain').clientHeight-95+"px";
     document.getElementById('BRlogFavs').style.display="table-cell";
-    var tmpHTML='<div style="display:table;">';
+    var tmpHTML='<div id="FavoritesGrid" style="display:unset;">';
     var size=0;
     var old_thumbs = false;
     for(key in SPLU.Favorites){
         if(SPLU.Favorites.hasOwnProperty(key)){size++};
         if(size % 2==1){
-          tmpHTML+='<div style="display:table-row;">';
+          //tmpHTML+='<div style="display:table-row;">';
         }
         tmpMarkers="";
         if(SPLU.Favorites[key].location!==undefined){
@@ -5724,12 +5725,12 @@
             tmpTitle=SPLU.Favorites[key].title2;
           }
         }
-        tmpHTML+='<div style="display:table-cell; max-width:110px; padding-top:10px;">'
+        tmpHTML+='<div class="SPLUfavoritesGridItems" data-id="'+key+'" data-title="'+escape(tmpTitle)+'">'
           +'<a href="javascript:{void(0);}" onClick="javascript:{chooseFavorite(\''+key+'\');}"><img id="SPLU.FavoritesThumb-'+key+'" src="'+SPLU.Favorites[key].thumbnail+'"></a>'
           +'<a href="javascript:{void(0);}" onClick="javascript:{deleteFavorite(\''+key+'\');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/red_circle_x.png" style="vertical-align:top; position: relative; margin-left: -8px; margin-top: -8px;"/></a>'
           +'<br/>'+tmpMarkers+' '+decodeURIComponent(tmpTitle)+'</div>';
         if(size % 2==0){
-          tmpHTML+='</div>';
+          //tmpHTML+='</div>';
         }
         //Check if they have the old thumbnail URLs
         if(SPLU.Favorites[key].thumbnail !== undefined){
@@ -5748,6 +5749,9 @@
     if (old_thumbs) {
       updateFavoriteThumbs();
     }
+    FLsort = Sortable.create(document.getElementById('FavoritesGrid'), {
+      group: "SPLUFavoritesList",
+    })    
   }
   
   function updateFavoriteThumbs(){
@@ -5831,6 +5835,7 @@
     ELsort = Sortable.create(document.getElementById('EditLocationsTable'), {
       filter: 'input',
       preventOnFilter: false,
+      animation: 150,
       group: "EditLocationsTable"
     })    
   }
