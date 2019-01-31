@@ -1,4 +1,4 @@
-// SPLU 5.7.3 Alpha
+// SPLU 5.7.4 Alpha
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -12,7 +12,7 @@
     //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.7.3";
+    var SPLUversion="5.7.4";
 
     var SPLU={};
     var SPLUplayId="";
@@ -112,6 +112,13 @@
     tmpDiv.style.padding="3px";
     document.getElementById("SPLUmain").appendChild(tmpDiv);
 
+    //Insert code for SortableJS https://github.com/SortableJS/Sortable
+    var sortscript=document.createElement('script');
+    sortscript.type="text/javascript";
+    sortscript.src='https://cdn.jsdelivr.net/gh/dazeysan/SPLU@master/Source%20Code/scripts/sortable.js';
+    document.body.appendChild(sortscript);
+
+    
     //Insert code for Pikaday calendar Copyright © 2014 David Bushell
     var pikscript=document.createElement('script');
     pikscript.type="text/javascript";
@@ -5806,19 +5813,26 @@
     document.getElementById('SPLU.LocationsList').style.height=document.getElementById('BRlogMain').clientHeight-100+"px";
     document.getElementById('BRlogLocations').style.display="table-cell";
     SPLUlocationCount=0;
-    var tmpHTML="<div style='display:table;' id='EditLocationsTable'>";
+    var tmpHTML="<div style='text-align: center;width: 100%;'><a onclick=\"javascript:{ELsort.sort(ELsort.toArray().sort(function (a, b) {return a.toLowerCase().localeCompare(b.toLowerCase());}))}\" href=\"javascript:{void(0);}\"><i class=\"fa fa-sort-alpha-asc\"></i></a></div>";
+    tmpHTML+="<div style='display:table;' id='EditLocationsTable'>";
     for(var key in SPLU.Locations){
       if (SPLU.Locations.hasOwnProperty(key)) {
         SPLUlocationCount++;
-        tmpHTML+="<div style='display:table-row;' id='EditLocationsRow"+key+"'>";
+        tmpHTML+="<div style='display:table-row;' id='EditLocationsRow"+key+"' data-id='"+SPLU.Locations[key].Name+"'>";
         tmpHTML+='<div style="display:table-cell;padding:1px;"><a href="javascript:{void(0);}" onClick="javascript:{document.getElementById(\'EditLocationsTable\').removeChild(document.getElementById(\'EditLocationsRow'+key+'\'));}" style="color:red;margin:2px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/delete_row_small.png"></a></div>';
-        tmpHTML+="<div style='display:table-cell;padding:1px;'><input type='text' size='25' class='EditLocationsField' tabindex='"+(1000+SPLUlocationCount)+"' style='border:none;' value=\""+decodeURIComponent(SPLU.Locations[key].Name)+"\"/></div>";
+        tmpHTML+="<div style='display:table-cell;padding:1px;'><input type='text' size='25' class='EditLocationsField' tabindex='"+(1000+SPLUlocationCount)+"' style='border:none;' value=\""+decodeURIComponent(SPLU.Locations[key].Name)+"\" onkeyup='javascript:{document.getElementById(\"EditLocationsRow"+key+"\").setAttribute(\"data-id\",escape(this.value))}' /><div style='display:inline-block;'><i style='font-size: 1.1em;' class='fa fa-drag-row'></i></div></div>";
         tmpHTML+="</div>";
       }
     }
     tmpHTML+='</div>';
     document.getElementById('SPLU.LocationsList').innerHTML=tmpHTML;
     addLocation();
+
+    ELsort = Sortable.create(document.getElementById('EditLocationsTable'), {
+      filter: 'input',
+      preventOnFilter: false,
+      group: "EditLocationsTable"
+    })    
   }
   
   function addLocation(){
@@ -5826,8 +5840,9 @@
     var tmpDiv=document.createElement('div');
     tmpDiv.style.display="table-row";
     tmpDiv.id="EditLocationsRow"+SPLUlocationCount;
+    tmpDiv.setAttribute('data-id' , 'ZZZ');
     var tmpHTML='<div style="display:table-cell;padding:1px;"><a href="javascript:{void(0);}" onClick="javascript:{document.getElementById(\'EditLocationsTable\').removeChild(document.getElementById(\'EditLocationsRow'+SPLUlocationCount+'\'));}" style="color:red;margin:2px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/delete_row_small.png"></a></div>';
-    tmpHTML+="<div style='display:table-cell;padding:1px;'><input type='text' size='25' class='EditLocationsField' tabindex='"+(1000+SPLUlocationCount)+"' style='border:none;'/></div>";
+    tmpHTML+="<div style='display:table-cell;padding:1px;'><input type='text' size='25' class='EditLocationsField' tabindex='"+(1000+SPLUlocationCount)+"' style='border:none;' onkeyup='javascript:{document.getElementById(\"EditLocationsRow"+SPLUlocationCount+"\").setAttribute(\"data-id\",escape(this.value))}' /><div style='display:inline-block;'><i style='font-size: 1.1em;' class='fa fa-drag-row'></i></div></div>";
     tmpDiv.innerHTML=tmpHTML;
     document.getElementById('EditLocationsTable').appendChild(tmpDiv);
   }
@@ -5838,7 +5853,7 @@
     var locations=document.getElementsByClassName('EditLocationsField');
     for(i=0;i<locations.length;i++){
       if(locations[i].value!=""){
-        SPLU.Locations[i]={"Name":encodeURIComponent(locations[i].value)};
+        SPLU.Locations[i]={"Name":escape(locations[i].value)};
       }
     }
     SPLUremote.Locations=SPLU.Locations;
