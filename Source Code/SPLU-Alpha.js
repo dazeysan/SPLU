@@ -133,7 +133,7 @@
     var style=document.createElement('style');
     style.type='text/css';
     style.id="BRstyle";
-    style.innerHTML='.SPLUheader{height:32px; border:1px solid blue; padding:2px 5px;} .SPLUheaderClose{float:right; margin-right:-6px; margin-top:-4px;} .SPLUrows{vertical-align:bottom;} .BRbutn{border:1px dotted green;padding:0px 2px;} .BRcells{display:table-cell; padding-right:10px; padding-bottom:10px;} .SPLUplayerCells{display:table-cell;} .SPLUsettingAltRows{background-color: #80E086;} .SPLUbuttons{border:2px solid blue;padding:2px 4px;border-radius:5px;background-color:lightGrey;color:black;} .SPLUfavoritesGridItems{display:inline-block; width:100px; padding:3px; margin:5px;}';
+    style.innerHTML='.SPLUheader{height:32px; border:1px solid blue; padding:2px 5px;} .SPLUheaderClose{float:right; margin-right:-6px; margin-top:-4px;} .SPLUrows{vertical-align:bottom;} .BRbutn{border:1px dotted green;padding:0px 2px;} .BRcells{display:table-cell; padding-right:10px; padding-bottom:10px;} .SPLUplayerCells{display:table-cell;} .SPLUsettingAltRows{background-color: #80E086;} .SPLUbuttons{border:2px solid blue;padding:2px 4px;border-radius:5px;background-color:lightGrey;color:black;} .SPLUfavoritesGridItems{display:inline-block; width:100px; padding:3px; margin:5px;vertical-align:top;}';
     document.getElementsByTagName('head')[0].appendChild(style);
     
     var BRlogMain=document.createElement('div');
@@ -762,6 +762,10 @@
         +'<div id="SPLU.FavoritesCustomNameDiv" style="display:none;"><input style="margin-bottom: 10px; margin-left: 23px;" id="SPLU.FavoritesCustomName" type="text"><div style="display: inline;"><a style="" href="javascript:{void(0);}" onclick="javascript:{addFavorite(true);}"><span style="transform: translate(-1px, 3px);" class="fa-stack"><i style="color: white; transform: translate(0px, -3px); font-size: 1.4em;" class="fa fa-stack-2x fa-square-sharp"></i><i style="font-size: 1.3em; color: black;" class="fa fa-stack-2x fa-floppy2"></i></span></a></div></div>'
         +'<div id="SPLU.FavoritesStatus"></div>'
         +'<div id="SPLU.FavoritesList" style="overflow-y:auto; width:220px;"></div>'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{saveFavoritesOrder();}" class="SPLUbuttons" style="margin-right:6px;color:black;border:2px solid #249631">'+SPLUi18n.FavoritesOrderButtonSave+'</a>'
+        +'</div>'
+        +'<div id="SPLU.FavoritesStatus" style="display:inline;padding-left:5px;"></div>';
+
     tmpDiv.innerHTML+=tmpHTML;
     BRlogFavs.appendChild(tmpDiv);
 
@@ -1433,6 +1437,7 @@
     SPLU = {
       "Version":SPLUversion,
       "Favorites":{},
+      "FavoritesOrder":[],
       "Locations":{
         0: { "Name": "Location1" }
       },
@@ -1583,6 +1588,7 @@
           SPLU = {
             "Version":SPLUversion,
             "Favorites":{ },
+            "FavoritesOrder":[],
             "Locations":{
               0: { "Name": "Location1" }
             },
@@ -5751,7 +5757,27 @@
     }
     FLsort = Sortable.create(document.getElementById('FavoritesGrid'), {
       group: "SPLUFavoritesList",
-    })    
+    }) 
+    if (SPLU.FavoritesOrder!==undefined){
+      //Sort the favorites using the saved settings
+      FLsort.options.dataIdAttr="data-id";
+      TmpSort=FLsort.toArray();
+      FLsort.sort(TmpSort);
+    } else {
+      //Load the current unsorted favorites in to the settings, but don't save
+      FLsort.options.dataIdAttr="data-id";
+      SPLU.FavoritesOrder=FLsort.toArray();
+    }
+  }
+
+  function saveFavoritesOrder(){
+    document.getElementById('SPLU.FavoritesStatus').innerHTML=SPLUi18n.StatusThinking;
+    FLsort.options.dataIdAttr="data-id";
+    SPLU.FavoritesOrder=FLsort.toArray();
+    SPLUremote.FavoritesOrder=SPLU.FavoritesOrder;
+    saveSooty("SPLU.FavoritesStatus",SPLUi18n.StatusThinking,SPLUi18n.StatusSaved,function(){
+      //Nothing to do after saving favorites order?
+    });
   }
   
   function updateFavoriteThumbs(){
@@ -5866,7 +5892,6 @@
       loadLocations();
       showLocationsPane("save");
     });
-
   }
   
   function showPlayersPane(source){
