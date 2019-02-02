@@ -1,4 +1,4 @@
-// SPLU 5.7.4 Alpha
+// SPLU 5.7.5 Alpha
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -12,7 +12,7 @@
     //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.7.4";
+    var SPLUversion="5.7.5";
 
     var SPLU={};
     var SPLUplayId="";
@@ -724,6 +724,13 @@
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
+      +'<div style="display:table-row;">'
+      +'<div style="display:table-cell; text-align:right;">'+SPLUi18n.SettingsFavoritesThumbSize+' <select id="SPLU.SelectFavoritesThumbSize" onChange="javascript:{SPLU.Settings.Favorites.ThumbSize=document.getElementById(\'SPLU.SelectFavoritesThumbSize\').value;}"></select></div>'
+      +'<div style="display:table-cell; text-align:center;"></div>'
+      +'<div style="display:table-cell; text-align:center;">'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{updateFavoriteThumbs(SPLU.Settings.Favorites.ThumbSize);}" style="color:red;">R</a>'
+      +'</div>'
+      +'</div>'
 
       +'</div>'
       +'<div style="display:table; padding-top:15px;">'
@@ -1130,7 +1137,7 @@
           if(SPLU.Settings[key].Visible){
             document.getElementById("SPLU."+key+"Check").checked=true;
           }else{
-            if(key!="PopUpText" && key!="LocationList" && key!="WinComments" && key!="ExpansionComments" && key!="PlayerList" && key!="ExpansionQuantity" && key!="ExpansionDetails" && key!="SortPlayers" && key!="SortGroups" && key!="PlayerGroups" && key!="ExpansionWinStats" && key!="DefaultPlayer" && key!="DefaultLocation" && key!="ExpansionLinkParent" && key!="i18n"){
+            if(key!="PopUpText" && key!="LocationList" && key!="WinComments" && key!="ExpansionComments" && key!="PlayerList" && key!="ExpansionQuantity" && key!="ExpansionDetails" && key!="SortPlayers" && key!="SortGroups" && key!="PlayerGroups" && key!="ExpansionWinStats" && key!="DefaultPlayer" && key!="DefaultLocation" && key!="ExpansionLinkParent" && key!="i18n" && key!="Favorites"){
               if(key.slice(-6)=="Column"){
                 document.getElementById('SPLU.'+key+'Header').style.display="none";
               }else{
@@ -1201,6 +1208,7 @@
     loadGroups();
     loadDefaultPlayersList();
     loadDefaultLocationList();
+    loadFavoritesThumbSizeList();
     
     //New Pikaday calendar
     //if(Pikaday===undefined){
@@ -1428,7 +1436,8 @@
       "TwitterField":{"Enabled":false,"Visible":false,"Reset":true},
       "ExpansionWinStats":{"Enabled":false},
       "DefaultPlayer":{"Name":"-blank-"},
-      "DefaultLocation":{"Name":"-blank-"}
+      "DefaultLocation":{"Name":"-blank-"},
+      "Favorites":{"ThumbSize":"tallthumb"}
     }
   }
   
@@ -2851,6 +2860,27 @@
         }
         i++;
       }
+    }
+  }
+  
+  function loadFavoritesThumbSizeList(){
+    select=document.getElementById('SPLU.SelectFavoritesThumbSize');
+    tmpName=SPLU.Settings.Favorites.ThumbSize;
+    select.options.length=0;
+    if(tmpName=="tallthumb"){
+      select.options[0]=new Option("tallthumb (75x125)", "tallthumb", false, true);
+    } else {
+      select.options[0]=new Option("tallthumb (75x125)", "tallthumb", false, false);
+    }
+    if(tmpName=="micro"){
+      select.options[0]=new Option("micro (64x64)", "micro", false, true);
+    } else {
+      select.options[0]=new Option("micro (64x64)", "micro", false, false);
+    }
+    if(tmpName=="off"){
+      select.options[0]=new Option("off (0x0)", "off", false, true);
+    } else {
+      select.options[0]=new Option("off (0x0)", "off", false, false);
     }
   }
   
@@ -5754,8 +5784,9 @@
     document.getElementById('SPLU.FavoritesStatus').innerHTML='<center>'+tmpFavs+'</center><br/>';
     //document.getElementById('SPLU.FavoritesStatus').innerHTML='<center>You have '+size+' Favorites.</center><br/>';
     //Do we need to fetch new thumbnails?
-    if (old_thumbs) {
-      updateFavoriteThumbs();
+    if (old_thumbs && SPLU.Settings.Favorites.ThumbSize!="off") {
+      updateFavoriteThumbs(SPLU.Settings.Favorites.ThumbSize);
+      old_thumbs = false;
     }
     FLsort = Sortable.create(document.getElementById('FavoritesGrid'), {
       group: "SPLUFavoritesList",
@@ -5783,10 +5814,14 @@
     });
   }
   
-  function updateFavoriteThumbs(){
+  function updateFavoriteThumbs(size){
     for(key in SPLU.Favorites){
       objectid = SPLU.Favorites[key].objectid;
-      fetchImageList(objectid, "img", "SPLU.FavoritesThumb-"+key, "tallthumb", key, "");
+      if(size == "off"){
+        SPLU.Favorites[key].thumbnail = "off";
+      } else {
+        fetchImageList(objectid, "img", "SPLU.FavoritesThumb-"+key, size, key, "");
+      }
     }
     window.setTimeout(saveSettings("Updated Thumbnails."),5000);
   }
@@ -5802,6 +5837,7 @@
     document.getElementById('BRlogSettings').style.display="table-cell";
     loadDefaultPlayersList();
     loadDefaultLocationList();
+    loadFavoritesThumbSizeList();
     if(SPLUi18nList.en===undefined){
       fetchLanguageList();
     }
