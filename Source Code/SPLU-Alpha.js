@@ -762,7 +762,7 @@
         +'<div id="SPLU.FavoritesCustomNameDiv" style="display:none;"><input style="margin-bottom: 10px; margin-left: 23px;" id="SPLU.FavoritesCustomName" type="text"><div style="display: inline;"><a style="" href="javascript:{void(0);}" onclick="javascript:{addFavorite(true);}"><span style="transform: translate(-1px, 3px);" class="fa-stack"><i style="color: white; transform: translate(0px, -3px); font-size: 1.4em;" class="fa fa-stack-2x fa-square-sharp"></i><i style="font-size: 1.3em; color: black;" class="fa fa-stack-2x fa-floppy2"></i></span></a></div></div>'
         +'<div id="SPLU.FavoritesStatus"></div>'
         +'<div id="SPLU.FavoritesList" style="overflow-y:auto; width:220px;"></div>'
-          +'<div><a href="javascript:{void(0);}" onClick="javascript:{saveFavoritesOrder();}" class="SPLUbuttons" style="margin-right:6px;color:black;border:2px solid #249631">'+SPLUi18n.FavoritesOrderButtonSave+'</a>'
+          +'<div style="margin-top:10px;"><a href="javascript:{void(0);}" onClick="javascript:{saveFavoritesOrder();}" class="SPLUbuttons" style="margin-right:6px;color:black;border:2px solid #249631">'+SPLUi18n.FavoritesOrderButtonSave+'</a>'
           +'<div id="SPLU.FavoritesLowerStatus" style="display:inline;padding-left:5px;"></div>'
           +'</div>'
         +'</div>';
@@ -5750,6 +5750,7 @@
     tmpHTML+='</div>';
     document.getElementById('SPLU.FavoritesList').innerHTML=tmpHTML;
     tmpFavs = SPLUi18n.StatusYouHaveFavorites.replace("$1", size);
+    tmpFavs += "<a onclick=\"javascript:{FLsort.options.dataIdAttr='data-title'; FLsort.sort(FLsort.toArray().sort(function (a, b) {return a.toLowerCase().localeCompare(b.toLowerCase());}))}\" href=\"javascript:{void(0);}\"><i class=\"fa fa-sort-alpha-asc\"></i></a>"
     document.getElementById('SPLU.FavoritesStatus').innerHTML='<center>'+tmpFavs+'</center><br/>';
     //document.getElementById('SPLU.FavoritesStatus').innerHTML='<center>You have '+size+' Favorites.</center><br/>';
     //Do we need to fetch new thumbnails?
