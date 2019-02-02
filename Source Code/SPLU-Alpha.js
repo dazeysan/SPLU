@@ -763,7 +763,7 @@
         +'<div id="SPLU.FavoritesStatus"></div>'
         +'<div id="SPLU.FavoritesList" style="overflow-y:auto; width:220px;"></div>'
           +'<div><a href="javascript:{void(0);}" onClick="javascript:{saveFavoritesOrder();}" class="SPLUbuttons" style="margin-right:6px;color:black;border:2px solid #249631">'+SPLUi18n.FavoritesOrderButtonSave+'</a>'
-          +'<div id="SPLU.FavoritesLowerStatus" style="display:inline;padding-left:5px;"></div>''
+          +'<div id="SPLU.FavoritesLowerStatus" style="display:inline;padding-left:5px;"></div>'
           +'</div>'
         +'</div>';
 
