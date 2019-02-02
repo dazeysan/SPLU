@@ -762,9 +762,10 @@
         +'<div id="SPLU.FavoritesCustomNameDiv" style="display:none;"><input style="margin-bottom: 10px; margin-left: 23px;" id="SPLU.FavoritesCustomName" type="text"><div style="display: inline;"><a style="" href="javascript:{void(0);}" onclick="javascript:{addFavorite(true);}"><span style="transform: translate(-1px, 3px);" class="fa-stack"><i style="color: white; transform: translate(0px, -3px); font-size: 1.4em;" class="fa fa-stack-2x fa-square-sharp"></i><i style="font-size: 1.3em; color: black;" class="fa fa-stack-2x fa-floppy2"></i></span></a></div></div>'
         +'<div id="SPLU.FavoritesStatus"></div>'
         +'<div id="SPLU.FavoritesList" style="overflow-y:auto; width:220px;"></div>'
-        +'<a href="javascript:{void(0);}" onClick="javascript:{saveFavoritesOrder();}" class="SPLUbuttons" style="margin-right:6px;color:black;border:2px solid #249631">'+SPLUi18n.FavoritesOrderButtonSave+'</a>'
-        +'</div>'
-        +'<div id="SPLU.FavoritesStatus" style="display:inline;padding-left:5px;"></div>';
+          +'<div><a href="javascript:{void(0);}" onClick="javascript:{saveFavoritesOrder();}" class="SPLUbuttons" style="margin-right:6px;color:black;border:2px solid #249631">'+SPLUi18n.FavoritesOrderButtonSave+'</a>'
+          +'<div id="SPLU.FavoritesLowerStatus" style="display:inline;padding-left:5px;"></div>''
+          +'</div>'
+        +'</div>';
 
     tmpDiv.innerHTML+=tmpHTML;
     BRlogFavs.appendChild(tmpDiv);
@@ -5772,11 +5773,11 @@
   }
 
   function saveFavoritesOrder(){
-    document.getElementById('SPLU.FavoritesStatus').innerHTML=SPLUi18n.StatusThinking;
+    document.getElementById('SPLU.FavoritesLowerStatus').innerHTML=SPLUi18n.StatusThinking;
     FLsort.options.dataIdAttr="data-id";
     SPLU.FavoritesOrder=FLsort.toArray();
     SPLUremote.FavoritesOrder=SPLU.FavoritesOrder;
-    saveSooty("SPLU.FavoritesStatus",SPLUi18n.StatusThinking,SPLUi18n.StatusSaved,function(){
+    saveSooty("SPLU.FavoritesLowerStatus",SPLUi18n.StatusThinking,SPLUi18n.StatusSaved,function(){
       //Nothing to do after saving favorites order?
     });
   }
