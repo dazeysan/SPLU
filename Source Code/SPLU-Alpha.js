@@ -286,7 +286,7 @@
               +'<input style="margin:3px 0px 0px;" autocomplete="off" class="geekinput_medium" name="geekitemname" id="q546e9ffd96dfc" tabindex="60" placeholder="'+SPLUi18n.MainPlaceholderBGG+'" onClick="this.select();" onkeydown="SPLUsearchDelay();" type="text">'
               +'<div id="SPLUsearchResultsDIV" style="display:none; background-color: rgb(255, 255, 255); position: absolute; padding: 5px; z-index: 579; margin-right: 12px; min-width: 130px;"></div>'
               +'<div style="float: right; margin-top: 4px;">'
-                +'<a href="javascript:{void(0);}" onClick="javascript:{showFavsPane(\'button\');}" id="favoritesGoTo" style="border:4px solid lightblue;border-radius:4px"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/choose_from_favorites.png"></a>'
+                +'<a href="javascript:{void(0);}" onClick="javascript:{showFavsPane(\'button\');}" id="favoritesGoTo" style="border:4px solid lightblue;border-radius:4px"><img src="https://dazeysan.github.io/SPLU//master/Images/choose_from_favorites.png"></a>'
               +'</div>'
             +'</div>'
             +'<div id="objectiddisp546e9ffd96dfc" style="display:none;">'
@@ -304,10 +304,10 @@
               +'<div style="display:table-cell; vertical-align:top;">'
                 +'<div id="BRthumbButtons" style="display:none">'
                   +'<div style="padding-bottom:5px; padding-top:7px;">'
-                    +'<a href="javascript:{void(0);}" onClick="javascript:{addFavorite(false);}" id="favoritesAddToList" style="padding:4px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/add_to_favorites.png" border="0"></a>'
+                    +'<a href="javascript:{void(0);}" onClick="javascript:{addFavorite(false);}" id="favoritesAddToList" style="padding:4px;"><img src="https://dazeysan.github.io/SPLU//master/Images/add_to_favorites.png" border="0"></a>'
                   +'</div>'
                   +'<div>'
-                    +'<a javascript:{void(0);}" onClick="javascript:{SPLUgameID=document.getElementById(\'objectid9999\').value;showExpansionsPane(\'button\');}" id="expansionLoggingButton" style="padding:4px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/log_expansion.png" border="0"></a>'
+                    +'<a javascript:{void(0);}" onClick="javascript:{SPLUgameID=document.getElementById(\'objectid9999\').value;showExpansionsPane(\'button\');}" id="expansionLoggingButton" style="padding:4px;"><img src="https://dazeysan.github.io/SPLU//master/Images/log_expansion.png" border="0"></a>'
                     +'<span id="SPLU_ExpansionsQuantity" style="padding-left: 3px;"></span>'
                   +'</div>'
                 +'</div>'
@@ -433,7 +433,7 @@
     var tmpDiv=document.createElement('div');
     var tmpHTML='<div id="hideSettingsButton" style="position: absolute; right: 0px; top: 2px;">'
       +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogMain\').style.minWidth=\'\';document.getElementById(\'BRlogSettings\').style.display=\'none\';}" style="border:2px solid black;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;">'
-      +'<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/close_pane.png">'
+      +'<img src="https://dazeysan.github.io/SPLU//master/Images/close_pane.png">'
       +'</a>'
       +'</div>'
       +'<span style="font-variant:small-caps; font-weight:bold; font-size:13px;">'
@@ -757,7 +757,7 @@
     BRlogFavs.setAttribute("style","display:none; background-color: #FFAEC5; font-style:initial; color:black; padding: 13px;border:2px solid #F30F27;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:100px;position:relative;");
     var tmpDiv=document.createElement('div');
     var tmpHTML='<div id="hideFavsButton" style="position: absolute; right: 0px; top: 2px;">'
-        +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogFavs\').style.display=\'none\';}" style="border:2px solid #F30F27;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/close_pane.png"></a>'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogFavs\').style.display=\'none\';}" style="border:2px solid #F30F27;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU//master/Images/close_pane.png"></a>'
         +'</div>'
         +'<span style="font-variant:small-caps; font-weight:bold;">'
           +'<div style="float: left; padding-left: 20px; position: absolute;">'
@@ -782,7 +782,7 @@
     BRlogExpansions.setAttribute("style","display:none; background-color: #B269FB; font-style:initial; color:white; padding: 13px;border:2px solid blue;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:75px; max-width:250px;position:relative;");
     var tmpDiv=document.createElement('div');
     var tmpHTML='<div id="hideExpansionsButton" style="position: absolute; right: 0px; top: 2px;">'
-        +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogExpansions\').style.display=\'none\';}" style="border:2px solid blue;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/close_pane.png"></a>'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogExpansions\').style.display=\'none\';}" style="border:2px solid blue;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU//master/Images/close_pane.png"></a>'
         +'</div>'
         +'<form name="BRexpLogForm">'
           +'<center><b>'+SPLUi18n.ExpansionsHeader+'</b></center>'
@@ -806,7 +806,7 @@
               +'<div style="padding-top:10px;">'+SPLUi18n.ExpansionsQuantity+': '
                 +'<div id="SPLU.fakeExpQtyBox" style="display:inline-block;padding:0px 2px; -moz-appearance:textfield; -webkit-appearance:textfield;">'
                   +'<input type="text" id="BRexpPlayQTY"/ value="0" style="width:40px;border:none;">'
-                  +'<a href="javascript:{void(0);}" onClick="javascript:{saveExpansionQuantity();}" style="vertical-align:middle;" id="SPLU.SaveExpQtyButton"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/save.png"></a>'
+                  +'<a href="javascript:{void(0);}" onClick="javascript:{saveExpansionQuantity();}" style="vertical-align:middle;" id="SPLU.SaveExpQtyButton"><img src="https://dazeysan.github.io/SPLU//master/Images/save.png"></a>'
                 +'</div>'
                 +'<div style="display:table; padding-top:10px;">'
                   +'<div style="display:table-row;">'
@@ -830,7 +830,7 @@
     BRlogLocations.setAttribute("style","display:none; background-color: #F5C86C; padding: 13px;border:2px solid #249631;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:100px;position:relative;");
     var tmpDiv=document.createElement('div');
     var tmpHTML='<div id="hideLocationsButton" style="position: absolute; right: 0px; top: 2px;">'
-        +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogLocations\').style.display=\'none\';}" style="border:2px solid #249631;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/close_pane.png"></a>'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogLocations\').style.display=\'none\';}" style="border:2px solid #249631;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU//master/Images/close_pane.png"></a>'
         +'</div>'
         +'<span style="font-variant:small-caps; font-weight:bold;">'
         +'<center>'+SPLUi18n.LocationsHeader+'</center>'
@@ -850,7 +850,7 @@
     BRlogPlayers.setAttribute("style","display:none; background-color: #F7FB6F; padding: 13px;border:2px solid #00F; border-radius:15px; box-shadow:10px 10px 5px #888; min-width:275px;position:relative;");
     var tmpDiv=document.createElement('div');
     var tmpHTML='<div id="hidePlayersButton" style="position: absolute; right: 0px; top: 2px;">'
-        +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();showPlayersTab();document.getElementById(\'BRlogPlayers\').style.display=\'none\';}" style="border:2px solid #00F;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/close_pane.png"></a>'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();showPlayersTab();document.getElementById(\'BRlogPlayers\').style.display=\'none\';}" style="border:2px solid #00F;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU//master/Images/close_pane.png"></a>'
         +'</div>'
         +'<span style="font-variant:small-caps; font-weight:bold;">'
         +'<center>'+SPLUi18n.PlayersHeader+'</center>'
@@ -877,10 +877,10 @@
         +'<div style="display:table-row;">'
         +'<div id="SPLU.PlayersSubHeading" style="display: table-cell; height: 15px;">'
         +'<div id="SPLU.FiltersDeleteCell" style="display:none;">'
-        +'<a href="javascript:{void(0);}" onClick="javascript:{removeFilter();}" style="vertical-align:middle; padding-right:5px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/delete_row_small.png"></a>'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{removeFilter();}" style="vertical-align:middle; padding-right:5px;"><img src="https://dazeysan.github.io/SPLU//master/Images/delete_row_small.png"></a>'
         +'</div>'
         +'<div id="SPLU.GroupsDeleteCell" style="display:none;">'
-        +'<a href="javascript:{void(0);}" onClick="javascript:{removeGroup();}" style="vertical-align:middle; padding-right:5px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/delete_row_small.png"></a>'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{removeGroup();}" style="vertical-align:middle; padding-right:5px;"><img src="https://dazeysan.github.io/SPLU//master/Images/delete_row_small.png"></a>'
         +'</div>'
         +'</div>'
         +'<div id="SPLU.FiltersSubHeading" style="display: table-cell;">'
@@ -921,7 +921,7 @@
         +'<a href="javascript:{void(0);}" onClick="javascript:{saveFilters();}" class="SPLUbuttons" style="margin-right:6px;color:black;" id="SavePlayerFilterBtn">'+SPLUi18n.PlayersButtonSaveFilters+'</a>'
         +'<div id="SPLU.fakeFilterBox" style="display:inline-block;padding:0px 2px; -moz-appearance:textfield; -webkit-appearance:textfield;">'
         +'<input type="text" id="SPLU.NewFilterName" placeholder="'+SPLUi18n.PlayersPlaceholderAddFilter+'" style="width:100px;border:none;"></input>'
-        +'<a href="javascript:{void(0);}" onClick="javascript:{addFilter();}" style="color:black;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/green_circle_plus.png"></a>'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{addFilter();}" style="color:black;"><img src="https://dazeysan.github.io/SPLU//master/Images/green_circle_plus.png"></a>'
         +'</div>'
         +'</div>'
         +'<div id="SPLU.FiltersStatus" style="display:inline;padding-left:5px;"></div>'
@@ -930,7 +930,7 @@
         +'<div style="padding-top:10px;"><a href="javascript:{void(0);}" onClick="javascript:{saveGroups();}" class="SPLUbuttons" style="margin-right:6px;color:black;" id="SavePlayerGroupsBtn">'+SPLUi18n.PlayersButtonSaveGroups+'</a>'
         +'<div id="SPLU.fakeGroupBox" style="display:inline-block;padding:0px 2px; -moz-appearance:textfield; -webkit-appearance:textfield;">'
         +'<input type="text" id="SPLU.NewGroupName" placeholder="'+SPLUi18n.PlayersPlaceholderAddGroup+'" style="width:100px;border:none;"></input>'
-        +'<a href="javascript:{void(0);}" onClick="javascript:{addGroup();}" style="color:black;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/green_circle_plus.png"></a>'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{addGroup();}" style="color:black;"><img src="https://dazeysan.github.io/SPLU//master/Images/green_circle_plus.png"></a>'
         +'</div>'
         +'</div>'
         +'<div id="SPLU.GroupsStatus" style="display:inline;padding-left:5px;"></div>'
@@ -943,7 +943,7 @@
     BRlogPlays.setAttribute("style","display:none; background-color: #F1F8FB; padding: 13px;border:2px solid #249631;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:100px;position:relative;");
     var tmpDiv=document.createElement('div');
     var tmpHTML='<div id="hidePlaysButton" style="position: absolute; right: 0px; top: 2px;">'
-          +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogPlays\').style.display=\'none\';}" style="border:2px solid #249631;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/close_pane.png"></a>'
+          +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogPlays\').style.display=\'none\';}" style="border:2px solid #249631;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU//master/Images/close_pane.png"></a>'
         +'</div>'
         +'<span style="font-variant:small-caps; font-weight:bold;">'
           +'<center>'+SPLUi18n.PlaysHeader+'</center>'
@@ -976,10 +976,10 @@
             +'</a>'
           +'</div>'
           +'<div id="SPLUstatsIconBtn" style="display:inline;padding-top:5px;border-top-left-radius:20px;border-top-right-radius:20px;">'
-            +'<a href="javascript:{void(0);}" style="padding:0px 20px;" onClick="javascript:{showPlaysTab(\'stats\');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/statistics.png" id="statisticsicon"></a>'
+            +'<a href="javascript:{void(0);}" style="padding:0px 20px;" onClick="javascript:{showPlaysTab(\'stats\');}"><img src="https://dazeysan.github.io/SPLU//master/Images/statistics.png" id="statisticsicon"></a>'
           +'</div>'
           +'<div id="SPLUcopyModeIconBtn" style="display:none;padding-top:5px;border-top-left-radius:20px;border-top-right-radius:20px;">'
-            +'<a href="javascript:{void(0);}" style="padding:0px 20px;" onClick="javascript:{showPlaysTab(\'copymode\');loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,true);}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/copy.gif" id="copymodeicon"></a>'
+            +'<a href="javascript:{void(0);}" style="padding:0px 20px;" onClick="javascript:{showPlaysTab(\'copymode\');loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,true);}"><img src="https://dazeysan.github.io/SPLU//master/Images/copy.gif" id="copymodeicon"></a>'
           +'</div>'
         +'</div>'
         +'<div id="SPLU.PlaysFilters" style="border: 1px solid blue; border-radius: 5px; padding: 3px;">'
@@ -1036,7 +1036,7 @@
               +'</ul>'
             +'</div>'
             +'<span id="SPLU.PlaysLoadingDiv" style="margin-left:20px;display:none;">'
-              +'<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/progress.gif">'
+              +'<img src="https://dazeysan.github.io/SPLU//master/Images/progress.gif">'
             +'</span>'
           +'<div id="SPLU.PlaysFiltersCurrent"></div>'
             +'<div id="SPLU.PlaysFiltersGoBtn"style="float:right;margin-top:-20px;margin-right:5px;display:none;">'
@@ -1047,13 +1047,13 @@
         +'<div id="SPLU.PlaysList" style="overflow-y:auto; width:275px;"></div>'
         +'<div id="SPLUcopyPlaysDiv" style="display:none;padding-top:10px;">'
           +'<div class="BRcells" id="CopyPlaysSelectAllBtn">'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlaysSelectAll();}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/select-all.png" style="vertical-align: middle;"></a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlaysSelectAll();}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;"><img src="https://dazeysan.github.io/SPLU//master/Images/select-all.png" style="vertical-align: middle;"></a>'
           +'</div>'
           +'<div class="BRcells" id="CopyPlaysDeselectAllBtn" style="display:none;">'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlaysSelectAll();}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/deselect-all.png" style="vertical-align: middle;"></a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlaysSelectAll();}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;"><img src="https://dazeysan.github.io/SPLU//master/Images/deselect-all.png" style="vertical-align: middle;"></a>'
           +'</div>'
           +'<div class="BRcells">'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlays(0,200);}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="CopyPlaysBtn";><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/copy.gif" style="vertical-align: middle;"> '+SPLUi18n.PlaysButtonCopySelected+'</a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlays(0,200);}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;" id="CopyPlaysBtn";><img src="https://dazeysan.github.io/SPLU//master/Images/copy.gif" style="vertical-align: middle;"> '+SPLUi18n.PlaysButtonCopySelected+'</a>'
           +'</div>'
           +'<div id="CopyPlaysStatus"></div>'
         +'</div>'
@@ -1071,7 +1071,7 @@
             +SPLUi18n.StatsOptionIncludeZeros+':<input style="vertical-align: middle;" id="SPLUzeroScoreStatsCheck" onChange="javascript:{SPLUzeroScoreStats=document.getElementById(\'SPLUzeroScoreStatsCheck\').checked;loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);}" type="checkbox">'
           +'</span>'
           +'<span id="SPLUcsvDownload" style="margin-left:50px;vertical-align:top;">'
-            +'<a href="javascript:{void(0);}" onClick="javascript:{SPLUdownloadText(\'SPLU-Export.csv\',SPLUcsv);}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/save-csv.png""></a>'
+            +'<a href="javascript:{void(0);}" onClick="javascript:{SPLUdownloadText(\'SPLU-Export.csv\',SPLUcsv);}"><img src="https://dazeysan.github.io/SPLU//master/Images/save-csv.png""></a>'
           +'</span>'
           +'<div id="SPLU.StatsPlayerDiv" style="display: none;">'+SPLUi18n.PlaysFilterPlayer+': <select class="fa" id="SPLU.SelectStatPlayer" onChange="javascript:{setWinsByGamePlayer(\'\');}"></select></div>'
         +'</div>'
@@ -2555,7 +2555,12 @@
     document.getElementById('SPLU_ExpansionsQuantity').innerHTML="";
     document.getElementById('objectid9999').value=SPLU.Favorites[id].objectid;
     SPLUgameID=SPLU.Favorites[id].objectid;
-    document.getElementById('selimage9999').innerHTML='<a target="_blank" href="/'+SPLU.Favorites[id].objecttype+'/'+SPLU.Favorites[id].objectid+'"><img id="SPLU.GameThumb" src="'+SPLU.Favorites[id].thumbnail+'"/></a>';
+    if(SPLU.Settings.Favorites.ThumbSize=="off"){
+      tmpURL = '/'+SPLU.Favorites[id].objecttype+'/'+SPLU.Favorites[id].objectid;
+      fetchImageList(id, 'div', 'selimage9999', 'tallthumb', '', tmpURL)
+    } else {
+      document.getElementById('selimage9999').innerHTML='<a target="_blank" href="/'+SPLU.Favorites[id].objecttype+'/'+SPLU.Favorites[id].objectid+'"><img id="SPLU.GameThumb" src="'+SPLU.Favorites[id].thumbnail+'"/></a>';
+    }
     document.getElementById('q546e9ffd96dfc').value=SPLU.Favorites[id].title;
     document.getElementById('BRlogFavs').style.display="none";
     document.getElementById('SPLUsearchResultsDIV').style.display="none";
@@ -2770,7 +2775,7 @@
         window.setTimeout(function(){ document.getElementById(statusID).innerHTML=""}, 3000);
         onloadFunction();
       }else{
-        document.getElementById(statusID).innerHTML="<img style='vertical-align:bottom;padding-top:5px;' src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/alert.gif'><span style='background-color:red;color:white;font-weight:bold;'>"+SPLUi18n.StatusErrorCode+": "+responseJSON.target.status+"</span>";
+        document.getElementById(statusID).innerHTML="<img style='vertical-align:bottom;padding-top:5px;' src='https://dazeysan.github.io/SPLU//master/Images/alert.gif'><span style='background-color:red;color:white;font-weight:bold;'>"+SPLUi18n.StatusErrorCode+": "+responseJSON.target.status+"</span>";
       }
     };
     if(document.getElementById(statusID)==null){
@@ -2873,14 +2878,14 @@
       select.options[0]=new Option("tallthumb (75x125)", "tallthumb", false, false);
     }
     if(tmpName=="micro"){
-      select.options[0]=new Option("micro (64x64)", "micro", false, true);
+      select.options[1]=new Option("micro (64x64)", "micro", false, true);
     } else {
-      select.options[0]=new Option("micro (64x64)", "micro", false, false);
+      select.options[1]=new Option("micro (64x64)", "micro", false, false);
     }
     if(tmpName=="off"){
-      select.options[0]=new Option("off (0x0)", "off", false, true);
+      select.options[2]=new Option("off (0x0)", "off", false, true);
     } else {
-      select.options[0]=new Option("off (0x0)", "off", false, false);
+      select.options[2]=new Option("off (0x0)", "off", false, false);
     }
   }
   
@@ -2931,11 +2936,11 @@
       SPLUcopyContinue=true;
       loadPlay(lastCopied);
       SPLUcopyID=lastCopied;
-      document.getElementById('SPLUcopyID-'+lastCopied).innerHTML='<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/progress.gif">';
+      document.getElementById('SPLUcopyID-'+lastCopied).innerHTML='<img src="https://dazeysan.github.io/SPLU//master/Images/progress.gif">';
       window.setTimeout(function(){saveGamePlay("copy");},2000);
       return;
     }else{
-      document.getElementById('SPLUcopyID-'+lastCopied).innerHTML='<a href="javascript:{void(0);}" onClick="javascript:{copyPlays('+lastCopied+',\'retry\');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/alert.gif">';
+      document.getElementById('SPLUcopyID-'+lastCopied).innerHTML='<a href="javascript:{void(0);}" onClick="javascript:{copyPlays('+lastCopied+',\'retry\');}"><img src="https://dazeysan.github.io/SPLU//master/Images/alert.gif">';
       document.getElementById('BRresults').innerHTML=SPLUi18n.StatusTimedOutTryAgain;
       SPLUcopyCopied--;
       tmpCopied = SPLUi18n.StatusCopied.replace("$1", SPLUcopyCopied);
@@ -2952,7 +2957,7 @@
           console.log(tmpPlayID);
           loadPlay(tmpPlayID);
           SPLUcopyID=tmpPlayID;
-          document.getElementById('SPLUcopyID-'+tmpPlayID).innerHTML='<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/progress.gif">';
+          document.getElementById('SPLUcopyID-'+tmpPlayID).innerHTML='<img src="https://dazeysan.github.io/SPLU//master/Images/progress.gif">';
           window.setTimeout(function(){saveGamePlay("copy");},2000);
           tmpCopying = SPLUi18n.StatusCopying.replace("$1", SPLUcopyCopied);
           tmpCopying = tmpCopying.replace("$2", SPLUcopyTotal);
@@ -3858,7 +3863,7 @@
     if(filter!="add" && filter!="---" && filter!="DEL"){
       SPLUplaysFiltersCount++;
       var tmpHTML='<a href="javascript:{void(0);}" onclick="javascript:{document.getElementById(\'SPLU.PlaysFiltersCurrent\').removeChild(document.getElementById(\'SPLU.playsFiltersLine'+SPLUplaysFiltersCount+'\'));window.setTimeout(function(){loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);addPlaysFilter(\'DEL\',\'\');},25);}" style="color:red;margin:2px;">'
-        +'<img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/delete_row_small.png">'
+        +'<img src="https://dazeysan.github.io/SPLU//master/Images/delete_row_small.png">'
         +'</a>';
       if(filter=="playername"){filterName=SPLUi18n.PlaysFilterPlayer;}
       if(filter=="username"){filterName=SPLUi18n.PlaysFilterUsername;}
@@ -4349,6 +4354,7 @@
           document.getElementById(id).src=SPLUimageData[gameid].item.images[size];
         }
         if (favid != "") {
+          console.log("Updating Fav Thumb");
           SPLU.Favorites[favid].thumbnail = SPLUimageData[gameid].item.images[size];
         }
       } else {
@@ -5490,7 +5496,7 @@
   
   function fetchExpansions(){
     SPLUprevGameID=SPLUgameID;
-    document.getElementById('SPLU.ExpansionPane').innerHTML=SPLUi18n.StatusLoadingExpansions+"<img src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/progress.gif'/>";
+    document.getElementById('SPLU.ExpansionPane').innerHTML=SPLUi18n.StatusLoadingExpansions+"<img src='https://dazeysan.github.io/SPLU//master/Images/progress.gif'/>";
     var oReq=new XMLHttpRequest();
     oReq.onload=loadExpansions;
     oReq.open("get","/xmlapi2/thing?type=boardgame&id="+SPLUgameID,true);
@@ -5554,7 +5560,7 @@
 
   function fetchFamily(id){
     SPLUprevGameID=SPLUgameID;
-    document.getElementById('SPLU.FamilyPane').innerHTML=SPLUi18n.StatusLoadingFamilyItems+"<img src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/progress.gif'/>";
+    document.getElementById('SPLU.FamilyPane').innerHTML=SPLUi18n.StatusLoadingFamilyItems+"<img src='https://dazeysan.github.io/SPLU//master/Images/progress.gif'/>";
     SPLUfamilyID="-1";
     var name=document.getElementById('q546e9ffd96dfc').value;
     if(id==-1){
@@ -5762,10 +5768,17 @@
             tmpTitle=SPLU.Favorites[key].title2;
           }
         }
-        tmpHTML+='<div class="SPLUfavoritesGridItems" data-id="'+key+'" data-title="'+escape(tmpTitle)+'">'
-          +'<a href="javascript:{void(0);}" onClick="javascript:{chooseFavorite(\''+key+'\');}"><img id="SPLU.FavoritesThumb-'+key+'" src="'+SPLU.Favorites[key].thumbnail+'"></a>'
-          +'<a href="javascript:{void(0);}" onClick="javascript:{deleteFavorite(\''+key+'\');}"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/red_circle_x.png" style="vertical-align:top; position: relative; margin-left: -8px; margin-top: -8px;"/></a>'
-          +'<br/>'+tmpMarkers+' '+decodeURIComponent(tmpTitle)+'</div>';
+        tmpHTML+='<div class="SPLUfavoritesGridItems" data-id="'+key+'" data-title="'+escape(tmpTitle)+'">';
+        if(SPLU.Favorites[key].thumbnail == "off"){
+          tmpHTML+='<a href="javascript:{void(0);}" onClick="javascript:{deleteFavorite(\''+key+'\');}"><img src="https://dazeysan.github.io/SPLU/Images/red_circle_x.png" style=""/></a>';
+          tmpHTML+=tmpMarkers+'<a href="javascript:{void(0);}" onClick="javascript:{chooseFavorite(\''+key+'\');}">'+decodeURIComponent(tmpTitle)+'</a>';
+        } else {
+          tmpHTML+='<a href="javascript:{void(0);}" onClick="javascript:{chooseFavorite(\''+key+'\');}"><img id="SPLU.FavoritesThumb-'+key+'" src="'+SPLU.Favorites[key].thumbnail+'"></a>';
+          tmpHTML+='<a href="javascript:{void(0);}" onClick="javascript:{deleteFavorite(\''+key+'\');}"><img src="https://dazeysan.github.io/SPLU/Images/red_circle_x.png" style="vertical-align:top; position: relative; margin-left: -8px; margin-top: -8px;"/></a>';
+          tmpHTML+='<br/>';
+          tmpHTML+=tmpMarkers+' '+decodeURIComponent(tmpTitle);
+        }
+        tmpHTML+='</div>';
         if(size % 2==0){
           //tmpHTML+='</div>';
         }
@@ -5888,7 +5901,7 @@
       if (SPLU.Locations.hasOwnProperty(key)) {
         SPLUlocationCount++;
         tmpHTML+="<div style='display:table-row;' id='EditLocationsRow"+key+"' data-id='"+SPLU.Locations[key].Name+"'>";
-        tmpHTML+='<div style="display:table-cell;padding:1px;"><a href="javascript:{void(0);}" onClick="javascript:{document.getElementById(\'EditLocationsTable\').removeChild(document.getElementById(\'EditLocationsRow'+key+'\'));}" style="color:red;margin:2px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/delete_row_small.png"></a></div>';
+        tmpHTML+='<div style="display:table-cell;padding:1px;"><a href="javascript:{void(0);}" onClick="javascript:{document.getElementById(\'EditLocationsTable\').removeChild(document.getElementById(\'EditLocationsRow'+key+'\'));}" style="color:red;margin:2px;"><img src="https://dazeysan.github.io/SPLU//master/Images/delete_row_small.png"></a></div>';
         tmpHTML+="<div style='display:table-cell;padding:1px;'><input type='text' class='EditLocationsField' tabindex='"+(1000+SPLUlocationCount)+"' style='border:none;width:160px;' value=\""+decodeURIComponent(SPLU.Locations[key].Name)+"\" onkeyup='javascript:{document.getElementById(\"EditLocationsRow"+key+"\").setAttribute(\"data-id\",escape(this.value))}' /><div style='display:inline-block;'><i style='font-size: 1.1em;' class='fa fa-drag-row'></i></div></div>";
         tmpHTML+="</div>";
       }
@@ -5911,7 +5924,7 @@
     tmpDiv.style.display="table-row";
     tmpDiv.id="EditLocationsRow"+SPLUlocationCount;
     tmpDiv.setAttribute('data-id' , 'ZZZ');
-    var tmpHTML='<div style="display:table-cell;padding:1px;"><a href="javascript:{void(0);}" onClick="javascript:{document.getElementById(\'EditLocationsTable\').removeChild(document.getElementById(\'EditLocationsRow'+SPLUlocationCount+'\'));}" style="color:red;margin:2px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/delete_row_small.png"></a></div>';
+    var tmpHTML='<div style="display:table-cell;padding:1px;"><a href="javascript:{void(0);}" onClick="javascript:{document.getElementById(\'EditLocationsTable\').removeChild(document.getElementById(\'EditLocationsRow'+SPLUlocationCount+'\'));}" style="color:red;margin:2px;"><img src="https://dazeysan.github.io/SPLU//master/Images/delete_row_small.png"></a></div>';
     tmpHTML+="<div style='display:table-cell;padding:1px;'><input type='text' class='EditLocationsField' tabindex='"+(1000+SPLUlocationCount)+"' style='border:none;width:160px;' onkeyup='javascript:{document.getElementById(\"EditLocationsRow"+SPLUlocationCount+"\").setAttribute(\"data-id\",escape(this.value))}' /><div style='display:inline-block;'><i style='font-size: 1.1em;' class='fa fa-drag-row'></i></div></div>";
     tmpDiv.innerHTML=tmpHTML;
     document.getElementById('EditLocationsTable').appendChild(tmpDiv);
@@ -5960,7 +5973,7 @@
           tmp="";
         }
         tmpHTML+="<div style='display:table-row;' id='EditPlayersRow"+fixedEncodeURIComponent(players[key])+"'>";
-        tmpHTML+="<div style='display:table-cell;' name='SPLUplayerEditColumn'>"+'<a href="javascript:{void(0);}" onClick="javascript:{document.getElementById(\'EditPlayersTable\').removeChild(document.getElementById(\'EditPlayersRow'+fixedEncodeURIComponent(players[key])+'\'));removePlayer(\''+fixedEncodeURIComponent(players[key])+'\')}" style="vertical-align:middle; padding-right:5px;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/delete_row_small.png"></a></div>';
+        tmpHTML+="<div style='display:table-cell;' name='SPLUplayerEditColumn'>"+'<a href="javascript:{void(0);}" onClick="javascript:{document.getElementById(\'EditPlayersTable\').removeChild(document.getElementById(\'EditPlayersRow'+fixedEncodeURIComponent(players[key])+'\'));removePlayer(\''+fixedEncodeURIComponent(players[key])+'\')}" style="vertical-align:middle; padding-right:5px;"><img src="https://dazeysan.github.io/SPLU//master/Images/delete_row_small.png"></a></div>';
         tmpHTML+="<div style='display:table-cell;padding-right:2px;' name='SPLUplayerEditColumn'><input type='text' size='12' tabindex='"+(1100+(SPLUplayerCount*5))+"' class='EditPlayersField' id='SPLUplayerName"+players[key]+"' value=\""+decodeURIComponent(SPLU.Players[players[key]].Name)+"\"/></div>";
         tmpHTML+="<div style='display:table-cell;padding-right:2px;' name='SPLUplayerEditColumn'><input type='text' size='12' tabindex='"+(1101+(SPLUplayerCount*5))+"' id='SPLUplayerUsername"+players[key]+"' value=\""+decodeURIComponent(SPLU.Players[players[key]].Username)+"\"/></div>";
         tmpHTML+="<div style='display:table-cell;padding-right:2px;' name='SPLUplayerEditColumn'><input type='text' size='8' tabindex='"+(1102+(SPLUplayerCount*5))+"' id='SPLUplayerColor"+players[key]+"' value=\""+decodeURIComponent(SPLU.Players[players[key]].Color)+"\"/><input type='hidden' id='SPLUplayerID"+players[key]+"' value='"+players[key]+"'></div>";
@@ -6011,7 +6024,7 @@
     var tmpDiv=document.createElement('div');
     tmpDiv.style.display="table-row";
     tmpDiv.id="EditPlayersRow"+SPLUplayerCount;
-    var tmpHTML="<div style='display:table-cell;' name='SPLUplayerEditColumn'>"+'<a href="javascript:{void(0);}" onClick="javascript:{document.getElementById(\'EditPlayersTable\').removeChild(document.getElementById(\'EditPlayersRow'+SPLUplayerCount+'\'));}" style="vertical-align:middle;"><img src="https://raw.githubusercontent.com/dazeysan/SPLU/master/Images/delete_row_small.png"></a></div>';
+    var tmpHTML="<div style='display:table-cell;' name='SPLUplayerEditColumn'>"+'<a href="javascript:{void(0);}" onClick="javascript:{document.getElementById(\'EditPlayersTable\').removeChild(document.getElementById(\'EditPlayersRow'+SPLUplayerCount+'\'));}" style="vertical-align:middle;"><img src="https://dazeysan.github.io/SPLU//master/Images/delete_row_small.png"></a></div>';
     tmpHTML+="<div style='display:table-cell;' name='SPLUplayerEditColumn'><input type='text' size='12' tabindex='"+(1100+(SPLUplayerCount*5))+"' class='EditPlayersField' id='SPLUplayerName"+SPLUplayerCount+"'/></div>";
     tmpHTML+="<div style='display:table-cell;' name='SPLUplayerEditColumn'><input type='text' size='12' tabindex='"+(1101+(SPLUplayerCount*5))+"' id='SPLUplayerUsername"+SPLUplayerCount+"'/></div>";
     tmpHTML+="<div style='display:table-cell;' name='SPLUplayerEditColumn'><input type='text' size='8' tabindex='"+(1102+(SPLUplayerCount*5))+"' id='SPLUplayerColor"+SPLUplayerCount+"'/><input type='hidden' id='SPLUplayerID"+SPLUplayerCount+"' value='-1'></div>";
