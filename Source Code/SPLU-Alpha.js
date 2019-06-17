@@ -1634,7 +1634,7 @@
           };
           xmlhttp.open("POST","/geekplay.php",true);
           xmlhttp.setRequestHeader("Content-type","application/json;charset=utf-8");
-          xmlhttp.setRequestHeader("Accept","application/json, text/plain, */*");
+          xmlhttp.setRequestHeader("Accept","application/json, text/plain, */*");/**/
           xmlhttp.send(JSON.stringify(tmpPlay));
           //xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
           //xmlhttp.send("version=2&objecttype=thing&objectid=98000&action=save&quantity=0&comments="+fixedEncodeURIComponent(JSON.stringify(SPLU))+"&playdate=1452-04-15&B1=Save");
@@ -2555,9 +2555,22 @@
     document.getElementById('SPLU_ExpansionsQuantity').innerHTML="";
     document.getElementById('objectid9999').value=SPLU.Favorites[id].objectid;
     SPLUgameID=SPLU.Favorites[id].objectid;
+    var tmpType="thing";
+    var tmpSubType="boardgame";
+    if(SPLU.Favorites[id].objecttype=="videogame"){
+      tmpSubType="videogame";
+    }
+    if(SPLU.Favorites[id].objecttype=="rpg"){
+      tmpType="family";
+      tmpSubType="rpg";
+    }
+    if(SPLU.Favorites[id].objecttype=="rpgitem"){
+      tmpType="rpgitem";
+      tmpSubType="rpg";
+    }
     if(SPLU.Settings.Favorites.ThumbSize=="off"){
       tmpURL = '/'+SPLU.Favorites[id].objecttype+'/'+SPLU.Favorites[id].objectid;
-      fetchImageList(id, 'div', 'selimage9999', 'tallthumb', '', tmpURL)
+      fetchImageList(id, 'div', 'selimage9999', 'tallthumb', '', tmpURL,tmpType,tmpSubType)
     } else {
       document.getElementById('selimage9999').innerHTML='<a target="_blank" href="/'+SPLU.Favorites[id].objecttype+'/'+SPLU.Favorites[id].objectid+'"><img id="SPLU.GameThumb" src="'+SPLU.Favorites[id].thumbnail+'"/></a>';
     }
@@ -3075,7 +3088,7 @@
         }
     };
     xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    xmlhttp.setRequestHeader("Accept","application/json, text/plain, */*");
+    xmlhttp.setRequestHeader("Accept","application/json, text/plain, */*");/**/
     xmlhttp.send('ajax=1&action=save&version=2'+tmpID+querystring);
   }
   
@@ -4184,7 +4197,7 @@
     var tmpQuery='/geeksearch.php?action=search&q='+tmpText+'&objecttype='+tmpType+'&showcount='+SPLUsearchResultsLength;
     oReq.open("POST",tmpQuery,true);
     //Set the following header so that we get a JSON object instead of HTML
-    oReq.setRequestHeader("Accept","application/json, text/plain, */*");
+    oReq.setRequestHeader("Accept","application/json, text/plain, */*");/**/
     oReq.send();
 
   }
@@ -4220,7 +4233,7 @@
     };
     var tmpQuery='/xmlapi2/search?query='+tmpText+'&type='+tmpType+'&exact=1';
     oReq.open("POST",tmpQuery,true);
-    oReq.setRequestHeader("Accept","text/xml, text/plain, */*");
+    oReq.setRequestHeader("Accept","text/xml, text/plain, */*");/**/
     oReq.send();
   }
   
@@ -4305,8 +4318,10 @@
     } else {
       tmpURL = item.href;
     }
+    var tmpType=item.objecttype;
+    var tmpSubType=item.subtype;
     document.getElementById('selimage9999').innerHTML='Loading<br/>Thubmnail...';
-    fetchImageList(tmpImage, 'div', 'selimage9999', 'tallthumb', '', tmpURL)
+    fetchImageList(tmpImage, 'div', 'selimage9999', 'tallthumb', '', tmpURL,tmpType,tmpSubType)
     document.getElementById('q546e9ffd96dfc').value=item.name;
     SPLUsearchResultsLength=20;
     document.getElementById('SPLUsearchResultsDIV').style.display="none";
@@ -4331,8 +4346,8 @@
     SPLUfamilyLoaded=false;
   }
   
-  function fetchImageList(gameid, tag, id, size, favid, tmpURL) {
-    console.log('fetchImageList('+gameid+', '+tag+', '+id+', '+size+', '+favid+')');
+  function fetchImageList(gameid, tag, id, size, favid, tmpURL,tmpType,tmpSubType) {
+    console.log('fetchImageList('+gameid+', '+tag+', '+id+', '+size+', '+favid+', '+tmpURL+', '+tmpType+', '+tmpSubType+')');
     var oReq=new XMLHttpRequest();
     var tmpJSON="";
     oReq.onload=function(responseJSON){
@@ -4362,10 +4377,10 @@
       }
     };
     var tmpType=SPLUobjecttype;
-    var tmpQuery='https://api.geekdo.com/api/geekitems?nosession=1&objectid='+gameid+'&objecttype=thing&subtype=boardgame';
+    var tmpQuery='https://api.geekdo.com/api/geekitems?nosession=1&objectid='+gameid+'&objecttype='+tmpType+'&subtype='+tmpSubType;
     oReq.open("GET",tmpQuery,true);
     //Set the following header so that we get a JSON object instead of HTML
-    oReq.setRequestHeader("Accept","application/json, text/plain, */*");
+    oReq.setRequestHeader("Accept","application/json, text/plain, */*");/**/
     oReq.send();
   }
 
@@ -5219,14 +5234,16 @@
     if(tmpPlay.getElementsByTagName("comments").length>0){
       document.getElementById('quickplay_comments99').value=tmpPlay.getElementsByTagName("comments")[0].textContent;
     }
-    setObjectType(tmpPlay.getElementsByTagName("subtypes")[0].getElementsByTagName("subtype")[0].getAttribute("value"));
+    var tmpType=tmpPlay.getElementsByTagName('item')[0].getAttribute('objecttype');
+    var tmpSubType=tmpPlay.getElementsByTagName("subtypes")[0].getElementsByTagName("subtype")[0].getAttribute("value");
+    setObjectType(tmpType);
     document.getElementById('expansionLoggingButton').style.display="block";
     tmpItem=tmpPlay.getElementsByTagName("item")[0];
     document.getElementById('objectid9999').value=tmpPlay.getElementsByTagName('item')[0].getAttribute('objectid');
     SPLUgameID=tmpPlay.getElementsByTagName('item')[0].getAttribute('objectid');
     document.getElementById('q546e9ffd96dfc').value=tmpPlay.getElementsByTagName('item')[0].getAttribute('name');
     tmpURL = "/"+tmpPlay.getElementsByTagName('subtype')[0].getAttribute('value')+"/"+tmpPlay.getElementsByTagName('item')[0].getAttribute('objectid');
-    getRepImage(tmpItem.attributes.objectid.value, 'selimage9999', tmpURL);
+    getRepImage(tmpItem.attributes.objectid.value, 'selimage9999', tmpURL,tmpType,tmpSubType);
     if(document.getElementById("SPLU.PlaysLogger").value==LoggedInAs&&!SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][id].deleted){
       showHideEditButtons("show");
     }else{
@@ -5234,8 +5251,8 @@
     }
   }
   
-  function getRepImage(objectid, div, tmpURL){
-    console.log(objectid);
+  function getRepImage(objectid, div, tmpURL,tmpType,tmpSubType){
+    console.log("getRepImage("+objectid+", "+div+", "+tmpURL+")");
     var oReq=new XMLHttpRequest();
     var tmpJSON="";
     oReq.onload=function(responseJSON){
@@ -5249,10 +5266,10 @@
       }
     };
     //var tmpQuery='/geekimage.php?objecttype='+document.getElementById('objecttype9999').value+'&action=getdefaultimageid&ajax=1&objectid='+objectid;
-    var tmpQuery='https://api.geekdo.com/api/geekitems?nosession=1&objectid='+objectid+'&objecttype=thing&subtype=boardgame';
+    var tmpQuery='https://api.geekdo.com/api/geekitems?nosession=1&objectid='+objectid+'&objecttype='+tmpType+'&subtype='+tmpType;
     oReq.open("GET",tmpQuery,true);
     //Set the following header so that we get a JSON object instead of HTML
-    oReq.setRequestHeader("Accept","application/json, text/plain, */*");
+    oReq.setRequestHeader("Accept","application/json, text/plain, */*");/**/
     oReq.send();
   }
   
@@ -5830,10 +5847,23 @@
   function updateFavoriteThumbs(size){
     for(key in SPLU.Favorites){
       objectid = SPLU.Favorites[key].objectid;
+      var tmpType="thing";
+      var tmpSubType="boardgame";
+      if(SPLU.Favorites[key].objecttype=="videogame"){
+        tmpSubType="videogame";
+      }
+      if(SPLU.Favorites[key].objecttype=="rpg"){
+        tmpType="family";
+        tmpSubType="rpg";
+      }
+      if(SPLU.Favorites[key].objecttype=="rpgitem"){
+        tmpType="rpgitem";
+        tmpSubType="rpg";
+      }
       if(size == "off"){
         SPLU.Favorites[key].thumbnail = "off";
       } else {
-        fetchImageList(objectid, "img", "SPLU.FavoritesThumb-"+key, size, key, "");
+        fetchImageList(objectid, "img", "SPLU.FavoritesThumb-"+key, size, key, "",tmpType,tmpSubType);
       }
     }
     window.setTimeout(saveSettings("Updated Thumbnails."),5000);
