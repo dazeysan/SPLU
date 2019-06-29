@@ -3278,7 +3278,7 @@
       // For searching for another user I need to replace currentuser=true with userid=###
       getString="/geekplay.php?action=getplays&ajax=1&currentUser=true&objecttype=thing&pageID="+page;
       if(gameid!=0){
-        getString+="&id="+gameid;
+        getString+="&objectid="+gameid;
         if(page==1 && multiple==true){
           SPLUplayFetch[player]=[];
           console.log("Reset SPLUplayFetch[player] to []");
