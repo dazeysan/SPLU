@@ -3775,7 +3775,7 @@
           // if(SPLUplayData[user][plays[i].id].getElementsByTagName("subtypes")[0]!==undefined){
           if(SPLUplayData[user][plays[i].id].subtypes.length>0){
             // var tmpTypes=SPLUplayData[user][plays[i].id].getElementsByTagName("subtypes")[0].getElementsByTagName("subtype");
-            var tmpTypes=SPLUplayData[user][plays[i].id].subtypes);
+            var tmpTypes=SPLUplayData[user][plays[i].id].subtypes;
             if(lines[l].value=="excluded"){
               plays[i].matches++;
               for(t=0;t<tmpTypes.length;t++){
