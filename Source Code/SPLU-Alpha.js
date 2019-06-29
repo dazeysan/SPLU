@@ -2935,7 +2935,7 @@
         console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
         if(responseJSON.target.status==200){
           document.getElementById('BRresults').innerHTML=SPLUi18n.StatusPlayDeleted+".  <a href='"+responseJSON.target.responseURL+"' target='_blank'>"+SPLUi18n.StatusViewYourPlays+"</a>";
-          SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][tmpPlay.id].deleted=true;
+          SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][tmpPlay.playid].deleted=true;
           loadPlays(document.getElementById("SPLU.PlaysLogger").value,false);
           //Quick and dirty fix for #85 Get Next 100 failing
           getRecentPlays(false);
@@ -2944,9 +2944,9 @@
         }
       };
       xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-      xmlhttp.send("finalize=1&action=delete&playid="+tmpPlay.id);
+      xmlhttp.send("finalize=1&action=delete&playid="+tmpPlay.playid);
       saveGamePlay2('delete');
-      SPLUlastGameSaved=tmpPlay.id;
+      SPLUlastGameSaved=tmpPlay.playid;
     }
   }
   
@@ -3029,6 +3029,7 @@
   }
   
   function saveGamePlay(action){
+    console.log("saveGamePlay("+action+")");
     try{
       document.getElementById("SPLU.Plays-"+SPLUcurrentPlayShown).childNodes[tmpChild].style.backgroundColor="";
     } catch(err) {
@@ -3061,7 +3062,7 @@
       SPLUedit[inputs[n].name]=encodeURIComponent(value);
     }
     if(action=="edit"){
-      tmpID="&playid="+tmpPlay.id;
+      tmpID="&playid="+tmpPlay.playid;
       SPLUedit.submit=true;
       querystring=querystring.replace("twitter=1","twitter=0");
     }
