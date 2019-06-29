@@ -4561,7 +4561,7 @@
         // }
         if(tmpPlayers[p].username!=""){
           tmpName=tmpPlayers[p].username;
-          tmpNameID=tmpPlayers[p].username);
+          tmpNameID=tmpPlayers[p].username;
         }
         // if(tmpPlayers[p].getAttribute("name")!=""){
           // tmpName=tmpPlayers[p].getAttribute("name");
