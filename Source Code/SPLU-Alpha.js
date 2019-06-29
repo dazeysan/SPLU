@@ -3274,8 +3274,9 @@
           document.getElementById('SPLU.PlaysStatus').innerHTML+=tmpFetch.replace("$2", Math.ceil(SPLUplayData[player]["game"][gameid]["total"]/100));
         }
       }
-      getString="/xmlapi2/plays?username="+player+"&page="+page;
-      getStringJ="/geekplay.php?action=getplays&ajax=1&currentUser=true&objecttype=thing&pageID="+page;
+      //getString="/xmlapi2/plays?username="+player+"&page="+page;
+      // For searching for another user I need to replace currentuser=true with userid=###
+      getString="/geekplay.php?action=getplays&ajax=1&currentUser=true&objecttype=thing&pageID="+page;
       if(gameid!=0){
         getString+="&id="+gameid;
         if(page==1 && multiple==true){
@@ -3286,7 +3287,9 @@
     }else{
       document.getElementById('SPLU.PlaysStatus').innerHTML=SPLUi18n.StatusFetchingPlaysFromDate+" "+date;
       page=1;
-      getString="/xmlapi2/plays?username="+player+"&id="+gameid+"&mindate="+date+"&maxdate="+date;
+      // getString="/xmlapi2/plays?username="+player+"&id="+gameid+"&mindate="+date+"&maxdate="+date;
+      // getString="/geekplay.php?action=getplays&ajax=1&userid="+playerid+"&objectid="+gameid+"&mindate="+date+"&maxdate="+date;
+      getString="/geekplay.php?action=getplays&ajax=1&currentUser=true&objectid="+gameid;
     }
     SPLUplaysPage=page;
     if(SPLUplays[player]===undefined){
@@ -3306,7 +3309,7 @@
         console.log("other status code, no fetchPlays");
       }
     };
-    oReq.open("get",getStringJ,true);
+    oReq.open("get",getString,true);
     oReq.setRequestHeader("Accept","application/json, text/plain, */*");/**/
     oReq.send();
   }
