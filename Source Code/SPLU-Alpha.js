@@ -1641,11 +1641,9 @@
         }
       }else{
         SPLU=JSON.parse(tmp.plays[0].comments.value);
-        //SPLU=JSON.parse(tmp.getElementsByTagName('comments')[0].textContent);
         //Check for invalid data
         var invalidData = verifyData();
         SPLUplayId=tmp.plays[0].playid;
-        //SPLUplayId=tmp.getElementsByTagName("play")[0].id;
         SPLUremote=SPLU;
         if(SPLUversion != SPLU.Version){
           console.log("Different Versions");
