@@ -3525,7 +3525,7 @@
       }
       var tmpHTML="";
       //Temp warning message about the data not being live.
-      tmpHTML+='<div id="SPLU.PlaysWarning" style="color:red; border-bottom:1px solid black; padding:2px; margin-bottom:5px;">Note: Play history may not show recent changes. <a target="_blank" href="https://boardgamegeek.com/article/30900564#30900564">See this post.</a></div>';
+      //tmpHTML+='<div id="SPLU.PlaysWarning" style="color:red; border-bottom:1px solid black; padding:2px; margin-bottom:5px;">Note: Play history may not show recent changes. <a target="_blank" href="https://boardgamegeek.com/article/30900564#30900564">See this post.</a></div>';
       var tmpSortCount=0;
       var tmpLines=document.getElementsByName("SPLU.PlaysFiltersLine").length;
       for(i=0;i<SPLUlistOfPlays.length;i++){
@@ -4510,7 +4510,8 @@
       if(SPLUcombine==true){
         tmpGame=-1;
       }else{
-        tmpGame=tmpPlay.getElementsByTagName("item")[0].getAttribute("objectid");
+        // tmpGame=tmpPlay.getElementsByTagName("item")[0].getAttribute("objectid");
+        tmpGame=tmpPlay.objectid;
       }
       if(SPLUgameStats[tmpGame]===undefined){
         SPLUgameStats[tmpGame]={
@@ -4898,7 +4899,7 @@
     tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
       +'<div style="display:table-row;">'
       +'<div style="display:table-cell;font-weight:bold;text-align:center;"><a onclick="javascript:{getStatsBeginnersLuck(\''+tmpUser+'\',\''+tmpSortPlayer+'\');}" href="javascript:{void(0);}">'+SPLUi18n.StatsColumnPlayer+' <i class="'+tmpClassPlayer+'"></i></a></div>'
-      +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsBeginnersLuck(\''+tmpUser+'\',\''+tmpSortCount+'\');}" href="javascript:{void(0);}">'+StatsColumnNewWon+' <i class="'+tmpClassCount+'"></i></a></div>'
+      +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsBeginnersLuck(\''+tmpUser+'\',\''+tmpSortCount+'\');}" href="javascript:{void(0);}">'+SPLUi18n.StatsColumnNewWon+' <i class="'+tmpClassCount+'"></i></a></div>'
       +'</div>';
     for(i=0;i<tmpStats.length;i++){
       tmpHTML+='<div style="display:table-row;" onMouseOver="javascript:{this.style.backgroundColor=\'yellow\';}" onMouseOut="javascript:{this.style.backgroundColor=\'#f1f8fb\';}">';
