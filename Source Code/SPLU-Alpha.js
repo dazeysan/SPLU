@@ -954,13 +954,13 @@
             +'<div style="background-color:lightgrey;border:1px solid gray;border-radius:6px;padding:2px;cursor:pointer;height:15px"><span id="SPLU.GetNextText">'+SPLUi18n.PlaysGetNext+' 100</span> | <span  onclick="javascript:{if(document.getElementById(\'SPLUfetchDrop\').style.display==\'none\'){document.getElementById(\'SPLUfetchDrop\').style.display=\'\';}else{document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}}"><i style="float: right; height: 15px; background-color: lightgrey; margin-top: -2px; margin-right: 3px; padding: 4px 2px 0px;" class="fa">&#xf078;</i></span></div>'
             +'<div style="position:absolute;border:1px solid blue;background-color:rgb(206,214,233);display:none;cursor:pointer;z-index:573;" id="SPLUfetchDrop">'
               +'<ul class="fa-ul" style="padding-right:8px;">'
-                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{getRecentPlays(true);document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
+                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{getRecentPlays(true, -1);document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
                   +SPLUi18n.PlaysGetAll
                 +'</li>'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{getGamePlays();document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
                   +SPLUi18n.PlaysGetGame
                 +'</li>'
-                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{getRecentPlays(false);document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
+                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{getRecentPlays(false, -1);document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
                   +SPLUi18n.PlaysGetRecent
                 +'</li>'
               +'</ul>'
@@ -2938,7 +2938,7 @@
           SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][tmpPlay.playid].deleted=true;
           loadPlays(document.getElementById("SPLU.PlaysLogger").value,false);
           //Quick and dirty fix for #85 Get Next 100 failing
-          getRecentPlays(false);
+          getRecentPlays(false, -1);
         }else{
           document.getElementById('BRresults').innerHTML=SPLUi18n.StatusErrorOccurred;
         }
@@ -3096,7 +3096,7 @@
           SPLUlastGameSaved=tmpJSON.playid;
           insertBlank('BRresults');
           if(SPLUedit.submit){
-            fetchPlays(LoggedInAs,0,false,SPLUedit.objectid,SPLUedit.playdate);
+            fetchPlays(LoggedInAs,0,false,SPLUedit.objectid,SPLUedit.playdate,-1);
             SPLUedit.submit=false;
           }
           if(action=="copy"){
@@ -3229,33 +3229,56 @@
   }
   
   function eventPlaysPlayerEnter(e){
+    console.log("eventPlaysPlayerEnter()");
     if(e.keyCode === 13){
-      getRecentPlays(false);
+      //getRecentPlays(false);
+      fetchUserID(document.getElementById("SPLU.PlaysLogger").value);
     }
     return false;
   }
 
+  function fetchUserID(username) {
+    console.log("fetchUserID("+username+")");
+    var oReq=new XMLHttpRequest();
+    var getString="/geekplay.php?action=searchplayersandusers&ajax=1&q=%22"+encodeURIComponent(username)+"%22&showcount=10"
+    oReq.onload=function(responseJSON){
+      console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
+      if(responseJSON.target.status==200){
+        console.log("result 200 when fetching UserID");
+        var tmpUsers=JSON.parse(this.response);
+        getRecentPlays(false, tmpUsers[0].userid);
+      }else{
+        console.log("other status code, no fetchUserID");
+      }
+    };
+    oReq.open("get",getString,true);
+    oReq.setRequestHeader("Accept","application/json, text/plain, */*");/**/
+    oReq.send();
+  }
+  
   function getGamePlays(){
+    console.log("getGamePlays()");
     if(SPLUgameID!=0){
       player=document.getElementById("SPLU.PlaysLogger").value;
       removePlaysFilters("gamename");
       window.setTimeout(function(){addPlaysFilter("gamename","="+document.getElementById('q546e9ffd96dfc').value);},500);
-      fetchPlays(player,1,true,SPLUgameID,0);
+      fetchPlays(player,1,true,SPLUgameID,0,-1);
     }
   }
   
-  function getRecentPlays(multiple){
+  function getRecentPlays(multiple, userid){
+    console.log("getRecentPlays("+multiple+")");
     document.getElementById("SPLU.PlaysPlayers").style.display="none";
     tmpUser=document.getElementById("SPLU.PlaysLogger").value;
     if(SPLUplayFetch[tmpUser]===undefined){
       SPLUplayFetch[tmpUser]=[];
     }
     SPLUplayFetch[tmpUser][1]=0;
-    fetchPlays(tmpUser, 1, multiple,0,0); 
+    fetchPlays(tmpUser, 1, multiple,0,0,userid); 
   }
   
-  function fetchPlays(player,page,multiple,gameid,date){
-    console.log("fetchPlays("+player+", "+page+", "+multiple+", "+gameid+", "+date+")");
+  function fetchPlays(player,page,multiple,gameid,date,userid){
+    console.log("fetchPlays("+player+", "+page+", "+multiple+", "+gameid+", "+date+", "+userid+")");
     var getString="";
     if(page>0){
       var tmpFetch=SPLUi18n.StatusFetchingPageOf.replace("$1", page);
@@ -3277,7 +3300,11 @@
       }
       //getString="/xmlapi2/plays?username="+player+"&page="+page;
       // For searching for another user I need to replace currentuser=true with userid=###
-      getString="/geekplay.php?action=getplays&ajax=1&currentUser=true&objecttype=thing&pageID="+page;
+      if(userid==-1) {
+        getString="/geekplay.php?action=getplays&ajax=1&currentUser=true&objecttype=thing&pageID="+page;
+      }else{
+        getString="/geekplay.php?action=getplays&ajax=1&userid="+userid+"&objecttype=thing&pageID="+page;
+      }
       if(gameid!=0){
         getString+="&objectid="+gameid;
         if(page==1 && multiple==true){
@@ -3369,7 +3396,7 @@
         }
         if(SPLUplayFetch[player][i]==0){
           SPLUplayFetch[player][i]=-1;
-          window.setTimeout(function(){fetchPlays(player,i,true,gameid,0);},2500);
+          window.setTimeout(function(){fetchPlays(player,i,true,gameid,0,-1);},2500);
           break;
         }
       }
@@ -3502,8 +3529,8 @@
       }
       if(SPLUplayData[tmpUser]["total"]>(Object.keys(SPLUplayData[tmpUser]).length)-1){
         tmpCount=(Math.floor(tmpCount/100))+1;
-        tmpHTML+='<a href="javascript:{void(0);}" onClick="javascript:{fetchPlays(\''+tmpUser+'\','+tmpCount+',false,0,0);}"> - '+SPLUi18n.PlaysLoadNext+' 100</a>';
-        document.getElementById('SPLU.GetNextText').innerHTML='<a href="javascript:{void(0);}" onClick="javascript:{fetchPlays(\''+tmpUser+'\','+tmpCount+',false,0,0);}">'+SPLUi18n.PlaysGetNext+' 100</a>';
+        tmpHTML+='<a href="javascript:{void(0);}" onClick="javascript:{fetchPlays(\''+tmpUser+'\','+tmpCount+',false,0,0,-1);}"> - '+SPLUi18n.PlaysLoadNext+' 100</a>';
+        document.getElementById('SPLU.GetNextText').innerHTML='<a href="javascript:{void(0);}" onClick="javascript:{fetchPlays(\''+tmpUser+'\','+tmpCount+',false,0,0,-1);}">'+SPLUi18n.PlaysGetNext+' 100</a>';
       }
       tmpHTML+='</div>';
       document.getElementById("SPLU.PlaysFiltersStatus").innerHTML='<div>'+SPLUi18n.PlaysShowing+' '+SPLUlistOfPlays.length+'</div>';
@@ -5897,7 +5924,7 @@
               for(var i=0;i<results.length;i++){
                 if(tmpJSON.html.slice(-5)=="></a>"){
                   results[i].innerHTML=tmpJSON.html.slice(7,-4)+SPLUi18n.StatusLogged+"</a>";
-                  fetchPlays(LoggedInAs,0,false,tmpJSON.html.slice(29,tmpJSON.html.indexOf("?")),document.getElementById('playdate99').value);
+                  fetchPlays(LoggedInAs,0,false,tmpJSON.html.slice(29,tmpJSON.html.indexOf("?")),document.getElementById('playdate99').value,-1);
                 }else{
                   results[i].innerHTML=tmpJSON.html;
                 }
@@ -6086,7 +6113,7 @@
     document.getElementById("SPLU.PlaysList").style.maxHeight=(document.getElementById("SPLUwindow").clientHeight-122)+"px";
     document.getElementById('BRlogPlays').style.display="table-cell";
     if(SPLUhistoryOpened==1){
-      getRecentPlays(false);
+      getRecentPlays(false, -1);
     }
     showPlaysTab("filters");
   }
