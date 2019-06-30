@@ -1076,7 +1076,7 @@
           +'<div id="SPLU.StatsPlayerDiv" style="display: none;">'+SPLUi18n.PlaysFilterPlayer+': <select class="fa" id="SPLU.SelectStatPlayer" onChange="javascript:{setWinsByGamePlayer(\'\');}"></select></div>'
         +'</div>'
         +'<div id="SPLU.StatsContent" style="display:none;overflow-y: auto; width: 315px;"></div>'
-        +'<div id="SPLU.BackupPlaysXML"><input type="button" value="Backup loaded plays to XML file" onClick="javascipt:{downloadPlaysXML();}" /></div>';
+        +'<div id="SPLU.BackupPlaysXML"><input type="button" value="Backup loaded plays to JSON text file" onClick="javascipt:{downloadPlaysJSON();}" /></div>';
     tmpDiv.innerHTML+=tmpHTML;
     BRlogPlays.appendChild(tmpDiv);
     
@@ -3315,18 +3315,20 @@
     oReq.send();
   }
   
-  function downloadPlaysXML() {
+  function downloadPlaysJSON() {
     // ##Fix Me## - convert to JSON
     player=document.getElementById("SPLU.PlaysLogger").value;
     console.log("Making text file for download.");
-    filename=player+"-PlaysBackup.txt";
-    textXML="";
-    for(var tmpkey in SPLUplays[player]){
-      textXML+=new XMLSerializer().serializeToString(SPLUplays[player][tmpkey]);
-    }
+    // filename=player+"-PlaysBackup.txt";
+    // textXML="";
+    // for(var tmpkey in SPLUplays[player]){
+      // textXML+=new XMLSerializer().serializeToString(SPLUplays[player][tmpkey]);
+    // }
+    filename=player+"-PlaysBackup.json.txt";
+    textJSON=JSON.stringify(SPLUplayData[player]);
     //From Stackoverflow
     var element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(textXML));
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(textJSON));
     element.setAttribute('download', filename);
     element.style.display = 'none';
     document.body.appendChild(element);
@@ -4537,13 +4539,13 @@
           "DurationLow":999999999,
           "TotalZeroScores":0,
           "Players":{},
-          "Game":tmpPlay.getElementsByTagName("item")[0].getAttribute("name")
+          "Game":tmpPlay.name
         };
         if(SPLUcombine==true){
           SPLUgameStats[tmpGame]["Game"]="*Multiple Games*";
         }
       }
-      var tmpDuration=Number(tmpPlay.getAttribute("length"));
+      var tmpDuration=Number(tmpPlay.length);
       if(tmpDuration>0){
         SPLUgameStats[tmpGame]["TotalDurations"]++;
         SPLUgameStats[tmpGame]["DurationSum"]+=tmpDuration;
@@ -5121,7 +5123,7 @@
       +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsWinsByGame(\''+tmpUser+'\',\''+tmpPlayer+'\',\''+tmpSortWins+'\');}" href="javascript:{void(0);}">Wins <i class="'+tmpClassWins+'"></i></a></div>'
       +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsWinsByGame(\''+tmpUser+'\',\''+tmpPlayer+'\',\''+tmpSortAverage+'\');}" href="javascript:{void(0);}">Average <i class="'+tmpClassWins+'"></i></a></div>'
       +'</div>';
-    SPLUcsv='"Player","Play Count","Wins","Average"\r\n';
+    SPLUcsv='"Game","Play Count","Wins","Average"\r\n';
     for(i=0;i<tmpWins.length;i++){
         tmpHTML+='<div style="display:table-row;" onMouseOver="javascript:{this.style.backgroundColor=\'yellow\';}" onMouseOut="javascript:{this.style.backgroundColor=\'#f1f8fb\';}">';
         tmpHTML+='<div style="display:table-cell;text-align:left;">'+tmpWins[i]["game"]+'</div>';
@@ -5129,7 +5131,7 @@
         tmpHTML+='<div style="display:table-cell;padding-right:10px;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'gamename\',\'='+tmpWins[i]["game"]+'\');addPlaysFilter(\'winner\',\''+tmpPlayer+'\');}" href="javascript:{void(0);}">'+tmpWins[i]["wins"]+'</a></div>';
         tmpHTML+='<div style="display:table-cell;">'+tmpWins[i]["average"]+'%</div>';
         tmpHTML+='</div>';
-        SPLUcsv+='"'+tmpWins[i]["player"]+'","'+tmpWins[i]["plays"]+'","'+tmpWins[i]["wins"]+'","'+tmpWins[i]["average"]+'"\r\n';
+        SPLUcsv+='"'+tmpWins[i]["game"]+'","'+tmpWins[i]["plays"]+'","'+tmpWins[i]["wins"]+'","'+tmpWins[i]["average"]+'"\r\n';
     }
     tmpHTML+='</div>';
     document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
@@ -5210,7 +5212,7 @@
         continue;
       }
       // var tmpPlay=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id];
-      var tmpPlay=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].playid;
+      var tmpPlay=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id];
       // var tmpGame=tmpPlay.getElementsByTagName("item")[0].getAttribute("objectid");
       var tmpGame=tmpPlay.objectid;
       if(SPLUgameStats[tmpGame]===undefined){
@@ -5287,7 +5289,7 @@
         continue;
       }
       // var tmpPlay=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id];
-      var tmpPlay=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].playid;
+      var tmpPlay=SPLUplayData[tmpUser][SPLUlistOfPlays[i].id];
       // var tmpGame=tmpPlay.getElementsByTagName("item")[0].getAttribute("objectid");
       var tmpGame=tmpPlay.objectid;
       // var tmpDate=new Date(tmpPlay.getAttribute("date"));
