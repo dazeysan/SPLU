@@ -4464,8 +4464,12 @@
           document.getElementById(id).innerHTML='<a target="_blank" href="'+tmpURL+'"><img id="SPLU.GameThumb" src="'+SPLUimageData[gameid].item.images[size]+'" /></a>';
         }
         if (tag == "img") {
-          //Replace the img src
-          document.getElementById(id).src=SPLUimageData[gameid].item.images[size];
+          //Replace the img src if you can
+          try{
+            document.getElementById(id).src=SPLUimageData[gameid].item.images[size];
+          }catch(err){
+            console.log(err);
+          }
         }
         if (favid != "") {
           console.log("Updating Fav Thumb");
