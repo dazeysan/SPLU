@@ -1,4 +1,4 @@
-// SPLU 5.7.6 Beta
+// SPLU 5.7.6 Alpha
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -1514,6 +1514,14 @@
       }
     }catch(err){
           console.log(err)
+    }
+    for (var keyL in SPLU.Locations) {
+      try{
+        decodeURIComponent(SPLU.Locations[keyL].Name);
+      }catch(err){
+        console.log(err);
+        SPLU.Locations[keyL].Name = SPLU.Locations[keyL].Name.replace("%", "");
+      }
     }
     for (var keyG in SPLU.Groups) {
       if (SPLU.Groups.hasOwnProperty(keyG)) {
@@ -5887,7 +5895,7 @@
             tmpTitle=SPLU.Favorites[key].title2;
           }
         }
-        tmpHTML+='<div class="SPLUfavoritesGridItems" data-id="'+key+'" data-title="'+escape(tmpTitle)+'">';
+        tmpHTML+='<div class="SPLUfavoritesGridItems" data-id="'+key+'" data-title="'+fixedEncodeURIComponent(tmpTitle)+'">';
         if(SPLU.Favorites[key].thumbnail == "off"){
           tmpHTML+='<a href="javascript:{void(0);}" onClick="javascript:{deleteFavorite(\''+key+'\');}"><img src="https://dazeysan.github.io/SPLU/Images/red_circle_x.png" style=""/></a>';
           tmpHTML+=tmpMarkers+'<a href="javascript:{void(0);}" onClick="javascript:{chooseFavorite(\''+key+'\');}">'+decodeURIComponent(tmpTitle)+'</a>';
@@ -6034,7 +6042,7 @@
         SPLUlocationCount++;
         tmpHTML+="<div style='display:table-row;' id='EditLocationsRow"+key+"' data-id='"+SPLU.Locations[key].Name+"'>";
         tmpHTML+='<div style="display:table-cell;padding:1px;"><a href="javascript:{void(0);}" onClick="javascript:{document.getElementById(\'EditLocationsTable\').removeChild(document.getElementById(\'EditLocationsRow'+key+'\'));}" style="color:red;margin:2px;"><img src="https://dazeysan.github.io/SPLU/Images/delete_row_small.png"></a></div>';
-        tmpHTML+="<div style='display:table-cell;padding:1px;'><input type='text' class='EditLocationsField' tabindex='"+(1000+SPLUlocationCount)+"' style='border:none;width:160px;' value=\""+decodeURIComponent(SPLU.Locations[key].Name)+"\" onkeyup='javascript:{document.getElementById(\"EditLocationsRow"+key+"\").setAttribute(\"data-id\",escape(this.value))}' /><div style='display:inline-block;'><i style='font-size: 1.1em;' class='fa fa-drag-row'></i></div></div>";
+        tmpHTML+="<div style='display:table-cell;padding:1px;'><input type='text' class='EditLocationsField' tabindex='"+(1000+SPLUlocationCount)+"' style='border:none;width:160px;' value=\""+decodeURIComponent(SPLU.Locations[key].Name)+"\" onkeyup='javascript:{document.getElementById(\"EditLocationsRow"+key+"\").setAttribute(\"data-id\",fixedEncodeURIComponent(this.value))}' /><div style='display:inline-block;'><i style='font-size: 1.1em;' class='fa fa-drag-row'></i></div></div>";
         tmpHTML+="</div>";
       }
     }
@@ -6057,7 +6065,7 @@
     tmpDiv.id="EditLocationsRow"+SPLUlocationCount;
     tmpDiv.setAttribute('data-id' , 'ZZZ');
     var tmpHTML='<div style="display:table-cell;padding:1px;"><a href="javascript:{void(0);}" onClick="javascript:{document.getElementById(\'EditLocationsTable\').removeChild(document.getElementById(\'EditLocationsRow'+SPLUlocationCount+'\'));}" style="color:red;margin:2px;"><img src="https://dazeysan.github.io/SPLU/Images/delete_row_small.png"></a></div>';
-    tmpHTML+="<div style='display:table-cell;padding:1px;'><input type='text' class='EditLocationsField' tabindex='"+(1000+SPLUlocationCount)+"' style='border:none;width:160px;' onkeyup='javascript:{document.getElementById(\"EditLocationsRow"+SPLUlocationCount+"\").setAttribute(\"data-id\",escape(this.value))}' /><div style='display:inline-block;'><i style='font-size: 1.1em;' class='fa fa-drag-row'></i></div></div>";
+    tmpHTML+="<div style='display:table-cell;padding:1px;'><input type='text' class='EditLocationsField' tabindex='"+(1000+SPLUlocationCount)+"' style='border:none;width:160px;' onkeyup='javascript:{document.getElementById(\"EditLocationsRow"+SPLUlocationCount+"\").setAttribute(\"data-id\",fixedEncodeURIComponent(this.value))}' /><div style='display:inline-block;'><i style='font-size: 1.1em;' class='fa fa-drag-row'></i></div></div>";
     tmpDiv.innerHTML=tmpHTML;
     document.getElementById('EditLocationsTable').appendChild(tmpDiv);
   }
@@ -6068,7 +6076,7 @@
     var locations=document.getElementsByClassName('EditLocationsField');
     for(i=0;i<locations.length;i++){
       if(locations[i].value!=""){
-        SPLU.Locations[i]={"Name":escape(locations[i].value)};
+        SPLU.Locations[i]={"Name":fixedEncodeURIComponent(locations[i].value)};
       }
     }
     SPLUremote.Locations=SPLU.Locations;
