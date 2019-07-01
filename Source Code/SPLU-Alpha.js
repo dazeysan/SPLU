@@ -1521,6 +1521,7 @@
       }catch(err){
         console.log(err);
         SPLU.Locations[keyL].Name = SPLU.Locations[keyL].Name.replace("%", "");
+        SPLUverifySave=true;
       }
     }
     for (var keyG in SPLU.Groups) {
