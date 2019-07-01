@@ -1515,12 +1515,13 @@
     }catch(err){
           console.log(err)
     }
+    // Look for Location names that can't be decoded and remove the %'s so that the user can fix them manually.
     for (var keyL in SPLU.Locations) {
       try{
         decodeURIComponent(SPLU.Locations[keyL].Name);
       }catch(err){
         console.log(err);
-        SPLU.Locations[keyL].Name = SPLU.Locations[keyL].Name.replace("%", "");
+        SPLU.Locations[keyL].Name = SPLU.Locations[keyL].Name.replace(/%/g, "");
         SPLUverifySave=true;
       }
     }
