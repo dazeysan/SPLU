@@ -3643,12 +3643,12 @@
       }
       if(filtertype=="comments"){
         for(i=0;i<plays.length;i++){
-          if(SPLUplayData[user][plays[i].id].comments.rendered.length>0){
+          if(SPLUplayData[user][plays[i].id].comments.value.length>0){
             if(lines[l].value.slice(0,1)=="!"){
-              if(SPLUplayData[user][plays[i].id].comments.rendered.toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())==-1){
+              if(SPLUplayData[user][plays[i].id].comments.value.toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())==-1){
                 plays[i].matches++;
               }
-            } else if(SPLUplayData[user][plays[i].id].comments.rendered.toLowerCase().indexOf(lines[l].value.toLowerCase())>-1){
+            } else if(SPLUplayData[user][plays[i].id].comments.value.toLowerCase().indexOf(lines[l].value.toLowerCase())>-1){
                 plays[i].matches++;
             }
           }else if(lines[l].value.slice(0,1)=="!" && lines[l].value.length==1){
@@ -5345,8 +5345,8 @@
     document.getElementById('quickplay_duration99').value=tmpPlay.length;
     if(tmpPlay.incomplete==1){document.getElementById('incomplete').checked=true;}
     if(tmpPlay.nowinstats==1){document.getElementById('nowinstats').checked=true;}
-    if(tmpPlay.comments.rendered.length>0){
-      document.getElementById('quickplay_comments99').value=tmpPlay.comments.rendered;
+    if(tmpPlay.comments.value.length>0){
+      document.getElementById('quickplay_comments99').value=tmpPlay.comments.value;
     }
     var tmpType=tmpPlay.objecttype;
     var tmpSubType=tmpPlay.subtypes[0].subtype;
