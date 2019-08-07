@@ -102,7 +102,9 @@
     tmpSPLU=document.createElement('div');
     tmpSPLU.id="SPLUmain";
     tmpSPLU.style.fontSize="0.75em";
-    document.body.appendChild(tmpSPLU);
+    //document.body.appendChild(tmpSPLU);
+    bggdiv=document.getElementsByClassName("global-body-content")[0];
+    bggdiv.appendChild(tmpSPLU);
     tmpDiv=document.createElement('div');
     tmpDiv.id="SPLU.popText";
     tmpDiv.style.visibility="hidden";
@@ -139,7 +141,7 @@
     
     var BRlogMain=document.createElement('div');
     BRlogMain.id='BRlogMain';
-    BRlogMain.setAttribute("style","display:table; position: absolute; left: 50px; z-index: 565; border-radius:15px;");
+    BRlogMain.setAttribute("style","display:table; position: absolute; left: 0px; z-index: 565; border-radius:15px;");
     BRlogMain.style.top=self.pageYOffset+90+"px";
     var BRlogRow=document.createElement('div');
     BRlogRow.id='BRlogRow';
