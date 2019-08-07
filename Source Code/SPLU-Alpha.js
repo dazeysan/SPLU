@@ -143,7 +143,7 @@
     BRlogMain.id='BRlogMain';
     BRlogMain.setAttribute("style","display:table; position: absolute; z-index: 565; border-radius:15px;");
     bggMB=document.getElementById("mainbody");
-    BRlogMain.style.top=self.pageYOffset+bggMB.offsetTop+"px";
+    BRlogMain.style.top=self.pageYOffset+"px";
     var BRlogRow=document.createElement('div');
     BRlogRow.id='BRlogRow';
     BRlogRow.setAttribute("style","display:table-row;");
