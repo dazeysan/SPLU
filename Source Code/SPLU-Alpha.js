@@ -2729,6 +2729,7 @@
   }
 
   function hideLocations(){
+    console.log("hideLocations()");
     document.getElementById('SPLU.LocationList').style.display="none";
     document.getElementById('SPLU.LocationButtonIconExpand').style.display="inline-block";
     document.getElementById('SPLU.LocationButtonIconCollapse').style.display="none";
@@ -2758,6 +2759,7 @@
   }
   
   function hidePlayers(){
+    console.log("hidePlayers()");
     document.getElementById('SPLU.PlayerList').style.display="none";
     document.getElementById('SPLU.SavedNamesButtonIconExpand').style.display="inline-block";
     document.getElementById('SPLU.SavedNamesButtonIconCollapse').style.display="none";
@@ -3198,8 +3200,9 @@
   }
   
   function setDateField(date){
+    console.log("setDateField("+date+")");
     document.getElementById('playdateinput99').value=date;
-    parseDate(document.getElementById('playdateinput99'),$('playdate99'),$('playdatestatus99'));
+    parseDate(document.getElementById('playdateinput99'),document.getElementById('playdate99'),document.getElementById('playdatestatus99'));
     SPLUcalendar.setDate(new Date(Date.parse(document.getElementById('playdateinput99').value)));
   }
 
@@ -3219,13 +3222,17 @@
           yearRange: 5,
           i18n: piki18n,
           onSelect: function() {
-              parseDate(document.getElementById('playdateinput99'),$('playdate99'),$('playdatestatus99'));
+              parseDate(document.getElementById('playdateinput99'),document.getElementById('playdate99'),document.getElementById('playdatestatus99'));
           }
       });
   }
 
   //BGG's original parseDate() function (modified a bit)
   function parseDate(src,dst,status){
+    console.log("parseDate("+src+", "+dst+", "+status+")");
+    window.tmpsrc=src;
+    window.tmpdst=dst;
+    window.tmpstatus=status;
     date=Date.parse(src.value);
     if(date){
       dst.value=date.toString("yyyy-MM-dd");

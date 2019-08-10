@@ -1,0 +1,1 @@
+javascript:{{document.SPLUcode="";document.SPLUxml="";var%20SPLUscript=document.createElement('script');SPLUscript.type="text/javascript";SPLUscript.src='https://dazeysan.github.io/SPLU/Source%20Code/SPLU-Current.js';document.body.appendChild(SPLUscript);};void(0);%20}
