@@ -153,7 +153,7 @@
     BRlogDiv.setAttribute("style","display:table-cell; background-color: #A4DFF3; padding: 13px;border:2px solid blue;border-radius:15px; box-shadow:10px 10px 5px #888;position:relative;");
     
     tmpDiv=document.createElement('div');
-    tmpHTML= '<div id="closeButton" style="position:absolute;top:0px;right:0px;">'
+    tmpHTML= '<div id="closeButton" style="position:absolute;top:-2px;right:0px;">'
               +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();BRlogMain.parentNode.removeChild(BRlogMain);}" style="border-bottom:2px solid blue;border-left:2px solid blue;padding:0px 10px;border-bottom-left-radius:5px;border-top-right-radius:15px;background-color:lightGrey;font-size:large;font-weight:900;color:red;">X</a>'
             +'</div>'
             +'<div style="position:absolute;top:60px;right:5px;">'
@@ -249,7 +249,7 @@
           +'<div id="SPLU.LocationField" style="width:275px;">'
             +'<div id="SPLU.fakeLocationBox" style="width:200px; display:inline-block; -moz-appearance:textfield; -webkit-appearance:textfield;">'
               +'<input type="text" placeholder="'+SPLUi18n.MainPlaceholderLocation+'" id="SPLU_PlayedAt" onFocus="javascript:{this.select();}" onblur="javascript:{window.setTimeout(function(){document.getElementById(\'SPLUsearchLocationsResultsDIV\').style.display=\'none\';},100);}" onkeydown="SPLUsearchLocationDelay(event);" tabindex="20" name="location" style="width: 175px; border:none;"/>'
-              +'<a href="javascript:{void(0);}" onClick="javascript:{saveLocation();}" style="vertical-align:middle;" id="SPLU.SaveLocationButton"><span class="fa-stack"><i class="fa fa-stack-2x fa-floppy2" style="font-size: 1.3em; color: black; vertical-align: middle; transform: translate(2px, 4px);"></i></span></a>'
+              +'<a href="javascript:{void(0);}" onClick="javascript:{saveLocation();}" style="vertical-align:middle; position: absolute;" id="SPLU.SaveLocationButton"><span class="fa-stack"><i class="fa fa-stack-2x fa-floppy2" style="font-size: 1.3em; color: black; vertical-align: middle; transform: translate(2px, 4px);"></i></span></a>'
             +'</div>'
             +'<div id="SPLUsearchLocationsResultsDIV" style="background-color: rgb(255, 255, 255); position: absolute; padding: 5px; z-index: 579; margin-right: 12px; min-width: 130px; display:none;"></div>'
             +'<a href="javascript:{void(0);}" onClick="javascript:{showHideLocations();}" id="BRlocsBtn" style="padding-left:1px; vertical-align:middle;"><span id="SPLU.LocationButtonIconCollapse" style="display:inline-block;"><i class="fa fa-caret-up display:block" style="color: black; font-size: 2em; transform: translate(1px, 4px);"></i></span><span id="SPLU.LocationButtonIconExpand" style="display:none;"><i class="fa fa-caret-down display:block" style="color: black; font-size: 2em; transform: translate(1px, 4px);"></i></span></a>'
@@ -435,7 +435,7 @@
     BRlogSettings.id='BRlogSettings';
     BRlogSettings.setAttribute("style","display:none; background-color: #80FE86; padding: 13px;border:2px solid black;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:75px;position:relative;");
     var tmpDiv=document.createElement('div');
-    var tmpHTML='<div id="hideSettingsButton" style="position: absolute; right: 0px; top: 2px;">'
+    var tmpHTML='<div id="hideSettingsButton" style="position: absolute; right: 0px; top: -2px;">'
       +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogMain\').style.minWidth=\'\';document.getElementById(\'BRlogSettings\').style.display=\'none\';}" style="border:2px solid black;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;">'
       +'<img src="https://dazeysan.github.io/SPLU/Images/close_pane.png">'
       +'</a>'
@@ -833,7 +833,7 @@
     BRlogLocations.id='BRlogLocations';
     BRlogLocations.setAttribute("style","display:none; background-color: #F5C86C; padding: 13px;border:2px solid #249631;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:100px;position:relative;");
     var tmpDiv=document.createElement('div');
-    var tmpHTML='<div id="hideLocationsButton" style="position: absolute; right: 0px; top: 2px;">'
+    var tmpHTML='<div id="hideLocationsButton" style="position: absolute; right: 0px; top: -2px;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogLocations\').style.display=\'none\';}" style="border:2px solid #249631;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU/Images/close_pane.png"></a>'
         +'</div>'
         +'<span style="font-variant:small-caps; font-weight:bold;">'
@@ -853,7 +853,7 @@
     BRlogPlayers.id='BRlogPlayers';
     BRlogPlayers.setAttribute("style","display:none; background-color: #F7FB6F; padding: 13px;border:2px solid #00F; border-radius:15px; box-shadow:10px 10px 5px #888; min-width:275px;position:relative;");
     var tmpDiv=document.createElement('div');
-    var tmpHTML='<div id="hidePlayersButton" style="position: absolute; right: 0px; top: 2px;">'
+    var tmpHTML='<div id="hidePlayersButton" style="position: absolute; right: 0px; top: -2px;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();showPlayersTab();document.getElementById(\'BRlogPlayers\').style.display=\'none\';}" style="border:2px solid #00F;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU/Images/close_pane.png"></a>'
         +'</div>'
         +'<span style="font-variant:small-caps; font-weight:bold;">'
