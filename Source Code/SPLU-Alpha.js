@@ -2286,13 +2286,17 @@
     }
     SPLUdragDiv=-1;
     
-    setFieldWidth("name");
-    setFieldWidth("username");
-    setFieldWidth("color");
-    setFieldWidth("startposition");
-    setFieldWidth("score");
-    setFieldWidth("rating");
-   
+   SPLUsetFieldWidthDelay();
+  }
+
+  var SPLUsetFieldWidthDelayTimeout;    
+  function SPLUsetFieldWidthDelay() {
+    if ( SPLUsetFieldWidthDelayTimeout ) {
+      clearTimeout( SPLUsetFieldWidthDelayTimeout );
+      SPLUsetFieldWidthDelayTimeout = setTimeout( setAllFieldWidths, 500 );
+    } else {
+      SPLUsetFieldWidthDelayTimeout = setTimeout( setAllFieldWidths, 500 );
+    }
   }
 
   function setFieldWidth(field) {
@@ -2308,6 +2312,15 @@
     for(i=0; i<tmpfields.length; i++){
       tmpfields[i].size=tmpmax;
     }
+  }
+  
+  function setAllFieldWidths() {
+    setFieldWidth("name");
+    setFieldWidth("username");
+    setFieldWidth("color");
+    setFieldWidth("startposition");
+    setFieldWidth("score");
+    setFieldWidth("rating");
   }
 
   function movePlayer(player,after) {
@@ -2686,12 +2699,7 @@
     document.getElementById('SPLUplayerRows').removeChild(document.getElementById('SPLU.PlayerRow'+row));
     PlayerCount--;
 
-    setFieldWidth("name");
-    setFieldWidth("username");
-    setFieldWidth("color");
-    setFieldWidth("startposition");
-    setFieldWidth("score");
-    setFieldWidth("rating");
+   SPLUsetFieldWidthDelay();
   }
 
   function hideColumn(column){
