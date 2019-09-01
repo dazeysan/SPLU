@@ -946,7 +946,7 @@
     BRlogPlays.id='BRlogPlays';
     BRlogPlays.setAttribute("style","display:none; background-color: #F1F8FB; padding: 13px;border:2px solid #249631;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:100px;position:relative;");
     var tmpDiv=document.createElement('div');
-    var tmpHTML='<div id="hidePlaysButton" style="position: absolute; right: 0px; top: 2px;">'
+    var tmpHTML='<div id="hidePlaysButton" style="position: absolute; right: 0px; top: -2px;">'
           +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogPlays\').style.display=\'none\';}" style="border:2px solid #249631;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU/Images/close_pane.png"></a>'
         +'</div>'
         +'<span style="font-variant:small-caps; font-weight:bold;">'
@@ -2216,42 +2216,42 @@
     if(!SPLU.Settings.PlayerNameColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerNameColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="width:120px;margin:0px 5px;" name="players['+NumOfPlayers+'][name]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="name" value="'+tmpName+'" tabindex="1'+paddedNum+'"></input><div id="SPLU.PlayerNameHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
+    tmpDiv.innerHTML='<input type="text" style="min-width:3em;margin:0px 5px;" size="1" name="players['+NumOfPlayers+'][name]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="name" value="'+tmpName+'" tabindex="1'+paddedNum+'" onkeyup="setFieldWidth(this.getAttribute(\'data-spluplayerfield\'));"></input><div id="SPLU.PlayerNameHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerUsernameColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerUsernameColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="width:110px;margin:0px 5px;" name="players['+NumOfPlayers+'][username]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="username" value="'+tmpUser+'" tabindex="2'+paddedNum+'"></input><div id="SPLU.PlayerUsernameHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
+    tmpDiv.innerHTML='<input type="text" style="min-width:3em;margin:0px 5px;" size="1" name="players['+NumOfPlayers+'][username]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="username" value="'+tmpUser+'" tabindex="2'+paddedNum+'" onkeyup="setFieldWidth(this.getAttribute(\'data-spluplayerfield\'));"></input><div id="SPLU.PlayerUsernameHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerColorColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerColorColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="width:50px;margin:0px 5px;" name="players['+NumOfPlayers+'][color]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="color" value="'+tmpColor+'" tabindex="3'+paddedNum+'"></input><div id="SPLU.PlayerColorHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
+    tmpDiv.innerHTML='<input type="text" style="min-width:3em;margin:0px 5px;" size="1" name="players['+NumOfPlayers+'][color]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="color" value="'+tmpColor+'" tabindex="3'+paddedNum+'" onkeyup="setFieldWidth(this.getAttribute(\'data-spluplayerfield\'));"></input><div id="SPLU.PlayerColorHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerPositionColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerPositionColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="width:50px;margin:0px 5px;" name="players['+NumOfPlayers+'][position]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="startposition" value="'+tmpStart+'" tabindex="4'+paddedNum+'"></input><div id="SPLU.PlayerPositionHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
+    tmpDiv.innerHTML='<input type="text" style="min-width:3em;margin:0px 5px;" size="1" name="players['+NumOfPlayers+'][position]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="startposition" value="'+tmpStart+'" tabindex="4'+paddedNum+'" onkeyup="setFieldWidth(this.getAttribute(\'data-spluplayerfield\'));"></input><div id="SPLU.PlayerPositionHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerScoreColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerScoreColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="width:37px;margin:0px 5px;" name="players['+NumOfPlayers+'][score]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="score" value="'+tmpScore+'" tabindex="5'+paddedNum+'"></input><div id="SPLU.PlayerScoreHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
+    tmpDiv.innerHTML='<input type="text" style="min-width:3em;margin:0px 5px;" size="1" name="players['+NumOfPlayers+'][score]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="score" value="'+tmpScore+'" tabindex="5'+paddedNum+'" onkeyup="setFieldWidth(this.getAttribute(\'data-spluplayerfield\'));"></input><div id="SPLU.PlayerScoreHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerRatingColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerRatingColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="width:32px;margin:0px 5px;" name="players['+NumOfPlayers+'][rating]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="rating" value="'+tmpRating+'" tabindex="6'+paddedNum+'"></input><div id="SPLU.PlayerRatingHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
+    tmpDiv.innerHTML='<input type="text" style="min-width:3em;margin:0px 5px;" size="1" name="players['+NumOfPlayers+'][rating]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="rating" value="'+tmpRating+'" tabindex="6'+paddedNum+'" onkeyup="setFieldWidth(this.getAttribute(\'data-spluplayerfield\'));"></input><div id="SPLU.PlayerRatingHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
@@ -2285,6 +2285,29 @@
       }
     }
     SPLUdragDiv=-1;
+    
+    setFieldWidth("name");
+    setFieldWidth("username");
+    setFieldWidth("color");
+    setFieldWidth("startposition");
+    setFieldWidth("score");
+    setFieldWidth("rating");
+   
+  }
+
+  function setFieldWidth(field) {
+    console.log("setFieldWidth(" + field + ")");
+    tmpfields=document.querySelectorAll("[data-spluplayerfield='"+field+"']");
+    //console.log(tmpfields);
+    tmpmax = 1;
+    for(i=0; i<tmpfields.length; i++){
+      if(tmpfields[i].value.length > tmpmax){
+        tmpmax=tmpfields[i].value.length;
+      }
+    }
+    for(i=0; i<tmpfields.length; i++){
+      tmpfields[i].size=tmpmax;
+    }
   }
 
   function movePlayer(player,after) {
@@ -2662,6 +2685,13 @@
   function removePlayerRow(row){
     document.getElementById('SPLUplayerRows').removeChild(document.getElementById('SPLU.PlayerRow'+row));
     PlayerCount--;
+
+    setFieldWidth("name");
+    setFieldWidth("username");
+    setFieldWidth("color");
+    setFieldWidth("startposition");
+    setFieldWidth("score");
+    setFieldWidth("rating");
   }
 
   function hideColumn(column){
@@ -3203,7 +3233,8 @@
     console.log("setDateField("+date+")");
     document.getElementById('playdateinput99').value=date;
     parseDate(document.getElementById('playdateinput99'),document.getElementById('playdate99'),document.getElementById('playdatestatus99'));
-    SPLUcalendar.setDate(new Date(Date.parse(document.getElementById('playdateinput99').value)));
+    //SPLUcalendar.setDate(new Date(Date.parse(document.getElementById('playdateinput99').value)));
+    SPLUcalendar.setDate(document.getElementById('playdateinput99').value);
   }
 
   function addCalendar(){
@@ -3233,10 +3264,13 @@
     window.tmpsrc=src;
     window.tmpdst=dst;
     window.tmpstatus=status;
-    date=Date.parse(src.value);
+    //date=Date.parse(src.value);
+    date=src.value;
     if(date){
-      dst.value=date.toString("yyyy-MM-dd");
-      status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:3px;'> "+date.toString("yyyy-MM-dd");
+      //dst.value=date.toString("yyyy-MM-dd");
+      dst.value=date;
+      //status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:3px;'> "+date.toString("yyyy-MM-dd");
+      status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:3px;'> "+date;
     }else{
       if(src.get('value').length){
         dst.value='';status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/delete.png' style='position:relative; top:3px;'> "+SPLUi18n.CalendarInvalidDate;
