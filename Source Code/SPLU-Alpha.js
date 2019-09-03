@@ -3345,9 +3345,11 @@
     if(page>0){
       var tmpFetch=SPLUi18n.StatusFetchingPageOf.replace("$1", page);
       document.getElementById('SPLU.PlaysStatus').innerHTML="";
+      var tmpFirstFetch=1;
       if(SPLUplayData[player]===undefined){
         document.getElementById('SPLU.PlaysStatus').innerHTML+=tmpFetch.replace("$2", "??");;
       } else {
+        tmpFirstFetch=0;
         if(gameid==0){
           document.getElementById('SPLU.PlaysStatus').innerHTML+=tmpFetch.replace("$2", Math.ceil(SPLUplayData[player]["total"]/100));
         } else {
@@ -3363,8 +3365,11 @@
       //getString="/xmlapi2/plays?username="+player+"&page="+page;
       // For searching for another user I need to replace currentuser=true with userid=###
       if(userid==-1) {
-        //getString="/geekplay.php?action=getplays&ajax=1&currentUser=true&objecttype=thing&pageID="+page;
-        getString="/geekplay.php?action=getplays&ajax=1&userid="+SPLUplayData[player].userid+"&objecttype=thing&pageID="+page;
+        if(tmpFirstFetch){
+          getString="/geekplay.php?action=getplays&ajax=1&currentUser=true&objecttype=thing&pageID="+page;
+        } else {
+          getString="/geekplay.php?action=getplays&ajax=1&userid="+SPLUplayData[player].userid+"&objecttype=thing&pageID="+page;
+        }
       }else{
         getString="/geekplay.php?action=getplays&ajax=1&userid="+userid+"&objecttype=thing&pageID="+page;
       }
