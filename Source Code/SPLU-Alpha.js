@@ -3302,7 +3302,7 @@
   function fetchUserID(username) {
     console.log("fetchUserID("+username+")");
     var oReq=new XMLHttpRequest();
-    var getString="/geekplay.php?action=searchplayersandusers&ajax=1&q=%22"+encodeURIComponent(username)+"%22&showcount=10"
+    var getString="/geekplay.php?action=searchplayersandusers&ajax=1&q="+encodeURIComponent(username)+"&showcount=10"
     oReq.onload=function(responseJSON){
       console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
       if(responseJSON.target.status==200){
@@ -3363,7 +3363,8 @@
       //getString="/xmlapi2/plays?username="+player+"&page="+page;
       // For searching for another user I need to replace currentuser=true with userid=###
       if(userid==-1) {
-        getString="/geekplay.php?action=getplays&ajax=1&currentUser=true&objecttype=thing&pageID="+page;
+        //getString="/geekplay.php?action=getplays&ajax=1&currentUser=true&objecttype=thing&pageID="+page;
+        getString="/geekplay.php?action=getplays&ajax=1&userid="+SPLUplayData[player].userid+"&objecttype=thing&pageID="+page;
       }else{
         getString="/geekplay.php?action=getplays&ajax=1&userid="+userid+"&objecttype=thing&pageID="+page;
       }
@@ -3394,7 +3395,7 @@
         window.tmpresponse=this;
         //SPLUplays[player][page]=this.responseXML;
         SPLUplays[player][page]=JSON.parse(this.response);
-        parsePlays(player,page,multiple,gameid,date);
+        parsePlays(player,page,multiple,gameid,date, userid);
       }else{
         console.log("other status code, no fetchPlays");
       }
@@ -3480,11 +3481,14 @@
     }
   }
   
-  function parsePlays(player,page,multiple,gameid,date){
+  function parsePlays(player,page,multiple,gameid,date, userid){
     console.log("parsePlays("+player+","+page+","+multiple+","+gameid+","+date+")");
     SPLUplayFetch[player][page]=1;
     if(SPLUplayData[player]===undefined){
       SPLUplayData[player]={};
+    }
+    if(userid!=-1){
+      SPLUplayData[player]["userid"]=userid;
     }
     //if(SPLUplays[player][1].getElementsByTagName("plays")[0]===undefined){
     // This doesn't really make sense as fetching data for a single game can reset this total.  Though the new API returns eventcount=0 whereas the old API didn't return any XML so I had to check for undefined previously.
@@ -3566,7 +3570,7 @@
       tmpHTML='<div id="SPLU.PlaysTable" style="display:table;">';
       for(key in SPLUplayData[tmpUser]){
         //if(key=="total"||key=="approximate"||key=="game"||SPLUplayData[tmpUser][key].attributes.date.value=="1452-04-15"){
-        if(key=="total"||key=="approximate"||key=="game"||SPLUplayData[tmpUser][key].playdate=="1452-04-15"){
+        if(key=="total"||key=="approximate"||key=="game"||key=="userid"||SPLUplayData[tmpUser][key].playdate=="1452-04-15"){
           continue;
         }
         //SPLUlistOfPlays.push({id:key,date:SPLUplayData[tmpUser][key].attributes.date.value});
@@ -3582,7 +3586,7 @@
       }else if(SPLUplaysListTab=="stats"){
         loadStats("choose");
       }
-      var tmpCount=(Object.keys(SPLUplayData[tmpUser]).length)-2;
+      var tmpCount=(Object.keys(SPLUplayData[tmpUser]).length)-3;
       var tmpLoaded=SPLUi18n.PlaysLoaded.replace("$1", tmpCount);
       tmpLoaded=tmpLoaded.replace("$2", SPLUplayData[tmpUser]["total"]);
       tmpHTML='<div><div>'+tmpLoaded;
