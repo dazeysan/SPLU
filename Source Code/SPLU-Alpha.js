@@ -3301,6 +3301,9 @@
 
   function fetchUserID(username) {
     console.log("fetchUserID("+username+")");
+    if(username==-1){
+      username=document.getElementById("SPLU.PlaysLogger").value;
+    }
     var oReq=new XMLHttpRequest();
     var getString="/geekplay.php?action=searchplayersandusers&ajax=1&q="+encodeURIComponent(username)+"&showcount=10"
     oReq.onload=function(responseJSON){
@@ -3329,7 +3332,7 @@
   }
   
   function getRecentPlays(multiple, userid){
-    console.log("getRecentPlays("+multiple+")");
+    console.log("getRecentPlays("+multiple+", "+userid+")");
     document.getElementById("SPLU.PlaysPlayers").style.display="none";
     tmpUser=document.getElementById("SPLU.PlaysLogger").value;
     if(SPLUplayFetch[tmpUser]===undefined){
@@ -6210,7 +6213,8 @@
     document.getElementById("SPLU.PlaysList").style.maxHeight=(document.getElementById("SPLUwindow").clientHeight-122)+"px";
     document.getElementById('BRlogPlays').style.display="table-cell";
     if(SPLUhistoryOpened==1){
-      getRecentPlays(false, -1);
+      //getRecentPlays(false, -1);
+      fetchUserID(-1);
     }
     showPlaysTab("filters");
   }
