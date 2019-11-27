@@ -91,7 +91,7 @@
     tmpLink=document.createElement('link');
     tmpLink.type="text/css";
     tmpLink.rel="stylesheet";
-    tmpLink.href="https://cdn.jsdelivr.net/gh/dazeysan/SPLU@master/Source%20Code/font-awesome/css/font-awesome.min.css";
+    tmpLink.href="https://dazeysan.github.io/SPLU/Source%20Code/font-awesome/css/font-awesome.min.css";
     document.getElementsByTagName("head")[0].appendChild(tmpLink);
     
   function initSPLU(){
@@ -116,12 +116,12 @@
     //Insert code for Pikaday calendar Copyright © 2014 David Bushell
     var pikscript=document.createElement('script');
     pikscript.type="text/javascript";
-    pikscript.src='https://cdn.jsdelivr.net/gh/dazeysan/SPLU@master/Source%20Code/scripts/pikaday.js';
+    pikscript.src='https://dazeysan.github.io/SPLU/Source%20Code/scripts/pikaday.js';
     document.body.appendChild(pikscript);
     var pikstyle=document.createElement("link");
     pikstyle.type="text/css";
     pikstyle.rel="stylesheet";
-    pikstyle.href="https://cdn.jsdelivr.net/gh/dazeysan/SPLU@master/Source%20Code/scripts/pikaday.css";
+    pikstyle.href="https://dazeysan.github.io/SPLU/Source%20Code/scripts/pikaday.css";
     document.getElementsByTagName('head')[0].appendChild(pikstyle);
 
     var style=document.createElement('style');
@@ -1659,7 +1659,7 @@
 
   function fetchLanguageFile(lang){
     console.log("fetchLanguageFile("+lang+")");
-    var requestURL="https://cdn.jsdelivr.net/gh/dazeysan/SPLU@master/Source%20Code/i18n/"+lang+".json";
+    var requestURL="https://dazeysan.github.io/SPLU/Source%20Code/i18n/"+lang+".json";
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
       console.log(this.readyState+"|"+this.status);
@@ -1681,7 +1681,7 @@
   
   function fetchLanguageList(){
     console.log("fetchLanguageList()");
-    var requestURL="https://cdn.jsdelivr.net/gh/dazeysan/SPLU@master/Source%20Code/i18n/list.json";
+    var requestURL="https://dazeysan.github.io/SPLU/Source%20Code/i18n/list.json";
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
       console.log(this.readyState+"|"+this.status);
