@@ -249,7 +249,7 @@
           +'<div id="SPLU.LocationField" style="width:275px;">'
             +'<div id="SPLU.fakeLocationBox" style="width:200px; display:inline-block; -moz-appearance:textfield; -webkit-appearance:textfield;">'
               +'<input type="text" placeholder="'+SPLUi18n.MainPlaceholderLocation+'" id="SPLU_PlayedAt" onFocus="javascript:{this.select();}" onblur="javascript:{window.setTimeout(function(){document.getElementById(\'SPLUsearchLocationsResultsDIV\').style.display=\'none\';},100);}" onkeydown="SPLUsearchLocationDelay(event);" tabindex="20" name="location" style="width: 175px; border:none;"/>'
-              +'<a href="javascript:{void(0);}" onClick="javascript:{saveLocation();}" style="vertical-align:middle; position: absolute;" id="SPLU.SaveLocationButton"><span class="fa_SP-stack"><i class="fa_SP fa_SP-stack-2x fa_SP-floppy2" style="font-size: 1.3em; color: black; vertical-align: middle; transform: translate(2px, 4px);"></i></span></a>'
+              +'<a href="javascript:{void(0);}" onClick="javascript:{saveLocation();}" style="vertical-align:middle; position: absolute;" id="SPLU.SaveLocationButton"><span class="fa_SP-stack"><i class="fa_SP fa_SP-stack-2x fa_SP-floppy2" style="font-size: 1.3em; color: black; vertical-align: middle; transform: translate(0px, 2px);"></i></span></a>'
             +'</div>'
             +'<div id="SPLUsearchLocationsResultsDIV" style="background-color: rgb(255, 255, 255); position: absolute; padding: 5px; z-index: 579; margin-right: 12px; min-width: 130px; display:none;"></div>'
             +'<a href="javascript:{void(0);}" onClick="javascript:{showHideLocations();}" id="BRlocsBtn" style="padding-left:1px; vertical-align:middle;"><span id="SPLU.LocationButtonIconCollapse" style="display:inline-block;"><i class="fa_SP fa_SP-caret-up display:block" style="color: black; font-size: 2em; transform: translate(1px, 4px);"></i></span><span id="SPLU.LocationButtonIconExpand" style="display:none;"><i class="fa_SP fa_SP-caret-down display:block" style="color: black; font-size: 2em; transform: translate(1px, 4px);"></i></span></a>'
@@ -840,7 +840,7 @@
         +'<center>'+SPLUi18n.LocationsHeader+'</center>'
         +'<br/>'
         +'</span>'
-        +'<div id="SPLU.LocationsList" style="overflow-y:auto; width:200px;"></div>'
+        +'<div id="SPLU.LocationsList" style="overflow-y:auto;"></div>'
         +'<div style="padding-top:10px;display:inline;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{saveLocations();}" class="SPLUbuttons" style="margin-right:6px;color:black;border:2px solid #249631">'+SPLUi18n.LocationsButtonSave+'</a>'
         +'<a href="javascript:{void(0);}" onClick="javascript:{addLocation();}" class="SPLUbuttons" style="color:black; border:2px solid #249631">'+SPLUi18n.LocationsButtonNew+'</a>'
@@ -911,7 +911,7 @@
         +'<div style="display:none;width:64px;" name="SPLUplayerFilterColumn"></div>'
         +'</div>'
         +'</div>'
-        +'<div id="SPLU.PlayersList" style="overflow-y:auto;"></div>'
+        +'<div id="SPLU.PlayersList" style="overflow-y:auto; width: 280px;"></div>'
         +'<div id="SPLU.PlayersPaneControls">'
         +'<div style="padding-top:10px;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{savePlayers();}" class="SPLUbuttons" style="margin-right:6px;color:black;" id="SavePlayerListBtn">'+SPLUi18n.PlayersButtonSave+'</a>'
@@ -6233,9 +6233,13 @@
     for(var key in SPLU.Locations){
       if (SPLU.Locations.hasOwnProperty(key)) {
         SPLUlocationCount++;
+        tmpStar="";
+        if(key==SPLU.Settings.DefaultLocation.Name){
+          tmpStar="checked";
+        }
         tmpHTML+="<div style='display:table-row;' id='EditLocationsRow"+key+"' data-id='"+SPLU.Locations[key].Name+"'>";
         tmpHTML+='<div style="display:table-cell;padding:1px;"><a href="javascript:{void(0);}" onClick="javascript:{document.getElementById(\'EditLocationsTable\').removeChild(document.getElementById(\'EditLocationsRow'+key+'\'));}" style="color:red;margin:2px;"><img src="https://dazeysan.github.io/SPLU/Images/delete_row_small.png"></a></div>';
-        tmpHTML+="<div style='display:table-cell;padding:1px;'><input type='text' class='EditLocationsField' tabindex='"+(1000+SPLUlocationCount)+"' style='border:none;width:160px;' value=\""+decodeURIComponent(SPLU.Locations[key].Name)+"\" onkeyup='javascript:{document.getElementById(\"EditLocationsRow"+key+"\").setAttribute(\"data-id\",fixedEncodeURIComponent(this.value))}' /><div style='display:inline-block;'><i style='font-size: 1.1em;' class='fa_SP fa_SP-drag-row'></i></div></div>";
+        tmpHTML+="<div style='display:table-cell;padding:1px;'><span style='background-color: white;padding: 2px;'><input type='text' class='EditLocationsField' tabindex='"+(1000+SPLUlocationCount)+"' style='border:none;width:160px;background-color: transparent;' value=\""+decodeURIComponent(SPLU.Locations[key].Name)+"\" onkeyup='javascript:{document.getElementById(\"EditLocationsRow"+key+"\").setAttribute(\"data-id\",fixedEncodeURIComponent(this.value))}' /><input type='radio' style='margin-right: 5px;' name='SPLUdefaultLocationRadio' "+tmpStar+"></input></span><div style='display:inline-block;'><i style='font-size: 1.1em;' class='fa_SP fa_SP-drag-row'></i></div></div>";
         tmpHTML+="</div>";
       }
     }
@@ -6258,7 +6262,7 @@
     tmpDiv.id="EditLocationsRow"+SPLUlocationCount;
     tmpDiv.setAttribute('data-id' , 'ZZZ');
     var tmpHTML='<div style="display:table-cell;padding:1px;"><a href="javascript:{void(0);}" onClick="javascript:{document.getElementById(\'EditLocationsTable\').removeChild(document.getElementById(\'EditLocationsRow'+SPLUlocationCount+'\'));}" style="color:red;margin:2px;"><img src="https://dazeysan.github.io/SPLU/Images/delete_row_small.png"></a></div>';
-    tmpHTML+="<div style='display:table-cell;padding:1px;'><input type='text' class='EditLocationsField' tabindex='"+(1000+SPLUlocationCount)+"' style='border:none;width:160px;' onkeyup='javascript:{document.getElementById(\"EditLocationsRow"+SPLUlocationCount+"\").setAttribute(\"data-id\",fixedEncodeURIComponent(this.value))}' /><div style='display:inline-block;'><i style='font-size: 1.1em;' class='fa_SP fa_SP-drag-row'></i></div></div>";
+    tmpHTML+="<div style='display:table-cell;padding:1px;'><span style='background-color: white;padding: 2px;'><input type='text' class='EditLocationsField' tabindex='"+(1000+SPLUlocationCount)+"' style='border:none;width:160px;background-color: transparent;' onkeyup='javascript:{document.getElementById(\"EditLocationsRow"+SPLUlocationCount+"\").setAttribute(\"data-id\",fixedEncodeURIComponent(this.value))}' /><input type='radio' style='margin-right: 5px;' name='SPLUdefaultLocationRadio'></input></span><div style='display:inline-block;'><i style='font-size: 1.1em;' class='fa_SP fa_SP-drag-row'></i></div></div>";
     tmpDiv.innerHTML=tmpHTML;
     document.getElementById('EditLocationsTable').appendChild(tmpDiv);
   }
@@ -6267,9 +6271,13 @@
     document.getElementById('SPLU.LocationsStatus').innerHTML=SPLUi18n.StatusThinking;
     SPLU.Locations={};
     var locations=document.getElementsByClassName('EditLocationsField');
+    var tmpFav=document.getElementsByName('SPLUdefaultLocationRadio');
     for(i=0;i<locations.length;i++){
       if(locations[i].value!=""){
         SPLU.Locations[i]={"Name":fixedEncodeURIComponent(locations[i].value)};
+        if(tmpFav[i].checked){
+          SPLU.Settings.DefaultLocation.Name=i;
+        }
       }
     }
     SPLUremote.Locations=SPLU.Locations;
