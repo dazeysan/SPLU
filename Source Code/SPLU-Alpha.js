@@ -193,7 +193,7 @@
     var tmpDiv=document.createElement('div');
     var tmpHTML='<div style="display:table;">'
       +'<div style="display:table-row;">'
-        +'<div id="SPLU.DateField" class="BRcells" style="width:120px;">'
+        +'<div id="SPLU.DateField" class="BRcells" style="width:auto;">'
           +'<div style="display:table;">'
             +'<div style="display:table-row;">'
               +'<div style="display:inline;">'
@@ -435,7 +435,7 @@
     BRlogSettings.id='BRlogSettings';
     BRlogSettings.setAttribute("style","display:none; background-color: #80FE86; padding: 13px;border:2px solid black;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:75px;position:relative;");
     var tmpDiv=document.createElement('div');
-    var tmpHTML='<div id="hideSettingsButton" style="position: absolute; right: 0px; top: -2px;">'
+    var tmpHTML='<div id="hideSettingsButton" style="position: absolute; right: -2px; top: -3px;">'
       +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogMain\').style.minWidth=\'\';document.getElementById(\'BRlogSettings\').style.display=\'none\';}" style="border:2px solid black;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;">'
       +'<img src="https://dazeysan.github.io/SPLU/Images/close_pane.png">'
       +'</a>'
@@ -833,7 +833,7 @@
     BRlogLocations.id='BRlogLocations';
     BRlogLocations.setAttribute("style","display:none; background-color: #F5C86C; padding: 13px;border:2px solid #249631;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:100px;position:relative;");
     var tmpDiv=document.createElement('div');
-    var tmpHTML='<div id="hideLocationsButton" style="position: absolute; right: 0px; top: -2px;">'
+    var tmpHTML='<div id="hideLocationsButton" style="position: absolute; right: -2px; top: -3px;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogLocations\').style.display=\'none\';}" style="border:2px solid #249631;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU/Images/close_pane.png"></a>'
         +'</div>'
         +'<span style="font-variant:small-caps; font-weight:bold;">'
@@ -853,7 +853,7 @@
     BRlogPlayers.id='BRlogPlayers';
     BRlogPlayers.setAttribute("style","display:none; background-color: #F7FB6F; padding: 13px;border:2px solid #00F; border-radius:15px; box-shadow:10px 10px 5px #888; min-width:275px;position:relative;");
     var tmpDiv=document.createElement('div');
-    var tmpHTML='<div id="hidePlayersButton" style="position: absolute; right: 0px; top: -2px;">'
+    var tmpHTML='<div id="hidePlayersButton" style="position: absolute; right: -2px; top: -3px;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();showPlayersTab();document.getElementById(\'BRlogPlayers\').style.display=\'none\';}" style="border:2px solid #00F;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU/Images/close_pane.png"></a>'
         +'</div>'
         +'<span style="font-variant:small-caps; font-weight:bold;">'
@@ -946,7 +946,7 @@
     BRlogPlays.id='BRlogPlays';
     BRlogPlays.setAttribute("style","display:none; background-color: #F1F8FB; padding: 13px;border:2px solid #249631;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:100px;position:relative;");
     var tmpDiv=document.createElement('div');
-    var tmpHTML='<div id="hidePlaysButton" style="position: absolute; right: 0px; top: -2px;">'
+    var tmpHTML='<div id="hidePlaysButton" style="position: absolute; right: -2px; top: -3px;">'
           +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogPlays\').style.display=\'none\';}" style="border:2px solid #249631;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU/Images/close_pane.png"></a>'
         +'</div>'
         +'<span style="font-variant:small-caps; font-weight:bold;">'
@@ -955,7 +955,7 @@
         +'<div>'
           +'<input type="text" id="SPLU.PlaysLogger" value="'+LoggedInAs+'" onClick="javascript:{listFetchedPlayers();}" onKeyPress="eventPlaysPlayerEnter(event);"/>'
           +'<div style="display:inline-block; margin-left:2px;">'
-            +'<div style="background-color:lightgrey;border:1px solid gray;border-radius:6px;padding:2px;cursor:pointer;height:15px"><span id="SPLU.GetNextText">'+SPLUi18n.PlaysGetNext+' 100</span> | <span  onclick="javascript:{if(document.getElementById(\'SPLUfetchDrop\').style.display==\'none\'){document.getElementById(\'SPLUfetchDrop\').style.display=\'\';}else{document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}}"><i style="float: right; height: 15px; background-color: lightgrey; margin-top: -2px; margin-right: 3px; padding: 4px 2px 0px;" class="fa_SP">&#xf078;</i></span></div>'
+            +'<div style="background-color:lightgrey;border:1px solid gray;border-radius:6px;padding:2px;cursor:pointer;height:19px"><span id="SPLU.GetNextText">'+SPLUi18n.PlaysGetNext+' 100</span> | <span  onclick="javascript:{if(document.getElementById(\'SPLUfetchDrop\').style.display==\'none\'){document.getElementById(\'SPLUfetchDrop\').style.display=\'\';}else{document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}}"><i style="margin-top: -3px; margin-right: 3px; padding: 4px 2px 0px;" class="fa_SP">&#xf078;</i></span></div>'
             +'<div style="position:absolute;border:1px solid blue;background-color:rgb(206,214,233);display:none;cursor:pointer;z-index:573;" id="SPLUfetchDrop">'
               +'<ul class="fa_SP-ul" style="padding-right:8px;">'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{getRecentPlays(true, -1);document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
@@ -989,7 +989,7 @@
         +'<div id="SPLU.PlaysFilters" style="border: 1px solid blue; border-radius: 5px; padding: 3px;">'
           +'<div id="SPLU.PlaysFiltersStatus" style="float:right;"></div>'
           +'<div>'
-            +'<div style="background-color:white;width:60%;border:1px solid gray;padding:2px;cursor:pointer;height:15px"  onclick="javascript:{if(document.getElementById(\'SPLUfilterDrop\').style.display==\'none\'){document.getElementById(\'SPLUfilterDrop\').style.display=\'\';}else{document.getElementById(\'SPLUfilterDrop\').style.display=\'none\';}}"><i class="fa_SP fa_SP-funnel"></i> '+SPLUi18n.PlaysFilterAddFilter+'<i style="float: right; height: 15px; background-color: lightgrey; margin-top: -2px; margin-right: -2px; padding: 4px 2px 0px;" class="fa_SP">&#xf078;</i></div>'
+            +'<div style="background-color:white;width:60%;border:1px solid gray;padding:2px;cursor:pointer;height:19px"  onclick="javascript:{if(document.getElementById(\'SPLUfilterDrop\').style.display==\'none\'){document.getElementById(\'SPLUfilterDrop\').style.display=\'\';}else{document.getElementById(\'SPLUfilterDrop\').style.display=\'none\';}}"><i class="fa_SP fa_SP-funnel"></i> '+SPLUi18n.PlaysFilterAddFilter+'<i style="float: right; padding: 1px 2px 0px;" class="fa_SP">&#xf078;</i></div>'
             +'<div style="position:absolute;border:1px solid blue;background-color:rgb(206,214,233);display:none;cursor:pointer;z-index:575;" id="SPLUfilterDrop">'
               +'<ul class="fa_SP-ul" style="padding-right:8px;">'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'gamename\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
@@ -1048,7 +1048,7 @@
             +'</div>'
           +'</div>'
         +'</div>'
-        +'<div id="SPLU.PlaysList" style="overflow-y:auto; width:275px;"></div>'
+        +'<div id="SPLU.PlaysList" style="overflow-y:auto; width:275px; margin-top: 3px"></div>'
         +'<div id="SPLUcopyPlaysDiv" style="display:none;padding-top:10px;">'
           +'<div class="BRcells" id="CopyPlaysSelectAllBtn">'
             +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlaysSelectAll();}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;"><img src="https://dazeysan.github.io/SPLU/Images/select-all.png" style="vertical-align: middle;"></a>'
@@ -1061,7 +1061,7 @@
           +'</div>'
           +'<div id="CopyPlaysStatus"></div>'
         +'</div>'
-        +'<div id="SPLU.StatsMenu" style="display:none;">'
+        +'<div id="SPLU.StatsMenu" style="display:none; margin-top: 3px;">'
           +SPLUi18n.StatsStat+': <select class="fa_SP" id="SPLU.SelectStat" onChange="javascript:{loadStats(\'choose\');}">'
             +'<option class="fa_SP" style="display:block;" value="PlaysWins" selected>&#xf091; '+SPLUi18n.StatsWins+'</option>'
             +'<option class="fa_SP" style="display:block;" value="WinsByGame">&#xf091; '+SPLUi18n.StatsWinsByGame+'</option>'
@@ -1080,7 +1080,7 @@
           +'</span>'
           +'<div id="SPLU.StatsPlayerDiv" style="display: none;">'+SPLUi18n.PlaysFilterPlayer+': <select class="fa_SP" id="SPLU.SelectStatPlayer" onChange="javascript:{setWinsByGamePlayer(\'\');}"></select></div>'
         +'</div>'
-        +'<div id="SPLU.StatsContent" style="display:none;overflow-y: auto; width: 315px;"></div>'
+        +'<div id="SPLU.StatsContent" style="display:none;overflow-y: auto; width: 315px; margin-top: 3px;"></div>'
         +'<div id="SPLU.BackupPlaysXML"><input type="button" value="Backup loaded plays to JSON text file" onClick="javascipt:{downloadPlaysJSON();}" /></div>';
     tmpDiv.innerHTML+=tmpHTML;
     BRlogPlays.appendChild(tmpDiv);
@@ -3278,7 +3278,7 @@
       //dst.value=date.toString("yyyy-MM-dd");
       dst.value=date;
       //status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:3px;'> "+date.toString("yyyy-MM-dd");
-      status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:3px;'> "+date;
+      status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:-3px;'> "+date;
     }else{
       if(src.get('value').length){
         dst.value='';status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/delete.png' style='position:relative; top:3px;'> "+SPLUi18n.CalendarInvalidDate;
