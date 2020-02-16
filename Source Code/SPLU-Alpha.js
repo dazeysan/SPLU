@@ -2849,30 +2849,38 @@
 
   function saveSooty(statusID, statusLoading, statusSuccess, onloadFunction){
     console.log("saveSooty()");
-    xmlhttp=new XMLHttpRequest();
-    xmlhttp.open("POST","/geekplay.php",true);
-    xmlhttp.onload=function(responseJSON){
-      console.log("onload()");
-      if(responseJSON.target.status==200){
-        ////Should really just fix boot order rather than testing this////
-        if(document.getElementById(statusID)==null){
-          console.log(statusSuccess);
+    tmpSettings=JSON.stringify(SPLUremote);
+    console.log("Settings Size: "+tmpSettings.length);
+    //Check if their settings will overflow the 64KB comment limit on BGG.
+    if(tmpSettings.length>65500){
+      alert("Your saved settings are using too much space to be saved: "+tmpSettings.length+" bytes.\nPlease delete a favorite and try again.");
+      document.getElementById(statusID).innerHTML="<img style='vertical-align:bottom;padding-top:5px;' src='https://dazeysan.github.io/SPLU/Images/alert.gif'><span style='background-color:red;color:white;font-weight:bold;'>"+SPLUi18n.StatusErrorOccurred+"</span>";
+    } else {
+      xmlhttp=new XMLHttpRequest();
+      xmlhttp.open("POST","/geekplay.php",true);
+      xmlhttp.onload=function(responseJSON){
+        console.log("SaveSooty() onload()");
+        if(responseJSON.target.status==200){
+          ////Should really just fix boot order rather than testing this////
+          if(document.getElementById(statusID)==null){
+            console.log(statusSuccess);
+          }else{
+            document.getElementById(statusID).innerHTML=statusSuccess;
+          }
+          window.setTimeout(function(){ document.getElementById(statusID).innerHTML=""}, 3000);
+          onloadFunction();
         }else{
-          document.getElementById(statusID).innerHTML=statusSuccess;
+          document.getElementById(statusID).innerHTML="<img style='vertical-align:bottom;padding-top:5px;' src='https://dazeysan.github.io/SPLU/Images/alert.gif'><span style='background-color:red;color:white;font-weight:bold;'>"+SPLUi18n.StatusErrorCode+": "+responseJSON.target.status+"</span>";
         }
-        window.setTimeout(function(){ document.getElementById(statusID).innerHTML=""}, 3000);
-        onloadFunction();
+      };
+      if(document.getElementById(statusID)==null){
+        console.log(statusLoading);
       }else{
-        document.getElementById(statusID).innerHTML="<img style='vertical-align:bottom;padding-top:5px;' src='https://dazeysan.github.io/SPLU/Images/alert.gif'><span style='background-color:red;color:white;font-weight:bold;'>"+SPLUi18n.StatusErrorCode+": "+responseJSON.target.status+"</span>";
+        document.getElementById(statusID).innerHTML=statusLoading;
       }
-    };
-    if(document.getElementById(statusID)==null){
-      console.log(statusLoading);
-    }else{
-      document.getElementById(statusID).innerHTML=statusLoading;
+      xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+      xmlhttp.send("version=2&objecttype=thing&objectid=98000&playid="+SPLUplayId+"&action=save&quantity=0&comments="+fixedEncodeURIComponent(tmpSettings)+"&playdate=1452-04-15&B1=Save");
     }
-    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    xmlhttp.send("version=2&objecttype=thing&objectid=98000&playid="+SPLUplayId+"&action=save&quantity=0&comments="+fixedEncodeURIComponent(JSON.stringify(SPLUremote))+"&playdate=1452-04-15&B1=Save");
   }
   
   function insertLocation(location, hide){
