@@ -5904,7 +5904,7 @@
       if(SPLUfamilyList.length>=1){
         tmpHTML+=SPLUi18n.StatusPleaseChooseFamily+":<br/>";
         for(var i=0;i<SPLUfamilyList.length;i++){
-          tmpHTML+='&nbsp;-&nbsp;<a href="javascript:{void(0);}" onClick="javascript:{fetchFamily(\''+SPLUfamilyList[0].id+'\');}">'+SPLUfamilyList[i].getAttribute("value")+'</a><br/>';
+          tmpHTML+='&nbsp;-&nbsp;<a href="javascript:{void(0);}" onClick="javascript:{fetchFamily(\''+SPLUfamilyList[i].id+'\');}">'+SPLUfamilyList[i].getAttribute("value")+'</a><br/>';
         }
       }
       document.getElementById('SPLU.FamilyPane').innerHTML=tmpHTML;
