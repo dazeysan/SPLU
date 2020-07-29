@@ -318,6 +318,9 @@
               +'</div>'
               +'<div style="display:table-cell; vertical-align:top; padding-top:10px;" id="SPLU.GameStatus"></div>'
               +'</div>'
+              +'<div style="display:table-row;">'
+                +'<div id="SPLU.GameCountStatus" style="display:table-cell; vertical-align:top;"></div>'
+              +'</div>'
             +'</div>'
           +'</div>'
         +'</div>'
@@ -2626,6 +2629,8 @@
     document.getElementById('SPLU_ExpansionsQuantity').innerHTML="";
     document.getElementById('objectid9999').value=SPLU.Favorites[id].objectid;
     SPLUgameID=SPLU.Favorites[id].objectid;
+    //FIX - replace thing with objecttype and finish rest of feature
+    //fetchPlayCount(SPLUgameID, "thing");
     var tmpType="thing";
     var tmpSubType="boardgame";
     if(SPLU.Favorites[id].objecttype=="videogame"){
@@ -4515,6 +4520,8 @@
     document.getElementById('objectid9999').value=item.objectid;
     SPLUexpansionsFromFavorite=[]
     SPLUgameID=item.objectid;
+    //FIX - replace thing with objecttype and finish rest of feature
+    //fetchPlayCount(SPLUgameID, "thing");
     tmpImage=item.objectid;
     if (tmpImage==0){
       tmpImage='1657689';
@@ -4552,48 +4559,109 @@
     SPLUexpansionsLoaded=false;
     SPLUfamilyLoaded=false;
   }
-  
-  function fetchImageList(gameid, tag, id, size, favid, tmpURL,tmpType,tmpSubType) {
-    console.log('fetchImageList('+gameid+', '+tag+', '+id+', '+size+', '+favid+', '+tmpURL+', '+tmpType+', '+tmpSubType+')');
-    var oReq=new XMLHttpRequest();
-    var tmpJSON="";
-    oReq.onload=function(responseJSON){
-      tmpJSON=JSON.parse(responseJSON.target.response);
-      window.tmpimglist=tmpJSON;
-      console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
-      if (responseJSON.target.status=="200"){
-        SPLUimageData[gameid]=tmpJSON;
-        if (tag == "div" && tmpURL == "") {
-          //Display the image in the div
-          document.getElementById(id).innerHTML='<img src="'+SPLUimageData[gameid].item.images[size]+'" />';
-        }
-        if (tag == "div" && id == "selimage9999") {
-          //Display the image in the selimage9999 / SPLU.GameThumb div / img
-          document.getElementById(id).innerHTML='<a target="_blank" href="'+tmpURL+'"><img id="SPLU.GameThumb" src="'+SPLUimageData[gameid].item.images[size]+'" /></a>';
-        }
-        if (tag == "img") {
-          //Replace the img src if you can
-          try{
-            document.getElementById(id).src=SPLUimageData[gameid].item.images[size];
-          }catch(err){
-            console.log(err);
-          }
-        }
-        if (favid != "") {
-          console.log("Updating Fav Thumb");
-          SPLU.Favorites[favid].thumbnail = SPLUimageData[gameid].item.images[size];
-        }
-      } else {
-        console.log("other status code, no image results");
-      }
-    };
-    var tmpType=SPLUobjecttype;
-    var tmpQuery='https://api.geekdo.com/api/geekitems?nosession=1&objectid='+gameid+'&objecttype='+tmpType+'&subtype='+tmpSubType;
-    oReq.open("GET",tmpQuery,true);
-    //Set the following header so that we get a JSON object instead of HTML
-    oReq.setRequestHeader("Accept","application/json, text/plain, */*");/**/
-    oReq.send();
+
+  async function fetchData(url, options) {
+    //let response = await fetch("https://httpstat.us/200");
+    let response = await fetch(url, options);
+    //console.log(response);
+    if (response.status == "200") { 
+    return await response.json()
+    } else {
+    //Update to check for other status messages and handle properly, like 202 for queued/retry later
+    throw new Error(response.statusText)
+    }
   }
+
+  async function fetchPlayCount(objectID, objectType) {
+    try {
+        let url = `https://boardgamegeek.com/geekplay.php?action=getuserplaycount&ajax=1&objectid=${objectID}&objecttype=${objectType}`;
+        let options = {headers:{'Content-Type': 'application/json'}};
+        let resJSON = await fetchData(url, options);
+        console.log(resJSON);
+        document.getElementById("SPLU.GameCountStatus").innerHTML=`Your plays: ${resJSON.count}`;
+    } catch(e) {
+      //This shows on bad URLs?
+        console.log("catcherror", e); 
+    }
+  }
+ 
+  async function fetchImageList(gameid, tag, id, size, favid, tmpURL,tmpType,tmpSubType) {
+    console.log('fetchImageList('+gameid+', '+tag+', '+id+', '+size+', '+favid+', '+tmpURL+', '+tmpType+', '+tmpSubType+')');
+    try {
+      let tmpType=SPLUobjecttype;
+      let url = `https://api.geekdo.com/api/geekitems?nosession=1&objectid=${gameid}&objecttype=${tmpType}&subtype=${tmpSubType}`
+      let options = {headers:{'Content-Type': 'application/json'}};
+      let resJSON = await fetchData(url, options);
+      console.log(resJSON);
+      SPLUimageData[gameid]=resJSON;
+      if (tag == "div" && tmpURL == "") {
+        //Display the image in the div
+        document.getElementById(id).innerHTML='<img src="'+SPLUimageData[gameid].item.images[size]+'" />';
+      }
+      if (tag == "div" && id == "selimage9999") {
+        //Display the image in the selimage9999 / SPLU.GameThumb div / img
+        document.getElementById(id).innerHTML='<a target="_blank" href="'+tmpURL+'"><img id="SPLU.GameThumb" src="'+SPLUimageData[gameid].item.images[size]+'" /></a>';
+      }
+      if (tag == "img") {
+        //Replace the img src if you can
+        try{
+          document.getElementById(id).src=SPLUimageData[gameid].item.images[size];
+        }catch(err){
+          console.log(err);
+        }
+      }
+      if (favid != "") {
+        console.log("Updating Fav Thumb");
+        SPLU.Favorites[favid].thumbnail = SPLUimageData[gameid].item.images[size];
+      }
+    } catch(e) {
+      //This shows on bad URLs?
+      console.log("catcherror", e); 
+    }
+  }
+
+ 
+  // function fetchImageList(gameid, tag, id, size, favid, tmpURL,tmpType,tmpSubType) {
+    // console.log('fetchImageList('+gameid+', '+tag+', '+id+', '+size+', '+favid+', '+tmpURL+', '+tmpType+', '+tmpSubType+')');
+    // var oReq=new XMLHttpRequest();
+    // var tmpJSON="";
+    // oReq.onload=function(responseJSON){
+      // tmpJSON=JSON.parse(responseJSON.target.response);
+      // window.tmpimglist=tmpJSON;
+      // console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
+      // if (responseJSON.target.status=="200"){
+        // SPLUimageData[gameid]=tmpJSON;
+        // if (tag == "div" && tmpURL == "") {
+          // //Display the image in the div
+          // document.getElementById(id).innerHTML='<img src="'+SPLUimageData[gameid].item.images[size]+'" />';
+        // }
+        // if (tag == "div" && id == "selimage9999") {
+          // //Display the image in the selimage9999 / SPLU.GameThumb div / img
+          // document.getElementById(id).innerHTML='<a target="_blank" href="'+tmpURL+'"><img id="SPLU.GameThumb" src="'+SPLUimageData[gameid].item.images[size]+'" /></a>';
+        // }
+        // if (tag == "img") {
+          // //Replace the img src if you can
+          // try{
+            // document.getElementById(id).src=SPLUimageData[gameid].item.images[size];
+          // }catch(err){
+            // console.log(err);
+          // }
+        // }
+        // if (favid != "") {
+          // console.log("Updating Fav Thumb");
+          // SPLU.Favorites[favid].thumbnail = SPLUimageData[gameid].item.images[size];
+        // }
+      // } else {
+        // console.log("other status code, no image results");
+      // }
+    // };
+    // var tmpType=SPLUobjecttype;
+    // var tmpQuery='https://api.geekdo.com/api/geekitems?nosession=1&objectid='+gameid+'&objecttype='+tmpType+'&subtype='+tmpSubType;
+    // oReq.open("GET",tmpQuery,true);
+    // //Set the following header so that we get a JSON object instead of HTML
+    // oReq.setRequestHeader("Accept","application/json, text/plain, */*");/**/
+    // oReq.send();
+  // }
 
   function SPLUdownloadText(filename, text) {
     //From Stackoverflow
