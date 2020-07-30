@@ -1707,7 +1707,7 @@
               //tmp2=this.responseXML;
               SPLUplayId=JSON.parse(xmlhttp.response).playid
               //SPLUplayId=tmp2.getElementsByTagName("play")[0].id;
-              fetchLanguageFile(SPLU.Settings.i18n);
+              fetchLanguageFileQ(SPLU.Settings.i18n);
             //};
             //oReq2.open("get", "/xmlapi2/plays?username="+LoggedInAs+"&mindate=1452-04-15&maxdate=1452-04-15&id=98000", true);
             //oReq2.send();
@@ -1732,10 +1732,10 @@
           delete SPLU.GameStats;
           tmp=SPLUi18n.StatusVersionUpdatedTo+SPLU.Version;
           saveSooty("BRresults",SPLUi18n.StatusUpdatingVersion,tmp,function(){
-            fetchLanguageFile(SPLU.Settings.i18n);
+            fetchLanguageFileQ(SPLU.Settings.i18n);
           });
         }else{
-          fetchLanguageFile(SPLU.Settings.i18n);
+          fetchLanguageFileQ(SPLU.Settings.i18n);
           //Update the saved data if invalid settings were found, but we don't need to if we've updated the version as it will save the new data anyways.
           if (invalidData){
             saveSooty("BRresults",SPLUi18n.StatusThinking,SPLUi18n.StatusInvalidDataFoundandRemoved,function(){});
