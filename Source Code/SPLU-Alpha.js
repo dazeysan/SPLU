@@ -2693,17 +2693,19 @@
     SPLUgameID=SPLU.Favorites[id].objectid;
     //FIX - replace thing with objecttype and finish rest of feature
     //fetchPlayCount(SPLUgameID, "thing");
+    if(SPLU.Settings.FetchPlayCount.Enabled) {
     document.getElementById("SPLU.GameCountStatus").innerHTML=`Your plays: ?`;
-    SPLUqueue.push({
-      "action":fetchPlayCount, 
-      "arguments":{"objectID":SPLUgameID, "objectType":"thing"},
-      "direction":"fetch",
-      "data":"",
-      "response":"",
-      "attempt":0,
-      "finish":fetchPlayCountFinish
-    });
-    runQueue();
+      SPLUqueue.push({
+        "action":fetchPlayCount, 
+        "arguments":{"objectID":SPLUgameID, "objectType":"thing"},
+        "direction":"fetch",
+        "data":"",
+        "response":"",
+        "attempt":0,
+        "finish":fetchPlayCountFinish
+      });
+      runQueue();
+    }
     var tmpType="thing";
     var tmpSubType="boardgame";
     if(SPLU.Favorites[id].objecttype=="videogame"){
@@ -4615,17 +4617,19 @@
     document.getElementById('SPLU_ExpansionsQuantity').innerHTML="";
     //FIX - replace thing with objecttype and finish rest of feature
     //fetchPlayCount(SPLUgameID, "thing");
-    document.getElementById("SPLU.GameCountStatus").innerHTML=`Your plays: ?`;
-    SPLUqueue.push({
-      "action":fetchPlayCount, 
-      "arguments":{"objectID":SPLUgameID, "objectType":"thing"},
-      "direction":"fetch",
-      "data":"",
-      "response":"",
-      "attempt":0,
-      "finish":fetchPlayCountFinish
-    });
-    runQueue();
+    if(SPLU.Settings.FetchPlayCount.Enabled) {
+      document.getElementById("SPLU.GameCountStatus").innerHTML=`Your plays: ?`;
+      SPLUqueue.push({
+        "action":fetchPlayCount, 
+        "arguments":{"objectID":SPLUgameID, "objectType":"thing"},
+        "direction":"fetch",
+        "data":"",
+        "response":"",
+        "attempt":0,
+        "finish":fetchPlayCountFinish
+      });
+      runQueue();
+    }
   }
   
   function clearSearchResult() {
