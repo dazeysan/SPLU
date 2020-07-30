@@ -1790,7 +1790,8 @@
     console.log("fetchLanguageFileFinish() - ", tmpObj);
     //window.testObj=tmpObj;
     SPLUi18n=tmpObj.data;
-    window.setTimeout(function(){initSPLU();},500);
+    initSPLU();
+    //window.setTimeout(function(){initSPLU();},500);
   }
 
 
@@ -1816,27 +1817,67 @@
     // xhr.send();
   // }
   
-  function fetchLanguageList(){
-    console.log("fetchLanguageList()");
-    var requestURL="https://dazeysan.github.io/SPLU/Source%20Code/i18n/list.json";
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-      console.log(this.readyState+"|"+this.status);
-      if (this.readyState == "4" && this.status=="200"){
-        SPLUi18nList=JSON.parse(this.responseText);
-        window.setTimeout(function(){loadLanguageList();},100);
-      }
-    };
-    xhr.timeout = 5000;
-    xhr.ontimeout = function (e) {
-      //Timed out, check last state received, maybe error and offer to retry
-      console.log("xhr.ontimeout-fetchLanguageList()");
-    };
-    xhr.open("GET", requestURL, true);
-    xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    xhr.setRequestHeader("Accept","application/json, text/plain, */*");/**/
-    xhr.send();
+  
+  async function fetchLanguageListQ() {
+    //Call this function to add the item to the queue
+    console.log('fetchLanguageListQ()');
+    SPLUqueue.push({
+      "action":fetchLanguageList, 
+      "arguments":{},
+      "direction":"fetch",
+      "data":"",
+      "response":"",
+      "attempt":0,
+      "finish":fetchLanguageListFinish
+    });
+    runQueue();
   }
+  
+  async function fetchLanguageList(tmpArgs) {
+    //This function is called by runQueue() when processing the queue item
+    console.log("fetchLanguageList() - ", tmpArgs);
+    try {
+        const url = `https://dazeysan.github.io/SPLU/Source%20Code/i18n/list.json`;
+        const options = {};  //Setting headers here seems to trigger CORS
+        return await fetchData(url, options);
+    } catch(e) {
+      //This shows on bad URLs?
+        console.log("catcherror", e); 
+    }
+  }
+
+  function fetchLanguageListFinish(tmpObj){
+    //This function is called by runQueue() when the item was processed successfully?
+    console.log("fetchLanguageListFinish() - ", tmpObj);
+    //window.testObj=tmpObj;
+    SPLUi18nList=tmpObj.data;
+    //loadLanguageList();
+    window.setTimeout(function(){loadLanguageList();},100);
+  }
+
+  
+  
+  // function fetchLanguageList(){
+    // console.log("fetchLanguageList()");
+    // var requestURL="https://dazeysan.github.io/SPLU/Source%20Code/i18n/list.json";
+    // var xhr = new XMLHttpRequest();
+    // xhr.onreadystatechange = function() {
+      // console.log(this.readyState+"|"+this.status);
+      // if (this.readyState == "4" && this.status=="200"){
+        // SPLUi18nList=JSON.parse(this.responseText);
+        // window.setTimeout(function(){loadLanguageList();},100);
+      // }
+    // };
+    // xhr.timeout = 5000;
+    // xhr.ontimeout = function (e) {
+      // //Timed out, check last state received, maybe error and offer to retry
+      // console.log("xhr.ontimeout-fetchLanguageList()");
+    // };
+    // xhr.open("GET", requestURL, true);
+    // xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    // xhr.setRequestHeader("Accept","application/json, text/plain, */*");/**/
+    // xhr.send();
+  // }
 
   function loadLanguageList(){
     select=document.getElementById('SPLU.SelectLanguage');
@@ -6396,7 +6437,7 @@
     loadDefaultLocationList();
     loadFavoritesThumbSizeList();
     if(SPLUi18nList.en===undefined){
-      fetchLanguageList();
+      fetchLanguageListQ();
     }
   }
   
