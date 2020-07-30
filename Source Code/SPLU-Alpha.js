@@ -1756,27 +1756,65 @@
     oReq.send();
   }
 
-  function fetchLanguageFile(lang){
-    console.log("fetchLanguageFile("+lang+")");
-    var requestURL="https://dazeysan.github.io/SPLU/Source%20Code/i18n/"+lang+".json";
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-      console.log(this.readyState+"|"+this.status);
-      if (this.readyState == "4" && this.status=="200"){
-        SPLUi18n=JSON.parse(this.responseText);
-        window.setTimeout(function(){initSPLU();},500);
-      }
-    };
-    xhr.timeout = 5000;
-    xhr.ontimeout = function (e) {
-      //Timed out, check last state received, maybe error and offer to retry
-      console.log("xhr.ontimeout-fetchLanguageFile()");
-    };
-    xhr.open("GET", requestURL, true);
-    xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    xhr.setRequestHeader("Accept","application/json, text/plain, */*");/**/
-    xhr.send();
+
+  async function fetchLanguageFileQ(lang) {
+    //Call this function to add the item to the queue
+    console.log('fetchLanguageFileQ('+lang+')');
+    SPLUqueue.push({
+      "action":fetchLanguageFile, 
+      "arguments":{"language":lang},
+      "direction":"fetch",
+      "data":"",
+      "response":"",
+      "attempt":0,
+      "finish":fetchLanguageFileFinish
+    });
+    runQueue();
   }
+  
+  async function fetchLanguageFile(tmpArgs) {
+    //This function is called by runQueue() when processing the queue item
+    console.log("fetchLanguageFile() - ", tmpArgs);
+    try {
+        const url = `https://dazeysan.github.io/SPLU/Source%20Code/i18n/${tmpArgs.language}.json`;
+        const options = {};  //Setting headers here seems to trigger CORS
+        return await fetchData(url, options);
+    } catch(e) {
+      //This shows on bad URLs?
+        console.log("catcherror", e); 
+    }
+  }
+
+  function fetchLanguageFileFinish(tmpObj){
+    //This function is called by runQueue() when the item was processed successfully?
+    console.log("fetchLanguageFileFinish() - ", tmpObj);
+    //window.testObj=tmpObj;
+    SPLUi18n=tmpObj.data;
+    window.setTimeout(function(){initSPLU();},500);
+  }
+
+
+  // function fetchLanguageFile(lang){
+    // console.log("fetchLanguageFile("+lang+")");
+    // var requestURL="https://dazeysan.github.io/SPLU/Source%20Code/i18n/"+lang+".json";
+    // var xhr = new XMLHttpRequest();
+    // xhr.onreadystatechange = function() {
+      // console.log(this.readyState+"|"+this.status);
+      // if (this.readyState == "4" && this.status=="200"){
+        // SPLUi18n=JSON.parse(this.responseText);
+        // window.setTimeout(function(){initSPLU();},500);
+      // }
+    // };
+    // xhr.timeout = 5000;
+    // xhr.ontimeout = function (e) {
+      // //Timed out, check last state received, maybe error and offer to retry
+      // console.log("xhr.ontimeout-fetchLanguageFile()");
+    // };
+    // xhr.open("GET", requestURL, true);
+    // xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    // xhr.setRequestHeader("Accept","application/json, text/plain, */*");/**/
+    // xhr.send();
+  // }
   
   function fetchLanguageList(){
     console.log("fetchLanguageList()");
@@ -1855,6 +1893,7 @@
       tmpGameName.placeholder=SPLUi18n.MainPlaceholderRPGItem;
       tmpButtonRPGitem.style.backgroundColor="#F8DF24";
     }
+    document.getElementById("SPLU.GameCountStatus").innerHTML=``;
     clearSearchResult();
   }
 
@@ -2692,19 +2731,8 @@
     document.getElementById('objectid9999').value=SPLU.Favorites[id].objectid;
     SPLUgameID=SPLU.Favorites[id].objectid;
     //FIX - replace thing with objecttype and finish rest of feature
-    //fetchPlayCount(SPLUgameID, "thing");
     if(SPLU.Settings.FetchPlayCount.Enabled) {
-    document.getElementById("SPLU.GameCountStatus").innerHTML=`Your plays: ?`;
-      SPLUqueue.push({
-        "action":fetchPlayCount, 
-        "arguments":{"objectID":SPLUgameID, "objectType":"thing"},
-        "direction":"fetch",
-        "data":"",
-        "response":"",
-        "attempt":0,
-        "finish":fetchPlayCountFinish
-      });
-      runQueue();
+      fetchPlayCountQ(SPLUgameID, SPLUobjecttype);
     }
     var tmpType="thing";
     var tmpSubType="boardgame";
@@ -2721,7 +2749,7 @@
     }
     if(SPLU.Settings.Favorites.ThumbSize=="off"){
       tmpURL = '/'+SPLU.Favorites[id].objecttype+'/'+SPLU.Favorites[id].objectid;
-      fetchImageList(id, 'div', 'selimage9999', 'tallthumb', '', tmpURL,tmpType,tmpSubType)
+      fetchImageListQ(id, 'div', 'selimage9999', 'tallthumb', '', tmpURL,tmpType,tmpSubType)
     } else {
       document.getElementById('selimage9999').innerHTML='<a target="_blank" href="/'+SPLU.Favorites[id].objecttype+'/'+SPLU.Favorites[id].objectid+'"><img id="SPLU.GameThumb" src="'+SPLU.Favorites[id].thumbnail+'"/></a>';
     }
@@ -4608,7 +4636,7 @@
     var tmpType=item.objecttype;
     var tmpSubType=item.subtype;
     document.getElementById('selimage9999').innerHTML='Loading<br/>Thubmnail...';
-    fetchImageList(tmpImage, 'div', 'selimage9999', 'tallthumb', '', tmpURL,tmpType,tmpSubType)
+    fetchImageListQ(tmpImage, 'div', 'selimage9999', 'tallthumb', '', tmpURL,tmpType,tmpSubType)
     document.getElementById('q546e9ffd96dfc').value=item.name;
     SPLUsearchResultsLength=20;
     document.getElementById('SPLUsearchResultsDIV').style.display="none";
@@ -4616,19 +4644,8 @@
     document.getElementById('expansionLoggingButton').style.display="block";
     document.getElementById('SPLU_ExpansionsQuantity').innerHTML="";
     //FIX - replace thing with objecttype and finish rest of feature
-    //fetchPlayCount(SPLUgameID, "thing");
     if(SPLU.Settings.FetchPlayCount.Enabled) {
-      document.getElementById("SPLU.GameCountStatus").innerHTML=`Your plays: ?`;
-      SPLUqueue.push({
-        "action":fetchPlayCount, 
-        "arguments":{"objectID":SPLUgameID, "objectType":"thing"},
-        "direction":"fetch",
-        "data":"",
-        "response":"",
-        "attempt":0,
-        "finish":fetchPlayCountFinish
-      });
-      runQueue();
+      fetchPlayCountQ(SPLUgameID, SPLUobjecttype);
     }
   }
   
@@ -4648,11 +4665,30 @@
     SPLUfamilyLoaded=false;
   }
   
+
+  async function fetchPlayCountQ(objectID, objectType) {
+    console.log('fetchPlayCountQ('+objectID+', '+objectType+')');
+    if (objectType == "boardgame"){
+      document.getElementById("SPLU.GameCountStatus").innerHTML=`Your plays: <img src="https://dazeysan.github.io/SPLU/Images/progress.gif">`;
+      SPLUqueue.push({
+        "action":fetchPlayCount, 
+        "arguments":{"objectID":objectID, "objectType":"thing"},
+        "direction":"fetch",
+        "data":"",
+        "response":"",
+        "attempt":0,
+        "finish":fetchPlayCountFinish
+      });
+      runQueue();
+    } else {
+      document.getElementById("SPLU.GameCountStatus").innerHTML=``;
+    }
+  }
   
   async function fetchPlayCount(tmpArgs) {
     console.log("fetchPlayCount() - ", tmpArgs);
     try {
-        const url = `https://boardgamegeek.com/geekplay.php?action=getuserplaycount&ajax=1&objectid=${tmpArgs.objectID}&objecttype=${tmpArgs.objectType}`;
+        const url = `/geekplay.php?action=getuserplaycount&ajax=1&objectid=${tmpArgs.objectID}&objecttype=${tmpArgs.objectType}`;
         const options = {method: "GET", headers:{'Content-Type': 'application/json'}, credentials: 'same-origin'};
         return await fetchData(url, options);
     } catch(e) {
@@ -4668,10 +4704,10 @@
   }
 
  
-  async function fetchImageList(gameid, tag, id, size, favid, tmpURL,tmpType,tmpSubType) {
-    console.log('fetchImageList('+gameid+', '+tag+', '+id+', '+size+', '+favid+', '+tmpURL+', '+tmpType+', '+tmpSubType+')');
+  async function fetchImageListQ(gameid, tag, id, size, favid, tmpURL,tmpType,tmpSubType) {
+    console.log('fetchImageListQ('+gameid+', '+tag+', '+id+', '+size+', '+favid+', '+tmpURL+', '+tmpType+', '+tmpSubType+')');
     SPLUqueue.push({
-      "action":fetchImageList2, 
+      "action":fetchImageList, 
       "arguments":{"gameid":gameid, "tag":tag, "id":id, "size":size, "favid":favid, "tmpURL":tmpURL, "tmpType":tmpType, "tmpSubType":tmpSubType },
       "direction":"fetch",
       "data":"",
@@ -4682,8 +4718,8 @@
     runQueue();
   }
 
-  async function fetchImageList2(tmpObj) {
-    console.log("fetchImageList2() - ", tmpObj);
+  async function fetchImageList(tmpObj) {
+    console.log("fetchImageList() - ", tmpObj);
     try {
       //let tmpType=SPLUobjecttype;
       const url = `https://api.geekdo.com/api/geekitems?nosession=1&objectid=${tmpObj.gameid}&objecttype=${tmpObj.tmpType}&subtype=${tmpObj.tmpSubType}`
@@ -6341,7 +6377,7 @@
       if(size == "off"){
         SPLU.Favorites[key].thumbnail = "off";
       } else {
-        fetchImageList(objectid, "img", "SPLU.FavoritesThumb-"+key, size, key, "",tmpType,tmpSubType);
+        fetchImageListQ(objectid, "img", "SPLU.FavoritesThumb-"+key, size, key, "",tmpType,tmpSubType);
       }
     }
     window.setTimeout(saveSettings("Updated Thumbnails."),5000);
