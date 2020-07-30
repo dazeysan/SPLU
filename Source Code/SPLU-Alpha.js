@@ -1,4 +1,4 @@
-// SPLU 5.7.7 Alpha
+// SPLU 5.7.8 Alpha
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -12,7 +12,7 @@
     //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.7.6";
+    var SPLUversion="5.7.8";
 
     var SPLU={};
     var SPLUplayId="";
@@ -87,13 +87,74 @@
     var SPLUi18n={};
     var SPLUi18nList={};
     var SPLUimageData={};
-    
+
+    let SPLUqueue = [];
+    let SPLUqueueFails = [];
+    let SPLUqueueRunning = false;
+   
     //Insert FontAwesome CSS
     tmpLink=document.createElement('link');
     tmpLink.type="text/css";
     tmpLink.rel="stylesheet";
     tmpLink.href="https://dazeysan.github.io/SPLU/Source%20Code/font-awesome/css/font-awesome.min.577.css";
     document.getElementsByTagName("head")[0].appendChild(tmpLink);
+
+
+  async function fetchData(url, options) {
+    const response = await fetch(url, options);
+    console.log("fetchData() - response: ", response);
+    const data = await response.json();
+    console.log("fetchData() - data: ", data);
+    const tmpReturn = {"response":response, "data":data };
+    return tmpReturn;
+  }
+
+  async function runQueue(){
+    if (SPLUqueue.length == 0){
+      //Queue is empty, return
+      console.log("runQueue() - Queue is empty, return.");
+      SPLUqueueRunning = false;
+      return false;
+    } else if (SPLUqueueRunning){
+      //Queue is already running, return
+      console.log("runQueue() - Queue is already running, return.");
+      return false;
+    } else {
+      SPLUqueueRunning = true;
+      console.log("runQueue() - Queue has "+SPLUqueue.length+" items in it, running.");
+      let tmpQueue = SPLUqueue.shift();
+      if (tmpQueue.attempt >= 2) {
+        //Too many failed attempts, move queue item to SPLUqueueFails
+        console.log("runQueue() - Too many failed attempts, moving to SPLUQueueFails");
+        tmpQueue.finish(tmpQueue);
+        SPLUqueueFails.push(tmpQueue);
+        window.setTimeout(function(){SPLUqueueRunning=false;runQueue();}, 2000);
+        return false;
+      } else {
+        tmpQueue.attempt++;
+        console.log("runQueue() - Attempt: "+tmpQueue.attempt);
+        const tmpReturn = await tmpQueue.action(tmpQueue.arguments);
+        console.log("runQueue() - tmpReturn: ", tmpReturn);
+        if (tmpReturn.response.status == "200") { 
+          //return await tmpReturn.json()
+          //return await tmpReturn;
+          console.log("runQueue() - Success, removing from queue, do something");
+          tmpQueue.response = tmpReturn.response;
+          tmpQueue.data = tmpReturn.data;
+          tmpQueue.finish(tmpQueue);
+        } else {
+        //Update to check for other status messages and handle properly, like 202 for queued/retry later
+          console.log("runQueue() - Not a 200 status, moving to end of queue, do something");
+          tmpQueue.response = tmpReturn.response;
+          tmpQueue.data = tmpReturn.data;
+          SPLUqueue.push(tmpQueue);
+        }
+      }
+    }
+    console.log("runQueue() - Run again in 2 seconds");
+    window.setTimeout(function(){SPLUqueueRunning=false;runQueue();}, 2000);
+  }
+
     
   function initSPLU(){
     NumOfPlayers=0;
@@ -2631,6 +2692,16 @@
     SPLUgameID=SPLU.Favorites[id].objectid;
     //FIX - replace thing with objecttype and finish rest of feature
     //fetchPlayCount(SPLUgameID, "thing");
+    SPLUqueue.push({
+      "action":fetchPlayCount, 
+      "arguments":{"objectID":SPLUgameID, "objectType":"thing"},
+      "direction":"fetch",
+      "data":"",
+      "response":"",
+      "attempt":0,
+      "finish":fetchPlayCountFinish
+    });
+    runQueue();
     var tmpType="thing";
     var tmpSubType="boardgame";
     if(SPLU.Favorites[id].objecttype=="videogame"){
@@ -4522,6 +4593,16 @@
     SPLUgameID=item.objectid;
     //FIX - replace thing with objecttype and finish rest of feature
     //fetchPlayCount(SPLUgameID, "thing");
+    SPLUqueue.push({
+      "action":fetchPlayCount, 
+      "arguments":{"objectID":SPLUgameID, "objectType":"thing"},
+      "direction":"fetch",
+      "data":"",
+      "response":"",
+      "attempt":0,
+      "finish":fetchPlayCountFinish
+    });
+    runQueue();
     tmpImage=item.objectid;
     if (tmpImage==0){
       tmpImage='1657689';
@@ -4559,31 +4640,26 @@
     SPLUexpansionsLoaded=false;
     SPLUfamilyLoaded=false;
   }
-
-  async function fetchData(url, options) {
-    //let response = await fetch("https://httpstat.us/200");
-    let response = await fetch(url, options);
-    //console.log(response);
-    if (response.status == "200") { 
-    return await response.json()
-    } else {
-    //Update to check for other status messages and handle properly, like 202 for queued/retry later
-    throw new Error(response.statusText)
-    }
-  }
-
-  async function fetchPlayCount(objectID, objectType) {
+  
+  
+  async function fetchPlayCount(tmpArgs) {
+    console.log("fetchPlayCount() - ", tmpArgs);
     try {
-        let url = `https://boardgamegeek.com/geekplay.php?action=getuserplaycount&ajax=1&objectid=${objectID}&objecttype=${objectType}`;
-        let options = {headers:{'Content-Type': 'application/json'}};
-        let resJSON = await fetchData(url, options);
-        console.log(resJSON);
-        document.getElementById("SPLU.GameCountStatus").innerHTML=`Your plays: ${resJSON.count}`;
+        const url = `https://boardgamegeek.com/geekplay.php?action=getuserplaycount&ajax=1&objectid=${tmpArgs.objectID}&objecttype=${tmpArgs.objectType}`;
+        const options = {method: "GET", headers:{'Content-Type': 'application/json'}, credentials: 'same-origin'};
+        return await fetchData(url, options);
     } catch(e) {
       //This shows on bad URLs?
         console.log("catcherror", e); 
     }
   }
+
+  function fetchPlayCountFinish(tmpObj){
+    console.log("fetchPlayCountFinish() - ", tmpObj);
+    //window.testObj=tmpObj;
+    document.getElementById("SPLU.GameCountStatus").innerHTML=`Your plays: ${tmpObj.data.count}`;
+  }
+
  
   async function fetchImageList(gameid, tag, id, size, favid, tmpURL,tmpType,tmpSubType) {
     console.log('fetchImageList('+gameid+', '+tag+', '+id+', '+size+', '+favid+', '+tmpURL+', '+tmpType+', '+tmpSubType+')');
