@@ -3240,6 +3240,10 @@
   
   function saveGamePlay(action){
     console.log("saveGamePlay("+action+")");
+    if (!isValidDate(document.getElementById("playdateinput99").value) || !isValidDate(document.getElementById("playdate99").value)){
+      alert("invalid date");
+      return false;
+    }
     try{
       document.getElementById("SPLU.Plays-"+SPLUcurrentPlayShown).childNodes[tmpChild].style.backgroundColor="";
     } catch(err) {
@@ -3423,19 +3427,30 @@
       });
   }
 
-  //BGG's original parseDate() function (modified a bit)
+
+  function isValidDate(dateString) {
+    //From https://stackoverflow.com/questions/18758772/how-do-i-validate-a-date-in-this-format-yyyy-mm-dd-using-jquery
+    var regEx = /^\d{4}-\d{2}-\d{2}$/;
+    if(!dateString.match(regEx)) return false;  // Invalid format
+    var d = new Date(dateString);
+    var dNum = d.getTime();
+    if(!dNum && dNum !== 0) return false; // NaN value, Invalid date
+    return d.toISOString().slice(0,10) === dateString;
+  }
+  
+
   function parseDate(src,dst,status){
-    console.log("parseDate("+src+", "+dst+", "+status+")");
+    console.log("parseDate(", src, dst, status, ")");
     window.tmpsrc=src;
     window.tmpdst=dst;
     window.tmpstatus=status;
-    //date=Date.parse(src.value);
     date=src.value;
-    if(date){
+    if (isValidDate(date)){
       //dst.value=date.toString("yyyy-MM-dd");
       dst.value=date;
       //status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:3px;'> "+date.toString("yyyy-MM-dd");
       status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:-3px;'> "+date;
+      highlightDayButton();
     }else{
       if(src.get('value').length){
         dst.value='';status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/delete.png' style='position:relative; top:3px;'> "+SPLUi18n.CalendarInvalidDate;
@@ -3444,8 +3459,31 @@
         status.innerHTML='';
       }
     }
-    highlightDayButton();
   }
+
+  // //BGG's original parseDate() function (modified a bit)
+  // function parseDate(src,dst,status){
+    // console.log("parseDate(", src, dst, status, ")");
+    // window.tmpsrc=src;
+    // window.tmpdst=dst;
+    // window.tmpstatus=status;
+    // //date=Date.parse(src.value);
+    // date=src.value;
+    // if(date){
+      // //dst.value=date.toString("yyyy-MM-dd");
+      // dst.value=date;
+      // //status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:3px;'> "+date.toString("yyyy-MM-dd");
+      // status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:-3px;'> "+date;
+    // }else{
+      // if(src.get('value').length){
+        // dst.value='';status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/delete.png' style='position:relative; top:3px;'> "+SPLUi18n.CalendarInvalidDate;
+      // }else{
+        // dst.value='';
+        // status.innerHTML='';
+      // }
+    // }
+    // highlightDayButton();
+  // }
   
   function eventPlaysPlayerEnter(e){
     console.log("eventPlaysPlayerEnter()");
