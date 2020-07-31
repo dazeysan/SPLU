@@ -3407,6 +3407,9 @@
   }
 
   function addCalendar(){
+    if (window.location.pathname.slice(0,6) == "/image"){
+      return false;
+    }
     var piki18n= {
       previousMonth	: SPLUi18n.CalendarPreviousMonth,
       nextMonth	: SPLUi18n.CalendarNextMonth,
