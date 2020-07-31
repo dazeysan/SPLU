@@ -3441,9 +3441,9 @@
 
   function parseDate(src,dst,status){
     console.log("parseDate(", src, dst, status, ")");
-    window.tmpsrc=src;
-    window.tmpdst=dst;
-    window.tmpstatus=status;
+    // window.tmpsrc=src;
+    // window.tmpdst=dst;
+    // window.tmpstatus=status;
     date=src.value;
     if (isValidDate(date)){
       //dst.value=date.toString("yyyy-MM-dd");
@@ -3452,7 +3452,8 @@
       status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:-3px;'> "+date;
       highlightDayButton();
     }else{
-      if(src.get('value').length){
+      //if(src.get('value').length){
+      if (src.value.length){
         dst.value='';status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/delete.png' style='position:relative; top:3px;'> "+SPLUi18n.CalendarInvalidDate;
       }else{
         dst.value='';
