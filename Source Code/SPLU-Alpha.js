@@ -259,7 +259,7 @@
             +'<div style="display:table-row;">'
               +'<div style="display:inline;">'
                 +'<input id="playdate99" type="hidden" value="'+SPLUtoday+'" name="playdate"/>'
-                +'<input id="playdateinput99" tabindex="10" style="width:75px;" type="text" oninput="highlightDayButton();" onkeyup="parseDate(this,$(\'playdate99\'),$(\'playdatestatus99\') );" value="'+SPLUtoday+'" autocomplete="off" name="dateinput"/>'
+                +'<input id="playdateinput99" tabindex="10" style="width:75px;" type="text" oninput="highlightDayButton();" onkeyup="parseDate(this,document.getElementById(\'playdate99\'),document.getElementById(\'playdatestatus99\') );" value="'+SPLUtoday+'" autocomplete="off" name="dateinput"/>'
               +'</div>'
               +'<div id="playdatestatus99" class="sf" style="font-style:italic; font-size:0;display:inline;">'
                 +'<span class="fa_SP-stack"><i style="color: white; font-size: 1em; transform: translate(0px, 2px);" class="fa_SP fa_SP-stack-2x fa_SP-square"></i><i style="color: rgb(13, 138, 13); font-size: 1.3em;" class="fa_SP fa_SP-stack-2x fa_SP-check-circle"></i></span>'+SPLUtoday
@@ -3441,9 +3441,9 @@
 
   function parseDate(src,dst,status){
     console.log("parseDate(", src, dst, status, ")");
-    // window.tmpsrc=src;
-    // window.tmpdst=dst;
-    // window.tmpstatus=status;
+    window.tmpsrc=src;
+    window.tmpdst=dst;
+    window.tmpstatus=status;
     date=src.value;
     if (isValidDate(date)){
       //dst.value=date.toString("yyyy-MM-dd");
