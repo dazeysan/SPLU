@@ -259,7 +259,7 @@
             +'<div style="display:table-row;">'
               +'<div style="display:inline;">'
                 +'<input id="playdate99" type="hidden" value="'+SPLUtoday+'" name="playdate"/>'
-                +'<input id="SPLUplaydateinput99" tabindex="10" style="width:75px;" type="text" oninput="highlightDayButton();" onkeyup="parseDate(this,document.getElementById(\'playdate99\'),document.getElementById(\'playdatestatus99\') );" value="'+SPLUtoday+'" autocomplete="off" name="dateinput"/>'
+                +'<input id="SPLUplayDateInput" tabindex="10" style="width:75px;" type="text" oninput="highlightDayButton();" onkeyup="parseDate(this,document.getElementById(\'playdate99\'),document.getElementById(\'playdatestatus99\') );" value="'+SPLUtoday+'" autocomplete="off" name="dateinput"/>'
               +'</div>'
               +'<div id="playdatestatus99" class="sf" style="font-style:italic; font-size:0;display:inline;">'
                 +'<span class="fa_SP-stack"><i style="color: white; font-size: 1em; transform: translate(0px, 2px);" class="fa_SP fa_SP-stack-2x fa_SP-square"></i><i style="color: rgb(13, 138, 13); font-size: 1.3em;" class="fa_SP fa_SP-stack-2x fa_SP-check-circle"></i></span>'+SPLUtoday
@@ -1408,13 +1408,13 @@
     buttonToday.style.backgroundColor="";
     buttonYesterday.style.backgroundColor="";
     buttonDayBefore.style.backgroundColor="";
-    if(document.getElementById('playdateinput99').value==SPLUdateToday){
+    if(document.getElementById('SPLUplayDateInput').value==SPLUdateToday){
       buttonToday.style.backgroundColor="yellow";
     }
-    if(document.getElementById('playdateinput99').value==SPLUdateYesterday){
+    if(document.getElementById('SPLUplayDateInput').value==SPLUdateYesterday){
       buttonYesterday.style.backgroundColor="yellow";
     }
-    if(document.getElementById('playdateinput99').value==SPLUdateDayBefore){
+    if(document.getElementById('SPLUplayDateInput').value==SPLUdateDayBefore){
       buttonDayBefore.style.backgroundColor="yellow";
     }
   }
@@ -3240,7 +3240,7 @@
   
   function saveGamePlay(action){
     console.log("saveGamePlay("+action+")");
-    if (!isValidDate(document.getElementById("playdateinput99").value) || !isValidDate(document.getElementById("playdate99").value)){
+    if (!isValidDate(document.getElementById("SPLUplayDateInput").value) || !isValidDate(document.getElementById("playdate99").value)){
       alert("invalid date");
       return false;
     }
@@ -3400,10 +3400,10 @@
   
   function setDateField(date){
     console.log("setDateField("+date+")");
-    document.getElementById('playdateinput99').value=date;
-    parseDate(document.getElementById('playdateinput99'),document.getElementById('playdate99'),document.getElementById('playdatestatus99'));
-    //SPLUcalendar.setDate(new Date(Date.parse(document.getElementById('playdateinput99').value)));
-    SPLUcalendar.setDate(document.getElementById('playdateinput99').value);
+    document.getElementById('SPLUplayDateInput').value=date;
+    parseDate(document.getElementById('SPLUplayDateInput'),document.getElementById('playdate99'),document.getElementById('playdatestatus99'));
+    //SPLUcalendar.setDate(new Date(Date.parse(document.getElementById('SPLUplayDateInput').value)));
+    SPLUcalendar.setDate(document.getElementById('SPLUplayDateInput').value);
   }
 
   function addCalendar(){
@@ -3416,13 +3416,13 @@
     };
     SPLUcalendar = new Pikaday(
       {
-          field: document.getElementById('playdateinput99'),
+          field: document.getElementById('SPLUplayDateInput'),
           trigger: document.getElementById('SPLUdatePickerTrigger'),
           firstDay: 0,
           yearRange: 5,
           i18n: piki18n,
           onSelect: function() {
-              parseDate(document.getElementById('playdateinput99'),document.getElementById('playdate99'),document.getElementById('playdatestatus99'));
+              parseDate(document.getElementById('SPLUplayDateInput'),document.getElementById('playdate99'),document.getElementById('playdatestatus99'));
           }
       });
   }
@@ -5904,7 +5904,7 @@
     SenLoc = document.getElementById('SPLU_PlayedAt').value;
     SenDur = document.getElementById('quickplay_duration99').value;
     SenDate = "";
-    if(document.getElementById('playdateinput99').value==SPLUtoday){
+    if(document.getElementById('SPLUplayDateInput').value==SPLUtoday){
       SenDate = SPLUi18n.SummarySentence_today;
     }else if((SPLUtodayDateZero.getTime()-86400000)==SPLUselectedDate.getTime()){
       SenDate = SPLUi18n.SummarySentence_yesterday;
