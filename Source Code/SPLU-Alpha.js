@@ -5,6 +5,10 @@
       alert("You must be on a BGG website to run SPLU.");
       throw new Error("You aren't on a BGG site.");
     }
+    //Check if they are on a page that gives issues.
+    if (window.location.pathname.slice(0,6) == "/image"){
+      alert("SPLU doesn't function properly on this page.  Try running from your Subscriptions page.");
+    }
     //Check if SPLU is already open, throw an error if not
     if(document.getElementById('SPLUwindow')){throw new Error("SPLU Already Running");}
     
@@ -3407,9 +3411,6 @@
   }
 
   function addCalendar(){
-    if (window.location.pathname.slice(0,6) == "/image"){
-      return false;
-    }
     var piki18n= {
       previousMonth	: SPLUi18n.CalendarPreviousMonth,
       nextMonth	: SPLUi18n.CalendarNextMonth,
