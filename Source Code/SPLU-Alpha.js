@@ -7,7 +7,8 @@
     }
     //Check if they are on a page that gives issues.
     if (window.location.pathname.slice(0,6) == "/image"){
-      alert("SPLU doesn't function properly on this page.  Try running from your Subscriptions page.");
+      alert("SPLU doesn't function properly on this page.\r\n\r\nTry running from your Subscriptions page.");
+      throw new Error("Incompatible page.");
     }
     //Check if SPLU is already open, throw an error if not
     if(document.getElementById('SPLUwindow')){throw new Error("SPLU Already Running");}
