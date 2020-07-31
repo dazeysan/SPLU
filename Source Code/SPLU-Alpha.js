@@ -5,10 +5,16 @@
       alert("You must be on a BGG website to run SPLU.");
       throw new Error("You aren't on a BGG site.");
     }
-    //Check if they are on a page that gives issues.
-    if (window.location.pathname.slice(0,6) == "/image"){
-      alert("SPLU doesn't function properly on this page.\r\n\r\nTry running from your Subscriptions page.");
-      throw new Error("Incompatible page.");
+    //Check if they are on a page that gives issues.  Specifically break on anything containing the polyfill script.
+    let tmpScripts = document.getElementsByTagName('script');
+    for (s=0; s<tmpScripts.length; s++) {
+      if(tmpScripts[s].src.includes("polyfill")) {
+        if (!confirm("SPLU probably doesn't function properly on this page.\r\n\r\nTry running from your Subscriptions page.\r\n\r\nClick OK to try running SPLU anyways.")){
+          throw new Error("Incompatible page.");
+        } else {
+          break;
+        }
+      }
     }
     //Check if SPLU is already open, throw an error if not
     if(document.getElementById('SPLUwindow')){throw new Error("SPLU Already Running");}
