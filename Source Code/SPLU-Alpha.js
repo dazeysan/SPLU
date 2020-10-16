@@ -884,7 +884,7 @@
             +'<div id="SPLU.ExpansionPaneControls">'
               +'<div style="padding-top:10px;">'+SPLUi18n.ExpansionsQuantity+': '
                 +'<div id="SPLU.fakeExpQtyBox" style="display:inline-block;padding:0px 2px; -moz-appearance:textfield; -webkit-appearance:textfield;">'
-                  +'<input type="text" id="BRexpPlayQTY"/ value="0" style="width:40px;border:none;">'
+                  +'<input type="text" id="BRexpPlayQTY"/ value="0" style="width:40px;border:none;color:black;">'
                   +'<a href="javascript:{void(0);}" onClick="javascript:{saveExpansionQuantity();}" style="vertical-align:middle;" id="SPLU.SaveExpQtyButton"><img src="https://dazeysan.github.io/SPLU/Images/save.png"></a>'
                 +'</div>'
                 +'<div style="display:table; padding-top:10px;">'
@@ -4623,6 +4623,7 @@
         for (i=0; i<tmpGameList.length; i++) {
           tmpGame = {};
           tmpGame.objectid = tmpGameList[i].getAttribute('id');
+		  tmpGame.objecttype = SPLUobjecttype;
           tmpGame.subtype = tmpGameList[i].getAttribute('type');
           tmpGame.name = tmpGameList[i].getElementsByTagName('name')[0].getAttribute('value');
           if(tmpGameList[i].getElementsByTagName('yearpublished')[0] !== undefined){
