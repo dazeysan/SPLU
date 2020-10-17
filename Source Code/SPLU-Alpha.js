@@ -4011,7 +4011,21 @@
         for(i=0;i<plays.length;i++){
           if(SPLUplayData[user][plays[i].id].players.length>0){
             tmpPlayers=SPLUplayData[user][plays[i].id].players;
-            if(lines[l].value.slice(0,1)=="!"){
+            if(lines[l].value.slice(0,2)=="!="){
+              plays[i].matches++;
+              for(p=0;p<tmpPlayers.length;p++){
+                if(tmpPlayers[p].username==null){
+                  tmpPlayers[p].username="";
+                }
+                if(tmpPlayers[p].name==null){
+                  tmpPlayers[p].name="";
+                }
+                if((tmpPlayers[p].username == lines[l].value.slice(2) && tmpPlayers[p].win==1) || (tmpPlayers[p].name == lines[l].value.slice(2) && tmpPlayers[p].win==1)){
+                  plays[i].matches--;
+                  break;
+                }
+              }
+            } else if(lines[l].value.slice(0,1)=="!"){
               plays[i].matches++;
               for(p=0;p<tmpPlayers.length;p++){
                 if(tmpPlayers[p].username==null){
@@ -4022,6 +4036,19 @@
                 }
                 if((tmpPlayers[p].username.toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())>-1 && tmpPlayers[p].win==1) || (tmpPlayers[p].name.toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())>-1 && tmpPlayers[p].win==1)){
                   plays[i].matches--;
+                  break;
+                }
+              }
+            } else if(lines[l].value.slice(0,1)=="="){
+              for(p=0;p<tmpPlayers.length;p++){
+                if(tmpPlayers[p].username==null){
+                  tmpPlayers[p].username="";
+                }
+                if(tmpPlayers[p].name==null){
+                  tmpPlayers[p].name="";
+                }
+                if((tmpPlayers[p].username == lines[l].value.slice(1) && tmpPlayers[p].win==1) || (tmpPlayers[p].name == lines[l].value.slice(1) && tmpPlayers[p].win==1)){
+                  plays[i].matches++;
                   break;
                 }
               }
@@ -4623,7 +4650,7 @@
         for (i=0; i<tmpGameList.length; i++) {
           tmpGame = {};
           tmpGame.objectid = tmpGameList[i].getAttribute('id');
-		  tmpGame.objecttype = SPLUobjecttype;
+          tmpGame.objecttype = SPLUobjecttype;
           tmpGame.subtype = tmpGameList[i].getAttribute('type');
           tmpGame.name = tmpGameList[i].getElementsByTagName('name')[0].getAttribute('value');
           if(tmpGameList[i].getElementsByTagName('yearpublished')[0] !== undefined){
