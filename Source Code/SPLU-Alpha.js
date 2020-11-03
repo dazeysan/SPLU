@@ -102,6 +102,8 @@
     let SPLUqueue = [];
     let SPLUqueueFails = [];
     let SPLUqueueRunning = false;
+    let SPLUqueueSaveAfter = false;
+    let SPLUqueueFetchImageCount = 0;
    
     //Insert FontAwesome CSS
     tmpLink=document.createElement('link');
@@ -125,6 +127,10 @@
       //Queue is empty, return
       console.log("runQueue() - Queue is empty, return.");
       SPLUqueueRunning = false;
+      if (SPLUqueueSaveAfter) {
+        window.setTimeout(saveSettings(SPLUi18n.StatusFinished),5000);
+        SPLUqueueSaveAfter=false;
+      }
       return false;
     } else if (SPLUqueueRunning){
       //Queue is already running, return
@@ -4834,6 +4840,7 @@
       "attempt":0,
       "finish":fetchImageListFinish
     });
+    SPLUqueueFetchImageCount++;
     runQueue();
   }
 
@@ -4872,6 +4879,11 @@
     if (tmpObj.arguments.favid != "") {
       console.log("Updating Fav Thumb");
       SPLU.Favorites[tmpObj.arguments.favid].thumbnail = SPLUimageData[tmpObj.arguments.gameid].item.images[tmpObj.arguments.size];
+    }
+    SPLUqueueFetchImageCount--;
+    if (SPLUqueueFetchImageCount == 0) {
+      document.getElementById('SPLU.FavoritesLowerStatus').innerHTML=SPLUi18n.StatusFinished;
+      window.setTimeout(function(){document.getElementById('SPLU.FavoritesLowerStatus').style.display='none';},2000);
     }
   }
 
@@ -6433,12 +6445,12 @@
           //tmpHTML+='</div>';
         }
         //Check if they have the old thumbnail URLs
-        if(SPLU.Favorites[key].thumbnail !== undefined){
-          if (SPLU.Favorites[key].thumbnail.substr(0,36) == "https://cf.geekdo-images.com/images/"){
-            //Old URL detected, set flag to update all thumbnails
-            old_thumbs = true;
-          }
-        }
+        // if(SPLU.Favorites[key].thumbnail !== undefined){
+          // if (SPLU.Favorites[key].thumbnail.substr(0,36) == "https://cf.geekdo-images.com/images/"){
+            // //Old URL detected, set flag to update all thumbnails
+            // old_thumbs = true;
+          // }
+        // }
     }
     tmpHTML+='</div>';
     document.getElementById('SPLU.FavoritesList').innerHTML=tmpHTML;
@@ -6447,10 +6459,11 @@
     document.getElementById('SPLU.FavoritesStatus').innerHTML='<center>'+tmpFavs+'</center><br/>';
     //document.getElementById('SPLU.FavoritesStatus').innerHTML='<center>You have '+size+' Favorites.</center><br/>';
     //Do we need to fetch new thumbnails?
-    if (old_thumbs && SPLU.Settings.Favorites.ThumbSize!="off") {
+    //Just run updateFavoriteThumbs() and have it check for old URL and size
+    // if (old_thumbs && SPLU.Settings.Favorites.ThumbSize!="off") {
       updateFavoriteThumbs(SPLU.Settings.Favorites.ThumbSize);
-      old_thumbs = false;
-    }
+      // old_thumbs = false;
+    // }
     FLsort = Sortable.create(document.getElementById('FavoritesGrid'), {
       group: "SPLUFavoritesList",
     }) 
@@ -6478,6 +6491,8 @@
   }
   
   function updateFavoriteThumbs(size){
+    console.log("updateFavoriteThumbs("+size+");");
+    //var tmpNewThumbs=false;
     for(key in SPLU.Favorites){
       objectid = SPLU.Favorites[key].objectid;
       var tmpType="thing";
@@ -6496,10 +6511,20 @@
       if(size == "off"){
         SPLU.Favorites[key].thumbnail = "off";
       } else {
-        fetchImageListQ(objectid, "img", "SPLU.FavoritesThumb-"+key, size, key, "",tmpType,tmpSubType);
+        if(SPLU.Favorites[key].thumbnail !== undefined){
+          //Check if they have an old URL for the tumbnail or if the size doesn't match their settings.  
+          if (SPLU.Favorites[key].thumbnail.substr(0,36) == "https://cf.geekdo-images.com/images/" || !SPLU.Favorites[key].thumbnail.includes(size)){
+            document.getElementById('SPLU.FavoritesLowerStatus').innerHTML=SPLUi18n.StatusUpdatingThumbnails;
+            fetchImageListQ(objectid, "img", "SPLU.FavoritesThumb-"+key, size, key, "",tmpType,tmpSubType);
+            //tmpNewThumbs=true;
+            SPLUqueueSaveAfter=true;
+          }
+        }  
       }
     }
-    window.setTimeout(saveSettings("Updated Thumbnails."),5000);
+    // if(tmpNewThumbs) {
+      // window.setTimeout(saveSettings(SPLUi18n.StatusFinished),5000);
+    // }
   }
     
   function showSettingsPane(source){

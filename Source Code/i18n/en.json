@@ -264,6 +264,7 @@
   "StatusUnsavedGroups": "You have unsaved groups.",
   "StatusUnsavedFilters": "You have unsaved filters.",
   "StatusInvalidDataFoundandRemoved": "Invalid data found and removed, check your settings.",
+  "StatusUpdatingThumbnails": "Updating Thumbnails, Please Wait...",
   "CommentLoggedAsPartOfThis": "Logged as part of this",
   "CommentParentPlay": "Parent Play",
   "SummarySentence_You_are_logging_a_play_of": "You are logging a play of $2, which you played $3.",

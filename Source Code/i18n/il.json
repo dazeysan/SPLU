@@ -264,6 +264,7 @@
   "StatusUnsavedGroups": "Hai Gruppi non salvati.",
   "StatusUnsavedFilters": "Hai Preferiti non salvati.",
   "StatusInvalidDataFoundandRemoved": "Dati invalidi trovati e rimossi, controlla le tue impostazioni.",
+  "StatusUpdatingThumbnails": "Updating Thumbnails, Please Wait...",
   "CommentLoggedAsPartOfThis": "Registrato come parte di questo",
   "CommentParentPlay": "Partita Base",
   "SummarySentence_You_are_logging_a_play_of": "Stai registrando una partita a $2, che hai giocato il $3.",
