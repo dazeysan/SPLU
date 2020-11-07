@@ -2808,7 +2808,7 @@
     document.getElementById('SPLUsearchResultsDIV').style.display="none";
     document.getElementById('BRthumbButtons').style.display="block";
     document.getElementById('expansionLoggingButton').style.display="block";
-    SPLUexpansionsFromFavorite=[]
+    SPLUexpansionsFromFavorite=[];
     if(SPLU.Favorites[id].players!==undefined){
       if(SPLU.Favorites[id].players.length>0){
         while(document.getElementsByClassName('SPLUrows').length>0){
@@ -2829,7 +2829,7 @@
     }
     document.getElementById("quickplay_comments99").value="";
     if(SPLU.Favorites[id].expansions!==undefined){
-      SPLUexpansionsFromFavorite=[]
+      SPLUexpansionsFromFavorite=[];
       for(i=0;i<SPLU.Favorites[id].expansions.length;i++){
         SPLUexpansionsFromFavorite.push(SPLU.Favorites[id].expansions[i]);
       }
@@ -5843,6 +5843,8 @@
     console.log("loadPlay("+id+")");
     SPLUprevGameID=0;
     tmpChild=0;
+    SPLUexpansionsFromFavorite=[];
+    updateExpansionsQuantityField();
     if(SPLUcopyMode){
       tmpChild=1;
     }
