@@ -746,75 +746,66 @@
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
       +'<div style="display:table-row;">'
-      +'<div style="display:table-cell; text-align:right;">'+SPLUi18n.SettingsSortPlayersAlpha+'</div>'
-      +'<div style="display:table-cell; text-align:center;">'
-      +'<input type="checkbox" id="SPLU.SortPlayersAlphaCheck" onclick="javascript:{if(document.getElementById(\'SPLU.SortPlayersAlphaCheck\').checked){SPLU.Settings.SortPlayers.Order=\'Alpha\';}else{SPLU.Settings.SortPlayers.Order=\'None\';} loadPlayers();}"></input>'
-      +'</div>'
-      +'<div style="display:table-cell; text-align:center;"></div>'
-      +'</div>'
-      +'<div style="display:table-row;" class="SPLUsettingAltRows">'
       +'<div style="display:table-cell; text-align:right;">'+SPLUi18n.SettingsSortGroupsAlpha+'</div>'
       +'<div style="display:table-cell; text-align:center;">'
       +'<input type="checkbox" id="SPLU.SortGroupsAlphaCheck" onclick="javascript:{if(document.getElementById(\'SPLU.SortGroupsAlphaCheck\').checked){SPLU.Settings.SortGroups.Order=\'Alpha\';}else{SPLU.Settings.SortGroups.Order=\'None\';} loadPlayers();}"></input>'
       +'</div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
-      +'<div style="display:table-row;">'
+      +'<div style="display:table-row;" class="SPLUsettingAltRows">'
       +'<div style="display:table-cell; text-align:right;">'+SPLUi18n.SettingsExpansionsLogDetails+'</div>'
       +'<div style="display:table-cell; text-align:center;">'
       +'<input type="checkbox" id="SPLU.ExpansionDetailsCheck" onclick="javascript:{if(document.getElementById(\'SPLU.ExpansionDetailsCheck\').checked){SPLU.Settings.ExpansionDetails.Include=true;}else{SPLU.Settings.ExpansionDetails.Include=false;}}"></input>'
       +'</div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
-      +'<div style="display:table-row;" class="SPLUsettingAltRows">'
+      +'<div style="display:table-row;">'
       +'<div style="display:table-cell; text-align:right;">'+SPLUi18n.SettingsExpansionsListInComments+'</div>'
       +'<div style="display:table-cell; text-align:center;">'
       +'<input type="checkbox" id="SPLU.ExpansionCommentsCheck" onclick="javascript:{if(document.getElementById(\'SPLU.ExpansionCommentsCheck\').checked){SPLU.Settings.ExpansionComments.Visible=true;}else{SPLU.Settings.ExpansionComments.Visible=false;}}"></input>'
       +'</div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
-      +'<div style="display:table-row;">'
+      +'<div style="display:table-row;" class="SPLUsettingAltRows">'
       +'<div style="display:table-cell; text-align:right;">'+SPLUi18n.SettingsExpansionsNoWinStats+'</div>'
       +'<div style="display:table-cell; text-align:center;">'
       +'<input type="checkbox" id="SPLU.ExpansionWinStatsCheck" onclick="javascript:{if(document.getElementById(\'SPLU.ExpansionWinStatsCheck\').checked){SPLU.Settings.ExpansionWinStats.Enabled=true;}else{SPLU.Settings.ExpansionWinStats.Enabled=false;}}"></input>'
       +'</div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
-      +'<div style="display:table-row;" class="SPLUsettingAltRows">'
+      +'<div style="display:table-row;">'
       +'<div style="display:table-cell; text-align:right;">'+SPLUi18n.SettingsExpansionsLinkToParent+'</div>'
       +'<div style="display:table-cell; text-align:center;">'
       +'<input type="checkbox" id="SPLU.ExpansionLinkParentCheck" onclick="javascript:{if(document.getElementById(\'SPLU.ExpansionLinkParentCheck\').checked){SPLU.Settings.ExpansionLinkParent.Enabled=true;}else{SPLU.Settings.ExpansionLinkParent.Enabled=false;}}"></input>'
       +'</div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
-      +'<div style="display:table-row;">'
+      +'<div style="display:table-row;" class="SPLUsettingAltRows">'
       +'<div style="display:table-cell; text-align:right;">'+SPLUi18n.SettingsTweetingDefaultOn+'</div>'
       +'<div style="display:table-cell; text-align:center;">'
       +'<input type="checkbox" id="SPLU.TwitterEnabledCheck" onclick="javascript:{if(document.getElementById(\'SPLU.TwitterEnabledCheck\').checked){SPLU.Settings.TwitterField.Enabled=true;document.getElementById(\'twitter\').checked=true;}else{SPLU.Settings.TwitterField.Enabled=false;document.getElementById(\'twitter\').checked=false;};setTwitterIcons();}"></input>'
       +'</div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
-      +'<div style="display:table-row;" class="SPLUsettingAltRows">'
+      +'<div style="display:table-row;">'
       +'<div style="display:table-cell; text-align:right;">'+SPLUi18n.SettingsDefaultPlayer+' <select id="SPLU.SelectDefaultPlayer" onChange="javascript:{SPLU.Settings.DefaultPlayer.Name=document.getElementById(\'SPLU.SelectDefaultPlayer\').value;}"></select></div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
-      +'<div style="display:table-row;">'
+      +'<div style="display:table-row;" class="SPLUsettingAltRows">'
       +'<div style="display:table-cell; text-align:right;">'+SPLUi18n.SettingsDefaultLocation+' <select id="SPLU.SelectDefaultLocation" onChange="javascript:{SPLU.Settings.DefaultLocation.Name=document.getElementById(\'SPLU.SelectDefaultLocation\').value;}"></select></div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
-      +'<div style="display:table-row;" class="SPLUsettingAltRows">'
+      +'<div style="display:table-row;">'
       +'<div style="display:table-cell; text-align:right;">'+SPLUi18n.SettingsLanguage+': <select id="SPLU.SelectLanguage" onChange="javascript:{SPLU.Settings.i18n=document.getElementById(\'SPLU.SelectLanguage\').value;}"></select></div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
-      +'<div style="display:table-row;">'
+      +'<div style="display:table-row;" class="SPLUsettingAltRows">'
       +'<div style="display:table-cell; text-align:right;">'+SPLUi18n.SettingsFavoritesThumbSize+' <select id="SPLU.SelectFavoritesThumbSize" onChange="javascript:{SPLU.Settings.Favorites.ThumbSize=document.getElementById(\'SPLU.SelectFavoritesThumbSize\').value;}"></select></div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
-      +'<div style="display:table-cell; text-align:center;">'
-        +'<a href="javascript:{void(0);}" onClick="javascript:{updateFavoriteThumbs(SPLU.Settings.Favorites.ThumbSize);}" style="color:red;">R</a>'
-      +'</div>'
+      +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
 
       +'</div>'
@@ -2108,11 +2099,11 @@
     var BRplayersDiv=document.getElementById('SPLU.PlayerList');
     BRplayersDiv.innerHTML="";
     var players=[];
-    if(SPLU.Settings.SortPlayers.Order=="Alpha"){
-      players=Object.keys(SPLU.Players).sort();
-    }else{
+    // if(SPLU.Settings.SortPlayers.Order=="Alpha"){
+      // players=Object.keys(SPLU.Players).sort();
+    // }else{
       players=Object.keys(SPLU.Players);
-    }
+    // }
     if(SPLUcurrentFilter!="All" && SPLUcurrentFilter!="Groups"){
       var tmpPlayers=[];
       for(i=0;i<players.length;i++){
@@ -6655,11 +6646,11 @@
     SPLUplayerCount=0;
     var tmpHTML="<div style='display:table;' id='EditPlayersTable'>";
     var players=[];
-    if(SPLU.Settings.SortPlayers.Order=="Alpha"){
-      players = Object.keys(SPLU.Players).sort();
-    }else{
+    // if(SPLU.Settings.SortPlayers.Order=="Alpha"){
+      // players = Object.keys(SPLU.Players).sort();
+    // }else{
       players = Object.keys(SPLU.Players);
-    }
+    // }
     for(var key=0;key<players.length;key++){
       var tmp="";
       if (SPLU.Players.hasOwnProperty(players[key])) {
@@ -6669,7 +6660,7 @@
         }else{
           tmp="";
         }
-        tmpHTML+="<div style='display:table-row;' id='EditPlayersRow"+fixedEncodeURIComponent(players[key])+"'>";
+        tmpHTML+="<div style='display:table-row;' id='EditPlayersRow"+fixedEncodeURIComponent(players[key])+"' data-id='"+SPLU.Players[players[key]].Name+"'>";
         tmpHTML+="<div style='display:table-cell;' name='SPLUplayerEditColumn'>"+'<a href="javascript:{void(0);}" onClick="javascript:{document.getElementById(\'EditPlayersTable\').removeChild(document.getElementById(\'EditPlayersRow'+fixedEncodeURIComponent(players[key])+'\'));removePlayer(\''+fixedEncodeURIComponent(players[key])+'\')}" style="vertical-align:middle; padding-right:5px;"><img src="https://dazeysan.github.io/SPLU/Images/delete_row_small.png"></a></div>';
         tmpHTML+="<div style='display:table-cell;padding-right:2px;' name='SPLUplayerEditColumn'><input type='text' size='12' tabindex='"+(1100+(SPLUplayerCount*5))+"' class='EditPlayersField' id='SPLUplayerName"+players[key]+"' value=\""+decodeURIComponent(SPLU.Players[players[key]].Name)+"\"/></div>";
         tmpHTML+="<div style='display:table-cell;padding-right:2px;' name='SPLUplayerEditColumn'><input type='text' size='12' tabindex='"+(1101+(SPLUplayerCount*5))+"' id='SPLUplayerUsername"+players[key]+"' value=\""+decodeURIComponent(SPLU.Players[players[key]].Username)+"\"/></div>";
