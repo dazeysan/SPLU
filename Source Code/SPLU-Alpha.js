@@ -1905,6 +1905,7 @@
   }
 
   function setObjectType(type){
+    console.log("setObjectType("+type+");");
     SPLUexpansionsLoaded=false;
     SPLUfamilyLoaded=false;
     var tmpGameName=document.getElementById('q546e9ffd96dfc');
@@ -5872,7 +5873,7 @@
     if(tmpPlay.comments.value.length>0){
       document.getElementById('quickplay_comments99').value=tmpPlay.comments.value;
     }
-    var tmpType=tmpPlay.objecttype;
+    var tmpType=tmpPlay.subtypes[0].subtype;
     var tmpSubType=tmpPlay.subtypes[0].subtype;
     setObjectType(tmpType);
     document.getElementById('expansionLoggingButton').style.display="block";
