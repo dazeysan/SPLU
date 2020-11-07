@@ -2827,6 +2827,7 @@
         hideLocations();
       }
     }
+    document.getElementById("quickplay_comments99").value="";
     if(SPLU.Favorites[id].expansions!==undefined){
       SPLUexpansionsFromFavorite=[]
       for(i=0;i<SPLU.Favorites[id].expansions.length;i++){
@@ -4760,6 +4761,7 @@
     document.getElementById('BRthumbButtons').style.display="block";
     document.getElementById('expansionLoggingButton').style.display="block";
     document.getElementById('SPLU_ExpansionsQuantity').innerHTML="";
+    document.getElementById("quickplay_comments99").value="";
     //FIX - replace thing with objecttype and finish rest of feature
     if(SPLU.Settings.FetchPlayCount.Enabled) {
       fetchPlayCountQ(SPLUgameID, SPLUobjecttype);
