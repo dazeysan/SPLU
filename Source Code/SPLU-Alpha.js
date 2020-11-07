@@ -986,9 +986,9 @@
         +'<div style="display:table-row;">'
         +'<div style="display:table-cell;width:22px;">'
         +'</div>'
-        +'<div style="display:table-cell;width:84px;"><center>'+SPLUi18n.PlayersName+'</center></div>'
+        +'<div style="display:table-cell;width:84px;"><center>'+SPLUi18n.PlayersName+' <a onclick=\"javascript:{ELsort.sort(ELsort.toArray().sort(function (a, b) {return a.toLowerCase().localeCompare(b.toLowerCase());}))}\" href=\"javascript:{void(0);}\"><i class=\"fa_SP fa_SP-sort-alpha-asc\"></i></a></center></div>'
         +'<div style="display:table-cell;width:84px;"><center>'+SPLUi18n.PlayersUsername+'</center></div>'
-        +'<div style="display:table-cell;width:64px;" name="SPLUplayerEditColumn"><center>'+SPLUi18n.PlayersColor+'</center></div>'
+        +'<div style="display:table-cell;width:52px;" name="SPLUplayerEditColumn"><center>'+SPLUi18n.PlayersColor+'</center></div>'
         +'<div style="display:none;width:64px;" name="SPLUplayerFilterColumn"></div>'
         +'</div>'
         +'</div>'
@@ -6673,7 +6673,8 @@
         tmpHTML+="<div style='display:table-cell;' name='SPLUplayerEditColumn'>"+'<a href="javascript:{void(0);}" onClick="javascript:{document.getElementById(\'EditPlayersTable\').removeChild(document.getElementById(\'EditPlayersRow'+fixedEncodeURIComponent(players[key])+'\'));removePlayer(\''+fixedEncodeURIComponent(players[key])+'\')}" style="vertical-align:middle; padding-right:5px;"><img src="https://dazeysan.github.io/SPLU/Images/delete_row_small.png"></a></div>';
         tmpHTML+="<div style='display:table-cell;padding-right:2px;' name='SPLUplayerEditColumn'><input type='text' size='12' tabindex='"+(1100+(SPLUplayerCount*5))+"' class='EditPlayersField' id='SPLUplayerName"+players[key]+"' value=\""+decodeURIComponent(SPLU.Players[players[key]].Name)+"\"/></div>";
         tmpHTML+="<div style='display:table-cell;padding-right:2px;' name='SPLUplayerEditColumn'><input type='text' size='12' tabindex='"+(1101+(SPLUplayerCount*5))+"' id='SPLUplayerUsername"+players[key]+"' value=\""+decodeURIComponent(SPLU.Players[players[key]].Username)+"\"/></div>";
-        tmpHTML+="<div style='display:table-cell;padding-right:2px;' name='SPLUplayerEditColumn'><input type='text' size='8' tabindex='"+(1102+(SPLUplayerCount*5))+"' id='SPLUplayerColor"+players[key]+"' value=\""+decodeURIComponent(SPLU.Players[players[key]].Color)+"\"/><input type='hidden' id='SPLUplayerID"+players[key]+"' value='"+players[key]+"'></div>";
+        tmpHTML+="<div style='display:table-cell;padding-right:2px;' name='SPLUplayerEditColumn'><input type='text' size='5' tabindex='"+(1102+(SPLUplayerCount*5))+"' id='SPLUplayerColor"+players[key]+"' value=\""+decodeURIComponent(SPLU.Players[players[key]].Color)+"\"/><input type='hidden' id='SPLUplayerID"+players[key]+"' value='"+players[key]+"'><i style='font-size: 1.1em;' class='fa_SP fa_SP-drag-row'></i></div>";
+        
         tmpHTML+="<div style='display:none;width:22px;' name='SPLUplayerStaticColumn'></div>";
         tmpHTML+="<div style='display:none;width:84px;"+tmp+"' name='SPLUplayerStaticColumn'>"+decodeURIComponent(SPLU.Players[players[key]].Name)+"</div>";
         tmpHTML+="<div style='display:none;width:84px;"+tmp+"' name='SPLUplayerStaticColumn'>"+decodeURIComponent(SPLU.Players[players[key]].Username)+"</div>";
@@ -6714,6 +6715,14 @@
     tmpHTML+='</div>';
     document.getElementById('SPLU.PlayersList').innerHTML=tmpHTML;
     addPlayer();
+    
+    ELsort = Sortable.create(document.getElementById('EditPlayersTable'), {
+      filter: 'input',
+      preventOnFilter: false,
+      animation: 150,
+      group: "EditPlayersTable"
+    })
+    
   }
 
   function addPlayer(){
@@ -6724,7 +6733,7 @@
     var tmpHTML="<div style='display:table-cell;' name='SPLUplayerEditColumn'>"+'<a href="javascript:{void(0);}" onClick="javascript:{document.getElementById(\'EditPlayersTable\').removeChild(document.getElementById(\'EditPlayersRow'+SPLUplayerCount+'\'));}" style="vertical-align:middle;"><img src="https://dazeysan.github.io/SPLU/Images/delete_row_small.png"></a></div>';
     tmpHTML+="<div style='display:table-cell;' name='SPLUplayerEditColumn'><input type='text' size='12' tabindex='"+(1100+(SPLUplayerCount*5))+"' class='EditPlayersField' id='SPLUplayerName"+SPLUplayerCount+"'/></div>";
     tmpHTML+="<div style='display:table-cell;' name='SPLUplayerEditColumn'><input type='text' size='12' tabindex='"+(1101+(SPLUplayerCount*5))+"' id='SPLUplayerUsername"+SPLUplayerCount+"'/></div>";
-    tmpHTML+="<div style='display:table-cell;' name='SPLUplayerEditColumn'><input type='text' size='8' tabindex='"+(1102+(SPLUplayerCount*5))+"' id='SPLUplayerColor"+SPLUplayerCount+"'/><input type='hidden' id='SPLUplayerID"+SPLUplayerCount+"' value='-1'></div>";
+    tmpHTML+="<div style='display:table-cell;' name='SPLUplayerEditColumn'><input type='text' size='5' tabindex='"+(1102+(SPLUplayerCount*5))+"' id='SPLUplayerColor"+SPLUplayerCount+"'/><input type='hidden' id='SPLUplayerID"+SPLUplayerCount+"' value='-1'><i style='font-size: 1.1em;' class='fa_SP fa_SP-drag-row'></i></div>";
     tmpDiv.innerHTML=tmpHTML;
     document.getElementById('EditPlayersTable').appendChild(tmpDiv);
   }
@@ -6732,6 +6741,7 @@
   function savePlayers(){
     document.getElementById('SPLU.PlayersStatus').innerHTML=SPLUi18n.StatusThinking;
     SPLU.Players={};
+    SPLU.PlayersOrder=[];
     var players=document.getElementsByClassName('EditPlayersField');
     for(i=0;i<players.length;i++){
       p=players[i].id.slice(14);
@@ -6751,6 +6761,7 @@
           }
         }
         SPLU.Players[(playersID)]={"Name":encodeURIComponent(players[i].value),"Username":encodeURIComponent(playersUsername),"Color":encodeURIComponent(playersColor)};
+        SPLU.PlayersOrder.push(playersID);
       }
     }
     SPLUremote.Players=SPLU.Players;
