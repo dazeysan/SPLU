@@ -1415,12 +1415,14 @@
     setPlayers("reset");
     setLocation("reset");
     
-    PlayerRowSort = Sortable.create(document.getElementById('SPLUplayerRows'), {
-      filter: 'input',
-      preventOnFilter: false,
-      animation: 150,
-      group: "SPLUplayerRows"
-    })    
+    window.setTimeout(function(){ 
+      PlayerRowSort = Sortable.create(document.getElementById('SPLUplayerRows'), {
+        filter: 'input',
+        preventOnFilter: false,
+        animation: 150,
+        group: "SPLUplayerRows"
+      })
+    }, 1000);
 
   }
   
