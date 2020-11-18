@@ -418,7 +418,7 @@
         +'</div>'
       +'</div>'
       +'<div id="SPLUplayerRows" style="display:table; padding-bottom:15px;">'
-        +'<div style="display:table-row;">'
+        +'<div style="display:table-header-group;">'
           +'<div class="SPLUplayerCells" style="width:25px;text-align:center;vertical-align:bottom;" id="SPLUplayerDragHeader"></div>'
           +'<div class="SPLUplayerCells" style="width:25px;"></div>'
           +'<div class="SPLUplayerCells" id="SPLU.PlayerNameColumnHeader">'
@@ -1412,8 +1412,16 @@
     // tmpDiv.dataset.spluplayernumber=0;
     // tmpDiv.innerHTML='<div id="SPLU.PlayerSaveHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
     // document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
-    // setPlayers("reset");
-    // setLocation("reset");
+    setPlayers("reset");
+    setLocation("reset");
+    
+    PlayerRowSort = Sortable.create(document.getElementById('SPLUplayerRows'), {
+      filter: 'input',
+      preventOnFilter: false,
+      animation: 150,
+      group: "SPLUplayerRows"
+    })    
+
   }
   
   function highlightDayButton(){
