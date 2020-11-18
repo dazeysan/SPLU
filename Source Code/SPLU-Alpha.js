@@ -649,7 +649,7 @@
       +'<div style="display:table-row;">'
       +'<div style="display:table-cell; text-align:right;">'+SPLUi18n.SettingsEnableShowPlayCount+'</div>'
       +'<div style="display:table-cell; text-align:center;">'
-      +'<input type="checkbox" id="SPLU.ShowPlayCountCheck" onclick="javascript:{SPLU.Settings.FetchPlayCount.Enabled=document.getElementById(\'SPLU.ShowPlayCountCheck\').checked;}"></input>'
+      +'<input type="checkbox" id="SPLU.FetchPlayCountCheck" onclick="javascript:{SPLU.Settings.FetchPlayCount.Enabled=document.getElementById(\'SPLU.FetchPlayCountCheck\').checked;}"></input>'
       +'</div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
