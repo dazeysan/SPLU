@@ -1118,7 +1118,7 @@
                 +'</li>'
               +'</ul>'
             +'</div>'
-            +'<div id="SPLUdropMenuHider" style="position: absolute; top: -144px; z-index: 1570; left: -625px; width: 960px; height: 735px;" onclick="javascript:{hideDropMenus();}"></div>'
+            +'<div id="SPLUdropMenuHider" style="position: absolute; top: -144px; z-index: 1570; left: -625px; display: none;" onclick="javascript:{hideDropMenus();}"></div>'
             +'<span id="SPLU.PlaysLoadingDiv" style="margin-left:20px;display:none;">'
               +'<img src="https://dazeysan.github.io/SPLU/Images/progress.gif">'
             +'</span>'
