@@ -1257,6 +1257,9 @@
             if(key=="ExpansionLinkParent"){
               document.getElementById("SPLU.ExpansionLinkParentCheck").checked=SPLU.Settings.ExpansionLinkParent.Enabled;
             }
+            if(key=="FetchPlayCount" && SPLU.Settings[key].Enabled){
+              document.getElementById("SPLU."+key+"Check").checked=true;
+            }
           }
           if(key=="TwitterField"){
             document.getElementById("SPLU.TwitterEnabledCheck").checked=SPLU.Settings.TwitterField.Enabled;
