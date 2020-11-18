@@ -2508,6 +2508,26 @@
     setFieldWidth("rating");
   }
 
+  function sortPlayerRows(column, order) {
+    // Sort the player rows by the column and order specified
+    // This doesn't work reliably at the moment.  If you delete a player row then there are missing numbers and the tmpVal= line below breaks.
+    for(i=1; i<=PlayerCount; i++){
+      tmpVal = document.getElementsByName("players["+i+"]["+column+"]")[0].value;
+      if (tmpVal == "") {
+        tmpVal = ".";
+      }
+      console.log(tmpVal);
+      document.getElementById("SPLU.PlayerRow"+i).setAttribute("data-id", tmpVal);
+    }
+
+    if (order == "asc") {
+      PlayerRowSort.sort(PlayerRowSort.toArray().sort(function (a, b) {return a.toLowerCase().localeCompare(b.toLowerCase());}))
+    } else if (order == "des") {
+      PlayerRowSort.sort(PlayerRowSort.toArray().sort(function (a, b) {return a.toLowerCase().localeCompare(b.toLowerCase());}).reverse())
+    }
+  }
+
+
   // function movePlayer(player,after) {
     // if(player==after){
       // return;
