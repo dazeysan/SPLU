@@ -3246,7 +3246,8 @@
     document.getElementById('SPLUplayDateInput').value=date;
     parseDate(document.getElementById('SPLUplayDateInput'),document.getElementById('playdate99'),document.getElementById('playdatestatus99'));
     //SPLUcalendar.setDate(new Date(Date.parse(document.getElementById('SPLUplayDateInput').value)));
-    SPLUcalendar.setDate(document.getElementById('SPLUplayDateInput').value);
+    // Commenting out the following line to prevent the date picker from highlighting the wrong day and setting the date to the same wrong day.  SPLU seems to work without this...
+    //SPLUcalendar.setDate(document.getElementById('SPLUplayDateInput').value);
   }
 
   function addCalendar(){
