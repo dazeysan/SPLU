@@ -3146,6 +3146,7 @@
         }
         tmpJSON=JSON.parse(responseJSON.target.response);
         document.getElementById('BRresults').innerHTML=tmpJSON.html;
+        document.getElementById("SPLU.GameCountStatus").innerHTML=`Your plays: ${tmpJSON.numplays}`;
         window.resJ=responseJSON;
         window.resT=responseText;
         console.log(responseText);
