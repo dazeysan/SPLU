@@ -4623,11 +4623,27 @@
 
   async function fetchPlayCountQ(objectID, objectType) {
     console.log('fetchPlayCountQ('+objectID+', '+objectType+')');
-    if (objectType == "boardgame"){
+    if (objectType == "boardgame" || objectType == "videogame" || objectType == "rpg" || objectType == "rpgitem"){
       document.getElementById("SPLU.GameCountStatus").innerHTML=`Your plays: <img src="https://dazeysan.github.io/SPLU/Images/progress.gif">`;
+      if (objectType == "boardgame") {
+        tmpObjType = "thing";
+        tmpSubType = "boardgame";
+      }
+      if (objectType == "videogame") {
+        tmpObjType = "thing";
+        tmpSubType = "videogame";
+      }
+      if (objectType == "rpg") {
+        tmpObjType = "family";
+        tmpSubType = "rpg";
+      }
+      if (objectType == "rpgitem") {
+        tmpObjType = "thing";
+        tmpSubType = "rpgitem";
+      }
       SPLUqueue.push({
         "action":fetchPlayCount, 
-        "arguments":{"objectID":objectID, "objectType":"thing"},
+        "arguments":{"objectID":objectID, "objectType":tmpObjType, "subType":tmpSubType},
         "direction":"fetch",
         "data":"",
         "response":"",
@@ -4643,7 +4659,7 @@
   async function fetchPlayCount(tmpArgs) {
     console.log("fetchPlayCount() - ", tmpArgs);
     try {
-        const url = `/geekplay.php?action=getuserplaycount&ajax=1&objectid=${tmpArgs.objectID}&objecttype=${tmpArgs.objectType}`;
+        const url = `/geekplay.php?action=getuserplaycount&ajax=1&objectid=${tmpArgs.objectID}&objecttype=${tmpArgs.objectType}&subtype=${tmpArgs.subType}`;
         const options = {method: "GET", headers:{'Content-Type': 'application/json'}, credentials: 'same-origin'};
         return await fetchData(url, options);
     } catch(e) {
