@@ -8,7 +8,7 @@
     //Check if they are on a page that gives issues.  Specifically break on anything containing the polyfill script.
     let tmpScripts = document.getElementsByTagName('script');
     for (s=0; s<tmpScripts.length; s++) {
-      if(tmpScripts[s].src.includes("polyfill")) {
+      if(tmpScripts[s].src.includes("polyfill") || window.location.pathname.substr(0,11)=="/boardgame/") {
         if (!confirm("SPLU probably doesn't function properly on this page.\r\n\r\nTry running from your Subscriptions page.\r\n\r\nClick OK to try running SPLU anyways.")){
           throw new Error("Incompatible page.");
         } else {
@@ -3247,7 +3247,8 @@
     parseDate(document.getElementById('SPLUplayDateInput'),document.getElementById('playdate99'),document.getElementById('playdatestatus99'));
     //SPLUcalendar.setDate(new Date(Date.parse(document.getElementById('SPLUplayDateInput').value)));
     // Commenting out the following line to prevent the date picker from highlighting the wrong day and setting the date to the same wrong day.  SPLU seems to work without this...
-    //SPLUcalendar.setDate(document.getElementById('SPLUplayDateInput').value);
+    // Adding it back as it causes some issues with the calendar popping up when it shouldn't.
+    SPLUcalendar.setDate(document.getElementById('SPLUplayDateInput').value);
   }
 
   function addCalendar(){
