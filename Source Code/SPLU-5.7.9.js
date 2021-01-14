@@ -1,4 +1,4 @@
-// SPLU 5.8.0 Alpha/Beta/Current
+// SPLU 5.7.9 Beta
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -8,7 +8,7 @@
     //Check if they are on a page that gives issues.  Specifically break on anything containing the polyfill script.
     let tmpScripts = document.getElementsByTagName('script');
     for (s=0; s<tmpScripts.length; s++) {
-      if(tmpScripts[s].src.includes("polyfill") || window.location.pathname.substr(0,11)=="/boardgame/") {
+      if(tmpScripts[s].src.includes("polyfill")) {
         if (!confirm("SPLU probably doesn't function properly on this page.\r\n\r\nTry running from your Subscriptions page.\r\n\r\nClick OK to try running SPLU anyways.")){
           throw new Error("Incompatible page.");
         } else {
@@ -23,7 +23,7 @@
     //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.8.0";
+    var SPLUversion="5.7.9";
 
     var SPLU={};
     var SPLUplayId="";
@@ -78,7 +78,7 @@
     var SPLUwindowHeight=0;
     var SPLUplaysListTab="filters";
     var SPLUplayer={};
-    // var SPLUdragDiv="";
+    var SPLUdragDiv="";
     var SPLUdragSourceDiv = null;
     var SPLUfavoritesPlayers=[];
     var SPLUfavoritesEditing="";
@@ -219,7 +219,7 @@
     
     var BRlogMain=document.createElement('div');
     BRlogMain.id='BRlogMain';
-    BRlogMain.setAttribute("style","display:table; position: absolute; z-index: 1565; border-radius:15px;");
+    BRlogMain.setAttribute("style","display:table; position: absolute; z-index: 565; border-radius:15px;");
     bggMB=document.getElementById("mainbody");
     BRlogMain.style.top=self.pageYOffset+"px";
     var BRlogRow=document.createElement('div');
@@ -329,7 +329,7 @@
               +'<input type="text" placeholder="'+SPLUi18n.MainPlaceholderLocation+'" id="SPLU_PlayedAt" onFocus="javascript:{this.select();}" onblur="javascript:{window.setTimeout(function(){document.getElementById(\'SPLUsearchLocationsResultsDIV\').style.display=\'none\';},100);}" onkeydown="SPLUsearchLocationDelay(event);" tabindex="20" name="location" style="width: 175px; border:none;"/>'
               +'<a href="javascript:{void(0);}" onClick="javascript:{saveLocation();}" style="vertical-align:middle; position: absolute;" id="SPLU.SaveLocationButton"><span class="fa_SP-stack"><i class="fa_SP fa_SP-stack-2x fa_SP-floppy2" style="font-size: 1.3em; color: black; vertical-align: middle; transform: translate(0px, 2px);"></i></span></a>'
             +'</div>'
-            +'<div id="SPLUsearchLocationsResultsDIV" style="background-color: rgb(255, 255, 255); position: absolute; padding: 5px; z-index: 1579; margin-right: 12px; min-width: 130px; display:none;"></div>'
+            +'<div id="SPLUsearchLocationsResultsDIV" style="background-color: rgb(255, 255, 255); position: absolute; padding: 5px; z-index: 579; margin-right: 12px; min-width: 130px; display:none;"></div>'
             +'<a href="javascript:{void(0);}" onClick="javascript:{showHideLocations();}" id="BRlocsBtn" style="padding-left:1px; vertical-align:middle;"><span id="SPLU.LocationButtonIconCollapse" style="display:inline-block;"><i class="fa_SP fa_SP-caret-up display:block" style="color: black; font-size: 2em; transform: translate(1px, 4px);"></i></span><span id="SPLU.LocationButtonIconExpand" style="display:none;"><i class="fa_SP fa_SP-caret-down display:block" style="color: black; font-size: 2em; transform: translate(1px, 4px);"></i></span></a>'
             +'<div style="display:inline-block; position:absolute; padding-top:2px;padding-left:4px;">'
               +'<a href="javascript:{void(0);}" onClick="javascript:{showLocationsPane(\'button\');}" id="showLocationsPaneBtn">'
@@ -366,7 +366,7 @@
             +'<div style="margin-top: 2px;">'
               +'<input name="objectid" value="" id="objectid9999" type="hidden"/>'
               +'<input style="margin:3px 0px 0px;" autocomplete="off" class="geekinput_medium" name="geekitemname" id="q546e9ffd96dfc" tabindex="60" placeholder="'+SPLUi18n.MainPlaceholderBGG+'" onClick="this.select();" onkeydown="SPLUsearchDelay();" type="text">'
-              +'<div id="SPLUsearchResultsDIV" style="display:none; background-color: rgb(255, 255, 255); position: absolute; padding: 5px; z-index: 1579; margin-right: 12px; min-width: 130px;"></div>'
+              +'<div id="SPLUsearchResultsDIV" style="display:none; background-color: rgb(255, 255, 255); position: absolute; padding: 5px; z-index: 579; margin-right: 12px; min-width: 130px;"></div>'
               +'<div style="float: right; margin-top: 4px;">'
                 +'<a href="javascript:{void(0);}" onClick="javascript:{showFavsPane(\'button\');}" id="favoritesGoTo" style="border:4px solid lightblue;border-radius:4px"><img src="https://dazeysan.github.io/SPLU/Images/choose_from_favorites.png"></a>'
               +'</div>'
@@ -418,7 +418,7 @@
         +'</div>'
       +'</div>'
       +'<div id="SPLUplayerRows" style="display:table; padding-bottom:15px;">'
-        +'<div style="display:table-header-group;">'
+        +'<div style="display:table-row;">'
           +'<div class="SPLUplayerCells" style="width:25px;text-align:center;vertical-align:bottom;" id="SPLUplayerDragHeader"></div>'
           +'<div class="SPLUplayerCells" style="width:25px;"></div>'
           +'<div class="SPLUplayerCells" id="SPLU.PlayerNameColumnHeader">'
@@ -649,7 +649,7 @@
       +'<div style="display:table-row;">'
       +'<div style="display:table-cell; text-align:right;">'+SPLUi18n.SettingsEnableShowPlayCount+'</div>'
       +'<div style="display:table-cell; text-align:center;">'
-      +'<input type="checkbox" id="SPLU.FetchPlayCountCheck" onclick="javascript:{SPLU.Settings.FetchPlayCount.Enabled=document.getElementById(\'SPLU.FetchPlayCountCheck\').checked;}"></input>'
+      +'<input type="checkbox" id="SPLU.ShowPlayCountCheck" onclick="javascript:{SPLU.Settings.FetchPlayCount.Enabled=document.getElementById(\'SPLU.ShowPlayCountCheck\').checked;}"></input>'
       +'</div>'
       +'<div style="display:table-cell; text-align:center;"></div>'
       +'</div>'
@@ -1035,7 +1035,7 @@
           +'<input type="text" id="SPLU.PlaysLogger" value="'+LoggedInAs+'" onClick="javascript:{listFetchedPlayers();}" onKeyPress="eventPlaysPlayerEnter(event);"/>'
           +'<div style="display:inline-block; margin-left:2px;">'
             +'<div style="background-color:lightgrey;border:1px solid gray;border-radius:6px;padding:2px;cursor:pointer;height:19px"><span id="SPLU.GetNextText">'+SPLUi18n.PlaysGetNext+' 100</span> | <span  onclick="javascript:{if(document.getElementById(\'SPLUfetchDrop\').style.display==\'none\'){document.getElementById(\'SPLUfetchDrop\').style.display=\'\';}else{document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}}"><i style="margin-top: -3px; margin-right: 3px; padding: 4px 2px 0px;" class="fa_SP">&#xf078;</i></span></div>'
-            +'<div style="position:absolute;border:1px solid blue;background-color:rgb(206,214,233);display:none;cursor:pointer;z-index: 1573;" id="SPLUfetchDrop">'
+            +'<div style="position:absolute;border:1px solid blue;background-color:rgb(206,214,233);display:none;cursor:pointer;z-index:573;" id="SPLUfetchDrop">'
               +'<ul class="fa_SP-ul" style="padding-right:8px;">'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{getRecentPlays(true, -1);document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
                   +SPLUi18n.PlaysGetAll
@@ -1050,7 +1050,7 @@
             +'</div>'
           +'</div>'
           +'</div>'
-        +'<div id="SPLU.PlaysPlayers" style="position: absolute; background-color: rgb(205, 237, 251); width: 126px; padding: 3px; border: 1px solid blue; display:none;z-index: 1575;">list</div>'
+        +'<div id="SPLU.PlaysPlayers" style="position: absolute; background-color: rgb(205, 237, 251); width: 126px; padding: 3px; border: 1px solid blue; display:none;z-index:575;">list</div>'
         +'<div id="SPLU.PlaysStatus" style="padding-bottom:5px;"></div>'
         +'<div id="SPLU.PlaysMenu">'
           +'<div id="SPLUfilterIconBtn" style="display:inline;padding-top:5px;border-top-left-radius:20px;border-top-right-radius:20px;">'
@@ -1068,8 +1068,8 @@
         +'<div id="SPLU.PlaysFilters" style="border: 1px solid blue; border-radius: 5px; padding: 3px;">'
           +'<div id="SPLU.PlaysFiltersStatus" style="float:right;"></div>'
           +'<div>'
-            +'<div style="background-color:white;width:60%;border:1px solid gray;padding:2px;cursor:pointer;height:19px"  onclick="javascript:{document.getElementById(\'SPLUfilterDrop\').style.display=\'\';showDropMenu();}"><i class="fa_SP fa_SP-funnel"></i> '+SPLUi18n.PlaysFilterAddFilter+'<i style="float: right; padding: 1px 2px 0px;" class="fa_SP">&#xf078;</i></div>'
-            +'<div style="position:absolute;border:1px solid blue;background-color:rgb(206,214,233);display:none;cursor:pointer;z-index: 1575;" id="SPLUfilterDrop">'
+            +'<div style="background-color:white;width:60%;border:1px solid gray;padding:2px;cursor:pointer;height:19px"  onclick="javascript:{if(document.getElementById(\'SPLUfilterDrop\').style.display==\'none\'){document.getElementById(\'SPLUfilterDrop\').style.display=\'\';}else{document.getElementById(\'SPLUfilterDrop\').style.display=\'none\';}}"><i class="fa_SP fa_SP-funnel"></i> '+SPLUi18n.PlaysFilterAddFilter+'<i style="float: right; padding: 1px 2px 0px;" class="fa_SP">&#xf078;</i></div>'
+            +'<div style="position:absolute;border:1px solid blue;background-color:rgb(206,214,233);display:none;cursor:pointer;z-index:575;" id="SPLUfilterDrop">'
               +'<ul class="fa_SP-ul" style="padding-right:8px;">'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'gamename\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
                   +'<i class="fa_SP fa_SP-li">&#xee01;</i>'+SPLUi18n.PlaysFilterGame+''
@@ -1118,7 +1118,6 @@
                 +'</li>'
               +'</ul>'
             +'</div>'
-            +'<div id="SPLUdropMenuHider" style="position: absolute; top: -144px; z-index: 1570; left: -625px; display: none;" onclick="javascript:{hideDropMenus();}"></div>'
             +'<span id="SPLU.PlaysLoadingDiv" style="margin-left:20px;display:none;">'
               +'<img src="https://dazeysan.github.io/SPLU/Images/progress.gif">'
             +'</span>'
@@ -1258,9 +1257,6 @@
             if(key=="ExpansionLinkParent"){
               document.getElementById("SPLU.ExpansionLinkParentCheck").checked=SPLU.Settings.ExpansionLinkParent.Enabled;
             }
-            if(key=="FetchPlayCount" && SPLU.Settings[key].Enabled){
-              document.getElementById("SPLU."+key+"Check").checked=true;
-            }
           }
           if(key=="TwitterField"){
             document.getElementById("SPLU.TwitterEnabledCheck").checked=SPLU.Settings.TwitterField.Enabled;
@@ -1318,21 +1314,106 @@
     tmpDiv.style.textAlign="center";
     tmpDiv.id="SPLU.PlayerDragHeader0";
     tmpDiv.dataset.spluplayernumber="0";
+    tmpDiv.draggable=true;
+    tmpDiv.addEventListener('dragenter', handleDragEnter, false);
+    tmpDiv.addEventListener('dragover', handleDragOver, false);
+    tmpDiv.addEventListener('dragleave', handleDragLeave, false);
+    tmpDiv.addEventListener('dragend', handleDragEnd, false);
+    tmpDiv.addEventListener('drop', handleDrop, false);
+    tmpDiv.addEventListener('click', handleDragClick, false);
     tmpDiv.innerHTML='<span style=""><span style="transform: scaleX(-1); top:7px;" class="fa_SP-stack"><i style="font-size: 1.3em;" class="fa_SP fa_SP-stack-2x fa_SP-drag-row"></i></span></span>';
     document.getElementById('SPLUplayerDragHeader').appendChild(tmpDiv);
 
+    var tmpDiv=document.createElement('div');
+    tmpDiv.id="SPLU.PlayerRow0";
+    tmpDiv.style.display="table-row";
+    tmpDiv.dataset.spluplayernumber="0";
+    tmpDiv.draggable=true;
+    tmpDiv.addEventListener('dragenter', handleDragEnter, false);
+    tmpDiv.addEventListener('dragover', handleDragOver, false);
+    tmpDiv.addEventListener('dragleave', handleDragLeave, false);
+    tmpDiv.addEventListener('dragend', handleDragEnd, false);
+    tmpDiv.addEventListener('drop', handleDrop, false);
+    document.getElementById('SPLUplayerRows').appendChild(tmpDiv);
+
+    var tmpDiv=document.createElement('div');
+    tmpDiv.className="SPLUplayerCells";
+    tmpDiv.id="SPLU.PlayerDragColumn0";
+    tmpDiv.dataset.spluplayernumber=0;
+    tmpDiv.innerHTML='<div id="SPLU.PlayerDragHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
+    document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
+
+    var tmpDiv=document.createElement('div');
+    tmpDiv.className="SPLUplayerCells";
+    tmpDiv.id="SPLU.PlayerDeleteColumn0";
+    tmpDiv.dataset.spluplayernumber=0;
+    tmpDiv.innerHTML='<div id="SPLU.PlayerDeleteHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
+    document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
+
+    var tmpDiv=document.createElement('div');
+    tmpDiv.className="SPLUplayerCells";
+    tmpDiv.id="SPLU.PlayerNameColumn0";
+    tmpDiv.dataset.spluplayernumber=0;
+    tmpDiv.innerHTML='<div id="SPLU.PlayerNameHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
+    document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
+
+    var tmpDiv=document.createElement('div');
+    tmpDiv.className="SPLUplayerCells";
+    tmpDiv.id="SPLU.PlayerUsernameColumn0";
+    tmpDiv.dataset.spluplayernumber=0;
+    tmpDiv.innerHTML='<div id="SPLU.PlayerUsernameHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
+    document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
+
+    var tmpDiv=document.createElement('div');
+    tmpDiv.className="SPLUplayerCells";
+    tmpDiv.id="SPLU.PlayerColorColumn0";
+    tmpDiv.dataset.spluplayernumber=0;
+    tmpDiv.innerHTML='<div id="SPLU.PlayerColorHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
+    document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
+
+    var tmpDiv=document.createElement('div');
+    tmpDiv.className="SPLUplayerCells";
+    tmpDiv.id="SPLU.PlayerPositionColumn0";
+    tmpDiv.dataset.spluplayernumber=0;
+    tmpDiv.innerHTML='<div id="SPLU.PlayerPositionHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
+    document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
+
+    var tmpDiv=document.createElement('div');
+    tmpDiv.className="SPLUplayerCells";
+    tmpDiv.id="SPLU.PlayerScoreColumn0";
+    tmpDiv.dataset.spluplayernumber=0;
+    tmpDiv.innerHTML='<div id="SPLU.PlayerScoreHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
+    document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
+
+    var tmpDiv=document.createElement('div');
+    tmpDiv.className="SPLUplayerCells";
+    tmpDiv.id="SPLU.PlayerRatingColumn0";
+    tmpDiv.dataset.spluplayernumber=0;
+    tmpDiv.innerHTML='<div id="SPLU.PlayerRatingHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
+    document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
+
+    var tmpDiv=document.createElement('div');
+    tmpDiv.className="SPLUplayerCells";
+    tmpDiv.id="SPLU.PlayerWinColumn0";
+    tmpDiv.dataset.spluplayernumber=0;
+    tmpDiv.innerHTML='<div id="SPLU.PlayerWinHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
+    document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
+
+    var tmpDiv=document.createElement('div');
+    tmpDiv.className="SPLUplayerCells";
+    tmpDiv.id="SPLU.PlayerNewColumn0";
+    tmpDiv.dataset.spluplayernumber=0;
+    tmpDiv.innerHTML='<div id="SPLU.PlayerNewHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
+    document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
+
+    var tmpDiv=document.createElement('div');
+    tmpDiv.className="SPLUplayerCells";
+    tmpDiv.id="SPLU.PlayerSaveColumn0";
+    tmpDiv.dataset.spluplayernumber=0;
+    tmpDiv.innerHTML='<div id="SPLU.PlayerSaveHighlight0" class="SPLUplayerHighlight" style="margin: 2px 0px; height: 3px;"></div>';
+    document.getElementById('SPLU.PlayerRow0').appendChild(tmpDiv);
     setPlayers("reset");
     setLocation("reset");
-    
-    window.setTimeout(function(){ 
-      PlayerRowSort = Sortable.create(document.getElementById('SPLUplayerRows'), {
-        filter: 'input',
-        preventOnFilter: false,
-        animation: 150,
-        group: "SPLUplayerRows"
-      })
-    }, 1000);
-
   }
   
   function highlightDayButton(){
@@ -1728,6 +1809,30 @@
     //window.setTimeout(function(){initSPLU();},500);
   }
 
+
+  // function fetchLanguageFile(lang){
+    // console.log("fetchLanguageFile("+lang+")");
+    // var requestURL="https://dazeysan.github.io/SPLU/Source%20Code/i18n/"+lang+".json";
+    // var xhr = new XMLHttpRequest();
+    // xhr.onreadystatechange = function() {
+      // console.log(this.readyState+"|"+this.status);
+      // if (this.readyState == "4" && this.status=="200"){
+        // SPLUi18n=JSON.parse(this.responseText);
+        // window.setTimeout(function(){initSPLU();},500);
+      // }
+    // };
+    // xhr.timeout = 5000;
+    // xhr.ontimeout = function (e) {
+      // //Timed out, check last state received, maybe error and offer to retry
+      // console.log("xhr.ontimeout-fetchLanguageFile()");
+    // };
+    // xhr.open("GET", requestURL, true);
+    // xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    // xhr.setRequestHeader("Accept","application/json, text/plain, */*");/**/
+    // xhr.send();
+  // }
+  
+  
   async function fetchLanguageListQ() {
     //Call this function to add the item to the queue
     console.log('fetchLanguageListQ()');
@@ -1764,6 +1869,30 @@
     //loadLanguageList();
     window.setTimeout(function(){loadLanguageList();},100);
   }
+
+  
+  
+  // function fetchLanguageList(){
+    // console.log("fetchLanguageList()");
+    // var requestURL="https://dazeysan.github.io/SPLU/Source%20Code/i18n/list.json";
+    // var xhr = new XMLHttpRequest();
+    // xhr.onreadystatechange = function() {
+      // console.log(this.readyState+"|"+this.status);
+      // if (this.readyState == "4" && this.status=="200"){
+        // SPLUi18nList=JSON.parse(this.responseText);
+        // window.setTimeout(function(){loadLanguageList();},100);
+      // }
+    // };
+    // xhr.timeout = 5000;
+    // xhr.ontimeout = function (e) {
+      // //Timed out, check last state received, maybe error and offer to retry
+      // console.log("xhr.ontimeout-fetchLanguageList()");
+    // };
+    // xhr.open("GET", requestURL, true);
+    // xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    // xhr.setRequestHeader("Accept","application/json, text/plain, */*");/**/
+    // xhr.send();
+  // }
 
   function loadLanguageList(){
     select=document.getElementById('SPLU.SelectLanguage');
@@ -2213,6 +2342,11 @@
     tmpDiv.id="SPLU.PlayerRow"+NumOfPlayers;
     tmpDiv.style.display="table-row";
     tmpDiv.dataset.spluplayernumber=NumOfPlayers;
+    tmpDiv.addEventListener('dragenter', handleDragEnter, false);
+    tmpDiv.addEventListener('dragover', handleDragOver, false);
+    tmpDiv.addEventListener('dragleave', handleDragLeave, false);
+    tmpDiv.addEventListener('dragend', handleDragEnd, false);
+    tmpDiv.addEventListener('drop', handleDrop, false);
     document.getElementById('SPLUplayerRows').appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
@@ -2222,55 +2356,63 @@
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerDragColumn"+NumOfPlayers;
     tmpDiv.dataset.spluplayernumber=NumOfPlayers;
-    tmpDiv.innerHTML='<span style=""><span style=""><span style="transform: scaleX(-1); top:7px;" class="fa_SP-stack"><i style="font-size: 1.3em;" class="fa_SP fa_SP-stack-2x fa_SP-drag-row"></i></span></span>';
+    tmpDiv.draggable=true;
+    tmpDiv.addEventListener('dragstart', handleDragStart, false);
+    tmpDiv.addEventListener('dragenter', handleDragEnter, false);
+    tmpDiv.addEventListener('dragover', handleDragOver, false);
+    tmpDiv.addEventListener('dragleave', handleDragLeave, false);
+    tmpDiv.addEventListener('dragend', handleDragEnd, false);
+    tmpDiv.addEventListener('drop', handleDrop, false);
+    tmpDiv.addEventListener('click', handleDragClick, false);
+    tmpDiv.innerHTML='<span style=""><span style=""><span style="transform: scaleX(-1); top:7px;" class="fa_SP-stack"><i style="font-size: 1.3em;" class="fa_SP fa_SP-stack-2x fa_SP-drag-row"></i></span></span><div id="SPLU.PlayerDragHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
 
     var tmpDiv=document.createElement('div');
     tmpDiv.style.display="table-cell";
     tmpDiv.className="SPLUrows";
-    tmpDiv.innerHTML='<a href="javascript:{void(0);}" onClick="javascript:{removePlayerRow('+NumOfPlayers+');}"><span style="transform: translate(4px, 7px);" class="fa_SP-stack display:block"><i style="color: white; font-size: 1.3em; transform: translate(-2px, 1px);" class="fa_SP fa_SP-stack-2x">&#xee22;</i><i style="transform: scaleX(-1); color: red; font-size: 1.7em;" class="fa_SP fa_SP-stack-2x">&#xee21;</i></span></a>';
+    tmpDiv.innerHTML='<a href="javascript:{void(0);}" onClick="javascript:{removePlayerRow('+NumOfPlayers+');}"><span style="transform: translate(4px, 7px);" class="fa_SP-stack display:block"><i style="color: white; font-size: 1.3em; transform: translate(-2px, 1px);" class="fa_SP fa_SP-stack-2x">&#xee22;</i><i style="transform: scaleX(-1); color: red; font-size: 1.7em;" class="fa_SP fa_SP-stack-2x">&#xee21;</i></span></a><div id="SPLU.PlayerDeleteHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerNameColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerNameColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="min-width:3em;margin:0px 5px;" size="1" name="players['+NumOfPlayers+'][name]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="name" value="'+tmpName+'" tabindex="1'+paddedNum+'" onkeyup="setFieldWidth(this.getAttribute(\'data-spluplayerfield\'));"></input>';
+    tmpDiv.innerHTML='<input type="text" style="min-width:3em;margin:0px 5px;" size="1" name="players['+NumOfPlayers+'][name]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="name" value="'+tmpName+'" tabindex="1'+paddedNum+'" onkeyup="setFieldWidth(this.getAttribute(\'data-spluplayerfield\'));"></input><div id="SPLU.PlayerNameHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerUsernameColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerUsernameColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="min-width:3em;margin:0px 5px;" size="1" name="players['+NumOfPlayers+'][username]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="username" value="'+tmpUser+'" tabindex="2'+paddedNum+'" onkeyup="setFieldWidth(this.getAttribute(\'data-spluplayerfield\'));"></input>';
+    tmpDiv.innerHTML='<input type="text" style="min-width:3em;margin:0px 5px;" size="1" name="players['+NumOfPlayers+'][username]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="username" value="'+tmpUser+'" tabindex="2'+paddedNum+'" onkeyup="setFieldWidth(this.getAttribute(\'data-spluplayerfield\'));"></input><div id="SPLU.PlayerUsernameHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerColorColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerColorColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="min-width:3em;margin:0px 5px;" size="1" name="players['+NumOfPlayers+'][color]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="color" value="'+tmpColor+'" tabindex="3'+paddedNum+'" onkeyup="setFieldWidth(this.getAttribute(\'data-spluplayerfield\'));"></input>';
+    tmpDiv.innerHTML='<input type="text" style="min-width:3em;margin:0px 5px;" size="1" name="players['+NumOfPlayers+'][color]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="color" value="'+tmpColor+'" tabindex="3'+paddedNum+'" onkeyup="setFieldWidth(this.getAttribute(\'data-spluplayerfield\'));"></input><div id="SPLU.PlayerColorHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerPositionColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerPositionColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="min-width:3em;margin:0px 5px;" size="1" name="players['+NumOfPlayers+'][position]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="startposition" value="'+tmpStart+'" tabindex="4'+paddedNum+'" onkeyup="setFieldWidth(this.getAttribute(\'data-spluplayerfield\'));"></input>';
+    tmpDiv.innerHTML='<input type="text" style="min-width:3em;margin:0px 5px;" size="1" name="players['+NumOfPlayers+'][position]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="startposition" value="'+tmpStart+'" tabindex="4'+paddedNum+'" onkeyup="setFieldWidth(this.getAttribute(\'data-spluplayerfield\'));"></input><div id="SPLU.PlayerPositionHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerScoreColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerScoreColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="min-width:3em;margin:0px 5px;" size="1" name="players['+NumOfPlayers+'][score]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="score" value="'+tmpScore+'" tabindex="5'+paddedNum+'" onkeyup="setFieldWidth(this.getAttribute(\'data-spluplayerfield\'));"></input>';
+    tmpDiv.innerHTML='<input type="text" style="min-width:3em;margin:0px 5px;" size="1" name="players['+NumOfPlayers+'][score]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="score" value="'+tmpScore+'" tabindex="5'+paddedNum+'" onkeyup="setFieldWidth(this.getAttribute(\'data-spluplayerfield\'));"></input><div id="SPLU.PlayerScoreHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
     if(!SPLU.Settings.PlayerRatingColumn.Visible){tmpDiv.style.display="none";}else{tmpDiv.style.display="table-cell";}
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerRatingColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="text" style="min-width:3em;margin:0px 5px;" size="1" name="players['+NumOfPlayers+'][rating]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="rating" value="'+tmpRating+'" tabindex="6'+paddedNum+'" onkeyup="setFieldWidth(this.getAttribute(\'data-spluplayerfield\'));"></input>';
+    tmpDiv.innerHTML='<input type="text" style="min-width:3em;margin:0px 5px;" size="1" name="players['+NumOfPlayers+'][rating]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="rating" value="'+tmpRating+'" tabindex="6'+paddedNum+'" onkeyup="setFieldWidth(this.getAttribute(\'data-spluplayerfield\'));"></input><div id="SPLU.PlayerRatingHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
@@ -2278,7 +2420,7 @@
     tmpDiv.style.textAlign="center";
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerWinColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="checkbox" name="players['+NumOfPlayers+'][win]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="win" class="SPLU.WinBox" value="1" '+tmpWin+' tabindex="7'+paddedNum+'" style="margin-bottom:2px;" onClick="javascript:{if(SPLU.Settings.WinComments.Visible){NoreenWinComment();}}"></input>';
+    tmpDiv.innerHTML='<input type="checkbox" name="players['+NumOfPlayers+'][win]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="win" class="SPLU.WinBox" value="1" '+tmpWin+' tabindex="7'+paddedNum+'" style="margin-bottom:2px;" onClick="javascript:{if(SPLU.Settings.WinComments.Visible){NoreenWinComment();}}"></input><div id="SPLU.PlayerWinHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
@@ -2286,7 +2428,7 @@
     tmpDiv.style.textAlign="center";
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerNewColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<input type="checkbox" name="players['+NumOfPlayers+'][new]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="new" value="1" '+tmpNew+' tabindex="8'+paddedNum+'" style="margin-bottom:2px;"></input>';
+    tmpDiv.innerHTML='<input type="checkbox" name="players['+NumOfPlayers+'][new]" data-SPLUplayerNumber="'+NumOfPlayers+'" data-SPLUplayerField="new" value="1" '+tmpNew+' tabindex="8'+paddedNum+'" style="margin-bottom:2px;"></input><div id="SPLU.PlayerNewHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     
     var tmpDiv=document.createElement('div');
@@ -2294,7 +2436,7 @@
     tmpDiv.style.textAlign="center";
     tmpDiv.className="SPLUrows";
     tmpDiv.id="SPLU.PlayerSaveColumn"+NumOfPlayers;
-    tmpDiv.innerHTML='<span style="padding-bottom:2px;"><a href="javascript:{void(0);}" onClick="javascript:{savePlayer('+NumOfPlayers+');}"><span style="transform: translate(-1px, 7px);" class="fa_SP-stack"><i style="color: white; transform: translate(0px, -3px); font-size: 1.4em;" class="fa_SP fa_SP-stack-2x fa_SP-square-sharp"></i><i style="font-size: 1.3em; color: black;" class="fa_SP fa_SP-stack-2x fa_SP-floppy2"></i></span></a></span>';
+    tmpDiv.innerHTML='<span style="padding-bottom:2px;"><a href="javascript:{void(0);}" onClick="javascript:{savePlayer('+NumOfPlayers+');}"><span style="transform: translate(-1px, 7px);" class="fa_SP-stack"><i style="color: white; transform: translate(0px, -3px); font-size: 1.4em;" class="fa_SP fa_SP-stack-2x fa_SP-square-sharp"></i><i style="font-size: 1.3em; color: black;" class="fa_SP fa_SP-stack-2x fa_SP-floppy2"></i></span></a></span><div id="SPLU.PlayerSaveHighlight'+NumOfPlayers+'" class="SPLUplayerHighlight" style="height:3px;margin:2px 0px;"></div>';
     document.getElementById('SPLU.PlayerRow'+NumOfPlayers).appendChild(tmpDiv);
     listenerForPopText("SPLU.PlayerSaveColumn"+NumOfPlayers,SPLUi18n.PopupButtonSavePlayer);
 
@@ -2303,7 +2445,7 @@
         removePlayerRow(1);
       }
     }
-    // SPLUdragDiv=-1;
+    SPLUdragDiv=-1;
     
    SPLUsetFieldWidthDelay();
   }
@@ -2342,128 +2484,160 @@
     setFieldWidth("rating");
   }
 
-
-  function sortPlayerRows(column, order) {
-    // Sort the player rows by the column and order specified
-    // This doesn't work reliably at the moment.  If you delete a player row then there are missing numbers and the tmpVal= line below breaks.
-    // It also breaks when sorting with duplicate values, it will sort them descending like this: 1, 4, 4, 3, 2, 1 and ascending: 1, 4, 1, 2, 3, 4
-    // Tried deleting the header row to get it out of the PlayerRowSort.toArray() but that didn't help.
-    for(i=1; i<=PlayerCount; i++){
-      tmpVal = document.getElementsByName("players["+i+"]["+column+"]")[0].value;
-      if (tmpVal == "") {
-        tmpVal = ".";
-      }
-      console.log(tmpVal);
-      document.getElementById("SPLU.PlayerRow"+i).setAttribute("data-id", tmpVal);
+  function movePlayer(player,after) {
+    if(player==after){
+      return;
     }
-    if (order == "asc") {
-      PlayerRowSort.sort(PlayerRowSort.toArray().sort(function (a, b) {return a.toLowerCase().localeCompare(b.toLowerCase());}))
-    } else if (order == "des") {
-      PlayerRowSort.sort(PlayerRowSort.toArray().sort(function (a, b) {return a.toLowerCase().localeCompare(b.toLowerCase());}).reverse())
+    var form=document.forms['SPLUform'];
+    var inputs=form.getElementsByTagName('input');
+    SPLUplayers={};
+    for(n=0; n<inputs.length; n++){
+      if(inputs[n].hasAttribute('data-spluplayerfield')){
+        tmpNumber=inputs[n].getAttribute('data-spluplayernumber');
+        tmpField=inputs[n].getAttribute('data-spluplayerfield');
+        if(inputs[n].type=="checkbox"){
+          if(inputs[n].checked){
+            tmpValue=1;
+          }else{
+            tmpValue=0;
+          }
+        }else{
+          tmpValue=inputs[n].value;
+        }
+        if(SPLUplayers[tmpNumber]===undefined){
+          SPLUplayers[tmpNumber]={'attributes':{
+            'name':{'value':''},
+            'username':{'value':''},
+            'color':{'value':''},
+            'startposition':{'value':''},
+            'score':{'value':''},
+            'rating':{'value':''},
+            'win':{'value':''},
+            'new':{'value':''}
+          }}
+        }
+        SPLUplayers[tmpNumber]['attributes'][tmpField].value=tmpValue;
+      }
+    }
+    while(document.getElementsByClassName('SPLUrows').length>0){
+      removePlayerRow(document.getElementsByClassName('SPLUrows')[0].parentNode.id.slice(14));
+    }
+    NumOfPlayers=0;
+    PlayerCount=0;
+    if(after==0){
+      insertPlayer(SPLUplayers[player]);
+    }
+    for(var key in SPLUplayers){
+      if(key==player){
+        continue;
+      }
+      insertPlayer(SPLUplayers[key]);
+      if(key==after){
+        insertPlayer(SPLUplayers[player]);
+      }
+    }
+    document.getElementById('SPLU.PlayerDragHeader0').style.display="none";
+  }
+  
+  function handleDragClick(e){
+    //console.log(this);
+    if(SPLUdragDiv==-1){
+      SPLUdragDiv=this.getAttribute('data-spluplayernumber');
+      this.style.opacity="0.4";
+      document.getElementById('SPLU.PlayerDragHeader0').style.display="";
+      return;
+    }
+    if(SPLUdragDiv!=this.getAttribute('data-spluplayernumber')){
+      movePlayer(SPLUdragDiv,this.getAttribute('data-spluplayernumber'));
+    }else{
+      this.style.opacity="1.0";
+      document.getElementById('SPLU.PlayerDragHeader0').style.display="none";
+      SPLUdragDiv=-1;
     }
   }
 
+  function handleDragStart(e) {
+    this.style.opacity = '0.4';
+    SPLUdragSourceDiv = this;
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/html', this.getAttribute('data-spluplayernumber'));
+    document.getElementById('SPLU.PlayerDragHeader0').style.display="";
+  }
 
+  function handleDragOver(e) {
+    if (e.preventDefault) {
+      e.preventDefault();
+    }
+    e.dataTransfer.dropEffect = 'move';
+    return false;
+  }
+
+  function handleDragEnter(e) {
+    if(this.hasAttribute('data-spluplayernumber')){
+      //console.log(this.getAttribute('data-spluplayernumber'));
+      SPLUdragDiv=this.getAttribute('data-spluplayernumber')
+      highlightPlayerRow(this.getAttribute('data-spluplayernumber'),true);
+    }
+  }
+
+  function handleDragLeave(e) {
+    if(this.hasAttribute('data-spluplayernumber')){
+      if(SPLUdragDiv!=this.getAttribute('data-spluplayernumber')){
+        //highlightPlayerRow(this.getAttribute('data-spluplayernumber'),false);
+      }
+    }
+  }
+
+  function handleDrop(e) {
+    if (e.stopPropagation) {
+      e.stopPropagation();
+    }
+    if (e.preventDefault) {
+      e.preventDefault();
+    }
+    if (SPLUdragSourceDiv != this) {
+      console.log(e.dataTransfer.getData('text/html')+'||'+this.getAttribute('data-spluplayernumber'));
+      movePlayer(e.dataTransfer.getData('text/html'),this.getAttribute('data-spluplayernumber'));
+    }
+    document.getElementById('SPLU.PlayerDragHeader0').style.display="none";
+    return false;
+  }
   
-  // function handleDragClick(e){
-    // //console.log(this);
-    // if(SPLUdragDiv==-1){
-      // SPLUdragDiv=this.getAttribute('data-spluplayernumber');
-      // this.style.opacity="0.4";
-      // document.getElementById('SPLU.PlayerDragHeader0').style.display="";
-      // return;
-    // }
-    // if(SPLUdragDiv!=this.getAttribute('data-spluplayernumber')){
-      // movePlayer(SPLUdragDiv,this.getAttribute('data-spluplayernumber'));
-    // }else{
-      // this.style.opacity="1.0";
-      // document.getElementById('SPLU.PlayerDragHeader0').style.display="none";
-      // SPLUdragDiv=-1;
-    // }
-  // }
-
-  // function handleDragStart(e) {
-    // this.style.opacity = '0.4';
-    // SPLUdragSourceDiv = this;
-    // e.dataTransfer.effectAllowed = 'move';
-    // e.dataTransfer.setData('text/html', this.getAttribute('data-spluplayernumber'));
-    // document.getElementById('SPLU.PlayerDragHeader0').style.display="";
-  // }
-
-  // function handleDragOver(e) {
-    // if (e.preventDefault) {
-      // e.preventDefault();
-    // }
-    // e.dataTransfer.dropEffect = 'move';
-    // return false;
-  // }
-
-  // function handleDragEnter(e) {
-    // if(this.hasAttribute('data-spluplayernumber')){
-      // //console.log(this.getAttribute('data-spluplayernumber'));
-      // SPLUdragDiv=this.getAttribute('data-spluplayernumber')
-      // highlightPlayerRow(this.getAttribute('data-spluplayernumber'),true);
-    // }
-  // }
-
-  // function handleDragLeave(e) {
-    // if(this.hasAttribute('data-spluplayernumber')){
-      // if(SPLUdragDiv!=this.getAttribute('data-spluplayernumber')){
-        // //highlightPlayerRow(this.getAttribute('data-spluplayernumber'),false);
-      // }
-    // }
-  // }
-
-  // function handleDrop(e) {
-    // if (e.stopPropagation) {
-      // e.stopPropagation();
-    // }
-    // if (e.preventDefault) {
-      // e.preventDefault();
-    // }
-    // if (SPLUdragSourceDiv != this) {
-      // console.log(e.dataTransfer.getData('text/html')+'||'+this.getAttribute('data-spluplayernumber'));
-      // movePlayer(e.dataTransfer.getData('text/html'),this.getAttribute('data-spluplayernumber'));
-    // }
-    // document.getElementById('SPLU.PlayerDragHeader0').style.display="none";
-    // return false;
-  // }
+  function handleDragEnd(e){
+    if (e.stopPropagation) {
+      e.stopPropagation();
+    }
+    if (e.preventDefault) {
+      e.preventDefault();
+    }
+    SPLUdragSourceDiv.style.opacity='1.0';
+    highlightPlayerRow(SPLUdragDiv,false);
+    document.getElementById('SPLU.PlayerDragHeader0').style.display="none";
+  }
   
-  // function handleDragEnd(e){
-    // if (e.stopPropagation) {
-      // e.stopPropagation();
-    // }
-    // if (e.preventDefault) {
-      // e.preventDefault();
-    // }
-    // SPLUdragSourceDiv.style.opacity='1.0';
-    // highlightPlayerRow(SPLUdragDiv,false);
-    // document.getElementById('SPLU.PlayerDragHeader0').style.display="none";
-  // }
-  
-  // function highlightPlayerRow(row,highlight){
-    // console.log("highlight|"+row+"|"+highlight);
-    // tmp=document.getElementsByClassName('SPLUplayerHighlight');
-    // for(i=0;i<tmp.length;i++){
-      // tmp[i].style.backgroundColor="";
-    // }
-    // if(row==-1){
-      // return;
-    // }
-    // if(highlight){
-      // document.getElementById('SPLU.PlayerDragHighlight'+row).style.backgroundColor="red";
-      // document.getElementById('SPLU.PlayerDeleteHighlight'+row).style.backgroundColor="red";
-      // document.getElementById('SPLU.PlayerNameHighlight'+row).style.backgroundColor="red";
-      // document.getElementById('SPLU.PlayerUsernameHighlight'+row).style.backgroundColor="red";
-      // document.getElementById('SPLU.PlayerColorHighlight'+row).style.backgroundColor="red";
-      // document.getElementById('SPLU.PlayerPositionHighlight'+row).style.backgroundColor="red";
-      // document.getElementById('SPLU.PlayerScoreHighlight'+row).style.backgroundColor="red";
-      // document.getElementById('SPLU.PlayerRatingHighlight'+row).style.backgroundColor="red";
-      // document.getElementById('SPLU.PlayerWinHighlight'+row).style.backgroundColor="red";
-      // document.getElementById('SPLU.PlayerNewHighlight'+row).style.backgroundColor="red";
-      // document.getElementById('SPLU.PlayerSaveHighlight'+row).style.backgroundColor="red";
-    // }
-  // }
+  function highlightPlayerRow(row,highlight){
+    console.log("highlight|"+row+"|"+highlight);
+    tmp=document.getElementsByClassName('SPLUplayerHighlight');
+    for(i=0;i<tmp.length;i++){
+      tmp[i].style.backgroundColor="";
+    }
+    if(row==-1){
+      return;
+    }
+    if(highlight){
+      document.getElementById('SPLU.PlayerDragHighlight'+row).style.backgroundColor="red";
+      document.getElementById('SPLU.PlayerDeleteHighlight'+row).style.backgroundColor="red";
+      document.getElementById('SPLU.PlayerNameHighlight'+row).style.backgroundColor="red";
+      document.getElementById('SPLU.PlayerUsernameHighlight'+row).style.backgroundColor="red";
+      document.getElementById('SPLU.PlayerColorHighlight'+row).style.backgroundColor="red";
+      document.getElementById('SPLU.PlayerPositionHighlight'+row).style.backgroundColor="red";
+      document.getElementById('SPLU.PlayerScoreHighlight'+row).style.backgroundColor="red";
+      document.getElementById('SPLU.PlayerRatingHighlight'+row).style.backgroundColor="red";
+      document.getElementById('SPLU.PlayerWinHighlight'+row).style.backgroundColor="red";
+      document.getElementById('SPLU.PlayerNewHighlight'+row).style.backgroundColor="red";
+      document.getElementById('SPLU.PlayerSaveHighlight'+row).style.backgroundColor="red";
+    }
+  }
   
   function getWinners(){
     winboxes=document.getElementsByClassName('SPLU.WinBox');
@@ -2979,7 +3153,6 @@
   
   function deleteGamePlay(){
     if (confirm(SPLUi18n.PopupAlertDeletePlayOK) == true) {
-      tmpGameID=SPLUgameID;
       document.getElementById('BRresults').innerHTML=SPLUi18n.StatusDeleting;
       xmlhttp=new XMLHttpRequest();
       xmlhttp.open("POST","/geekplay.php",true);
@@ -2989,9 +3162,6 @@
         console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
         if(responseJSON.target.status==200){
           document.getElementById('BRresults').innerHTML=SPLUi18n.StatusPlayDeleted+".  <a href='"+responseJSON.target.responseURL+"' target='_blank'>"+SPLUi18n.StatusViewYourPlays+"</a>";
-          if(SPLU.Settings.FetchPlayCount.Enabled) {
-            fetchPlayCountQ(tmpGameID, SPLUobjecttype);
-          }
           SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][tmpPlay.playid].deleted=true;
           loadPlays(document.getElementById("SPLU.PlaysLogger").value,false);
           //Quick and dirty fix for #85 Get Next 100 failing
@@ -3150,9 +3320,6 @@
         }
         tmpJSON=JSON.parse(responseJSON.target.response);
         document.getElementById('BRresults').innerHTML=tmpJSON.html;
-        if(SPLU.Settings.FetchPlayCount.Enabled) {
-          document.getElementById("SPLU.GameCountStatus").innerHTML=`Your plays: ${tmpJSON.numplays}`;
-        }
         window.resJ=responseJSON;
         window.resT=responseText;
         console.log(responseText);
@@ -3253,8 +3420,6 @@
     document.getElementById('SPLUplayDateInput').value=date;
     parseDate(document.getElementById('SPLUplayDateInput'),document.getElementById('playdate99'),document.getElementById('playdatestatus99'));
     //SPLUcalendar.setDate(new Date(Date.parse(document.getElementById('SPLUplayDateInput').value)));
-    // Commenting out the following line to prevent the date picker from highlighting the wrong day and setting the date to the same wrong day.  SPLU seems to work without this...
-    // Adding it back as it causes some issues with the calendar popping up when it shouldn't.
     SPLUcalendar.setDate(document.getElementById('SPLUplayDateInput').value);
   }
 
@@ -4120,8 +4285,7 @@
   }
   
   function addPlaysFilter(filter,filterVal){
-    // document.getElementById('SPLUfilterDrop').style.display="none";
-    hideDropMenus();
+    document.getElementById('SPLUfilterDrop').style.display="none";
     var filterName="";
     if(filter!="add" && filter!="---" && filter!="DEL"){
       SPLUplaysFiltersCount++;
@@ -4630,27 +4794,11 @@
 
   async function fetchPlayCountQ(objectID, objectType) {
     console.log('fetchPlayCountQ('+objectID+', '+objectType+')');
-    if (objectType == "boardgame" || objectType == "videogame" || objectType == "rpg" || objectType == "rpgitem"){
+    if (objectType == "boardgame"){
       document.getElementById("SPLU.GameCountStatus").innerHTML=`Your plays: <img src="https://dazeysan.github.io/SPLU/Images/progress.gif">`;
-      if (objectType == "boardgame") {
-        tmpObjType = "thing";
-        tmpSubType = "boardgame";
-      }
-      if (objectType == "videogame") {
-        tmpObjType = "thing";
-        tmpSubType = "videogame";
-      }
-      if (objectType == "rpg") {
-        tmpObjType = "family";
-        tmpSubType = "rpg";
-      }
-      if (objectType == "rpgitem") {
-        tmpObjType = "thing";
-        tmpSubType = "rpgitem";
-      }
       SPLUqueue.push({
         "action":fetchPlayCount, 
-        "arguments":{"objectID":objectID, "objectType":tmpObjType, "subType":tmpSubType},
+        "arguments":{"objectID":objectID, "objectType":"thing"},
         "direction":"fetch",
         "data":"",
         "response":"",
@@ -4666,7 +4814,7 @@
   async function fetchPlayCount(tmpArgs) {
     console.log("fetchPlayCount() - ", tmpArgs);
     try {
-        const url = `/geekplay.php?action=getuserplaycount&ajax=1&objectid=${tmpArgs.objectID}&objecttype=${tmpArgs.objectType}&subtype=${tmpArgs.subType}`;
+        const url = `/geekplay.php?action=getuserplaycount&ajax=1&objectid=${tmpArgs.objectID}&objecttype=${tmpArgs.objectType}`;
         const options = {method: "GET", headers:{'Content-Type': 'application/json'}, credentials: 'same-origin'};
         return await fetchData(url, options);
     } catch(e) {
@@ -4739,6 +4887,49 @@
       window.setTimeout(function(){document.getElementById('SPLU.FavoritesLowerStatus').style.display='none';},2000);
     }
   }
+
+ 
+  // function fetchImageList(gameid, tag, id, size, favid, tmpURL,tmpType,tmpSubType) {
+    // console.log('fetchImageList('+gameid+', '+tag+', '+id+', '+size+', '+favid+', '+tmpURL+', '+tmpType+', '+tmpSubType+')');
+    // var oReq=new XMLHttpRequest();
+    // var tmpJSON="";
+    // oReq.onload=function(responseJSON){
+      // tmpJSON=JSON.parse(responseJSON.target.response);
+      // window.tmpimglist=tmpJSON;
+      // console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
+      // if (responseJSON.target.status=="200"){
+        // SPLUimageData[gameid]=tmpJSON;
+        // if (tag == "div" && tmpURL == "") {
+          // //Display the image in the div
+          // document.getElementById(id).innerHTML='<img src="'+SPLUimageData[gameid].item.images[size]+'" />';
+        // }
+        // if (tag == "div" && id == "selimage9999") {
+          // //Display the image in the selimage9999 / SPLU.GameThumb div / img
+          // document.getElementById(id).innerHTML='<a target="_blank" href="'+tmpURL+'"><img id="SPLU.GameThumb" src="'+SPLUimageData[gameid].item.images[size]+'" /></a>';
+        // }
+        // if (tag == "img") {
+          // //Replace the img src if you can
+          // try{
+            // document.getElementById(id).src=SPLUimageData[gameid].item.images[size];
+          // }catch(err){
+            // console.log(err);
+          // }
+        // }
+        // if (favid != "") {
+          // console.log("Updating Fav Thumb");
+          // SPLU.Favorites[favid].thumbnail = SPLUimageData[gameid].item.images[size];
+        // }
+      // } else {
+        // console.log("other status code, no image results");
+      // }
+    // };
+    // var tmpType=SPLUobjecttype;
+    // var tmpQuery='https://api.geekdo.com/api/geekitems?nosession=1&objectid='+gameid+'&objecttype='+tmpType+'&subtype='+tmpSubType;
+    // oReq.open("GET",tmpQuery,true);
+    // //Set the following header so that we get a JSON object instead of HTML
+    // oReq.setRequestHeader("Accept","application/json, text/plain, */*");/**/
+    // oReq.send();
+  // }
 
   function SPLUdownloadText(filename, text) {
     //From Stackoverflow
@@ -5702,9 +5893,6 @@
     document.getElementById('q546e9ffd96dfc').value=tmpPlay.name;
     tmpURL = "/"+tmpSubType+"/"+SPLUgameID;
     getRepImage(tmpPlay.objectid, 'selimage9999', tmpURL,tmpType,tmpSubType);
-    if(SPLU.Settings.FetchPlayCount.Enabled) {
-      fetchPlayCountQ(SPLUgameID, SPLUobjecttype);
-    }
     if(document.getElementById("SPLU.PlaysLogger").value==LoggedInAs&&!SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][id].deleted){
       showHideEditButtons("show");
     }else{
@@ -5878,22 +6066,6 @@
   
   function hideSentence(){
     document.getElementById('SPLU.SummaryTextField').style.display="none";
-  }
-  
-  function hideDropMenus(){
-    console.log("hideDropMenus()");
-    document.getElementById('SPLUfilterDrop').style.display="none";
-    document.getElementById('SPLUdropMenuHider').style.display="none";
-    document.getElementById('SPLUdropMenuHider').style.width="";
-    document.getElementById('SPLUdropMenuHider').style.height="";
-  }
-  
-  function showDropMenu(){
-    document.getElementById('SPLUdropMenuHider').style.display="";
-    document.getElementById('SPLUdropMenuHider').style.left=(document.getElementById('BRlogMain').getLeft()-document.getElementById('SPLUfilterDrop').getLeft()+"px");
-    document.getElementById('SPLUdropMenuHider').style.top=(document.getElementById('BRlogMain').getTop()-document.getElementById('SPLUfilterDrop').getTop()+"px");
-    document.getElementById('SPLUdropMenuHider').style.width=document.getElementById('BRlogMain').getWidth()+"px";
-    document.getElementById('SPLUdropMenuHider').style.height=document.getElementById('BRlogMain').getHeight()+"px";
   }
   
   function showPopText(text,e){
