@@ -2979,6 +2979,7 @@
   
   function deleteGamePlay(){
     if (confirm(SPLUi18n.PopupAlertDeletePlayOK) == true) {
+      tmpGameID=SPLUgameID;
       document.getElementById('BRresults').innerHTML=SPLUi18n.StatusDeleting;
       xmlhttp=new XMLHttpRequest();
       xmlhttp.open("POST","/geekplay.php",true);
@@ -2988,6 +2989,9 @@
         console.log(responseJSON.target.status+"|"+responseJSON.target.statusText);
         if(responseJSON.target.status==200){
           document.getElementById('BRresults').innerHTML=SPLUi18n.StatusPlayDeleted+".  <a href='"+responseJSON.target.responseURL+"' target='_blank'>"+SPLUi18n.StatusViewYourPlays+"</a>";
+          if(SPLU.Settings.FetchPlayCount.Enabled) {
+            fetchPlayCountQ(tmpGameID, SPLUobjecttype);
+          }
           SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][tmpPlay.playid].deleted=true;
           loadPlays(document.getElementById("SPLU.PlaysLogger").value,false);
           //Quick and dirty fix for #85 Get Next 100 failing
@@ -5698,6 +5702,9 @@
     document.getElementById('q546e9ffd96dfc').value=tmpPlay.name;
     tmpURL = "/"+tmpSubType+"/"+SPLUgameID;
     getRepImage(tmpPlay.objectid, 'selimage9999', tmpURL,tmpType,tmpSubType);
+    if(SPLU.Settings.FetchPlayCount.Enabled) {
+      fetchPlayCountQ(SPLUgameID, SPLUobjecttype);
+    }
     if(document.getElementById("SPLU.PlaysLogger").value==LoggedInAs&&!SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][id].deleted){
       showHideEditButtons("show");
     }else{
