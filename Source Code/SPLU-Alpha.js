@@ -4230,7 +4230,7 @@
       if(filter=="objecttype"){
         tmpHTML+=SPLUi18n.PlaysFilterGameTypeType+': <div style="display:inline;cursor:pointer;">'
             +'<div id="SPLUtypeFilterButtonBoard" onClick="javascript:{highlightFilterTypeButton(\'boardgame\');}" style="display:inline;border:1.5px solid black;padding:0px 2px;">'
-              +'<i style="transform: translate(0px, 0.7px);" class="fa display:block"></i> '+SPLUi18n.PlaysFilterGameTypeBoard
+              +'<i style="transform: translate(0px, 0.7px);" class="fa_SP display:block">&#xee01;</i> '+SPLUi18n.PlaysFilterGameTypeBoard
             +'</div>'
             +'<div id="SPLUtypeFilterButtonVideo" onClick="javascript:{highlightFilterTypeButton(\'videogame\');}" style="display:inline;border:1.5px solid black;padding:0px 2px;">'
               +'<i style="transform: translate(0px, 0.3px);" class="fa_SP"></i> '+SPLUi18n.PlaysFilterGameTypeVideo
