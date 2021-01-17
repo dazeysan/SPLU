@@ -214,7 +214,7 @@
     var style=document.createElement('style');
     style.type='text/css';
     style.id="BRstyle";
-    style.innerHTML='.SPLUheader{height:32px; border:1px solid blue; padding:2px 5px;} .SPLUheaderClose{float:right; margin-right:-6px; margin-top:-4px;} .SPLUrows{vertical-align:bottom;} .BRbutn{border:1px dotted green;padding:0px 2px;} .BRcells{display:table-cell; padding-right:10px; padding-bottom:10px;} .SPLUplayerCells{display:table-cell;} .SPLUsettingAltRows{background-color: #80E086;} .SPLUbuttons{border:2px solid blue;padding:2px 4px;border-radius:5px;background-color:lightGrey;color:black;} .SPLUfavoritesGridItems{display:inline-block; width:100px; padding:3px; margin:5px;vertical-align:top;}';
+    style.innerHTML='.SPLUheader{height:32px; border:1px solid blue; padding:0px 5px;} .SPLUheaderClose{float:right; margin-right:-6px; margin-top:-4px;} .SPLUrows{vertical-align:bottom;} .BRbutn{border:1px dotted green;padding:0px 2px;} .BRcells{display:table-cell; padding-right:10px; padding-bottom:10px;} .SPLUplayerCells{display:table-cell;} .SPLUsettingAltRows{background-color: #80E086;} .SPLUbuttons{border:2px solid blue;padding:2px 4px;border-radius:5px;background-color:lightGrey;color:black;} .SPLUfavoritesGridItems{display:inline-block; width:100px; padding:3px; margin:5px;vertical-align:top;}';
     document.getElementsByTagName('head')[0].appendChild(style);
     
     var BRlogMain=document.createElement('div');
@@ -1122,7 +1122,7 @@
             +'<span id="SPLU.PlaysLoadingDiv" style="margin-left:20px;display:none;">'
               +'<img src="https://dazeysan.github.io/SPLU/Images/progress.gif">'
             +'</span>'
-          +'<div id="SPLU.PlaysFiltersCurrent"></div>'
+          +'<div id="SPLU.PlaysFiltersCurrent" style="width:250px;"></div>'
             +'<div id="SPLU.PlaysFiltersGoBtn"style="float:right;margin-top:-20px;margin-right:5px;display:none;">'
               +'<a href="javascript:{void(0);}" onClick="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);}">'+SPLUi18n.PlaysFilterButtonGo+'</a>'
             +'</div>'
@@ -3816,19 +3816,24 @@
         for(i=0;i<plays.length;i++){
           if(SPLUplayData[user][plays[i].id].players.length>0){
             tmpPlayers=SPLUplayData[user][plays[i].id].players;
+            //window.tmpPlyrs=tmpPlayers;
             if(lines[l].value.slice(0,1)=="!"){
               plays[i].matches++;
               for(p=0;p<tmpPlayers.length;p++){
-                if(tmpPlayers[p].username.toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())>-1){
-                  plays[i].matches--;
-                  break;
+                if(tmpPlayers[p].username!==undefined & tmpPlayers[p].username!==null){
+                  if(tmpPlayers[p].username.toLowerCase().indexOf(lines[l].value.slice(1).toLowerCase())>-1){
+                    plays[i].matches--;
+                    break;
+                  }
                 }
               }
             } else {
               for(p=0;p<tmpPlayers.length;p++){
-                if(tmpPlayers[p].username.toLowerCase().indexOf(lines[l].value.toLowerCase())>-1){
-                  plays[i].matches++;
-                  break;
+                if(tmpPlayers[p].username!==undefined & tmpPlayers[p].username!==null){
+                  if(tmpPlayers[p].username.toLowerCase().indexOf(lines[l].value.toLowerCase())>-1){
+                    plays[i].matches++;
+                    break;
+                  }
                 }
               }
             }
