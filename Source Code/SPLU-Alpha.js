@@ -1,4 +1,4 @@
-// SPLU 5.8.0 Alpha
+// SPLU 5.8.1 Alpha
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -23,7 +23,7 @@
     //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.8.0";
+    var SPLUversion="5.8.1";
 
     var SPLU={};
     var SPLUplayId="";
@@ -98,6 +98,7 @@
     var SPLUi18n={};
     var SPLUi18nList={};
     var SPLUimageData={};
+    var SPLUrank="empty";
 
     let SPLUqueue = [];
     let SPLUqueueFails = [];
@@ -113,15 +114,24 @@
     document.getElementsByTagName("head")[0].appendChild(tmpLink);
 
 
-  async function fetchData(url, options) {
+  async function fetchDataJSON(url, options) {
     const response = await fetch(url, options);
-    console.log("fetchData() - response: ", response);
+    console.log("fetchDataJSON() - response: ", response);
     const data = await response.json();
-    console.log("fetchData() - data: ", data);
+    console.log("fetchDataJSON() - data: ", data);
     const tmpReturn = {"response":response, "data":data };
     return tmpReturn;
   }
 
+  async function fetchDataCSV(url, options) {
+    const response = await fetch(url, options);
+    console.log("fetchDataCSV() - response: ", response);
+    const data = await response.text();
+    console.log("fetchDataCSV() - data: ", data);
+    const tmpReturn = {"response":response, "data":data };
+    return tmpReturn;
+  }
+  
   async function runQueue(){
     if (SPLUqueue.length == 0){
       //Queue is empty, return
@@ -1147,6 +1157,7 @@
             +'<option class="fa_SP" style="display:block;" value="WinsByGame">&#xf091; '+SPLUi18n.StatsWinsByGame+'</option>'
             +'<option class="fa_SP" style="display:block;" value="BeginnersLuck">&#x2618; '+SPLUi18n.StatsBeginnersLuck+'</option>'
             +'<option class="fa_SP" style="display:block;" value="GameList">&#xee34; '+SPLUi18n.StatsGameList+'</option>'
+            +'<option class="fa_SP" style="display:block;" value="GameListRank">&#xee34; '+SPLUi18n.StatsGameListRank+'</option>'
             +'<option class="fa_SP" style="display:block;" value="GameDetails">&#xf201; '+SPLUi18n.StatsGameDetails+'</option>'
             +'<option class="fa_SP" style="display:block;" value="Locations">&#xf041; '+SPLUi18n.StatsLocations+'</option>'
             +'<option class="fa_SP" style="display:block;" value="GameDaysSince">&#xf272; '+SPLUi18n.StatsDaysSince+'</option>'
@@ -1712,7 +1723,7 @@
     try {
         const url = `https://dazeysan.github.io/SPLU/Source%20Code/i18n/${tmpArgs.language}.json`;
         const options = {};  //Setting headers here seems to trigger CORS
-        return await fetchData(url, options);
+        return await fetchDataJSON(url, options);
     } catch(e) {
       //This shows on bad URLs?
         console.log("catcherror", e); 
@@ -1749,7 +1760,7 @@
     try {
         const url = `https://dazeysan.github.io/SPLU/Source%20Code/i18n/list.json`;
         const options = {};  //Setting headers here seems to trigger CORS
-        return await fetchData(url, options);
+        return await fetchDataJSON(url, options);
     } catch(e) {
       //This shows on bad URLs?
         console.log("catcherror", e); 
@@ -4398,7 +4409,11 @@
       document.getElementById('SPLUcsvDownload').style.display="";
     }
     if(stat=="GameList"){
-      window.setTimeout(function(){getStatsGameList(tmpUser,SPLUstatGameList);},25);
+      window.setTimeout(function(){getStatsGameList(tmpUser,SPLUstatGameList,"list");},25);
+      document.getElementById('SPLUcsvDownload').style.display="";
+    }
+    if(stat=="GameListRank"){
+      window.setTimeout(function(){getStatsGameList(tmpUser,SPLUstatGameList,"rank");},25);
       document.getElementById('SPLUcsvDownload').style.display="";
     }
     if(stat=="GameDaysSince"){
@@ -4632,7 +4647,63 @@
     SPLUfamilyLoaded=false;
   }
   
+  async function fetchRankDataQ() {
+    //Call this function to add the item to the queue
+    console.log('fetchRankDataQ()');
+    SPLUqueue.push({
+      "action":fetchRankData, 
+      "arguments":{},
+      "direction":"fetch",
+      "data":"",
+      "response":"",
+      "attempt":0,
+      "finish":fetchRankDataFinish
+    });
+    runQueue();
+  }
+  
+  async function fetchRankData() {
+    console.log("fetchRankData()");
+    try {
+        const url = `https://raw.githubusercontent.com/beefsack/bgg-ranking-historicals/master/` + SPLUtoday + `.csv`;
+        const options = {};
+        return await fetchDataCSV(url, options);
+    } catch(e) {
+      //This shows on bad URLs?
+        console.log("catcherror", e); 
+    }
+  }
 
+  function fetchRankDataFinish(tmpObj){
+    //This function is called by runQueue() when the item was processed successfully?
+    console.log("fetchRankDataFinish() - ", tmpObj);
+    window.testObj=tmpObj;
+
+    var tmpRows=tmpObj.data.split("\n");
+    var tmpResults = [];
+    var tmpHeaders=tmpRows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+    for(r=1;r<tmpRows.length;r++){
+        var obj = {};
+        var tmpRow=tmpRows[r].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+        for(h=0;h<tmpHeaders.length;h++){
+            obj[tmpHeaders[h]] = tmpRow[h];
+        }
+        tmpResults.push(obj);
+    }
+    
+    SPLUrank={}
+    for(i=0;i<tmpResults.length;i++){
+      if(isNumeric(tmpResults[i].ID) && isNumeric(tmpResults[i].Rank)){
+        SPLUrank[tmpResults[i].ID]=tmpResults[i].Rank
+      } else {
+        console.log("Some non-numeric data in rank list: " + tmpResults[i].ID + " | " + tmpResults[i].Rank);
+      }
+    }
+    
+    var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
+    getStatsGameList(tmpUser,SPLUstatGameList,"rank");
+  }
+  
   async function fetchPlayCountQ(objectID, objectType) {
     console.log('fetchPlayCountQ('+objectID+', '+objectType+')');
     if (objectType == "boardgame" || objectType == "videogame" || objectType == "rpg" || objectType == "rpgitem"){
@@ -4673,7 +4744,7 @@
     try {
         const url = `/geekplay.php?action=getuserplaycount&ajax=1&objectid=${tmpArgs.objectID}&objecttype=${tmpArgs.objectType}&subtype=${tmpArgs.subType}`;
         const options = {method: "GET", headers:{'Content-Type': 'application/json'}, credentials: 'same-origin'};
-        return await fetchData(url, options);
+        return await fetchDataJSON(url, options);
     } catch(e) {
       //This shows on bad URLs?
         console.log("catcherror", e); 
@@ -4708,7 +4779,7 @@
       //let tmpType=SPLUobjecttype;
       const url = `https://api.geekdo.com/api/geekitems?nosession=1&objectid=${tmpObj.gameid}&objecttype=${tmpObj.tmpType}&subtype=${tmpObj.tmpSubType}`
       const options = {method: "GET", headers:{'Content-Type': 'application/json'}, credentials: 'same-origin'};
-      return await fetchData(url, options);
+      return await fetchDataJSON(url, options);
       } catch(e) {
       //This shows on bad URLs?
       console.log("catcherror", e); 
@@ -5527,8 +5598,17 @@
     document.getElementById("SPLU.PlaysLoadingDiv").style.display="none";
   }
   
-  function getStatsGameList(tmpUser,sort){
+  function getStatsGameList(tmpUser,sort,view){
     SPLUstatGameList=sort;
+    if(view=="rank" && SPLUrank=="empty"){
+      tmpHTML="<div><br/>"+SPLUi18n.StatusLoadingRankData+"<br/></div>";
+      document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
+      fetchRankDataQ();
+      return false;
+    }
+    if(view=="list" && sort.includes("rank")){
+      sort="game";
+    }
     SPLUgameStats={};
     for(i=0;i<SPLUlistOfPlays.length;i++){
       if(SPLUplayData[tmpUser][SPLUlistOfPlays[i].id].deleted){
@@ -5548,7 +5628,12 @@
     tmpHIndex={};
     for(key in SPLUgameStats){
       if (SPLUgameStats.hasOwnProperty(key)) {
-        tmpGames.push({game:SPLUgameStats[key]["GameName"],plays:SPLUgameStats[key]["TotalPlays"]});
+        if (view=="list"){
+          tmpGames.push({game:SPLUgameStats[key]["GameName"],plays:SPLUgameStats[key]["TotalPlays"]});
+        } else {
+          tmpGames.push({game:SPLUgameStats[key]["GameName"],plays:SPLUgameStats[key]["TotalPlays"],rank:SPLUrank[key]});
+        }
+        window.tmpGames=tmpGames;
         //H-Index
         if(tmpHIndex[SPLUgameStats[key]["TotalPlays"]]===undefined){
           tmpHIndex[SPLUgameStats[key]["TotalPlays"]]=0;
@@ -5564,34 +5649,63 @@
         }
       }
     }
+    if (view=="rank"){
+      for(i=0;i<tmpGames.length;i++){
+        if(tmpGames[i]["rank"]===undefined) {
+          tmpGames[i]["rank"]="999999";
+        }
+      }
+    }
     //Sorting by "game" first to get alpha order among numeric groups.
     tmpGames.sort(dynamicSortMultipleCI("game"));
     tmpGames.sort(dynamicSortMultipleCI(sort));
     tmpSortGame="game";
     tmpSortPlays="plays";
+    tmpSortRank="rank";
     tmpClassPlayer="fa_SP fa_SP-sort-alpha-asc";
     tmpClassPlays="fa_SP fa_SP-sort-amount-asc";
+    tmpClassRank="fa_SP fa_SP-sort-amount-asc";
     if(sort=="game"){
       tmpSortGame="-game";
       tmpClassPlayer="fa_SP fa_SP-sort-alpha-desc";
     }else if(sort=="plays"){
       tmpSortPlays="-plays";
       tmpClassPlays="fa_SP fa_SP-sort-amount-desc";
+    }else if(sort=="rank"){
+      tmpSortRank="-rank";
+      tmpClassRank="fa_SP fa_SP-sort-amount-desc";
     }
     tmpHTML='';
     //tmpHTML+='<div>H-Index: '+tmpHIndex2+'</div>';
     tmpHTML+='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
       +'<div style="display:table-row;">'
-      +'<div style="display:table-cell;font-weight:bold;width:75%;text-align:center;"><a onclick="javascript:{getStatsGameList(\''+tmpUser+'\',\''+tmpSortGame+'\');}" href="javascript:{void(0);}">Game <i class="'+tmpClassPlayer+'"></i></a></div>'
-      +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsGameList(\''+tmpUser+'\',\''+tmpSortPlays+'\');}" href="javascript:{void(0);}">Plays <i class="'+tmpClassPlays+'"></i></a></div>'
-      +'</div>';
-    SPLUcsv='"Game","Play Count"\r\n';
+      +'<div style="display:table-cell;font-weight:bold;width:75%;text-align:center;"><a onclick="javascript:{getStatsGameList(\''+tmpUser+'\',\''+tmpSortGame+'\',\''+view+'\');}" href="javascript:{void(0);}">Game <i class="'+tmpClassPlayer+'"></i></a></div>'
+      +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsGameList(\''+tmpUser+'\',\''+tmpSortPlays+'\',\''+view+'\');}" href="javascript:{void(0);}">Plays <i class="'+tmpClassPlays+'"></i></a></div>';
+    if (view=="rank"){
+      tmpHTML+='<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsGameList(\''+tmpUser+'\',\''+tmpSortRank+'\',\''+view+'\');}" href="javascript:{void(0);}">Rank <i class="'+tmpClassRank+'"></i></a></div>';
+    }
+    tmpHTML+='</div>';
+    if(view=="list"){
+      SPLUcsv='"Game","Play Count"\r\n';
+    } else {
+      SPLUcsv='"Game","Play Count","Rank"\r\n';
+    }
     for(i=0;i<tmpGames.length;i++){
+      if (view=="rank"){
+        if(tmpGames[i]["rank"]==="999999") {
+          tmpGames[i]["rank"]="N/A";
+        }
+        SPLUcsv+='"'+tmpGames[i]["game"]+'","'+tmpGames[i]["plays"]+'","'+tmpGames[i]["rank"]+'"\r\n';
+      } else {
+        SPLUcsv+='"'+tmpGames[i]["game"]+'","'+tmpGames[i]["plays"]+'"\r\n';
+      }
       tmpHTML+='<div style="display:table-row;" onMouseOver="javascript:{this.style.backgroundColor=\'yellow\';}" onMouseOut="javascript:{this.style.backgroundColor=\'#f1f8fb\';}">';
       tmpHTML+='<div style="display:table-cell;text-align:left;">'+tmpGames[i]["game"]+'</div>';
-      tmpHTML+='<div style="display:table-cell;padding-right:10px;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'gamename\',\'='+tmpGames[i]["game"]+'\');}" href="javascript:{void(0);}">'+tmpGames[i]["plays"]+'</a></div>';
+      tmpHTML+='<div style="display:table-cell;padding-right:10px;font-family:monospace;font-weight:bold;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'gamename\',\'='+tmpGames[i]["game"]+'\');}" href="javascript:{void(0);}">'+tmpGames[i]["plays"]+'</a></div>';
+      if (view=="rank"){
+        tmpHTML+='<div style="display:table-cell;text-align:right;font-family:monospace;font-weight:bold;">'+tmpGames[i]["rank"]+'</div>';
+      }
       tmpHTML+='</div>';
-      SPLUcsv+='"'+tmpGames[i]["game"]+'","'+tmpGames[i]["plays"]+'"\r\n';
     }
     tmpHTML+='</div>';
     document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
