@@ -1,4 +1,4 @@
-// SPLU 5.8.1 Alpha
+// SPLU 5.8.2 Alpha
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -23,7 +23,7 @@
     //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.8.1";
+    var SPLUversion="5.8.2";
 
     var SPLU={};
     var SPLUplayId="";
@@ -3270,6 +3270,7 @@
   function setDateField(date){
     console.log("setDateField("+date+")");
     document.getElementById('SPLUplayDateInput').value=date;
+    console.log("Run parseDate() from setDateField()");
     parseDate(document.getElementById('SPLUplayDateInput'),document.getElementById('playdate99'),document.getElementById('playdatestatus99'));
     //SPLUcalendar.setDate(new Date(Date.parse(document.getElementById('SPLUplayDateInput').value)));
     // Commenting out the following line to prevent the date picker from highlighting the wrong day and setting the date to the same wrong day.  SPLU seems to work without this...
@@ -3317,18 +3318,36 @@
     window.tmpstatus=status;
     tmpDate=src.value;
     if (isValidDate(tmpDate)){
+      console.log("parseDate() - valid date format: "+tmpDate);
       //dst.value=tmpDate.toString("yyyy-MM-dd");
       dst.value=tmpDate;
       //status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:3px;'> "+tmpDate.toString("yyyy-MM-dd");
       status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:-3px;'> "+tmpDate;
       highlightDayButton();
     }else{
-      //if(src.get('value').length){
-      if (src.value.length){
-        dst.value='';status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/delete.png' style='position:relative; top:3px;'> "+SPLUi18n.CalendarInvalidDate;
-      }else{
-        dst.value='';
-        status.innerHTML='';
+      console.log("parseDate() - invalid date format: "+tmpDate);
+      //Try reformatting it
+      var tmpRefDate = new Date(tmpDate);
+      //var tmpRefDateString = new Date(tmpRefDate.getTime() - (tmpRefDate.getTimezoneOffset() * 60000 )).toISOString().split("T")[0];
+      var tmpRefDateString = new Date(tmpRefDate.setMinutes(tmpRefDate.getMinutes()-tmpRefDate.getTimezoneOffset() )).toISOString().split("T")[0];
+      //new Date(tmp.setMinutes(tmp.getMinutes()-tmp.getTimezoneOffset()));
+      console.log("reformatted: "+tmpRefDateString);
+      if (isValidDate(tmpRefDateString)){
+        dst.value=tmpRefDateString;
+        src.value=tmpRefDateString;
+        status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:-3px;'> "+tmpRefDateString;
+        highlightDayButton();
+      }
+      //Check if it's still invalid:
+      tmpDate=src.value;
+      if (!isValidDate(tmpDate)){
+        console.log("parseDate() - Still invalid: "+tmpDate);
+        if (src.value.length){
+          dst.value='';status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/delete.png' style='position:relative; top:3px;'> "+SPLUi18n.CalendarInvalidDate;
+        }else{
+          dst.value='';
+          status.innerHTML='';
+        }
       }
     }
   }
