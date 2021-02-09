@@ -213,12 +213,12 @@
     //Insert code for Pikaday calendar Copyright © 2014 David Bushell
     var pikscript=document.createElement('script');
     pikscript.type="text/javascript";
-    pikscript.src='https://dazeysan.github.io/SPLU/Source%20Code/scripts/pikaday.js';
+    pikscript.src='https://dazeysan.github.io/SPLU/Source%20Code/scripts/pikaday.1.8.2.js';
     document.body.appendChild(pikscript);
     var pikstyle=document.createElement("link");
     pikstyle.type="text/css";
     pikstyle.rel="stylesheet";
-    pikstyle.href="https://dazeysan.github.io/SPLU/Source%20Code/scripts/pikaday.css";
+    pikstyle.href="https://dazeysan.github.io/SPLU/Source%20Code/scripts/pikaday.1.8.2.css";
     document.getElementsByTagName('head')[0].appendChild(pikstyle);
 
     var style=document.createElement('style');
