@@ -3170,8 +3170,14 @@
         if(tmpJSON.playid!==undefined){
           SPLUlastGameSaved=tmpJSON.playid;
           insertBlank('BRresults');
+          tmpType="";
+          if(tmpJSON.html.includes("/thing/")){
+            tmpType="thing";
+          } else if(tmpJSON.html.includes("/family/")){
+            tmpType="family";
+          }
           if(SPLUedit.submit){
-            fetchPlays(LoggedInAs,0,false,SPLUedit.objectid,SPLUedit.playdate,-1);
+            fetchPlays(LoggedInAs,0,false,SPLUedit.objectid,SPLUedit.playdate,-1,tmpType);
             SPLUedit.submit=false;
           }
           if(action=="copy"){
@@ -3386,7 +3392,7 @@
       player=document.getElementById("SPLU.PlaysLogger").value;
       removePlaysFilters("gamename");
       window.setTimeout(function(){addPlaysFilter("gamename","="+document.getElementById('q546e9ffd96dfc').value);},500);
-      fetchPlays(player,1,true,SPLUgameID,0,-1);
+      fetchPlays(player,1,true,SPLUgameID,0,-1,"thing");
     }
   }
   
@@ -3398,10 +3404,10 @@
       SPLUplayFetch[tmpUser]=[];
     }
     SPLUplayFetch[tmpUser][1]=0;
-    fetchPlays(tmpUser, 1, multiple,0,0,userid); 
+    fetchPlays(tmpUser, 1, multiple,0,0,userid,"thing"); 
   }
   
-  function fetchPlays(player,page,multiple,gameid,date,userid){
+  function fetchPlays(player,page,multiple,gameid,date,userid,objecttype){
     console.log("fetchPlays("+player+", "+page+", "+multiple+", "+gameid+", "+date+", "+userid+")");
     var getString="";
     if(page>0){
@@ -3447,7 +3453,7 @@
       page=1;
       // getString="/xmlapi2/plays?username="+player+"&id="+gameid+"&mindate="+date+"&maxdate="+date;
       // getString="/geekplay.php?action=getplays&ajax=1&userid="+playerid+"&objectid="+gameid+"&mindate="+date+"&maxdate="+date;
-      getString="/geekplay.php?action=getplays&ajax=1&currentUser=true&objectid="+gameid;
+      getString="/geekplay.php?action=getplays&ajax=1&currentUser=true&objectid="+gameid+"&objecttype="+objecttype;
     }
     SPLUplaysPage=page;
     if(SPLUplays[player]===undefined){
@@ -3526,7 +3532,7 @@
         }
         if(SPLUplayFetch[player][i]==0){
           SPLUplayFetch[player][i]=-1;
-          window.setTimeout(function(){fetchPlays(player,i,true,gameid,0,-1);},2500);
+          window.setTimeout(function(){fetchPlays(player,i,true,gameid,0,-1,"thing");},2500);
           break;
         }
       }
@@ -3662,8 +3668,8 @@
       }
       if(SPLUplayData[tmpUser]["total"]>(Object.keys(SPLUplayData[tmpUser]).length)-1){
         tmpCount=(Math.floor(tmpCount/100))+1;
-        tmpHTML+='<a href="javascript:{void(0);}" onClick="javascript:{fetchPlays(\''+tmpUser+'\','+tmpCount+',false,0,0,-1);}"> - '+SPLUi18n.PlaysLoadNext+' 100</a>';
-        document.getElementById('SPLU.GetNextText').innerHTML='<a href="javascript:{void(0);}" onClick="javascript:{fetchPlays(\''+tmpUser+'\','+tmpCount+',false,0,0,-1);}">'+SPLUi18n.PlaysGetNext+' 100</a>';
+        tmpHTML+='<a href="javascript:{void(0);}" onClick="javascript:{fetchPlays(\''+tmpUser+'\','+tmpCount+',false,0,0,-1,"thing");}"> - '+SPLUi18n.PlaysLoadNext+' 100</a>';
+        document.getElementById('SPLU.GetNextText').innerHTML='<a href="javascript:{void(0);}" onClick="javascript:{fetchPlays(\''+tmpUser+'\','+tmpCount+',false,0,0,-1,"thing");}">'+SPLUi18n.PlaysGetNext+' 100</a>';
       }
       tmpHTML+='</div>';
       document.getElementById("SPLU.PlaysFiltersStatus").innerHTML='<div>'+SPLUi18n.PlaysShowing+' '+SPLUlistOfPlays.length+'</div>';
@@ -6347,7 +6353,7 @@
               for(var i=0;i<results.length;i++){
                 if(tmpJSON.html.slice(-5)=="></a>"){
                   results[i].innerHTML=tmpJSON.html.slice(7,-4)+SPLUi18n.StatusLogged+"</a>";
-                  fetchPlays(LoggedInAs,0,false,tmpJSON.html.slice(29,tmpJSON.html.indexOf("?")),document.getElementById('playdate99').value,-1);
+                  fetchPlays(LoggedInAs,0,false,tmpJSON.html.slice(29,tmpJSON.html.indexOf("?")),document.getElementById('playdate99').value,-1,"thing");
                 }else{
                   results[i].innerHTML=tmpJSON.html;
                 }
