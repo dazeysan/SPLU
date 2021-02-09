@@ -3668,8 +3668,8 @@
       }
       if(SPLUplayData[tmpUser]["total"]>(Object.keys(SPLUplayData[tmpUser]).length)-1){
         tmpCount=(Math.floor(tmpCount/100))+1;
-        tmpHTML+='<a href="javascript:{void(0);}" onClick="javascript:{fetchPlays(\''+tmpUser+'\','+tmpCount+',false,0,0,-1,"thing");}"> - '+SPLUi18n.PlaysLoadNext+' 100</a>';
-        document.getElementById('SPLU.GetNextText').innerHTML='<a href="javascript:{void(0);}" onClick="javascript:{fetchPlays(\''+tmpUser+'\','+tmpCount+',false,0,0,-1,"thing");}">'+SPLUi18n.PlaysGetNext+' 100</a>';
+        tmpHTML+='<a href="javascript:{void(0);}" onClick="javascript:{fetchPlays(\''+tmpUser+'\','+tmpCount+',false,0,0,-1,\'thing\');}"> - '+SPLUi18n.PlaysLoadNext+' 100</a>';
+        document.getElementById('SPLU.GetNextText').innerHTML='<a href="javascript:{void(0);}" onClick="javascript:{fetchPlays(\''+tmpUser+'\','+tmpCount+',false,0,0,-1,\'thing\');}">'+SPLUi18n.PlaysGetNext+' 100</a>';
       }
       tmpHTML+='</div>';
       document.getElementById("SPLU.PlaysFiltersStatus").innerHTML='<div>'+SPLUi18n.PlaysShowing+' '+SPLUlistOfPlays.length+'</div>';
