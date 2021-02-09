@@ -2671,7 +2671,8 @@
         hideLocations();
       }
     }
-    document.getElementById("quickplay_comments99").value="";
+    // Commented out following line as workaround to comments blanking when user types in comment before selecting game
+    //document.getElementById("quickplay_comments99").value="";
     if(SPLU.Favorites[id].expansions!==undefined){
       SPLUexpansionsFromFavorite=[];
       for(i=0;i<SPLU.Favorites[id].expansions.length;i++){
@@ -4651,7 +4652,8 @@
     document.getElementById('BRthumbButtons').style.display="block";
     document.getElementById('expansionLoggingButton').style.display="block";
     document.getElementById('SPLU_ExpansionsQuantity').innerHTML="";
-    document.getElementById("quickplay_comments99").value="";
+    // Commented out following line as a workaround to the form clearing when someone chooses a game after entering text
+    //document.getElementById("quickplay_comments99").value="";
     //FIX - replace thing with objecttype and finish rest of feature
     if(SPLU.Settings.FetchPlayCount.Enabled) {
       fetchPlayCountQ(SPLUgameID, SPLUobjecttype);
