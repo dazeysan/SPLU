@@ -3244,6 +3244,7 @@
     document.getElementById('quickplay_duration99').value="";
     document.getElementById('incomplete').checked=false;
     document.getElementById('nowinstats').checked=false;
+    document.getElementById('SPLU.GameCountStatus').innerHTML="";
     NumOfPlayers=0;
     PlayerCount=0;
     setPlayers(action);
@@ -3408,7 +3409,7 @@
   }
   
   function fetchPlays(player,page,multiple,gameid,date,userid,objecttype){
-    console.log("fetchPlays("+player+", "+page+", "+multiple+", "+gameid+", "+date+", "+userid+")");
+    console.log("fetchPlays("+player+", "+page+", "+multiple+", "+gameid+", "+date+", "+userid+", "+objecttype+")");
     var getString="";
     if(page>0){
       var tmpFetch=SPLUi18n.StatusFetchingPageOf.replace("$1", page);
@@ -6353,7 +6354,8 @@
               for(var i=0;i<results.length;i++){
                 if(tmpJSON.html.slice(-5)=="></a>"){
                   results[i].innerHTML=tmpJSON.html.slice(7,-4)+SPLUi18n.StatusLogged+"</a>";
-                  fetchPlays(LoggedInAs,0,false,tmpJSON.html.slice(29,tmpJSON.html.indexOf("?")),document.getElementById('playdate99').value,-1,"thing");
+                  console.log("line 6356");
+                  fetchPlays(LoggedInAs,0,false,tmpJSON.html.slice(29,tmpJSON.html.indexOf("?")),document.getElementById('playdate99').value,-1,"");
                 }else{
                   results[i].innerHTML=tmpJSON.html;
                 }
