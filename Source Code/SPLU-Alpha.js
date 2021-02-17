@@ -2619,7 +2619,7 @@
   }
     
   function chooseFavorite(id){
-    console.log(id);
+    console.log("chooseFavorite("+id+")");
     setObjectType(SPLU.Favorites[id].objecttype);
     document.getElementById('SPLU_ExpansionsQuantity').innerHTML="";
     document.getElementById('objectid9999').value=SPLU.Favorites[id].objectid;
@@ -2648,7 +2648,7 @@
       document.getElementById('selimage9999').innerHTML='<a target="_blank" href="/'+SPLU.Favorites[id].objecttype+'/'+SPLU.Favorites[id].objectid+'"><img id="SPLU.GameThumb" src="'+SPLU.Favorites[id].thumbnail+'"/></a>';
     }
     document.getElementById('q546e9ffd96dfc').value=SPLU.Favorites[id].title;
-    document.getElementById('BRlogFavs').style.display="none";
+    //document.getElementById('BRlogFavs').style.display="none";
     document.getElementById('SPLUsearchResultsDIV').style.display="none";
     document.getElementById('BRthumbButtons').style.display="block";
     document.getElementById('expansionLoggingButton').style.display="block";
@@ -6399,6 +6399,7 @@
   }
   
   function showFavsPane(source){
+    console.log("showFavsPane("+source+")");
     if(source=="button"&&document.getElementById('BRlogFavs').style.display=="table-cell"){
       document.getElementById('BRlogFavs').style.display="none";
       return;
@@ -6977,6 +6978,7 @@
   }
   
   function hidePanes(){
+    console.log("hidePanes()");
     document.getElementById('BRlogSettings').style.display="none";
     document.getElementById('SPLUwindow').style.minWidth="";
     document.getElementById('BRlogFavs').style.display="none";
