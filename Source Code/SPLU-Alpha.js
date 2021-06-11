@@ -13,8 +13,8 @@
       if(tmpScripts[s].src.includes("polyfill") || window.location.pathname.substr(0,11)=="/boardgame/") {
         if (!confirm("SPLU probably doesn't function properly on this page.\r\n\r\nTry running from your Subscriptions page.\r\n\r\nClick OK to try running SPLU anyways.")){
           throw new Error("Incompatible page.");
-          IncompatiblePage=true;
         } else {
+          IncompatiblePage=true;
           break;
         }
       }
