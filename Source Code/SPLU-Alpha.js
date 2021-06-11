@@ -1,16 +1,19 @@
-// SPLU 5.8.2 Alpha
+// SPLU 5.8.3 Alpha
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
       alert("You must be on a BGG website to run SPLU.");
       throw new Error("You aren't on a BGG site.");
     }
+    
+    var IncompatiblePage=false;
     //Check if they are on a page that gives issues.  Specifically break on anything containing the polyfill script.
     let tmpScripts = document.getElementsByTagName('script');
     for (s=0; s<tmpScripts.length; s++) {
       if(tmpScripts[s].src.includes("polyfill") || window.location.pathname.substr(0,11)=="/boardgame/") {
         if (!confirm("SPLU probably doesn't function properly on this page.\r\n\r\nTry running from your Subscriptions page.\r\n\r\nClick OK to try running SPLU anyways.")){
           throw new Error("Incompatible page.");
+          IncompatiblePage=true;
         } else {
           break;
         }
@@ -210,16 +213,18 @@
     document.body.appendChild(sortscript);
 
     
-    //Insert code for Pikaday calendar Copyright © 2014 David Bushell
-    var pikscript=document.createElement('script');
-    pikscript.type="text/javascript";
-    pikscript.src='https://dazeysan.github.io/SPLU/Source%20Code/scripts/pikaday.1.8.2.js';
-    document.body.appendChild(pikscript);
-    var pikstyle=document.createElement("link");
-    pikstyle.type="text/css";
-    pikstyle.rel="stylesheet";
-    pikstyle.href="https://dazeysan.github.io/SPLU/Source%20Code/scripts/pikaday.1.8.2.css";
-    document.getElementsByTagName('head')[0].appendChild(pikstyle);
+    if (!IncompatiblePage){
+      //Insert code for Pikaday calendar Copyright © 2014 David Bushell
+      var pikscript=document.createElement('script');
+      pikscript.type="text/javascript";
+      pikscript.src='https://dazeysan.github.io/SPLU/Source%20Code/scripts/pikaday.1.8.2.js';
+      document.body.appendChild(pikscript);
+      var pikstyle=document.createElement("link");
+      pikstyle.type="text/css";
+      pikstyle.rel="stylesheet";
+      pikstyle.href="https://dazeysan.github.io/SPLU/Source%20Code/scripts/pikaday.1.8.2.css";
+      document.getElementsByTagName('head')[0].appendChild(pikstyle);
+    }
 
     var style=document.createElement('style');
     style.type='text/css';
