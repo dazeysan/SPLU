@@ -1316,7 +1316,9 @@
     
     //New Pikaday calendar
     //if(Pikaday===undefined){
+    if(!IncompatiblePage){
       window.setTimeout(function(){addCalendar();},1500);
+    }
     //}else{
     //  addCalendar();
     //}
@@ -3280,7 +3282,9 @@
     //SPLUcalendar.setDate(new Date(Date.parse(document.getElementById('SPLUplayDateInput').value)));
     // Commenting out the following line to prevent the date picker from highlighting the wrong day and setting the date to the same wrong day.  SPLU seems to work without this...
     // Adding it back as it causes some issues with the calendar popping up when it shouldn't.
-    SPLUcalendar.setDate(document.getElementById('SPLUplayDateInput').value);
+    if(!IncompatiblePage){
+      SPLUcalendar.setDate(document.getElementById('SPLUplayDateInput').value);
+    }
   }
 
   function addCalendar(){
