@@ -3485,6 +3485,8 @@
       // getString="/geekplay.php?action=getplays&ajax=1&userid="+playerid+"&objectid="+gameid+"&mindate="+date+"&maxdate="+date;
       getString="/geekplay.php?action=getplays&ajax=1&currentUser=true&objectid="+gameid+"&objecttype="+objecttype;
     }
+    var tmpTime=new Date;
+    getString+="&tstamp="+tmpTime.getTime();
     SPLUplaysPage=page;
     if(SPLUplays[player]===undefined){
       SPLUplays[player]={};
