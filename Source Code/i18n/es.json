@@ -251,7 +251,7 @@
   "StatusSaving": "Salvando...",
   "StatusErrorTryAgain": "Error. Reintenta.",
   "StatusInvalidDate": "Fecha no válida",
-  "StatusFetchingPageOf": "Recuperando página $1 de ??",
+  "StatusFetchingPageOf": "Recuperando página $1 de $2",
   "StatusFetchingPlaysFromDate": "Reguperando partidas de",
   "StatusNoPlaysFound": "No encontradas partidas.",
   "StatusLoadMore": "cargar más...",

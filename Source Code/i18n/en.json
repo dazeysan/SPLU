@@ -250,7 +250,7 @@
   "StatusSaving": "Saving...",
   "StatusErrorTryAgain": "Error. Try Again.",
   "StatusInvalidDate": "Invalid Date",
-  "StatusFetchingPageOf": "Fetching Page $1 of ??",
+  "StatusFetchingPageOf": "Fetching Page $1 of $2",
   "StatusFetchingPlaysFromDate": "Fetching plays from",
   "StatusNoPlaysFound": "No Plays Found.",
   "StatusLoadMore": "load more...",
