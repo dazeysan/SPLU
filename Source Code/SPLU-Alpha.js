@@ -1143,7 +1143,7 @@
             +'</div>'
           +'</div>'
         +'</div>'
-        +'<div id="SPLU.PlaysList" style="overflow-y:auto; width:100%; margin-top: 3px"></div>'
+        +'<div id="SPLU.PlaysList" style="overflow-y:auto; width:100%; margin-top: 3px; margin-bottom: 15px;"></div>'
         +'<div id="SPLUcopyPlaysDiv" style="display:none;padding-top:10px;">'
           +'<div class="BRcells" id="CopyPlaysSelectAllBtn">'
             +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlaysSelectAll();}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;"><img src="https://dazeysan.github.io/SPLU/Images/select-all.png" style="vertical-align: middle;"></a>'
@@ -1176,8 +1176,8 @@
           +'</span>'
           +'<div id="SPLU.StatsPlayerDiv" style="display: none;">'+SPLUi18n.PlaysFilterPlayer+': <select class="fa_SP" id="SPLU.SelectStatPlayer" onChange="javascript:{setWinsByGamePlayer(\'\');}"></select></div>'
         +'</div>'
-        +'<div id="SPLU.StatsContent" style="display:none;overflow-y: auto; width: 315px; margin-top: 3px;"></div>'
-        +'<div id="SPLU.BackupPlaysXML"><input type="button" value="Backup loaded plays to JSON text file" onClick="javascipt:{downloadPlaysJSON();}" /></div>';
+        +'<div id="SPLU.StatsContent" style="display:none;overflow-y: auto; width: 315px; margin-top: 3px; margin-bottom: 15px;"></div>'
+        +'<div id="SPLU.BackupPlaysXML" style="position: absolute; bottom: 5px;"><input type="button" value="Backup loaded plays to JSON text file" onClick="javascipt:{downloadPlaysJSON();}" /><input type="button" onclick="javascipt:{generateBBcode();}" value="BBcode"><span id="SPLU.BBstatus"></span></div>';
     tmpDiv.innerHTML+=tmpHTML;
     BRlogPlays.appendChild(tmpDiv);
     
@@ -4867,6 +4867,7 @@
     if (tmpObj.arguments.tag == "bbcode") {
       //This runs for each image that is downloaded.
       console.log("bbcode - "+SPLUqueueFetchImageCount);
+      document.getElementById("SPLU.BBstatus").innerHTML=SPLUqueueFetchImageCount;
     }
     if (tmpObj.arguments.favid != "") {
       console.log("Updating Fav Thumb");
@@ -4883,19 +4884,38 @@
     }
   }
   
+  //From https://stackoverflow.com/questions/1960473/get-all-unique-values-in-a-javascript-array-remove-duplicates
+  function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+  }
+  
   function generateBBcode() {
+    tmpList=[];
     for(i=0; i<SPLUlistOfPlays.length; i++){
-      fetchImageListQueue(SPLUplayData["dazeysan"][SPLUlistOfPlays[i].id].objectid, "bbcode", "", "square", "", "", SPLUplayData["dazeysan"][SPLUlistOfPlays[i].id].objecttype, SPLUplayData["dazeysan"][SPLUlistOfPlays[i].id].subtypes[0].subtype)
+      tmpList.push(SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][SPLUlistOfPlays[i].id].objectid);
     }
+    tmpListUnique=tmpList.filter(onlyUnique);
+    //console.log(tmpListUnique);
+    for(t=0; t<tmpListUnique.length; t++){
+      fetchImageListQueue(tmpListUnique[t], "bbcode", "", "square", "", "", "thing", "boardgame");
+      //console.log("fetch "+tmpListUnique[t]);
+    }
+    
   }
   
   function generateBBcodeFinish(tmpObj) {
     tmpBBcode="";
+    tmpList=[];
     for(i=0; i<SPLUlistOfPlays.length; i++){
-      console.log("bb id - "+SPLUlistOfPlays[i].id);
-      tmpBBcode+="[imageid="+SPLUimageData[SPLUplayData["dazeysan"][SPLUlistOfPlays[i].id].objectid].item.imageid+" "+tmpObj.arguments.size+" inline]";
+      tmpList.push(SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][SPLUlistOfPlays[i].id].objectid);
+    }
+    tmpListUnique=tmpList.filter(onlyUnique);
+    //console.log(tmpListUnique);
+    for(t=0; t<tmpListUnique.length; t++){
+      tmpBBcode+="[imageid="+SPLUimageData[tmpListUnique[t]].item.imageid+" "+tmpObj.arguments.size+" inline]";
     }
     console.log(tmpBBcode);
+    document.getElementById("SPLU.BBstatus").innerHTML="";
   }
 
   function SPLUdownloadText(filename, text) {
