@@ -3437,7 +3437,7 @@
         "data":"",
         "response":"",
         "attempt":0,
-        "finish":fetchPlaysTestMulti
+        "finish":fetchPlaysMultiTest
       });
     }
     runQueue();
@@ -3446,14 +3446,49 @@
   async function fetchPlaysTest(tmpArgs) {
     //This function is called by runQueue() when processing the queue item
     console.log("fetchPlaysTest() - ", tmpArgs);
-    try {
-        const url = `/geekplay.php?action=getplays&ajax=1&userid=${tmpArgs.userid}&objectid=${tmpArgs.objectid}&objecttype=${tmpArgs.objecttype}&pageID=${tmpArgs.page}`;
-        const options = {};  //Copied from another function, di I need it? "Setting headers here seems to trigger CORS"
-        return await fetchDataJSON(url, options);
-    } catch(e) {
-      //This shows on bad URLs?
-        console.log("catcherror", e); 
+    if (tmpArgs.objectid == 0) {
+      try {
+          const url = `/geekplay.php?action=getplays&ajax=1&userid=${tmpArgs.userid}&objecttype=${tmpArgs.objecttype}&pageID=${tmpArgs.page}`;
+          const options = {};  //Setting headers here seems to trigger CORS
+          return await fetchDataJSON(url, options);
+      } catch(e) {
+        //This shows on bad URLs?
+          console.log("catcherror", e); 
+      }
+    } else {
+      try {
+          const url = `/geekplay.php?action=getplays&ajax=1&userid=${tmpArgs.userid}&objectid=${tmpArgs.objectid}&objecttype=${tmpArgs.objecttype}&pageID=${tmpArgs.page}`;
+          const options = {};  //Setting headers here seems to trigger CORS
+          return await fetchDataJSON(url, options);
+      } catch(e) {
+        //This shows on bad URLs?
+          console.log("catcherror", e); 
+      }
     }
+  }
+
+  async function fetchPlaysMultiTest(tmpArgs) {
+    //This function is called by runQueue() when processing the queue item
+    console.log("fetchPlaysMultiTest() - ", tmpArgs);
+    // if (tmpArgs.objectid == 0) {
+      // try {
+          // const url = `/geekplay.php?action=getplays&ajax=1&userid=${tmpArgs.userid}&objecttype=${tmpArgs.objecttype}&pageID=${tmpArgs.page}`;
+          // const options = {};  //Setting headers here seems to trigger CORS
+          // return await fetchDataJSON(url, options);
+      // } catch(e) {
+        // //This shows on bad URLs?
+          // console.log("catcherror", e); 
+      // }
+    // } else {
+      // try {
+          // const url = `/geekplay.php?action=getplays&ajax=1&userid=${tmpArgs.userid}&objectid=${tmpArgs.objectid}&objecttype=${tmpArgs.objecttype}&pageID=${tmpArgs.page}`;
+          // const options = {};  //Setting headers here seems to trigger CORS
+          // return await fetchDataJSON(url, options);
+      // } catch(e) {
+        // //This shows on bad URLs?
+          // console.log("catcherror", e); 
+      // }
+    // }
   }
 
   function fetchPlaysTestFinish(tmpObj){
@@ -3462,7 +3497,8 @@
     //window.testObj=tmpObj;
     if(SPLUplays[tmpObj.arguments.player]===undefined){
       SPLUplays[tmpObj.arguments.player]=[];
-    }    SPLUplays[tmpObj.arguments.player][tmpObj.arguments.page]=tmpObj.data;
+    }
+    SPLUplays[tmpObj.arguments.player][tmpObj.arguments.page]=tmpObj.data;
     window.setTimeout(function(){parsePlays(tmpObj.arguments.player,tmpObj.arguments.page,tmpObj.arguments.multiple,tmpObj.arguments.objectid,tmpObj.arguments.date,tmpObj.userid);},200);
   }
   
@@ -4827,7 +4863,7 @@
         "finish":fetchPlayCountFinish
       });
       runQueue();
-    } else if (objecttype == "boardgame" || objecttype == "videogame" || objecttype == "rpg" || objecttype == "rpgitem"){
+    } else if (objecttype == "boardgame" || objecttype == "videogame" || objecttype == "rpg" || objecttype == "rpgitem" || objecttype == "thing"){
       document.getElementById("SPLU.GameCountStatus").innerHTML=`Your plays: <img src="https://dazeysan.github.io/SPLU/Images/progress.gif">`;
       SPLUqueue.push({
         "action":fetchPlayCount, 
@@ -4847,8 +4883,14 @@
   async function fetchPlayCount(tmpArgs) {
     console.log("fetchPlayCount() - ", tmpArgs);
     if (tmpArgs.objecttype == "user") {
+      tmpID="0";
+      if (tmpArgs.userid != 0) {
+        tmpID = tmpArgs.userid;
+      } else {
+        tmpID = tmpArgs.objectid;
+      }
       try {
-          const url = `/geekplay.php?action=getplays&ajax=1&userid=${tmpArgs.objectid}&objecttype=${tmpArgs.objecttype}&pageID=9999&showcount=1`;
+          const url = `/geekplay.php?action=getplays&ajax=1&userid=${tmpID}&objecttype=${tmpArgs.objecttype}&pageID=9999&showcount=1`;
           const options = {method: "GET", headers:{'Content-Type': 'application/json'}, credentials: 'same-origin'};
           return await fetchDataJSON(url, options);
       } catch(e) {
@@ -4856,19 +4898,21 @@
           console.log("catcherror", e); 
       }
     } else {
-      if (objecttype == "boardgame") {
+      let tmpObjType = "";
+      let tmpSubType = "";
+      if (tmpArgs.objecttype == "boardgame" || tmpArgs.objecttype == "thing") {
         tmpObjType = "thing";
         tmpSubType = "boardgame";
       }
-      if (objecttype == "videogame") {
+      if (tmpArgs.objecttype == "videogame") {
         tmpObjType = "thing";
         tmpSubType = "videogame";
       }
-      if (objecttype == "rpg") {
+      if (tmpArgs.objecttype == "rpg") {
         tmpObjType = "family";
         tmpSubType = "rpg";
       }
-      if (objecttype == "rpgitem") {
+      if (tmpArgs.objecttype == "rpgitem") {
         tmpObjType = "thing";
         tmpSubType = "rpgitem";
       }

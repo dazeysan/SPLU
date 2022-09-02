@@ -1659,7 +1659,7 @@
               //tmp2=this.responseXML;
               SPLUplayId=JSON.parse(xmlhttp.response).playid
               //SPLUplayId=tmp2.getElementsByTagName("play")[0].id;
-              fetchLanguageFileQ(SPLU.Settings.i18n);
+              fetchLanguageFileQueue(SPLU.Settings.i18n);
             //};
             //oReq2.open("get", "/xmlapi2/plays?username="+LoggedInAs+"&mindate=1452-04-15&maxdate=1452-04-15&id=98000", true);
             //oReq2.send();
@@ -1684,10 +1684,10 @@
           delete SPLU.GameStats;
           tmp=SPLUi18n.StatusVersionUpdatedTo+SPLU.Version;
           saveSooty("BRresults",SPLUi18n.StatusUpdatingVersion,tmp,function(){
-            fetchLanguageFileQ(SPLU.Settings.i18n);
+            fetchLanguageFileQueue(SPLU.Settings.i18n);
           });
         }else{
-          fetchLanguageFileQ(SPLU.Settings.i18n);
+          fetchLanguageFileQueue(SPLU.Settings.i18n);
           //Update the saved data if invalid settings were found, but we don't need to if we've updated the version as it will save the new data anyways.
           if (invalidData){
             saveSooty("BRresults",SPLUi18n.StatusThinking,SPLUi18n.StatusInvalidDataFoundandRemoved,function(){});
@@ -1709,9 +1709,9 @@
   }
 
 
-  async function fetchLanguageFileQ(lang) {
+  async function fetchLanguageFileQueue(lang) {
     //Call this function to add the item to the queue
-    console.log('fetchLanguageFileQ('+lang+')');
+    console.log('fetchLanguageFileQueue('+lang+')');
     SPLUqueue.push({
       "action":fetchLanguageFile, 
       "arguments":{"language":lang},
@@ -1746,9 +1746,9 @@
     //window.setTimeout(function(){initSPLU();},500);
   }
 
-  async function fetchLanguageListQ() {
+  async function fetchLanguageListQueue() {
     //Call this function to add the item to the queue
-    console.log('fetchLanguageListQ()');
+    console.log('fetchLanguageListQueue()');
     SPLUqueue.push({
       "action":fetchLanguageList, 
       "arguments":{},
@@ -2633,7 +2633,7 @@
     SPLUgameID=SPLU.Favorites[id].objectid;
     //FIX - replace thing with objecttype and finish rest of feature
     if(SPLU.Settings.FetchPlayCount.Enabled) {
-      fetchPlayCountQ(SPLUgameID, SPLUobjecttype);
+      fetchPlayCountQueue(SPLUgameID, SPLUobjecttype);
     }
     var tmpType="thing";
     var tmpSubType="boardgame";
@@ -2650,7 +2650,7 @@
     }
     if(SPLU.Settings.Favorites.ThumbSize=="off"){
       tmpURL = '/'+SPLU.Favorites[id].objecttype+'/'+SPLU.Favorites[id].objectid;
-      fetchImageListQ(id, 'div', 'selimage9999', 'tallthumb', '', tmpURL,tmpType,tmpSubType)
+      fetchImageListQueue(id, 'div', 'selimage9999', 'tallthumb', '', tmpURL,tmpType,tmpSubType)
     } else {
       document.getElementById('selimage9999').innerHTML='<a target="_blank" href="/'+SPLU.Favorites[id].objecttype+'/'+SPLU.Favorites[id].objectid+'"><img id="SPLU.GameThumb" src="'+SPLU.Favorites[id].thumbnail+'"/></a>';
     }
@@ -3009,7 +3009,7 @@
         if(responseJSON.target.status==200){
           document.getElementById('BRresults').innerHTML=SPLUi18n.StatusPlayDeleted+".  <a href='"+responseJSON.target.responseURL+"' target='_blank'>"+SPLUi18n.StatusViewYourPlays+"</a>";
           if(SPLU.Settings.FetchPlayCount.Enabled) {
-            fetchPlayCountQ(tmpGameID, SPLUobjecttype);
+            fetchPlayCountQueue(tmpGameID, SPLUobjecttype);
           }
           SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][tmpPlay.playid].deleted=true;
           loadPlays(document.getElementById("SPLU.PlaysLogger").value,false);
@@ -4675,7 +4675,7 @@
     var tmpType=item.objecttype;
     var tmpSubType=item.subtype;
     document.getElementById('selimage9999').innerHTML='Loading<br/>Thubmnail...';
-    fetchImageListQ(tmpImage, 'div', 'selimage9999', 'tallthumb', '', tmpURL,tmpType,tmpSubType)
+    fetchImageListQueue(tmpImage, 'div', 'selimage9999', 'tallthumb', '', tmpURL,tmpType,tmpSubType)
     document.getElementById('q546e9ffd96dfc').value=item.name;
     SPLUsearchResultsLength=20;
     document.getElementById('SPLUsearchResultsDIV').style.display="none";
@@ -4686,7 +4686,7 @@
     //document.getElementById("quickplay_comments99").value="";
     //FIX - replace thing with objecttype and finish rest of feature
     if(SPLU.Settings.FetchPlayCount.Enabled) {
-      fetchPlayCountQ(SPLUgameID, SPLUobjecttype);
+      fetchPlayCountQueue(SPLUgameID, SPLUobjecttype);
     }
   }
   
@@ -4706,9 +4706,9 @@
     SPLUfamilyLoaded=false;
   }
   
-  async function fetchRankDataQ() {
+  async function fetchRankDataQueue() {
     //Call this function to add the item to the queue
-    console.log('fetchRankDataQ()');
+    console.log('fetchRankDataQueue()');
     SPLUqueue.push({
       "action":fetchRankData, 
       "arguments":{},
@@ -4763,8 +4763,8 @@
     getStatsGameList(tmpUser,SPLUstatGameList,"rank");
   }
   
-  async function fetchPlayCountQ(objectID, objectType) {
-    console.log('fetchPlayCountQ('+objectID+', '+objectType+')');
+  async function fetchPlayCountQueue(objectID, objectType) {
+    console.log('fetchPlayCountQueue('+objectID+', '+objectType+')');
     if (objectType == "boardgame" || objectType == "videogame" || objectType == "rpg" || objectType == "rpgitem"){
       document.getElementById("SPLU.GameCountStatus").innerHTML=`Your plays: <img src="https://dazeysan.github.io/SPLU/Images/progress.gif">`;
       if (objectType == "boardgame") {
@@ -4817,8 +4817,8 @@
   }
 
  
-  async function fetchImageListQ(gameid, tag, id, size, favid, tmpURL,tmpType,tmpSubType) {
-    console.log('fetchImageListQ('+gameid+', '+tag+', '+id+', '+size+', '+favid+', '+tmpURL+', '+tmpType+', '+tmpSubType+')');
+  async function fetchImageListQueue(gameid, tag, id, size, favid, tmpURL,tmpType,tmpSubType) {
+    console.log('fetchImageListQueue('+gameid+', '+tag+', '+id+', '+size+', '+favid+', '+tmpURL+', '+tmpType+', '+tmpSubType+')');
     SPLUqueue.push({
       "action":fetchImageList, 
       "arguments":{"gameid":gameid, "tag":tag, "id":id, "size":size, "favid":favid, "tmpURL":tmpURL, "tmpType":tmpType, "tmpSubType":tmpSubType },
@@ -4864,6 +4864,10 @@
         console.log(err);
       }
     }
+    if (tmpObj.arguments.tag == "bbcode") {
+      //This runs for each image that is downloaded.
+      console.log("bbcode - "+SPLUqueueFetchImageCount);
+    }
     if (tmpObj.arguments.favid != "") {
       console.log("Updating Fav Thumb");
       SPLU.Favorites[tmpObj.arguments.favid].thumbnail = SPLUimageData[tmpObj.arguments.gameid].item.images[tmpObj.arguments.size];
@@ -4872,7 +4876,26 @@
     if (SPLUqueueFetchImageCount == 0) {
       document.getElementById('SPLU.FavoritesLowerStatus').innerHTML=SPLUi18n.StatusFinished;
       window.setTimeout(function(){document.getElementById('SPLU.FavoritesLowerStatus').style.display='none';},2000);
+      if (tmpObj.arguments.tag == "bbcode") {
+        //Actually generate the forum bbcode
+        generateBBcodeFinish(tmpObj);
+      }
     }
+  }
+  
+  function generateBBcode() {
+    for(i=0; i<SPLUlistOfPlays.length; i++){
+      fetchImageListQueue(SPLUplayData["dazeysan"][SPLUlistOfPlays[i].id].objectid, "bbcode", "", "square", "", "", SPLUplayData["dazeysan"][SPLUlistOfPlays[i].id].objecttype, SPLUplayData["dazeysan"][SPLUlistOfPlays[i].id].subtypes[0].subtype)
+    }
+  }
+  
+  function generateBBcodeFinish(tmpObj) {
+    tmpBBcode="";
+    for(i=0; i<SPLUlistOfPlays.length; i++){
+      console.log("bb id - "+SPLUlistOfPlays[i].id);
+      tmpBBcode+="[imageid="+SPLUimageData[SPLUplayData["dazeysan"][SPLUlistOfPlays[i].id].objectid].item.imageid+" "+tmpObj.arguments.size+" inline]";
+    }
+    console.log(tmpBBcode);
   }
 
   function SPLUdownloadText(filename, text) {
@@ -5668,7 +5691,7 @@
     if(view=="rank" && SPLUrank=="empty"){
       tmpHTML="<div><br/>"+SPLUi18n.StatusLoadingRankData+"<br/></div>";
       document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
-      fetchRankDataQ();
+      fetchRankDataQueue();
       return false;
     }
     if(view=="list" && sort.includes("rank")){
@@ -5891,7 +5914,7 @@
     tmpURL = "/"+tmpSubType+"/"+SPLUgameID;
     getRepImage(tmpPlay.objectid, 'selimage9999', tmpURL,tmpType,tmpSubType);
     if(SPLU.Settings.FetchPlayCount.Enabled) {
-      fetchPlayCountQ(SPLUgameID, SPLUobjecttype);
+      fetchPlayCountQueue(SPLUgameID, SPLUobjecttype);
     }
     if(document.getElementById("SPLU.PlaysLogger").value==LoggedInAs&&!SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][id].deleted){
       showHideEditButtons("show");
@@ -6536,7 +6559,7 @@
           //Check if they have an old URL for the tumbnail or if the size doesn't match their settings.  
           if (SPLU.Favorites[key].thumbnail.substr(0,36) == "https://cf.geekdo-images.com/images/" || !SPLU.Favorites[key].thumbnail.includes(size)){
             document.getElementById('SPLU.FavoritesLowerStatus').innerHTML=SPLUi18n.StatusUpdatingThumbnails;
-            fetchImageListQ(objectid, "img", "SPLU.FavoritesThumb-"+key, size, key, "",tmpType,tmpSubType);
+            fetchImageListQueue(objectid, "img", "SPLU.FavoritesThumb-"+key, size, key, "",tmpType,tmpSubType);
             //tmpNewThumbs=true;
             SPLUqueueSaveAfter=true;
           }
@@ -6561,7 +6584,7 @@
     loadDefaultLocationList();
     loadFavoritesThumbSizeList();
     if(SPLUi18nList.en===undefined){
-      fetchLanguageListQ();
+      fetchLanguageListQueue();
     }
   }
   
