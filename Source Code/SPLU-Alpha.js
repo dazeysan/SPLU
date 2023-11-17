@@ -1174,7 +1174,7 @@
           +'<div id="SPLU.StatsPlayerDiv" style="display: none;">'+SPLUi18n.PlaysFilterPlayer+': <select class="fa_SP" id="SPLU.SelectStatPlayer" onChange="javascript:{setWinsByGamePlayer(\'\');}"></select></div>'
         +'</div>'
         +'<div id="SPLU.StatsContent" style="display:none;overflow-y: auto; width: 315px; margin-top: 3px; margin-bottom: 15px;"></div>'
-        +'<div id="SPLU.BackupPlaysXML" style="position: absolute; bottom: 5px;"><input type="button" value="Backup loaded plays to JSON text file" onClick="javascipt:{downloadPlaysJSON();}" /><input type="button" onclick="javascipt:{generateBBcode();}" value="BBcode"><span id="SPLU.BBstatus"></span></div>';
+        +'<div id="SPLU.BackupPlaysXML" style="position: absolute; bottom: 5px;"><input type="button" style="background: #505050; color: white; border-radius: 3px; padding-left: 4px; padding-right: 4px;" value="Backup loaded plays to JSON text file" onClick="javascipt:{downloadPlaysJSON();}" /><input type="button" style="background: #505050; color: white; border-radius: 3px; padding-left: 4px; padding-right: 4px; margin-left: 5px;" onclick="javascipt:{generateBBcode();}" value="BBcode of cover art"><span id="SPLU.BBstatus"></span></div>';
     tmpDiv.innerHTML+=tmpHTML;
     BRlogPlays.appendChild(tmpDiv);
     
@@ -4912,7 +4912,8 @@
       tmpBBcode+="[imageid="+SPLUimageData[tmpListUnique[t]].item.imageid+" "+tmpObj.arguments.size+" inline]";
     }
     console.log(tmpBBcode);
-    document.getElementById("SPLU.BBstatus").innerHTML="";
+    navigator.clipboard.writeText(tmpBBcode);
+    document.getElementById("SPLU.BBstatus").innerHTML="Copied to Clipboard";
   }
 
   function SPLUdownloadText(filename, text) {
