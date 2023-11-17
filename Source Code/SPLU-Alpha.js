@@ -1174,7 +1174,7 @@
           +'<div id="SPLU.StatsPlayerDiv" style="display: none;">'+SPLUi18n.PlaysFilterPlayer+': <select class="fa_SP" id="SPLU.SelectStatPlayer" onChange="javascript:{setWinsByGamePlayer(\'\');}"></select></div>'
         +'</div>'
         +'<div id="SPLU.StatsContent" style="display:none;overflow-y: auto; width: 315px; margin-top: 3px; margin-bottom: 15px;"></div>'
-        +'<div id="SPLU.BackupPlaysXML" style="position: absolute; bottom: 5px;"><input type="button" style="background: #505050; color: white; border-radius: 3px; padding-left: 4px; padding-right: 4px;" value="Backup loaded plays to JSON text file" onClick="javascipt:{downloadPlaysJSON();}" /><input type="button" style="background: #505050; color: white; border-radius: 3px; padding-left: 4px; padding-right: 4px; margin-left: 5px;" onclick="javascipt:{generateBBcode();}" value="BBcode of cover art"><span id="SPLU.BBstatus"></span></div>';
+        +'<div id="SPLU.BackupPlaysXML" style="position: absolute; bottom: 5px;"><input type="button" style="background: #505050; color: white; border-radius: 3px; padding-left: 4px; padding-right: 4px; margin-right: 5px;" value="Backup loaded plays to JSON text file" onClick="javascipt:{downloadPlaysJSON();}" /><input type="button" style="background: #505050; color: white; border-radius: 3px; padding-left: 4px; padding-right: 4px;" onclick="javascipt:{generateBBcode();}" value="BBcode of cover art"><span id="SPLU.BBstatus"></span></div>';
     tmpDiv.innerHTML+=tmpHTML;
     BRlogPlays.appendChild(tmpDiv);
     
@@ -4833,7 +4833,8 @@
     console.log("fetchImageList() - ", tmpObj);
     try {
       //let tmpType=SPLUobjecttype;
-      const url = `https://api.geekdo.com/api/geekitems?nosession=1&objectid=${tmpObj.gameid}&objecttype=${tmpObj.tmpType}&subtype=${tmpObj.tmpSubType}`
+      //const url = `https://api.geekdo.com/api/geekitems?nosession=1&objectid=${tmpObj.gameid}&objecttype=${tmpObj.tmpType}&subtype=${tmpObj.tmpSubType}`
+      const url = `https://api.geekdo.com/api/things/${tmpObj.gameid}?objecttype=${tmpObj.tmpType}&subtype=${tmpObj.tmpSubType}&partial=essential`
       const options = {method: "GET", headers:{'Content-Type': 'application/json'}, credentials: 'same-origin'};
       return await fetchDataJSON(url, options);
       } catch(e) {
@@ -4864,7 +4865,7 @@
     if (tmpObj.arguments.tag == "bbcode") {
       //This runs for each image that is downloaded.
       console.log("bbcode - "+SPLUqueueFetchImageCount);
-      document.getElementById("SPLU.BBstatus").innerHTML=SPLUqueueFetchImageCount;
+      document.getElementById("SPLU.BBstatus").innerHTML="Fetching Cover Art: "+SPLUqueueFetchImageCount;
     }
     if (tmpObj.arguments.favid != "") {
       console.log("Updating Fav Thumb");
@@ -4912,8 +4913,7 @@
       tmpBBcode+="[imageid="+SPLUimageData[tmpListUnique[t]].item.imageid+" "+tmpObj.arguments.size+" inline]";
     }
     console.log(tmpBBcode);
-    navigator.clipboard.writeText(tmpBBcode);
-    document.getElementById("SPLU.BBstatus").innerHTML="Copied to Clipboard";
+    document.getElementById("SPLU.BBstatus").innerHTML="<input type='button' onclick='javascript:{navigator.clipboard.writeText(tmpBBcode);}' value='Click to copy BBcode to clipboard'>";
   }
 
   function SPLUdownloadText(filename, text) {
