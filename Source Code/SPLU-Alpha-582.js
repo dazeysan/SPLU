@@ -1,4 +1,4 @@
-// SPLU 5.8.5 Alpha
+// SPLU 5.8.3 Alpha
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -26,7 +26,7 @@
     //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.8.5";
+    var SPLUversion="5.8.2";
 
     var SPLU={};
     var SPLUplayId="";
@@ -291,10 +291,13 @@
             +'<div style="display:table-row;">'
               +'<div style="display:inline;">'
                 +'<input id="playdate99" type="hidden" value="'+SPLUtoday+'" name="playdate"/>'
-                +'<input id="SPLUplayDateInput" tabindex="10" type="date" oninput="highlightDayButton();" onchange="parseDate(this,document.getElementById(\'playdate99\'),document.getElementById(\'playdatestatus99\') );" value="'+SPLUtoday+'" autocomplete="off" name="dateinput"/>'
+                +'<input id="SPLUplayDateInput" tabindex="10" style="width:75px;" type="text" oninput="highlightDayButton();" onkeyup="parseDate(this,document.getElementById(\'playdate99\'),document.getElementById(\'playdatestatus99\') );" value="'+SPLUtoday+'" autocomplete="off" name="dateinput"/>'
               +'</div>'
               +'<div id="playdatestatus99" class="sf" style="font-style:italic; font-size:0;display:inline;">'
                 +'<span class="fa_SP-stack"><i style="color: white; font-size: 1em; transform: translate(0px, 2px);" class="fa_SP fa_SP-stack-2x fa_SP-square"></i><i style="color: rgb(13, 138, 13); font-size: 1.3em;" class="fa_SP fa_SP-stack-2x fa_SP-check-circle"></i></span>'+SPLUtoday
+              +'</div>'
+              +'<div id="SPLUdatePickerTrigger" style="display:inline;">'
+                +'<span style="transform: translate(-2px, 3px);" class="fa_SP-stack"><i style="color: rgb(246, 227, 209); font-size: 1.8em;" class="fa_SP fa_SP-stack-2x fa_SP-square-sharp"></i><i style="color: rgb(96, 4, 4); font-size: 1.2em;" class="fa_SP fa_SP-stack-2x fa_SP-calendar"></i></span>'
               +'</div>'
             +'</div>'
             +'<div style="display:table-row;">'
@@ -3332,18 +3335,18 @@
       highlightDayButton();
     }else{
       console.log("parseDate() - invalid date format: "+tmpDate);
-      // //Try reformatting it
-      // var tmpRefDate = new Date(tmpDate);
-      // //var tmpRefDateString = new Date(tmpRefDate.getTime() - (tmpRefDate.getTimezoneOffset() * 60000 )).toISOString().split("T")[0];
-      // var tmpRefDateString = new Date(tmpRefDate.setMinutes(tmpRefDate.getMinutes()-tmpRefDate.getTimezoneOffset() )).toISOString().split("T")[0];
-      // //new Date(tmp.setMinutes(tmp.getMinutes()-tmp.getTimezoneOffset()));
-      // console.log("reformatted: "+tmpRefDateString);
-      // if (isValidDate(tmpRefDateString)){
-        // dst.value=tmpRefDateString;
-        // src.value=tmpRefDateString;
-        // status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:-3px;'> "+tmpRefDateString;
-        // highlightDayButton();
-      // }
+      //Try reformatting it
+      var tmpRefDate = new Date(tmpDate);
+      //var tmpRefDateString = new Date(tmpRefDate.getTime() - (tmpRefDate.getTimezoneOffset() * 60000 )).toISOString().split("T")[0];
+      var tmpRefDateString = new Date(tmpRefDate.setMinutes(tmpRefDate.getMinutes()-tmpRefDate.getTimezoneOffset() )).toISOString().split("T")[0];
+      //new Date(tmp.setMinutes(tmp.getMinutes()-tmp.getTimezoneOffset()));
+      console.log("reformatted: "+tmpRefDateString);
+      if (isValidDate(tmpRefDateString)){
+        dst.value=tmpRefDateString;
+        src.value=tmpRefDateString;
+        status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:-3px;'> "+tmpRefDateString;
+        highlightDayButton();
+      }
       //Check if it's still invalid:
       tmpDate=src.value;
       if (!isValidDate(tmpDate)){
