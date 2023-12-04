@@ -4833,8 +4833,8 @@
     console.log("fetchImageList() - ", tmpObj);
     try {
       //let tmpType=SPLUobjecttype;
-      //const url = `https://api.geekdo.com/api/geekitems?nosession=1&objectid=${tmpObj.gameid}&objecttype=${tmpObj.tmpType}&subtype=${tmpObj.tmpSubType}`
-      const url = `https://api.geekdo.com/api/things/${tmpObj.gameid}?objecttype=${tmpObj.tmpType}&subtype=${tmpObj.tmpSubType}&partial=essential`
+      const url = `https://api.geekdo.com/api/geekitems?nosession=1&objectid=${tmpObj.gameid}&objecttype=${tmpObj.tmpType}&subtype=${tmpObj.tmpSubType}`
+      //const url = `https://api.geekdo.com/api/things/${tmpObj.gameid}?objecttype=${tmpObj.tmpType}&subtype=${tmpObj.tmpSubType}&partial=essential` //Smaller api call but no longer returns micro or tallthumb images.
       const options = {method: "GET", headers:{'Content-Type': 'application/json'}, credentials: 'same-origin'};
       return await fetchDataJSON(url, options);
       } catch(e) {
