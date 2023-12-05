@@ -2647,7 +2647,7 @@
     }
     if(SPLU.Settings.Favorites.ThumbSize=="off"){
       tmpURL = '/'+SPLU.Favorites[id].objecttype+'/'+SPLU.Favorites[id].objectid;
-      fetchImageListQueue(id, 'div', 'selimage9999', 'tallthumb', '', tmpURL,tmpType,tmpSubType)
+      fetchImageListQueue(SPLU.Favorites[id].objectid, 'div', 'selimage9999', 'tallthumb', '', tmpURL,tmpType,tmpSubType)
     } else {
       document.getElementById('selimage9999').innerHTML='<a target="_blank" href="/'+SPLU.Favorites[id].objecttype+'/'+SPLU.Favorites[id].objectid+'"><img id="SPLU.GameThumb" src="'+SPLU.Favorites[id].thumbnail+'"/></a>';
     }
