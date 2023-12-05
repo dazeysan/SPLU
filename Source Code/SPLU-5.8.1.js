@@ -1,24 +1,21 @@
-// SPLU 5.8.5 Alpha/Beta/Current
+// SPLU 5.8.1 Alpha/Beta/Current
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
       alert("You must be on a BGG website to run SPLU.");
       throw new Error("You aren't on a BGG site.");
     }
-    
-    // var IncompatiblePage=false;
-    // //Check if they are on a page that gives issues.  Specifically break on anything containing the polyfill script.
-    // let tmpScripts = document.getElementsByTagName('script');
-    // for (s=0; s<tmpScripts.length; s++) {
-      // if(tmpScripts[s].src.includes("polyfill") || window.location.pathname.substr(0,11)=="/boardgame/") {
-        // if (!confirm("SPLU probably doesn't function properly on this page.\r\n\r\nTry running from your Subscriptions page.\r\n\r\nClick OK to try running SPLU anyways.")){
-          // throw new Error("Incompatible page.");
-        // } else {
-          // IncompatiblePage=true;
-          // break;
-        // }
-      // }
-    // }
+    //Check if they are on a page that gives issues.  Specifically break on anything containing the polyfill script.
+    let tmpScripts = document.getElementsByTagName('script');
+    for (s=0; s<tmpScripts.length; s++) {
+      if(tmpScripts[s].src.includes("polyfill") || window.location.pathname.substr(0,11)=="/boardgame/") {
+        if (!confirm("SPLU probably doesn't function properly on this page.\r\n\r\nTry running from your Subscriptions page.\r\n\r\nClick OK to try running SPLU anyways.")){
+          throw new Error("Incompatible page.");
+        } else {
+          break;
+        }
+      }
+    }
     //Check if SPLU is already open, throw an error if not
     if(document.getElementById('SPLUwindow')){throw new Error("SPLU Already Running");}
     
@@ -26,7 +23,7 @@
     //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.8.5";
+    var SPLUversion="5.8.1";
 
     var SPLU={};
     var SPLUplayId="";
@@ -213,18 +210,16 @@
     document.body.appendChild(sortscript);
 
     
-    // if (!IncompatiblePage){
-      // //Insert code for Pikaday calendar Copyright © 2014 David Bushell
-      // var pikscript=document.createElement('script');
-      // pikscript.type="text/javascript";
-      // pikscript.src='https://dazeysan.github.io/SPLU/Source%20Code/scripts/pikaday.1.8.2.js';
-      // document.body.appendChild(pikscript);
-      // var pikstyle=document.createElement("link");
-      // pikstyle.type="text/css";
-      // pikstyle.rel="stylesheet";
-      // pikstyle.href="https://dazeysan.github.io/SPLU/Source%20Code/scripts/pikaday.1.8.2.css";
-      // document.getElementsByTagName('head')[0].appendChild(pikstyle);
-    // }
+    //Insert code for Pikaday calendar Copyright © 2014 David Bushell
+    var pikscript=document.createElement('script');
+    pikscript.type="text/javascript";
+    pikscript.src='https://dazeysan.github.io/SPLU/Source%20Code/scripts/pikaday.js';
+    document.body.appendChild(pikscript);
+    var pikstyle=document.createElement("link");
+    pikstyle.type="text/css";
+    pikstyle.rel="stylesheet";
+    pikstyle.href="https://dazeysan.github.io/SPLU/Source%20Code/scripts/pikaday.css";
+    document.getElementsByTagName('head')[0].appendChild(pikstyle);
 
     var style=document.createElement('style');
     style.type='text/css';
@@ -291,10 +286,13 @@
             +'<div style="display:table-row;">'
               +'<div style="display:inline;">'
                 +'<input id="playdate99" type="hidden" value="'+SPLUtoday+'" name="playdate"/>'
-                +'<input id="SPLUplayDateInput" tabindex="10" type="date" oninput="highlightDayButton();" onchange="parseDate(this,document.getElementById(\'playdate99\'),document.getElementById(\'playdatestatus99\') );" value="'+SPLUtoday+'" autocomplete="off" name="dateinput"/>'
+                +'<input id="SPLUplayDateInput" tabindex="10" style="width:75px;" type="text" oninput="highlightDayButton();" onkeyup="parseDate(this,document.getElementById(\'playdate99\'),document.getElementById(\'playdatestatus99\') );" value="'+SPLUtoday+'" autocomplete="off" name="dateinput"/>'
               +'</div>'
               +'<div id="playdatestatus99" class="sf" style="font-style:italic; font-size:0;display:inline;">'
                 +'<span class="fa_SP-stack"><i style="color: white; font-size: 1em; transform: translate(0px, 2px);" class="fa_SP fa_SP-stack-2x fa_SP-square"></i><i style="color: rgb(13, 138, 13); font-size: 1.3em;" class="fa_SP fa_SP-stack-2x fa_SP-check-circle"></i></span>'+SPLUtoday
+              +'</div>'
+              +'<div id="SPLUdatePickerTrigger" style="display:inline;">'
+                +'<span style="transform: translate(-2px, 3px);" class="fa_SP-stack"><i style="color: rgb(246, 227, 209); font-size: 1.8em;" class="fa_SP fa_SP-stack-2x fa_SP-square-sharp"></i><i style="color: rgb(96, 4, 4); font-size: 1.2em;" class="fa_SP fa_SP-stack-2x fa_SP-calendar"></i></span>'
               +'</div>'
             +'</div>'
             +'<div style="display:table-row;">'
@@ -1140,7 +1138,7 @@
             +'</div>'
           +'</div>'
         +'</div>'
-        +'<div id="SPLU.PlaysList" style="overflow-y:auto; width:100%; margin-top: 3px; margin-bottom: 15px;"></div>'
+        +'<div id="SPLU.PlaysList" style="overflow-y:auto; width:100%; margin-top: 3px"></div>'
         +'<div id="SPLUcopyPlaysDiv" style="display:none;padding-top:10px;">'
           +'<div class="BRcells" id="CopyPlaysSelectAllBtn">'
             +'<a href="javascript:{void(0);}" onClick="javascript:{copyPlaysSelectAll();}" style="border:2px solid blue;padding:5px 4px;border-radius:5px;background-color:lightGrey; color:black;"><img src="https://dazeysan.github.io/SPLU/Images/select-all.png" style="vertical-align: middle;"></a>'
@@ -1173,8 +1171,8 @@
           +'</span>'
           +'<div id="SPLU.StatsPlayerDiv" style="display: none;">'+SPLUi18n.PlaysFilterPlayer+': <select class="fa_SP" id="SPLU.SelectStatPlayer" onChange="javascript:{setWinsByGamePlayer(\'\');}"></select></div>'
         +'</div>'
-        +'<div id="SPLU.StatsContent" style="display:none;overflow-y: auto; width: 315px; margin-top: 3px; margin-bottom: 15px;"></div>'
-        +'<div id="SPLU.BackupPlaysXML" style="position: absolute; bottom: 5px;"><input type="button" style="background: #505050; color: white; border-radius: 3px; padding-left: 4px; padding-right: 4px; margin-right: 5px;" value="Backup loaded plays to JSON text file" onClick="javascipt:{downloadPlaysJSON();}" /><input type="button" style="background: #505050; color: white; border-radius: 3px; padding-left: 4px; padding-right: 4px;" onclick="javascipt:{generateBBcode();}" value="BBcode of cover art"><span id="SPLU.BBstatus"></span></div>';
+        +'<div id="SPLU.StatsContent" style="display:none;overflow-y: auto; width: 315px; margin-top: 3px;"></div>'
+        +'<div id="SPLU.BackupPlaysXML"><input type="button" value="Backup loaded plays to JSON text file" onClick="javascipt:{downloadPlaysJSON();}" /></div>';
     tmpDiv.innerHTML+=tmpHTML;
     BRlogPlays.appendChild(tmpDiv);
     
@@ -1313,9 +1311,7 @@
     
     //New Pikaday calendar
     //if(Pikaday===undefined){
-    // if(!IncompatiblePage){
-      // window.setTimeout(function(){addCalendar();},1500);
-    // }
+      window.setTimeout(function(){addCalendar();},1500);
     //}else{
     //  addCalendar();
     //}
@@ -1656,7 +1652,7 @@
               //tmp2=this.responseXML;
               SPLUplayId=JSON.parse(xmlhttp.response).playid
               //SPLUplayId=tmp2.getElementsByTagName("play")[0].id;
-              fetchLanguageFileQueue(SPLU.Settings.i18n);
+              fetchLanguageFileQ(SPLU.Settings.i18n);
             //};
             //oReq2.open("get", "/xmlapi2/plays?username="+LoggedInAs+"&mindate=1452-04-15&maxdate=1452-04-15&id=98000", true);
             //oReq2.send();
@@ -1681,10 +1677,10 @@
           delete SPLU.GameStats;
           tmp=SPLUi18n.StatusVersionUpdatedTo+SPLU.Version;
           saveSooty("BRresults",SPLUi18n.StatusUpdatingVersion,tmp,function(){
-            fetchLanguageFileQueue(SPLU.Settings.i18n);
+            fetchLanguageFileQ(SPLU.Settings.i18n);
           });
         }else{
-          fetchLanguageFileQueue(SPLU.Settings.i18n);
+          fetchLanguageFileQ(SPLU.Settings.i18n);
           //Update the saved data if invalid settings were found, but we don't need to if we've updated the version as it will save the new data anyways.
           if (invalidData){
             saveSooty("BRresults",SPLUi18n.StatusThinking,SPLUi18n.StatusInvalidDataFoundandRemoved,function(){});
@@ -1706,9 +1702,9 @@
   }
 
 
-  async function fetchLanguageFileQueue(lang) {
+  async function fetchLanguageFileQ(lang) {
     //Call this function to add the item to the queue
-    console.log('fetchLanguageFileQueue('+lang+')');
+    console.log('fetchLanguageFileQ('+lang+')');
     SPLUqueue.push({
       "action":fetchLanguageFile, 
       "arguments":{"language":lang},
@@ -1743,9 +1739,9 @@
     //window.setTimeout(function(){initSPLU();},500);
   }
 
-  async function fetchLanguageListQueue() {
+  async function fetchLanguageListQ() {
     //Call this function to add the item to the queue
-    console.log('fetchLanguageListQueue()');
+    console.log('fetchLanguageListQ()');
     SPLUqueue.push({
       "action":fetchLanguageList, 
       "arguments":{},
@@ -2623,14 +2619,14 @@
   }
     
   function chooseFavorite(id){
-    console.log("chooseFavorite("+id+")");
+    console.log(id);
     setObjectType(SPLU.Favorites[id].objecttype);
     document.getElementById('SPLU_ExpansionsQuantity').innerHTML="";
     document.getElementById('objectid9999').value=SPLU.Favorites[id].objectid;
     SPLUgameID=SPLU.Favorites[id].objectid;
     //FIX - replace thing with objecttype and finish rest of feature
     if(SPLU.Settings.FetchPlayCount.Enabled) {
-      fetchPlayCountQueue(SPLUgameID, SPLUobjecttype);
+      fetchPlayCountQ(SPLUgameID, SPLUobjecttype);
     }
     var tmpType="thing";
     var tmpSubType="boardgame";
@@ -2647,12 +2643,12 @@
     }
     if(SPLU.Settings.Favorites.ThumbSize=="off"){
       tmpURL = '/'+SPLU.Favorites[id].objecttype+'/'+SPLU.Favorites[id].objectid;
-      fetchImageListQueue(SPLU.Favorites[id].objectid, 'div', 'selimage9999', 'tallthumb', '', tmpURL,tmpType,tmpSubType)
+      fetchImageListQ(id, 'div', 'selimage9999', 'tallthumb', '', tmpURL,tmpType,tmpSubType)
     } else {
       document.getElementById('selimage9999').innerHTML='<a target="_blank" href="/'+SPLU.Favorites[id].objecttype+'/'+SPLU.Favorites[id].objectid+'"><img id="SPLU.GameThumb" src="'+SPLU.Favorites[id].thumbnail+'"/></a>';
     }
     document.getElementById('q546e9ffd96dfc').value=SPLU.Favorites[id].title;
-    //document.getElementById('BRlogFavs').style.display="none";
+    document.getElementById('BRlogFavs').style.display="none";
     document.getElementById('SPLUsearchResultsDIV').style.display="none";
     document.getElementById('BRthumbButtons').style.display="block";
     document.getElementById('expansionLoggingButton').style.display="block";
@@ -3006,7 +3002,7 @@
         if(responseJSON.target.status==200){
           document.getElementById('BRresults').innerHTML=SPLUi18n.StatusPlayDeleted+".  <a href='"+responseJSON.target.responseURL+"' target='_blank'>"+SPLUi18n.StatusViewYourPlays+"</a>";
           if(SPLU.Settings.FetchPlayCount.Enabled) {
-            fetchPlayCountQueue(tmpGameID, SPLUobjecttype);
+            fetchPlayCountQ(tmpGameID, SPLUobjecttype);
           }
           SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][tmpPlay.playid].deleted=true;
           loadPlays(document.getElementById("SPLU.PlaysLogger").value,false);
@@ -3274,14 +3270,11 @@
   function setDateField(date){
     console.log("setDateField("+date+")");
     document.getElementById('SPLUplayDateInput').value=date;
-    console.log("Run parseDate() from setDateField()");
     parseDate(document.getElementById('SPLUplayDateInput'),document.getElementById('playdate99'),document.getElementById('playdatestatus99'));
     //SPLUcalendar.setDate(new Date(Date.parse(document.getElementById('SPLUplayDateInput').value)));
     // Commenting out the following line to prevent the date picker from highlighting the wrong day and setting the date to the same wrong day.  SPLU seems to work without this...
     // Adding it back as it causes some issues with the calendar popping up when it shouldn't.
-    // if(!IncompatiblePage){
-      // SPLUcalendar.setDate(document.getElementById('SPLUplayDateInput').value);
-    // }
+    SPLUcalendar.setDate(document.getElementById('SPLUplayDateInput').value);
   }
 
   function addCalendar(){
@@ -3324,36 +3317,18 @@
     window.tmpstatus=status;
     tmpDate=src.value;
     if (isValidDate(tmpDate)){
-      console.log("parseDate() - valid date format: "+tmpDate);
       //dst.value=tmpDate.toString("yyyy-MM-dd");
       dst.value=tmpDate;
       //status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:3px;'> "+tmpDate.toString("yyyy-MM-dd");
       status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:-3px;'> "+tmpDate;
       highlightDayButton();
     }else{
-      console.log("parseDate() - invalid date format: "+tmpDate);
-      // //Try reformatting it
-      // var tmpRefDate = new Date(tmpDate);
-      // //var tmpRefDateString = new Date(tmpRefDate.getTime() - (tmpRefDate.getTimezoneOffset() * 60000 )).toISOString().split("T")[0];
-      // var tmpRefDateString = new Date(tmpRefDate.setMinutes(tmpRefDate.getMinutes()-tmpRefDate.getTimezoneOffset() )).toISOString().split("T")[0];
-      // //new Date(tmp.setMinutes(tmp.getMinutes()-tmp.getTimezoneOffset()));
-      // console.log("reformatted: "+tmpRefDateString);
-      // if (isValidDate(tmpRefDateString)){
-        // dst.value=tmpRefDateString;
-        // src.value=tmpRefDateString;
-        // status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:-3px;'> "+tmpRefDateString;
-        // highlightDayButton();
-      // }
-      //Check if it's still invalid:
-      tmpDate=src.value;
-      if (!isValidDate(tmpDate)){
-        console.log("parseDate() - Still invalid: "+tmpDate);
-        if (src.value.length){
-          dst.value='';status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/delete.png' style='position:relative; top:3px;'> "+SPLUi18n.CalendarInvalidDate;
-        }else{
-          dst.value='';
-          status.innerHTML='';
-        }
+      //if(src.get('value').length){
+      if (src.value.length){
+        dst.value='';status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/delete.png' style='position:relative; top:3px;'> "+SPLUi18n.CalendarInvalidDate;
+      }else{
+        dst.value='';
+        status.innerHTML='';
       }
     }
   }
@@ -4672,7 +4647,7 @@
     var tmpType=item.objecttype;
     var tmpSubType=item.subtype;
     document.getElementById('selimage9999').innerHTML='Loading<br/>Thubmnail...';
-    fetchImageListQueue(tmpImage, 'div', 'selimage9999', 'tallthumb', '', tmpURL,tmpType,tmpSubType)
+    fetchImageListQ(tmpImage, 'div', 'selimage9999', 'tallthumb', '', tmpURL,tmpType,tmpSubType)
     document.getElementById('q546e9ffd96dfc').value=item.name;
     SPLUsearchResultsLength=20;
     document.getElementById('SPLUsearchResultsDIV').style.display="none";
@@ -4683,7 +4658,7 @@
     //document.getElementById("quickplay_comments99").value="";
     //FIX - replace thing with objecttype and finish rest of feature
     if(SPLU.Settings.FetchPlayCount.Enabled) {
-      fetchPlayCountQueue(SPLUgameID, SPLUobjecttype);
+      fetchPlayCountQ(SPLUgameID, SPLUobjecttype);
     }
   }
   
@@ -4703,9 +4678,9 @@
     SPLUfamilyLoaded=false;
   }
   
-  async function fetchRankDataQueue() {
+  async function fetchRankDataQ() {
     //Call this function to add the item to the queue
-    console.log('fetchRankDataQueue()');
+    console.log('fetchRankDataQ()');
     SPLUqueue.push({
       "action":fetchRankData, 
       "arguments":{},
@@ -4760,8 +4735,8 @@
     getStatsGameList(tmpUser,SPLUstatGameList,"rank");
   }
   
-  async function fetchPlayCountQueue(objectID, objectType) {
-    console.log('fetchPlayCountQueue('+objectID+', '+objectType+')');
+  async function fetchPlayCountQ(objectID, objectType) {
+    console.log('fetchPlayCountQ('+objectID+', '+objectType+')');
     if (objectType == "boardgame" || objectType == "videogame" || objectType == "rpg" || objectType == "rpgitem"){
       document.getElementById("SPLU.GameCountStatus").innerHTML=`Your plays: <img src="https://dazeysan.github.io/SPLU/Images/progress.gif">`;
       if (objectType == "boardgame") {
@@ -4814,8 +4789,8 @@
   }
 
  
-  async function fetchImageListQueue(gameid, tag, id, size, favid, tmpURL,tmpType,tmpSubType) {
-    console.log('fetchImageListQueue('+gameid+', '+tag+', '+id+', '+size+', '+favid+', '+tmpURL+', '+tmpType+', '+tmpSubType+')');
+  async function fetchImageListQ(gameid, tag, id, size, favid, tmpURL,tmpType,tmpSubType) {
+    console.log('fetchImageListQ('+gameid+', '+tag+', '+id+', '+size+', '+favid+', '+tmpURL+', '+tmpType+', '+tmpSubType+')');
     SPLUqueue.push({
       "action":fetchImageList, 
       "arguments":{"gameid":gameid, "tag":tag, "id":id, "size":size, "favid":favid, "tmpURL":tmpURL, "tmpType":tmpType, "tmpSubType":tmpSubType },
@@ -4834,7 +4809,6 @@
     try {
       //let tmpType=SPLUobjecttype;
       const url = `https://api.geekdo.com/api/geekitems?nosession=1&objectid=${tmpObj.gameid}&objecttype=${tmpObj.tmpType}&subtype=${tmpObj.tmpSubType}`
-      //const url = `https://api.geekdo.com/api/things/${tmpObj.gameid}?objecttype=${tmpObj.tmpType}&subtype=${tmpObj.tmpSubType}&partial=essential` //Smaller api call but no longer returns micro or tallthumb images.
       const options = {method: "GET", headers:{'Content-Type': 'application/json'}, credentials: 'same-origin'};
       return await fetchDataJSON(url, options);
       } catch(e) {
@@ -4862,11 +4836,6 @@
         console.log(err);
       }
     }
-    if (tmpObj.arguments.tag == "bbcode") {
-      //This runs for each image that is downloaded.
-      console.log("bbcode - "+SPLUqueueFetchImageCount);
-      document.getElementById("SPLU.BBstatus").innerHTML="Fetching Cover Art: "+SPLUqueueFetchImageCount;
-    }
     if (tmpObj.arguments.favid != "") {
       console.log("Updating Fav Thumb");
       SPLU.Favorites[tmpObj.arguments.favid].thumbnail = SPLUimageData[tmpObj.arguments.gameid].item.images[tmpObj.arguments.size];
@@ -4875,46 +4844,7 @@
     if (SPLUqueueFetchImageCount == 0) {
       document.getElementById('SPLU.FavoritesLowerStatus').innerHTML=SPLUi18n.StatusFinished;
       window.setTimeout(function(){document.getElementById('SPLU.FavoritesLowerStatus').style.display='none';},2000);
-      if (tmpObj.arguments.tag == "bbcode") {
-        //Actually generate the forum bbcode
-        generateBBcodeFinish(tmpObj);
-      }
     }
-  }
-  
-  //From https://stackoverflow.com/questions/1960473/get-all-unique-values-in-a-javascript-array-remove-duplicates
-  function onlyUnique(value, index, self) {
-    return self.indexOf(value) === index;
-  }
-  
-  function generateBBcode() {
-    document.getElementById("SPLU.BBstatus").innerHTML="Fetching Cover Art";
-    tmpList=[];
-    for(i=0; i<SPLUlistOfPlays.length; i++){
-      tmpList.push(SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][SPLUlistOfPlays[i].id].objectid);
-    }
-    tmpListUnique=tmpList.filter(onlyUnique);
-    //console.log(tmpListUnique);
-    for(t=0; t<tmpListUnique.length; t++){
-      fetchImageListQueue(tmpListUnique[t], "bbcode", "", "square", "", "", "thing", "boardgame");
-      //console.log("fetch "+tmpListUnique[t]);
-    }
-    
-  }
-  
-  function generateBBcodeFinish(tmpObj) {
-    tmpBBcode="";
-    tmpList=[];
-    for(i=0; i<SPLUlistOfPlays.length; i++){
-      tmpList.push(SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][SPLUlistOfPlays[i].id].objectid);
-    }
-    tmpListUnique=tmpList.filter(onlyUnique);
-    //console.log(tmpListUnique);
-    for(t=0; t<tmpListUnique.length; t++){
-      tmpBBcode+="[imageid="+SPLUimageData[tmpListUnique[t]].imageid+" "+tmpObj.arguments.size+" inline]";
-    }
-    console.log(tmpBBcode);
-    document.getElementById("SPLU.BBstatus").innerHTML="<input type='button' onclick='javascript:{navigator.clipboard.writeText(tmpBBcode);}' value='Click to copy BBcode to clipboard'>";
   }
 
   function SPLUdownloadText(filename, text) {
@@ -5710,7 +5640,7 @@
     if(view=="rank" && SPLUrank=="empty"){
       tmpHTML="<div><br/>"+SPLUi18n.StatusLoadingRankData+"<br/></div>";
       document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
-      fetchRankDataQueue();
+      fetchRankDataQ();
       return false;
     }
     if(view=="list" && sort.includes("rank")){
@@ -5933,7 +5863,7 @@
     tmpURL = "/"+tmpSubType+"/"+SPLUgameID;
     getRepImage(tmpPlay.objectid, 'selimage9999', tmpURL,tmpType,tmpSubType);
     if(SPLU.Settings.FetchPlayCount.Enabled) {
-      fetchPlayCountQueue(SPLUgameID, SPLUobjecttype);
+      fetchPlayCountQ(SPLUgameID, SPLUobjecttype);
     }
     if(document.getElementById("SPLU.PlaysLogger").value==LoggedInAs&&!SPLUplayData[document.getElementById("SPLU.PlaysLogger").value][id].deleted){
       showHideEditButtons("show");
@@ -6452,7 +6382,6 @@
   }
   
   function showFavsPane(source){
-    console.log("showFavsPane("+source+")");
     if(source=="button"&&document.getElementById('BRlogFavs').style.display=="table-cell"){
       document.getElementById('BRlogFavs').style.display="none";
       return;
@@ -6578,7 +6507,7 @@
           //Check if they have an old URL for the tumbnail or if the size doesn't match their settings.  
           if (SPLU.Favorites[key].thumbnail.substr(0,36) == "https://cf.geekdo-images.com/images/" || !SPLU.Favorites[key].thumbnail.includes(size)){
             document.getElementById('SPLU.FavoritesLowerStatus').innerHTML=SPLUi18n.StatusUpdatingThumbnails;
-            fetchImageListQueue(objectid, "img", "SPLU.FavoritesThumb-"+key, size, key, "",tmpType,tmpSubType);
+            fetchImageListQ(objectid, "img", "SPLU.FavoritesThumb-"+key, size, key, "",tmpType,tmpSubType);
             //tmpNewThumbs=true;
             SPLUqueueSaveAfter=true;
           }
@@ -6603,7 +6532,7 @@
     loadDefaultLocationList();
     loadFavoritesThumbSizeList();
     if(SPLUi18nList.en===undefined){
-      fetchLanguageListQueue();
+      fetchLanguageListQ();
     }
   }
   
@@ -7031,7 +6960,6 @@
   }
   
   function hidePanes(){
-    console.log("hidePanes()");
     document.getElementById('BRlogSettings').style.display="none";
     document.getElementById('SPLUwindow').style.minWidth="";
     document.getElementById('BRlogFavs').style.display="none";
