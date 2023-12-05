@@ -4911,7 +4911,7 @@
     tmpListUnique=tmpList.filter(onlyUnique);
     //console.log(tmpListUnique);
     for(t=0; t<tmpListUnique.length; t++){
-      tmpBBcode+="[imageid="+SPLUimageData[tmpListUnique[t]].imageid+" "+tmpObj.arguments.size+" inline]";
+      tmpBBcode+="[imageid="+SPLUimageData[tmpListUnique[t]].item.imageid+" "+tmpObj.arguments.size+" inline]";
     }
     console.log(tmpBBcode);
     document.getElementById("SPLU.BBstatus").innerHTML="<input type='button' onclick='javascript:{navigator.clipboard.writeText(tmpBBcode);}' value='Click to copy BBcode to clipboard'>";
