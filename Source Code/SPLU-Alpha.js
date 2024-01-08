@@ -1,4 +1,4 @@
-// SPLU 5.8.5 Alpha
+// SPLU 5.8.6 Alpha
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -26,7 +26,7 @@
     //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.8.5";
+    var SPLUversion="5.8.6";
 
     var SPLU={};
     var SPLUplayId="";
@@ -5880,6 +5880,75 @@
     document.getElementById("SPLU.PlaysLoadingDiv").style.display="none";
   }
 
+    function getStatTemporalHotness(tmpUser, sort) {
+    var startTime = performance.now();
+    var tmpDays={};
+    for(m=1; m<=12; m++) {
+      for(d=1; d<=31; d++){
+        tmpDays[(m+"").padStart(2,0)+"-"+(d+"").padStart(2,0)]=0;
+      }
+    }
+    delete tmpDays["02-30"];
+    delete tmpDays["02-31"];
+    delete tmpDays["04-31"];
+    delete tmpDays["06-31"];
+    delete tmpDays["09-31"];
+    delete tmpDays["11-31"];
+    
+    for(p=0; p<SPLUlistOfPlays.length; p++) {
+      if(SPLUplayData[tmpUser][SPLUlistOfPlays[p].id].deleted){
+        continue;
+      }
+      tmpDays[SPLUlistOfPlays[p].date.slice(5)]++;
+    }
+    
+    var tmpCount=[];
+    for(key in tmpDays){
+      if(key == "00-00"){
+        continue;
+      }
+      tmpCount.push({"day":key, "plays":tmpDays[key]});
+    }
+    
+    var endTime = performance.now();
+    console.log((endTime-startTime)+"ms");
+    
+    tmpResults=[];
+    //Sorting by "day" first to get chrono order among numeric groups.
+    tmpResults = tmpCount.sort(dynamicSortMultipleCI("day"));
+    tmpResults.sort(dynamicSortMultipleCI(sort));
+    tmpSortDay="day";
+    tmpSortPlays="plays";
+    tmpClassDay="fa_SP fa_SP-sort-amount-asc";
+    tmpClassPlays="fa_SP fa_SP-sort-amount-asc";
+    if(sort=="day"){
+      tmpSortDay="-day";
+      tmpClassDay="fa_SP fa_SP-sort-amount-desc";
+    }else if(sort=="plays"){
+      tmpSortPlays="-plays";
+      tmpClassPlays="fa_SP fa_SP-sort-amount-desc";
+    }
+    tmpHTML='';
+    tmpHTML+='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
+      +'<div style="display:table-row;">'
+      +'<div style="display:table-cell;font-weight:bold;width:75%;text-align:center;"><a onclick="javascript:{getStatTemporalHotness(\''+tmpUser+'\',\''+tmpSortDay+'\');}" href="javascript:{void(0);}">Day <i class="'+tmpClassDay+'"></i></a></div>'
+      +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatTemporalHotness(\''+tmpUser+'\',\''+tmpSortPlays+'\');}" href="javascript:{void(0);}">Plays <i class="'+tmpClassPlays+'"></i></a></div>'
+      +'</div>';
+    SPLUcsv='"Day","Plays"\r\n';
+    for(i=0;i<tmpResults.length;i++){
+      tmpHTML+='<div style="display:table-row;" onMouseOver="javascript:{this.style.backgroundColor=\'yellow\';}" onMouseOut="javascript:{this.style.backgroundColor=\'#f1f8fb\';}">';
+      tmpHTML+='<div style="display:table-cell;text-align:left;">'+tmpResults[i]["day"]+'</div>';
+      tmpHTML+='<div style="display:table-cell;padding-right:10px;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'gamename\',\'='+tmpResults[i]["day"]+'\');}" href="javascript:{void(0);}">'+tmpResults[i]["plays"]+'</a></div>';
+      tmpHTML+='</div>';
+      SPLUcsv+='"'+tmpResults[i]["day"]+'","'+tmpResults[i]["plays"]+'"\r\n';
+    }
+    tmpHTML+='</div>';
+    document.getElementById("SPLU.StatsContent").innerHTML=tmpHTML;
+    document.getElementById("SPLU.PlaysLoadingDiv").style.display="none";
+    
+    endTime = performance.now();
+    console.log((endTime-startTime)+"ms");
+  }
   
   function loadPlay(id){
     console.log("loadPlay("+id+")");
