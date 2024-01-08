@@ -184,6 +184,7 @@
   "StatsLocations": "Locations",
   "StatsDaysSince": "Days Since...",
   "StatsGameDuration": "Duration",
+  "StatsTemporalHotness": "Temporal Hotness",
   "StatsOptionIncludeZeros": "Include Zeros",
   "StatsColumnPlayer": "Player",
   "StatsColumnPlays": "Plays",

@@ -1164,6 +1164,7 @@
             +'<option class="fa_SP" style="display:block;" value="Locations">&#xf041; '+SPLUi18n.StatsLocations+'</option>'
             +'<option class="fa_SP" style="display:block;" value="GameDaysSince">&#xf272; '+SPLUi18n.StatsDaysSince+'</option>'
             +'<option class="fa_SP" style="display:block;" value="Duration">&#xf272; '+SPLUi18n.StatsGameDuration+'</option>'
+            +'<option class="fa_SP" style="display:block;" value="TemporalHotness">&#xf272; '+SPLUi18n.StatsTemporalHotness+'</option>'
           +'</select>'
           +'<span style="margin-left: 10px;" id="SPLUzeroScoreStatsDiv">'
             +SPLUi18n.StatsOptionIncludeZeros+':<input style="vertical-align: middle;" id="SPLUzeroScoreStatsCheck" onChange="javascript:{SPLUzeroScoreStats=document.getElementById(\'SPLUzeroScoreStatsCheck\').checked;loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);}" type="checkbox">'
@@ -4479,6 +4480,10 @@
       window.setTimeout(function(){getStatsGameDuration(tmpUser,SPLUstatGameDuration);},25);
       document.getElementById('SPLUcsvDownload').style.display="";
     }
+    if(stat=="TemporalHotness"){
+      window.setTimeout(function(){getStatsTemporalHotness(tmpUser,"day");},25);
+      document.getElementById('SPLUcsvDownload').style.display="";
+    }
   }
 
   function isNumeric(n) {
@@ -5880,7 +5885,7 @@
     document.getElementById("SPLU.PlaysLoadingDiv").style.display="none";
   }
 
-    function getStatTemporalHotness(tmpUser, sort) {
+  function getStatsTemporalHotness(tmpUser, sort) {
     var startTime = performance.now();
     var tmpDays={};
     for(m=1; m<=12; m++) {
@@ -5931,8 +5936,8 @@
     tmpHTML='';
     tmpHTML+='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
       +'<div style="display:table-row;">'
-      +'<div style="display:table-cell;font-weight:bold;width:75%;text-align:center;"><a onclick="javascript:{getStatTemporalHotness(\''+tmpUser+'\',\''+tmpSortDay+'\');}" href="javascript:{void(0);}">Day <i class="'+tmpClassDay+'"></i></a></div>'
-      +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatTemporalHotness(\''+tmpUser+'\',\''+tmpSortPlays+'\');}" href="javascript:{void(0);}">Plays <i class="'+tmpClassPlays+'"></i></a></div>'
+      +'<div style="display:table-cell;font-weight:bold;width:75%;text-align:center;"><a onclick="javascript:{getStatsTemporalHotness(\''+tmpUser+'\',\''+tmpSortDay+'\');}" href="javascript:{void(0);}">Day <i class="'+tmpClassDay+'"></i></a></div>'
+      +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsTemporalHotness(\''+tmpUser+'\',\''+tmpSortPlays+'\');}" href="javascript:{void(0);}">Plays <i class="'+tmpClassPlays+'"></i></a></div>'
       +'</div>';
     SPLUcsv='"Day","Plays"\r\n';
     for(i=0;i<tmpResults.length;i++){
