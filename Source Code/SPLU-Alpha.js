@@ -229,7 +229,7 @@
     var style=document.createElement('style');
     style.type='text/css';
     style.id="BRstyle";
-    style.innerHTML='.SPLUheader{height:32px; border:1px solid blue; padding:0px 5px;} .SPLUheaderClose{float:right; margin-right:-6px; margin-top:-4px;} .SPLUrows{vertical-align:bottom;} .BRbutn{border:1px dotted green;padding:0px 2px;} .BRcells{display:table-cell; padding-right:10px; padding-bottom:10px;} .SPLUplayerCells{display:table-cell;} .SPLUsettingAltRows{background-color: #80E086;} .SPLUbuttons{border:2px solid blue;padding:2px 4px;border-radius:5px;background-color:lightGrey;color:black;} .SPLUfavoritesGridItems{display:inline-block; width:100px; padding:3px; margin:5px;vertical-align:top;}';
+    style.innerHTML='.SPLUheader{height:32px; border:1px solid blue; padding:0px 5px;} .SPLUheaderClose{float:right; margin-right:-6px; margin-top:-4px;} .SPLUrows{vertical-align:bottom;} .BRbutn{border:1px dotted green;padding:0px 2px;} .BRcells{display:table-cell; padding-right:10px; padding-bottom:10px;} .SPLUplayerCells{display:table-cell;} .SPLUsettingAltRows{background-color: #80E086;} .SPLUbuttons{border:2px solid blue;padding:2px 4px;border-radius:5px;background-color:lightGrey;color:black;} .SPLUfavoritesGridItems{display:inline-block; width:100px; padding:3px; margin:5px;vertical-align:top;} .TH-cell{padding: 2px;} .TH-cell-1{background: #fbe421;} .TH-cell-2 {background: #79f56d;} .TH-cell-3 {background: #13dab9; color: #3e3128} .TH-cell-4 {background: #0ca5d8; color: white;} .TH-cell-5 {background: #0d2e94; color: white;}';
     document.getElementsByTagName('head')[0].appendChild(style);
     
     var BRlogMain=document.createElement('div');
@@ -1172,6 +1172,7 @@
           +'<span id="SPLUcsvDownload" style="margin-left:50px;vertical-align:top;">'
             +'<a href="javascript:{void(0);}" onClick="javascript:{SPLUdownloadText(\'SPLU-Export.csv\',SPLUcsv);}"><img src="https://dazeysan.github.io/SPLU/Images/save-csv.png""></a>'
           +'</span>'
+          +'<span id="SPLUshowTemporalChartButton" onclick="javascript:{showTemporalHotnessChart();}" style="cursor: pointer;margin-left: 10px; display: none;">Chart</span>'
           +'<div id="SPLU.StatsPlayerDiv" style="display: none;">'+SPLUi18n.PlaysFilterPlayer+': <select class="fa_SP" id="SPLU.SelectStatPlayer" onChange="javascript:{setWinsByGamePlayer(\'\');}"></select></div>'
         +'</div>'
         +'<div id="SPLU.StatsContent" style="display:none;overflow-y: auto; width: 315px; margin-top: 3px; margin-bottom: 15px;"></div>'
@@ -4436,6 +4437,7 @@
 
   function loadStats(stat){
     document.getElementById('SPLUcsvDownload').style.display="none";
+    document.getElementById('SPLUshowTemporalChartButton').style.display="none";
     document.getElementById('SPLUzeroScoreStatsDiv').style.display="none";
     document.getElementById('SPLUzeroScoreStatsCheck').checked=SPLUzeroScoreStats;
     document.getElementById("SPLU.PlaysLoadingDiv").style.display="";
@@ -5887,7 +5889,8 @@
 
   function getStatsTemporalHotness(tmpUser, sort) {
     var startTime = performance.now();
-    var tmpDays={};
+    document.getElementById("SPLUshowTemporalChartButton").style.display="";
+    tmpDays={};
     for(m=1; m<=12; m++) {
       for(d=1; d<=31; d++){
         tmpDays[(m+"").padStart(2,0)+"-"+(d+"").padStart(2,0)]=0;
@@ -5900,14 +5903,20 @@
     delete tmpDays["09-31"];
     delete tmpDays["11-31"];
     
+    //tmpMonthCount = ["", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    tmpMonthCount = {"01":0, "02":0, "03":0, "04":0, "05":0, "06":0, "07":0, "08":0, "09":0, "10":0, "11":0, "12":0};
     for(p=0; p<SPLUlistOfPlays.length; p++) {
       if(SPLUplayData[tmpUser][SPLUlistOfPlays[p].id].deleted){
         continue;
       }
       tmpDays[SPLUlistOfPlays[p].date.slice(5)]++;
+      if(SPLUlistOfPlays[p].date.slice(5,7) == "00"){
+        continue;
+      }
+      tmpMonthCount[SPLUlistOfPlays[p].date.slice(5,7)]++;
     }
     
-    var tmpCount=[];
+    tmpCount=[];
     for(key in tmpDays){
       if(key == "00-00"){
         continue;
@@ -5953,6 +5962,101 @@
     
     endTime = performance.now();
     console.log((endTime-startTime)+"ms");
+    
+  }
+  
+  function showTemporalHotnessChart() {
+    var tmpTable = document.createElement("table");
+    tmpTable.style = "text-align: center; border-collapse: separate;";
+    var tmpTHead = document.createElement("thead");
+    tmpTHead.style = "font-weight: bold;";
+    var tmpTD = document.createElement("td");
+    tmpTD.innerHTML = "Total";
+    tmpTHead.appendChild(tmpTD);
+    var tmpTD = document.createElement("td");
+    tmpTD.innerHTML = "Month";
+    tmpTHead.appendChild(tmpTD);
+    for(i=1; i<=31; i++) {
+      var tmpTD = document.createElement("td");
+      tmpTD.innerHTML = i;
+      tmpTHead.appendChild(tmpTD);
+    }
+    tmpTable.appendChild(tmpTHead);
+    tmpTBody = document.createElement("tbody");
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      
+    for(m=1; m<=12; m++) {
+      tmpTR = document.createElement("tr");
+      tmpTD = document.createElement("td");
+      tmpTD.id="TH-"+(m+"").padStart(2,0)+"-T";
+      tmpTD.innerHTML=tmpMonthCount[(m+"").padStart(2,0)];
+      tmpTR.appendChild(tmpTD);
+      tmpTD = document.createElement("td");
+      tmpTD.innerHTML=months[m-1];
+      tmpTR.appendChild(tmpTD);
+      for(d=1; d<=31; d++){
+        if ( (m == 2 && d == 30) || (m == 2 && d == 31) || (m == 4 && d == 31) || (m == 6 && d == 31) || (m == 9 && d == 31) || (m == 11 && d == 31)) {
+          continue;
+        }
+        tmpTD = document.createElement("td");
+        tmpTD.id="TH-"+(m+"").padStart(2,0)+"-"+(d+"").padStart(2,0);
+        tmpTD.className="TH-cell";
+        tmpTD.innerHTML="#";
+        tmpTR.appendChild(tmpTD);
+      }
+      tmpTBody.appendChild(tmpTR);
+    }
+    tmpTable.appendChild(tmpTBody);
+    
+    tmpDiv=document.createElement("div");
+    tmpDiv.id="SPLUchart";
+    tmpDiv.style="background: white; z-index: 5001; position: relative; float: left; top: 10px;padding: 20px;left: 45px;border: 2px solid blue;";
+    tmpDiv.addEventListener("click", (event) => {
+      event.stopPropagation();
+    });
+    tmpDiv.appendChild(tmpTable);
+    tmpDivBlocker=document.createElement("div");
+    tmpDivBlocker.id="SPLUchartBlocker";
+    tmpDivBlocker.style="position: fixed;z-index: 5000; top: 0;left: 0;bottom: 0;right: 0;background: rgba(0,0,0,.5);";
+    tmpDivBlocker.addEventListener("click", (event) => {
+      event.stopPropagation();
+      document.getElementById("SPLUchartBlocker").remove();
+    });
+    tmpDivBlocker.appendChild(tmpDiv);
+    tmpDivClose=document.createElement("div");
+    tmpDivClose.style="z-index: 5001; position: relative; background: red; font-size: large; float: left; top: 10px; left: 45px; border: 2px solid blue; width: 30px; text-align: center; height: 30px;";
+    tmpDivClose.innerHTML = "X";
+    tmpDivBlocker.appendChild(tmpDivClose);
+    document.getElementById("SPLUmain").appendChild(tmpDivBlocker);
+
+    tmpArray = [];
+    for (a=0; a<tmpCount.length; a++) {
+      tmpArray.push(tmpCount[a].plays);
+      }
+    tmpStdDev = standardDeviation(tmpArray);
+    
+    //var tmpSum = 0;
+    var tmpMean = tmpArray.reduce((acc, val) => acc + val, 0) / tmpArray.length;
+    for(d=0; d<tmpCount.length; d++){
+      document.getElementById("TH-"+tmpCount[d].day).innerHTML=tmpCount[d].plays;
+      tmpCalc = (tmpCount[d].plays-tmpMean)/tmpStdDev;
+      tmpClass = "TH-cell-3";
+      if(tmpCalc <= -0.5) { tmpClass = "TH-cell-2"; }
+      if(tmpCalc <= -1) { tmpClass = "TH-cell-1"; }
+      if(tmpCalc >= 0.5) { tmpClass = "TH-cell-4"; }
+      if(tmpCalc >= 1) { tmpClass = "TH-cell-5"; }
+      document.getElementById("TH-"+tmpCount[d].day).classList.add(tmpClass);
+      //tmpSum += tmpCount[d].plays;
+    }
+  }
+  
+  // From: https://stackoverflow.com/questions/7343890/standard-deviation-javascript
+  const standardDeviation = (arr, usePopulation = false) => {
+    var mean = arr.reduce((acc, val) => acc + val, 0) / arr.length;
+    return Math.sqrt(
+      arr.reduce((acc, val) => acc.concat((val - mean) ** 2), []).reduce((acc, val) => acc + val, 0) /
+        (arr.length - (usePopulation ? 0 : 1))
+    );
   }
   
   function loadPlay(id){
