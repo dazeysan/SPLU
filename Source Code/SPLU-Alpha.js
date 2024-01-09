@@ -5952,7 +5952,7 @@
     for(i=0;i<tmpResults.length;i++){
       tmpHTML+='<div style="display:table-row;" onMouseOver="javascript:{this.style.backgroundColor=\'yellow\';}" onMouseOut="javascript:{this.style.backgroundColor=\'#f1f8fb\';}">';
       tmpHTML+='<div style="display:table-cell;text-align:left;">'+tmpResults[i]["day"]+'</div>';
-      tmpHTML+='<div style="display:table-cell;padding-right:10px;"><a onclick="javascript:{showPlaysTab(\'filters\');addPlaysFilter(\'gamename\',\'='+tmpResults[i]["day"]+'\');}" href="javascript:{void(0);}">'+tmpResults[i]["plays"]+'</a></div>';
+      tmpHTML+='<div style="display:table-cell;padding-right:10px;">'+tmpResults[i]["plays"]+'</div>';
       tmpHTML+='</div>';
       SPLUcsv+='"'+tmpResults[i]["day"]+'","'+tmpResults[i]["plays"]+'"\r\n';
     }
@@ -6015,6 +6015,14 @@
       event.stopPropagation();
     });
     tmpDiv.appendChild(tmpTable);
+    tmpDivFooter=document.createElement("div");
+    tmpDivFooter.innerHTML='<div style="margin-top: 10px;text-align: center;"><span class="TH-cell-1">1+ standard deviations below the mean (<span id="SPLUthLevel1"></span>)</span><br/>'
+      +'<span class="TH-cell-2">0.5 - 1 standard deviations below the mean (<span id="SPLUthLevel2"></span>)</span><br/>'
+      +'<span class="TH-cell-3">within 0.5 standard deviations of the mean (<span id="SPLUthLevel3"></span>)</span><br/>'
+      +'<span class="TH-cell-4">0.5 - 1 standard deviations above the mean (<span id="SPLUthLevel4"></span>)</span><br/>'
+      +'<span class="TH-cell-5">1+ standard deviations above the mean (<span id="SPLUthLevel5"></span>)</span><br/>'
+      +'<span id="SPLUthMean">Mean = </span> | <span id="SPLUthStdDev">Standard Deviation = </span></div>';
+    tmpDiv.appendChild(tmpDivFooter);
     tmpDivBlocker=document.createElement("div");
     tmpDivBlocker.id="SPLUchartBlocker";
     tmpDivBlocker.style="position: fixed;z-index: 5000; top: 0;left: 0;bottom: 0;right: 0;background: rgba(0,0,0,.5);";
@@ -6034,9 +6042,15 @@
       tmpArray.push(tmpCount[a].plays);
       }
     tmpStdDev = standardDeviation(tmpArray);
+    document.getElementById("SPLUthStdDev").innerHTML = "Standard Deviation = "+Math.round(tmpStdDev * 100) / 100;
+    tmpMean = tmpArray.reduce((acc, val) => acc + val, 0) / tmpArray.length;
+    document.getElementById("SPLUthMean").innerHTML = "Mean = "+Math.round(tmpMean * 100) / 100;
+    document.getElementById("SPLUthLevel1").innerHTML = "below "+Math.round((tmpMean-(tmpStdDev)) * 100) / 100;
+    document.getElementById("SPLUthLevel2").innerHTML = Math.round((tmpMean-(tmpStdDev)) * 100) / 100+" to "+Math.round((tmpMean-(tmpStdDev/2)) * 100) / 100;
+    document.getElementById("SPLUthLevel3").innerHTML = Math.round((tmpMean-(tmpStdDev/2)) * 100) / 100+" to "+Math.round((tmpMean+(tmpStdDev/2)) * 100) / 100;
+    document.getElementById("SPLUthLevel4").innerHTML = Math.round((tmpMean+(tmpStdDev/2)) * 100) / 100+" to "+Math.round((tmpMean+(tmpStdDev)) * 100) / 100;
+    document.getElementById("SPLUthLevel5").innerHTML = "above "+Math.round((tmpMean+(tmpStdDev)) * 100) / 100;
     
-    //var tmpSum = 0;
-    var tmpMean = tmpArray.reduce((acc, val) => acc + val, 0) / tmpArray.length;
     for(d=0; d<tmpCount.length; d++){
       document.getElementById("TH-"+tmpCount[d].day).innerHTML=tmpCount[d].plays;
       tmpCalc = (tmpCount[d].plays-tmpMean)/tmpStdDev;
@@ -6046,7 +6060,6 @@
       if(tmpCalc >= 0.5) { tmpClass = "TH-cell-4"; }
       if(tmpCalc >= 1) { tmpClass = "TH-cell-5"; }
       document.getElementById("TH-"+tmpCount[d].day).classList.add(tmpClass);
-      //tmpSum += tmpCount[d].plays;
     }
   }
   
