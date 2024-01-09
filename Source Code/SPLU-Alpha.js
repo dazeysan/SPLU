@@ -1130,7 +1130,7 @@
                 +'</li>'
               +'</ul>'
             +'</div>'
-            +'<div id="SPLUdropMenuHider" style="position: absolute; top: -144px; z-index: 1570; left: -625px; display: none;" onclick="javascript:{hideDropMenus();}"></div>'
+            +'<div id="SPLUdropMenuHider" style="position: fixed; inset: 0px; display: none;" onclick="javascript:{hideDropMenus();}"></div>'
             +'<span id="SPLU.PlaysLoadingDiv" style="margin-left:20px;display:none;">'
               +'<img src="https://dazeysan.github.io/SPLU/Images/progress.gif">'
             +'</span>'
@@ -6331,16 +6331,10 @@
     console.log("hideDropMenus()");
     document.getElementById('SPLUfilterDrop').style.display="none";
     document.getElementById('SPLUdropMenuHider').style.display="none";
-    document.getElementById('SPLUdropMenuHider').style.width="";
-    document.getElementById('SPLUdropMenuHider').style.height="";
   }
   
   function showDropMenu(){
     document.getElementById('SPLUdropMenuHider').style.display="";
-    document.getElementById('SPLUdropMenuHider').style.left=(document.getElementById('BRlogMain').getLeft()-document.getElementById('SPLUfilterDrop').getLeft()+"px");
-    document.getElementById('SPLUdropMenuHider').style.top=(document.getElementById('BRlogMain').getTop()-document.getElementById('SPLUfilterDrop').getTop()+"px");
-    document.getElementById('SPLUdropMenuHider').style.width=document.getElementById('BRlogMain').getWidth()+"px";
-    document.getElementById('SPLUdropMenuHider').style.height=document.getElementById('BRlogMain').getHeight()+"px";
   }
   
   function showPopText(text,e){
