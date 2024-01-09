@@ -1172,7 +1172,7 @@
           +'<span id="SPLUcsvDownload" style="margin-left:50px;vertical-align:top;">'
             +'<a href="javascript:{void(0);}" onClick="javascript:{SPLUdownloadText(\'SPLU-Export.csv\',SPLUcsv);}"><img src="https://dazeysan.github.io/SPLU/Images/save-csv.png""></a>'
           +'</span>'
-          +'<span id="SPLUshowTemporalChartButton" onclick="javascript:{showTemporalHotnessChart();}" style="cursor: pointer;margin-left: 10px; display: none;">Chart</span>'
+          +'<div id="SPLUshowTemporalChartButton" style="display: none; margin-top: 5px;"><input type="button" onclick="javascript:{showTemporalHotnessChart();}" style="border: 1px solid black;padding: 0px 05px;border-radius: 4px;background: #e9e9ed;" value="Display Chart"></div>'
           +'<div id="SPLU.StatsPlayerDiv" style="display: none;">'+SPLUi18n.PlaysFilterPlayer+': <select class="fa_SP" id="SPLU.SelectStatPlayer" onChange="javascript:{setWinsByGamePlayer(\'\');}"></select></div>'
         +'</div>'
         +'<div id="SPLU.StatsContent" style="display:none;overflow-y: auto; width: 315px; margin-top: 3px; margin-bottom: 15px;"></div>'
@@ -6016,12 +6016,16 @@
     });
     tmpDiv.appendChild(tmpTable);
     tmpDivFooter=document.createElement("div");
-    tmpDivFooter.innerHTML='<div style="margin-top: 10px;text-align: center;"><span class="TH-cell-1">1+ standard deviations below the mean (<span id="SPLUthLevel1"></span>)</span><br/>'
-      +'<span class="TH-cell-2">0.5 - 1 standard deviations below the mean (<span id="SPLUthLevel2"></span>)</span><br/>'
-      +'<span class="TH-cell-3">within 0.5 standard deviations of the mean (<span id="SPLUthLevel3"></span>)</span><br/>'
-      +'<span class="TH-cell-4">0.5 - 1 standard deviations above the mean (<span id="SPLUthLevel4"></span>)</span><br/>'
-      +'<span class="TH-cell-5">1+ standard deviations above the mean (<span id="SPLUthLevel5"></span>)</span><br/>'
-      +'<span id="SPLUthMean">Mean = </span> | <span id="SPLUthStdDev">Standard Deviation = </span></div>';
+    tmpDivFooter.innerHTML='<div style="text-align: center; width: fit-content; margin: 10px auto;">'
+      +'<table><tbody>'
+      +'<tr><td class="TH-cell-1 TH-map">1+ standard deviations below the mean</td><td class="TH-cell-1 TH-map-vals">(<span id="SPLUthLevel1"></span>)</td></tr>'
+      +'<tr><td class="TH-cell-2 TH-map">0.5 - 1 standard deviations below the mean</td><td class="TH-cell-2 TH-map-vals">(<span id="SPLUthLevel2"></span>)</td></tr>'
+      +'<tr><td class="TH-cell-3 TH-map">within 0.5 standard deviations of the mean</td><td class="TH-cell-3 TH-map-vals">(<span id="SPLUthLevel3"></span>)</td></tr>'
+      +'<tr><td class="TH-cell-4 TH-map">0.5 - 1 standard deviations above the mean</td><td class="TH-cell-4 TH-map-vals">(<span id="SPLUthLevel4"></span>)</td></tr>'
+      +'<tr><td class="TH-cell-5 TH-map">1+ standard deviations above the mean</td><td class="TH-cell-5 TH-map-vals">(<span id="SPLUthLevel5"></span>)</td></tr>'
+      +'<tr><td colspan="2" style="background: light-grey;"><span id="SPLUthMean">Mean = </span> | <span id="SPLUthStdDev">Standard Deviation = </span></td></tr>'
+      +'<tr><td colspan="2">Style:<input type="button" value="blue" style="border: 1px solid black; border-radius: 3px; padding: 0px 5px; margin: 0px 5px; background: rgb(13, 46, 148); color: rgb(255, 255, 255);" onclick="javascript:{changeTemporalHotnessChartColor(\'blue\');}"><input type="button" value="green" style="border: 1px solid black;border-radius: 3px;padding: 0px 5px;background: #228b22;color: white;" onclick="javascript:{changeTemporalHotnessChartColor(\'green\');}"></td></tr>'
+      +'</tbody></table>';
     tmpDiv.appendChild(tmpDivFooter);
     tmpDivBlocker=document.createElement("div");
     tmpDivBlocker.id="SPLUchartBlocker";
@@ -6060,6 +6064,28 @@
       if(tmpCalc >= 0.5) { tmpClass = "TH-cell-4"; }
       if(tmpCalc >= 1) { tmpClass = "TH-cell-5"; }
       document.getElementById("TH-"+tmpCount[d].day).classList.add(tmpClass);
+    }
+  }
+  
+  function changeTemporalHotnessChartColor(col){
+    tmp1=document.querySelectorAll(".TH-cell-1");
+    tmp2=document.querySelectorAll(".TH-cell-2");
+    tmp3=document.querySelectorAll(".TH-cell-3");
+    tmp4=document.querySelectorAll(".TH-cell-4");
+    tmp5=document.querySelectorAll(".TH-cell-5");
+    if(col == "green"){
+      for(c=0; c<tmp1.length; c++){tmp1[c].style.background="#fbe839"; tmp1[c].style.color="#000000";}
+      for(c=0; c<tmp2.length; c++){tmp2[c].style.background="#c9f269"; tmp2[c].style.color="#000000";}
+      for(c=0; c<tmp3.length; c++){tmp3[c].style.background="#98fb98"; tmp3[c].style.color="#000000";}
+      for(c=0; c<tmp4.length; c++){tmp4[c].style.background="#00ff00"; tmp4[c].style.color="#000000";}
+      for(c=0; c<tmp5.length; c++){tmp5[c].style.background="#228b22"; tmp5[c].style.color="#ffffff";}
+    }
+    if(col == "blue"){
+      for(c=0; c<tmp1.length; c++){tmp1[c].style.background="#fbe421"; tmp1[c].style.color="#000000";}
+      for(c=0; c<tmp2.length; c++){tmp2[c].style.background="#79f56d"; tmp2[c].style.color="#000000";}
+      for(c=0; c<tmp3.length; c++){tmp3[c].style.background="#13dab9"; tmp3[c].style.color="#3e3128";}
+      for(c=0; c<tmp4.length; c++){tmp4[c].style.background="#0ca5d8"; tmp4[c].style.color="#ffffff";}
+      for(c=0; c<tmp5.length; c++){tmp5[c].style.background="#0d2e94"; tmp5[c].style.color="#ffffff";}
     }
   }
   
