@@ -3389,6 +3389,7 @@
     if(e.keyCode === 13){
       //getRecentPlays(false);
       fetchUserID(document.getElementById("SPLU.PlaysLogger").value);
+      hideDropMenus();
     }
     return false;
   }
@@ -3644,6 +3645,7 @@
   }
 
   function loadPlays(tmpUser,copyMode){
+    hideDropMenus();
     document.getElementById("SPLU.PlaysPlayers").style.display="none";
     console.log("loadPlays("+tmpUser+")");
     SPLUcopySelectedAll=false;
@@ -6192,6 +6194,7 @@
   }
   
   function listFetchedPlayers(){
+    showDropMenu();
     var tmpPlayers=[];
     document.getElementById("SPLU.PlaysPlayers").innerHTML="";
     for(key in SPLUplayData){
@@ -6330,6 +6333,7 @@
   function hideDropMenus(){
     console.log("hideDropMenus()");
     document.getElementById('SPLUfilterDrop').style.display="none";
+    document.getElementById("SPLU.PlaysPlayers").style.display="none";
     document.getElementById('SPLUdropMenuHider').style.display="none";
   }
   
