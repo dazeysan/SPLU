@@ -1154,7 +1154,7 @@
           +'<div id="CopyPlaysStatus"></div>'
         +'</div>'
         +'<div id="SPLU.StatsMenu" style="display:none; margin-top: 3px;">'
-          +SPLUi18n.StatsStat+': 
+          +SPLUi18n.StatsStat+': '
           
           
           +'<div style="background-color:white;width:60%;border:1px solid gray;padding:2px;cursor:pointer;height:19px;" onclick="javascript:{document.getElementById(\'SPLUstatDrop\').style.display='';showDropMenu();}">'
