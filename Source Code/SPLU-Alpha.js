@@ -1157,7 +1157,7 @@
           +SPLUi18n.StatsStat+': '
           
           
-          +'<div style="background-color:white;width:60%;border:1px solid gray;padding:2px;cursor:pointer;height:19px;" onclick="javascript:{document.getElementById(\'SPLUstatDrop\').style.display='';showDropMenu();}">'
+          +'<div style="background-color:white;width:60%;border:1px solid gray;padding:2px;cursor:pointer;height:19px;" onclick="javascript:{document.getElementById(\'SPLUstatDrop\').style.display=\'\';showDropMenu();}">'
             +'<i class="fa_SP fa_SP-funnel"></i> <span id="SPLU.StatsMenuSelectorText">Select a Stat</span><i style="float: right; padding: 1px 2px 0px;" class="fa_SP"></i>'
           +'</div>'
 
