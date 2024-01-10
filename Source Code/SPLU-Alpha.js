@@ -94,6 +94,7 @@
     var SPLUstatGameList="game";
     var SPLUstatGameDaysSince="days";
     var SPLUstatGameDuration="high";
+    var SPLUstatChoose = "PlaysWins";
     var SPLUcopyMode=false;
     var SPLUcombine=false;  //Temp variable, see getStatsGameDetails
     var SPLUsearchResults={};
@@ -1076,11 +1077,14 @@
           +'<div id="SPLUcopyModeIconBtn" style="display:none;padding-top:5px;border-top-left-radius:20px;border-top-right-radius:20px;">'
             +'<a href="javascript:{void(0);}" style="padding:0px 20px;" onClick="javascript:{showPlaysTab(\'copymode\');loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,true);}"><img src="https://dazeysan.github.io/SPLU/Images/copy.gif" id="copymodeicon"></a>'
           +'</div>'
+          +'<div id="SPLU.PlaysLoadingDiv" style="margin-right:10px;float:right;display:none;">'
+            +'<img src="https://dazeysan.github.io/SPLU/Images/progress.gif">'
+          +'</div>'
         +'</div>'
         +'<div id="SPLU.PlaysFilters" style="border: 1px solid blue; border-radius: 5px; padding: 3px;">'
           +'<div id="SPLU.PlaysFiltersStatus" style="float:right;"></div>'
           +'<div>'
-            +'<div style="background-color:white;width:60%;border:1px solid gray;padding:2px;cursor:pointer;height:19px"  onclick="javascript:{document.getElementById(\'SPLUfilterDrop\').style.display=\'\';showDropMenu();}"><i class="fa_SP fa_SP-funnel"></i> '+SPLUi18n.PlaysFilterAddFilter+'<i style="float: right; padding: 1px 2px 0px;" class="fa_SP">&#xf078;</i></div>'
+            +'<div style="background-color:white;width:60%;border:1px solid gray;cursor:pointer;height:19px"  onclick="javascript:{document.getElementById(\'SPLUfilterDrop\').style.display=\'\';showDropMenu();}"><i class="fa_SP fa_SP-funnel" style="padding:2px;"></i> '+SPLUi18n.PlaysFilterAddFilter+'<i style="float: right; padding: 1px 2px 0px;" class="fa_SP">&#xf078;</i></div>'
             +'<div style="position:absolute;border:1px solid blue;background-color:rgb(206,214,233);display:none;cursor:pointer;z-index: 1575;" id="SPLUfilterDrop">'
               +'<ul class="fa_SP-ul" style="padding-right:8px; margin-bottom: 0px;">'
                 +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{addPlaysFilter(\'gamename\',\'\');}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
@@ -1131,9 +1135,6 @@
               +'</ul>'
             +'</div>'
             +'<div id="SPLUdropMenuHider" style="position: fixed; inset: 0px; display: none;" onclick="javascript:{hideDropMenus();}"></div>'
-            +'<span id="SPLU.PlaysLoadingDiv" style="margin-left:20px;display:none;">'
-              +'<img src="https://dazeysan.github.io/SPLU/Images/progress.gif">'
-            +'</span>'
           +'<div id="SPLU.PlaysFiltersCurrent" style="width:250px;"></div>'
             +'<div id="SPLU.PlaysFiltersGoBtn"style="float:right;margin-top:-20px;margin-right:5px;display:none;">'
               +'<a href="javascript:{void(0);}" onClick="javascript:{loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false);}">'+SPLUi18n.PlaysFilterButtonGo+'</a>'
@@ -1154,25 +1155,25 @@
           +'<div id="CopyPlaysStatus"></div>'
         +'</div>'
         +'<div id="SPLU.StatsMenu" style="display:none; margin-top: 3px;">'
-          +SPLUi18n.StatsStat+': '
           
+          +'<div style="float:left;margin-right:7px;">'+SPLUi18n.StatsStat+':</div>'
           
-          +'<div style="background-color:white;width:60%;border:1px solid gray;padding:2px;cursor:pointer;height:19px;" onclick="javascript:{document.getElementById(\'SPLUstatDrop\').style.display=\'\';showDropMenu();}">'
-            +'<i class="fa_SP fa_SP-funnel"></i> <span id="SPLU.StatsMenuSelectorText">Select a Stat</span><i style="float: right; padding: 1px 2px 0px;" class="fa_SP"></i>'
+          +'<div style="float:left;background-color:white;width:60%;border:1px solid gray;cursor:pointer;height:19px;" onclick="javascript:{document.getElementById(\'SPLUstatDrop\').style.display=\'\';showDropMenu();}">'
+            +'<span id="SPLU.StatsMenuSelectorText">Select a Stat</span><i style="float: right; padding: 1px 2px 0px;" class="fa_SP"></i>'
           +'</div>'
 
-          +'<div style="position: absolute; border: 1px solid blue; background-color: rgb(206, 214, 233); cursor: pointer; z-index: 1575; display: none;" id="SPLUstatDrop">'
+          +'<div style="position: absolute; border: 1px solid blue; background-color: rgb(206, 214, 233); cursor: pointer; z-index: 1575; display: none;margin-top:19px;" id="SPLUstatDrop">'
             +'<ul class="fa_SP-ul" style="padding-right:8px;margin-bottom: 0px;">'
               +'<li style="background-color: rgb(206, 214, 233);" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'#ced6e9\';}" onclick="javascript:{loadStats(\'PlaysWins\');}"><i class="fa_SP fa_SP-li">&#xf091;</i>'+SPLUi18n.StatsWins+'</li>'
-              +'<li style="background-color: rgb(206, 214, 233);" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'#ced6e9\';}" onclick="javascript:{loadStats(\'WinsByGame\');}"><i class="fa_SP fa_SP-li">&#xf091;</i>'+SPLUi18n.StatsWinsByGame+'</li>'
-              +'<li style="background-color: rgb(206, 214, 233);" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'#ced6e9\';}" onclick="javascript:{loadStats(\'BeginnersLuck\');}"><i style="transform: translate(1px, 1px);" class="fa_SP fa_SP-li display:block">☘</i>'+SPLUi18n.StatsBeginnersLuck+'</li>'
+              +'<li style="background-color: rgb(206, 214, 233);" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'#ced6e9\';}" onclick="javascript:{loadStats(\'WinsByGame\');}"><i class="fa_SP fa_SP-li">&#xf005;</i>'+SPLUi18n.StatsWinsByGame+'</li>'
+              +'<li style="background-color: rgb(206, 214, 233);" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'#ced6e9\';}" onclick="javascript:{loadStats(\'BeginnersLuck\');}"><i class="fa_SP fa_SP-li display:block" style="transform: translate(3px, -3px);font-size: 1.3em;">☘</i>'+SPLUi18n.StatsBeginnersLuck+'</li>'
               +'<li style="background-color: rgb(206, 214, 233);" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'#ced6e9\';}" onclick="javascript:{loadStats(\'GameList\');}"><i class="fa_SP fa_SP-li">&#xee34;</i>'+SPLUi18n.StatsGameList+'</li>'
-              +'<li style="background-color: rgb(206, 214, 233);" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'#ced6e9\';}" onclick="javascript:{loadStats(\'GameListRank\');}"><i style="transform: translate(0.5px, 0px);" class="fa_SP fa_SP-li display:block">&#xee34;</i>'+SPLUi18n.StatsGameListRank+'</li>'
+              +'<li style="background-color: rgb(206, 214, 233);" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'#ced6e9\';}" onclick="javascript:{loadStats(\'GameListRank\');}"><i class="fa_SP fa_SP-li display:block">&#xf0cb;</i>'+SPLUi18n.StatsGameListRank+'</li>'
               +'<li style="background-color: rgb(206, 214, 233);" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'#ced6e9\';}" onclick="javascript:{loadStats(\'GameDetails\');}"><i class="fa_SP fa_SP-li">&#xf201;</i>'+SPLUi18n.StatsGameDetails+'</li>'
-              +'<li style="background-color: rgb(206, 214, 233);" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'#ced6e9\';}" onclick="javascript:{loadStats(\'Locations\');}"><i style="transform: translate(1px, 0px);" class="fa_SP fa_SP-li display:block">&#xf041;</i>'+SPLUi18n.StatsLocations+'</li>'
-              +'<li style="background-color: rgb(206, 214, 233);" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'#ced6e9\';}" onclick="javascript:{loadStats(\'GameDaysSince\');}"><i style="transform: translate(4px, 0px); font-size: 1.3em;" class="fa_SP fa_SP-li display:block">&#xf272;</i>'+SPLUi18n.StatsDaysSince+'</li>'
-              +'<li style="background-color: rgb(206, 214, 233);" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'#ced6e9\';}" onclick="javascript:{loadStats(\'Duration\');}"><i style="transform: translate(4px, 0px); font-size: 1.3em;" class="fa_SP fa_SP-li display:block">&#xf272;</i>'+SPLUi18n.StatsGameDuration+'</li>'
-              +'<li style="background-color: rgb(206, 214, 233);" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'#ced6e9\';}" onclick="javascript:{loadStats(\'TemporalHotness\');}"><i class="fa_SP fa_SP-li">&#xf272;</i>'+SPLUi18n.StatsTemporalHotness+'</li>'
+              +'<li style="background-color: rgb(206, 214, 233);" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'#ced6e9\';}" onclick="javascript:{loadStats(\'Locations\');}"><i style="transform: translate(3px, -1px);font-size: 1.2em;" class="fa_SP fa_SP-li display:block">&#xf041;</i>'+SPLUi18n.StatsLocations+'</li>'
+              +'<li style="background-color: rgb(206, 214, 233);" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'#ced6e9\';}" onclick="javascript:{loadStats(\'GameDaysSince\');}"><i style="transform: translate(3px, 0px); font-size: 1.2em;" class="fa_SP fa_SP-li display:block">&#xf073;</i>'+SPLUi18n.StatsDaysSince+'</li>'
+              +'<li style="background-color: rgb(206, 214, 233);" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'#ced6e9\';}" onclick="javascript:{loadStats(\'Duration\');}"><i style="transform: translate(4px, 0px); font-size: 1.3em;" class="fa_SP fa_SP-li display:block">&#xf017;</i>'+SPLUi18n.StatsGameDuration+'</li>'
+              +'<li style="background-color: rgb(206, 214, 233);" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'#ced6e9\';}" onclick="javascript:{loadStats(\'TemporalHotness\');}"><i style="transform: translate(3px, 0px); font-size: 1.2em;" class="fa_SP fa_SP-li">&#xf271;</i>'+SPLUi18n.StatsTemporalHotness+'</li>'
               +'</ul>'
             +'</div>'
           
@@ -4457,8 +4458,10 @@
     document.getElementById("SPLU.PlaysLoadingDiv").style.display="";
     document.getElementById('SPLU.StatsPlayerDiv').style.display="none";
     if(stat=="choose"){
-      stat=document.getElementById("SPLU.SelectStat").value;
+      //stat=document.getElementById("SPLU.SelectStat").value;
+      stat=SPLUstatChoose;
     }
+    SPLUstatChoose=stat;
     var tmpUser=document.getElementById('SPLU.PlaysLogger').value;
     if(stat=="GameDetails"){
       window.setTimeout(function(){getStatsGameDetails(tmpUser);},25);
@@ -5969,7 +5972,7 @@
     tmpHTML='';
     tmpHTML+='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
       +'<div style="display:table-row;">'
-      +'<div style="display:table-cell;font-weight:bold;width:75%;text-align:center;"><a onclick="javascript:{getStatsTemporalHotness(\''+tmpUser+'\',\''+tmpSortDay+'\');}" href="javascript:{void(0);}">Day <i class="'+tmpClassDay+'"></i></a></div>'
+      +'<div style="display:table-cell;font-weight:bold;text-align:center;"><a onclick="javascript:{getStatsTemporalHotness(\''+tmpUser+'\',\''+tmpSortDay+'\');}" href="javascript:{void(0);}">Day <i class="'+tmpClassDay+'"></i></a></div>'
       +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsTemporalHotness(\''+tmpUser+'\',\''+tmpSortPlays+'\');}" href="javascript:{void(0);}">Plays <i class="'+tmpClassPlays+'"></i></a></div>'
       +'</div>';
     SPLUcsv='"Day","Plays"\r\n';
