@@ -1358,7 +1358,8 @@
         filter: 'input',
         preventOnFilter: false,
         animation: 150,
-        group: "SPLUplayerRows"
+        group: "SPLUplayerRows",
+        handle: ".SPLUrowDragHandle"
       })
     }, 1000);
 
@@ -2248,7 +2249,7 @@
     tmpDiv.style.display="table-cell";
     tmpDiv.style.textAlign="center";
     tmpDiv.style.cursor="grab";
-    tmpDiv.className="SPLUrows";
+    tmpDiv.className="SPLUrows SPLUrowDragHandle";
     tmpDiv.id="SPLU.PlayerDragColumn"+NumOfPlayers;
     tmpDiv.dataset.spluplayernumber=NumOfPlayers;
     tmpDiv.innerHTML='<span style=""><span style=""><span style="transform: scaleX(-1); top:7px;" class="fa_SP-stack"><i style="font-size: 1.3em;" class="fa_SP fa_SP-stack-2x fa_SP-drag-row"></i></span></span>';
