@@ -925,8 +925,8 @@
     BRlogLocations.id='BRlogLocations';
     BRlogLocations.setAttribute("style","display:none; background-color: #F5C86C; padding: 13px;border:2px solid #249631;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:100px;position:relative;");
     var tmpDiv=document.createElement('div');
-    var tmpHTML='<div id="hideLocationsButton" style="position: absolute; right: -2px; top: -3px;">'
-        +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogLocations\').style.display=\'none\';}" style="border:2px solid #249631;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU/Images/close_pane.png"></a>'
+    var tmpHTML='<div id="hideLocationsButton" style="position: absolute; right: 0px; top: -3px;">'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogLocations\').style.display=\'none\';}" style="border-left:2px solid #249631;border-bottom:2px solid #249631;padding:1px 8px;border-top-right-radius: 13px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU/Images/close_pane.png"></a>'
         +'</div>'
         +'<span style="font-variant:small-caps; font-weight:bold;">'
         +'<center>'+SPLUi18n.LocationsHeader+'</center>'
@@ -945,8 +945,8 @@
     BRlogPlayers.id='BRlogPlayers';
     BRlogPlayers.setAttribute("style","display:none; background-color: #F7FB6F; padding: 13px;border:2px solid #00F; border-radius:15px; box-shadow:10px 10px 5px #888; min-width:275px;position:relative;");
     var tmpDiv=document.createElement('div');
-    var tmpHTML='<div id="hidePlayersButton" style="position: absolute; right: -2px; top: -3px;">'
-        +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();showPlayersTab();document.getElementById(\'BRlogPlayers\').style.display=\'none\';}" style="border:2px solid #00F;padding:0px 8px;border-top-right-radius: 15px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU/Images/close_pane.png"></a>'
+    var tmpHTML='<div id="hidePlayersButton" style="position: absolute; right: 0px; top: -3px;">'
+        +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();showPlayersTab();document.getElementById(\'BRlogPlayers\').style.display=\'none\';}" style="border-left:2px solid #00F;border-bottom:2px solid #00F;padding:1px 8px;border-top-right-radius: 13px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU/Images/close_pane.png"></a>'
         +'</div>'
         +'<span style="font-variant:small-caps; font-weight:bold;">'
         +'<center>'+SPLUi18n.PlayersHeader+'</center>'
@@ -1003,7 +1003,7 @@
         +'<div style="display:none;width:64px;" name="SPLUplayerFilterColumn"></div>'
         +'</div>'
         +'</div>'
-        +'<div id="SPLU.PlayersList" style="overflow-y:auto; width: 280px;"></div>'
+        +'<div id="SPLU.PlayersList" style="overflow-y:auto; width: 310px;"></div>'
         +'<div id="SPLU.PlayersPaneControls">'
         +'<div style="padding-top:10px;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{savePlayers();}" class="SPLUbuttons" style="margin-right:6px;color:black;" id="SavePlayerListBtn">'+SPLUi18n.PlayersButtonSave+'</a>'
@@ -1049,14 +1049,14 @@
           +'<div style="display:inline-block; margin-left:2px;">'
             +'<div style="background-color:lightgrey;border:1px solid gray;border-radius:6px;padding:2px;cursor:pointer;height:19px"><span id="SPLU.GetNextText">'+SPLUi18n.PlaysGetNext+' 100</span> | <span  onclick="javascript:{if(document.getElementById(\'SPLUfetchDrop\').style.display==\'none\'){document.getElementById(\'SPLUfetchDrop\').style.display=\'\';}else{document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}}"><i style="margin-top: -3px; margin-right: 3px; padding: 4px 2px 0px;" class="fa_SP">&#xf078;</i></span></div>'
             +'<div style="position:absolute;border:1px solid blue;background-color:rgb(206,214,233);display:none;cursor:pointer;z-index: 1573;" id="SPLUfetchDrop">'
-              +'<ul class="fa_SP-ul" style="padding-right:8px;">'
-                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{getRecentPlays(true, -1);document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
+              +'<ul class="fa_SP-ul" style="padding-right:8px;margin-bottom: 0px; margin-left: 8px;">'
+                +'<li style="background-color: rgb(206, 214, 233);padding: 4px;" onClick="javascript:{getRecentPlays(true, -1);document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
                   +SPLUi18n.PlaysGetAll
                 +'</li>'
-                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{getGamePlays();document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
+                +'<li style="background-color: rgb(206, 214, 233);padding: 4px;" onClick="javascript:{getGamePlays();document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
                   +SPLUi18n.PlaysGetGame
                 +'</li>'
-                +'<li style="background-color: rgb(206, 214, 233);" onClick="javascript:{getRecentPlays(false, -1);document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
+                +'<li style="background-color: rgb(206, 214, 233);padding: 4px;" onClick="javascript:{getRecentPlays(false, -1);document.getElementById(\'SPLUfetchDrop\').style.display=\'none\';}" onmouseover="javascript:{this.style.backgroundColor=\'yellow\';}" onmouseout="javascript:{this.style.backgroundColor=\'rgb(206,214,233)\';}">'
                   +SPLUi18n.PlaysGetRecent
                 +'</li>'
               +'</ul>'
@@ -6360,6 +6360,7 @@
     console.log("hideDropMenus()");
     document.getElementById('SPLUfilterDrop').style.display="none";
     document.getElementById('SPLUstatDrop').style.display="none";
+    document.getElementById('SPLUfetchDrop').style.display="none";
     document.getElementById("SPLU.PlaysPlayers").style.display="none";
     document.getElementById('SPLUdropMenuHider').style.display="none";
   }
