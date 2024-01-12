@@ -6618,7 +6618,7 @@
             }else{
               QPR="QPresultsFam";
             }
-            var results=$(QPR+tmpExp[i].id);
+            var results=document.getElementById(QPR+tmpExp[i].id);
             results.innerHTML=SPLUi18n.StatusSaving;
           }
           var form=document.forms['SPLUform'];
@@ -6685,6 +6685,7 @@
             if(ExpansionsToLog==0){
               document.getElementById('SPLUexpansionResults').innerHTML='';
               saveGamePlay2(action);
+              getRecentPlays(false, -1);
             }
           };
         xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
