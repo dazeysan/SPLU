@@ -1,4 +1,4 @@
-// SPLU 5.8.8 Alpha/Beta/Current
+// SPLU 5.8.7 Alpha/Beta/Current
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -4579,8 +4579,8 @@
         console.log("other status code, no search results");
       }
     };
-    var tmpQuery='/search/'+tmpType+'?q='+tmpText+'&nosession=1&showcount='+SPLUsearchResultsLength;
-    oReq.open("GET",tmpQuery,true);
+    var tmpQuery='/geeksearch.php?action=search&q='+tmpText+'&objecttype='+tmpType+'&showcount='+SPLUsearchResultsLength;
+    oReq.open("POST",tmpQuery,true);
     //Set the following header so that we get a JSON object instead of HTML
     oReq.setRequestHeader("Accept","application/json, text/plain, */*");/**/
     oReq.send();
