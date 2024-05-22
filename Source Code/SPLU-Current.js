@@ -200,7 +200,7 @@
     tmpDiv=document.createElement('div');
     tmpDiv.id="SPLU.popText";
     tmpDiv.style.visibility="hidden";
-    tmpDiv.style.zIndex="577";
+    tmpDiv.style.zIndex="1577";
     tmpDiv.style.position="absolute";
     tmpDiv.style.backgroundColor="#f2ffa3";
     tmpDiv.style.border="1px Solid Black";
