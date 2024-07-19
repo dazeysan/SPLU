@@ -1,4 +1,4 @@
-// SPLU 5.8.9 Alpha/Beta/current
+// SPLU 5.8.8 Alpha/Beta/Current
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -26,7 +26,7 @@
     //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.8.9";
+    var SPLUversion="5.8.8";
 
     var SPLU={};
     var SPLUplayId="";
@@ -4618,7 +4618,7 @@
       }
     };
     var tmpQuery='/xmlapi2/search?query='+tmpText+'&type='+tmpType+'&exact=1';
-    oReq.open("GET",tmpQuery,true);
+    oReq.open("POST",tmpQuery,true);
     oReq.setRequestHeader("Accept","text/xml, text/plain, */*");/**/
     oReq.send();
   }
