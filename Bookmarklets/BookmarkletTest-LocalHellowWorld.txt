@@ -1,0 +1,1 @@
+javascript:(function()%7Balert('hello%20world')%3B%7D)()%3B
