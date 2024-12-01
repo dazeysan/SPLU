@@ -1,1 +1,1 @@
-javascript:{{var%20TestScript=document.createElement('script');TestScript.type="text/javascript";TestScript.src='https://raw.githubusercontent.com/dazeysan/SPLU/master/Bookmarklets/BookmarkletTest-RemoteHellowWorld.js';document.body.appendChild(TestScript);};void(0);%20}
+javascript:{{var%20TestScript=document.createElement('script');TestScript.type="text/javascript";TestScript.src='https://dazeysan.github.io/SPLU/Bookmarklets/BookmarkletTest-RemoteHellowWorld.js';document.body.appendChild(TestScript);};void(0);%20}
