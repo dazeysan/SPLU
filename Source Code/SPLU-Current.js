@@ -1,4 +1,4 @@
-// SPLU 5.8.9 Alpha/Beta/current
+// SPLU 5.8.10 Alpha/Beta/Current
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -26,7 +26,7 @@
     //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.8.9";
+    var SPLUversion="5.8.10";
 
     var SPLU={};
     var SPLUplayId="";
@@ -1188,7 +1188,7 @@
           +'<div id="SPLU.StatsPlayerDiv" style="display: none;">'+SPLUi18n.PlaysFilterPlayer+': <select class="fa_SP" id="SPLU.SelectStatPlayer" onChange="javascript:{setWinsByGamePlayer(\'\');}"></select></div>'
         +'</div>'
         +'<div id="SPLU.StatsContent" style="display:none;overflow-y: auto; width: 315px; margin-top: 3px; margin-bottom: 15px;"></div>'
-        +'<div id="SPLU.BackupPlaysXML" style="position: absolute; bottom: 5px;"><input type="button" style="background: #505050; color: white; border-radius: 3px; padding-left: 4px; padding-right: 4px; margin-right: 5px;" value="Backup loaded plays to JSON text file" onClick="javascipt:{downloadPlaysJSON();}" /><input type="button" style="background: #505050; color: white; border-radius: 3px; padding-left: 4px; padding-right: 4px;" onclick="javascipt:{generateBBcode();}" value="BBcode of cover art"><span id="SPLU.BBstatus"></span></div>';
+        +'<div id="SPLU.BackupPlaysXML" style=""><input type="button" style="background: #505050; color: white; border-radius: 3px; padding-left: 4px; padding-right: 4px; margin-right: 5px;" value="Backup loaded plays to JSON text file" onClick="javascipt:{downloadPlaysJSON();}" /><input type="button" style="background: #505050; color: white; border-radius: 3px; padding-left: 4px; padding-right: 4px;" onclick="javascipt:{generateBBcode();}" value="BBcode of cover art"><span id="SPLU.BBstatus"></span></div>';
     tmpDiv.innerHTML+=tmpHTML;
     BRlogPlays.appendChild(tmpDiv);
     
@@ -4062,10 +4062,12 @@
       }
       if(filtertype=="begindate"){
         var d1 = new Date(lines[l].value);
-        if (lines[l].parentNode.children[2].value == "") {
+        //if (lines[l].parentNode.children[2].value == "") {
+        if (lines[l].parentNode.parentNode.childNodes[1].childNodes[1].value == "") {
           var d2 = d1;
         } else {
-          var d2 = new Date(lines[l].parentNode.children[2].value);
+          //var d2 = new Date(lines[l].parentNode.children[2].value);
+          var d2 = new Date(lines[l].parentNode.parentNode.childNodes[1].childNodes[1].value);
         }
         for(i=0;i<plays.length;i++){
           var d3 = new Date(SPLUplayData[user][plays[i].id].playdate);
@@ -4271,7 +4273,20 @@
       }
 
       if(filter=="daterange"){
-        tmpHTML+=SPLUi18n.PlaysFilterDateRangeBegin+':<input type="text" style="font-size:8pt;width:70px;" placeholder="YYYY-MM-DD" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="begindate" onKeyPress="eventFilterLineEnter(event)"/> '+SPLUi18n.PlaysFilterDateRangeEnd+':<input type="text" style="font-size:8pt;width:70px;" placeholder="YYYY-MM-DD" name="SPLU.PlaysFiltersLine2" data-SPLU-FilterType="enddate" onKeyPress="eventFilterLineEnter(event)"/>';
+        //tmpHTML+=SPLUi18n.PlaysFilterDateRangeBegin+':<input type="text" style="font-size:8pt;width:70px;" placeholder="YYYY-MM-DD" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="begindate" onKeyPress="eventFilterLineEnter(event)"/> '+SPLUi18n.PlaysFilterDateRangeEnd+':<input type="text" style="font-size:8pt;width:70px;" placeholder="YYYY-MM-DD" name="SPLU.PlaysFiltersLine2" data-SPLU-FilterType="enddate" onKeyPress="eventFilterLineEnter(event)"/>';
+        tmpHTML+='<div style="display: inline;">'
+            +'<div style="display:table-row;">'+SPLUi18n.PlaysFilterDateRangeBegin+':<input type="date" style="font-size:8pt;" name="SPLU.PlaysFiltersLine" data-SPLU-FilterType="begindate" onChange="loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false)"/></div>'
+            +'<div style="display:table-row; text-align:right;">'+SPLUi18n.PlaysFilterDateRangeEnd+':<input type="date" style="font-size:8pt;" name="SPLU.PlaysFiltersLine2" data-SPLU-FilterType="enddate" onChange="loadPlays(document.getElementById(\'SPLU.PlaysLogger\').value,false)"/></div>'
+            +'</div>'
+            +'<div style="display: inline;" onChange="dateRangePreset(event)"><select>'
+                +'<option value="">Presets</option>'
+                +'<option value="ThisYear">This Year</option>'
+                +'<option value="LastYear">Last Year</option>'
+                +'<option value="ThisMonth">This Month</option>'
+                +'<option value="LastMonth">Last Month</option>'
+                +'<option value="Today">Today</option>'
+                +'<option value="Yesterday">Yesterday</option>'
+            +'</select></div>';
       }
       
       if(filter=="excludeexpansions"){
@@ -4344,6 +4359,53 @@
     if(filter=="excludeexpansions" || filter=="excludenowinstats" || filter=="excludeincomplete" || filterVal!=""){
       loadPlays(document.getElementById('SPLU.PlaysLogger').value,false);
     }
+  }
+
+  function dateRangePreset(e) {
+    console.log("dateRangePreset()");
+    console.log(e);
+    console.log(e.target.value);
+    var tmpPreset = e.target.value;
+    var tmpDateBegFld = e.target.parentElement.parentElement.childNodes[1].childNodes[0].childNodes[1];
+    var tmpDateEndFld = e.target.parentElement.parentElement.childNodes[1].childNodes[1].childNodes[1];
+    console.log(tmpDateBegFld);
+    if (tmpPreset == "ThisYear") {
+      var tmpYear = new Date().getFullYear();
+      tmpDateBegFld.value = tmpYear+'-01-01';
+      tmpDateEndFld.value = tmpYear+'-12-31';
+    }
+    if (tmpPreset == "LastYear") {
+      var tmpYear = new Date().getFullYear()-1;
+      tmpDateBegFld.value = tmpYear+'-01-01';
+      tmpDateEndFld.value = tmpYear+'-12-31';
+    }
+    if (tmpPreset == "ThisMonth") {
+      var date = new Date();
+      var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+      var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+      tmpDateBegFld.value = firstDay.getFullYear()+'-'+('0' + (firstDay.getMonth()+1)).slice(-2)+'-01';
+      tmpDateEndFld.value = lastDay.getFullYear()+'-'+('0' + (lastDay.getMonth()+1)).slice(-2)+'-'+('0' + (lastDay.getDate())).slice(-2);
+    }
+    if (tmpPreset == "LastMonth") {
+      var date = new Date();
+      var firstDay = new Date(date.getFullYear(), date.getMonth() -1, 1);
+      var lastDay = new Date(date.getFullYear(), date.getMonth(), 0);
+      tmpDateBegFld.value = firstDay.getFullYear()+'-'+('0' + (firstDay.getMonth()+1)).slice(-2)+'-01';
+      tmpDateEndFld.value = lastDay.getFullYear()+'-'+('0' + (lastDay.getMonth()+1)).slice(-2)+'-'+('0' + (lastDay.getDate())).slice(-2);
+    }
+    if (tmpPreset == "Today") {
+      var date = new Date();
+      tmpDateBegFld.value = date.getFullYear()+'-'+('0' + (tmp.getMonth()+1)).slice(-2)+'-'+('0' + (date.getDate())).slice(-2);
+      tmpDateEndFld.value = "";
+    }
+    if (tmpPreset == "Yesterday") {
+      var date = new Date();
+      date.setDate(date.getDate() - 1);
+      tmpDateBegFld.value = date.getFullYear()+'-'+('0' + (tmp.getMonth()+1)).slice(-2)+'-'+('0' + (date.getDate())).slice(-2);
+      tmpDateEndFld.value = "";
+    }
+    
+    loadPlays(document.getElementById('SPLU.PlaysLogger').value,false);
   }
   
   function highlightFilterTypeButton(type){
@@ -5352,7 +5414,7 @@
       tmpSortCount="-count";
       tmpClassCount="fa_SP fa_SP-sort-amount-desc";
     }
-    tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
+    tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right; padding-bottom: 20px;">'
       +'<div style="display:table-row;">'
       +'<div style="display:table-cell;font-weight:bold;text-align:center;"><a onclick="javascript:{getStatsBeginnersLuck(\''+tmpUser+'\',\''+tmpSortPlayer+'\');}" href="javascript:{void(0);}">'+SPLUi18n.StatsColumnPlayer+' <i class="'+tmpClassPlayer+'"></i></a></div>'
       +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsBeginnersLuck(\''+tmpUser+'\',\''+tmpSortCount+'\');}" href="javascript:{void(0);}">'+SPLUi18n.StatsColumnNewWon+' <i class="'+tmpClassCount+'"></i></a></div>'
@@ -5430,7 +5492,7 @@
       tmpSortAverage="-average";
       tmpClassAverage="fa_SP fa_SP-sort-amount-desc";
     }
-    tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
+    tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right; padding-bottom: 20px;">'
       +'<div style="display:table-row;">'
       +'<div style="display:table-cell;font-weight:bold;width:35%;text-align:center;"><a onclick="javascript:{getStatsPlaysWins(\''+tmpUser+'\',\''+tmpSortPlayer+'\');}" href="javascript:{void(0);}">'+SPLUi18n.StatsColumnPlayer+' <i class="'+tmpClassPlayer+'"></i></a></div>'
       +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsPlaysWins(\''+tmpUser+'\',\''+tmpSortPlays+'\');}" href="javascript:{void(0);}">'+SPLUi18n.StatsColumnPlays+' <i class="'+tmpClassPlays+'"></i></a></div>'
@@ -5553,7 +5615,7 @@
       tmpSortAverage="-average";
       tmpClassAverage="fa_SP fa_SP-sort-amount-desc";
     }
-    tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
+    tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right; padding-bottom: 20px;">'
       +'<div style="display:table-row;">'
       +'<div style="display:table-cell;font-weight:bold;width:35%;text-align:center;"><a onclick="javascript:{getStatsWinsByGame(\''+tmpUser+'\',\''+tmpPlayer+'\',\''+tmpSortGame+'\');}" href="javascript:{void(0);}">Game <i class="'+tmpClassGame+'"></i></a></div>'
       +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsWinsByGame(\''+tmpUser+'\',\''+tmpPlayer+'\',\''+tmpSortPlays+'\');}" href="javascript:{void(0);}">Plays <i class="'+tmpClassPlays+'"></i></a></div>'
@@ -5658,7 +5720,7 @@
       tmpSortAverage="-average";
       tmpClassAverage="fa_SP fa_SP-sort-amount-desc";
     }
-    tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
+    tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right; padding-bottom: 20px;">'
       +'<div style="display:table-row;">'
       +'<div style="display:table-cell;font-weight:bold;width:35%;text-align:center;"><a onclick="javascript:{getStatsGameDuration(\''+tmpUser+'\',\''+tmpSortGame+'\');}" href="javascript:{void(0);}">'+SPLUi18n.StatsColumnGame+' <i class="'+tmpClassGame+'"></i></a></div>'
       +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsGameDuration(\''+tmpUser+'\',\''+tmpSortPlays+'\');}" href="javascript:{void(0);}">'+SPLUi18n.StatsColumnPlays+' <i class="'+tmpClassPlays+'"></i></a></div>'
@@ -5716,7 +5778,7 @@
       tmpSortCount="-count";
       tmpClassCount="fa_SP fa_SP-sort-amount-desc";
     }
-    tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
+    tmpHTML='<div style="display:table; border-spacing:5px 2px; text-align:right; padding-bottom: 20px;">'
       +'<div style="display:table-row;">'
       +'<div style="display:table-cell;font-weight:bold;text-align:center;"><a onclick="javascript:{getStatsLocations(\''+tmpUser+'\',\''+tmpSortPlays+'\');}" href="javascript:{void(0);}">Location <i class="'+tmpClassPlays+'"></i></a></div>'
       +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsLocations(\''+tmpUser+'\',\''+tmpSortCount+'\');}" href="javascript:{void(0);}">Plays <i class="'+tmpClassCount+'"></i></a></div>'
@@ -5818,8 +5880,9 @@
       tmpClassRank="fa_SP fa_SP-sort-amount-desc";
     }
     tmpHTML='';
+    tmpHTML+='<div>Unique Games: '+tmpGames.length+'</div>';
     //tmpHTML+='<div>H-Index: '+tmpHIndex2+'</div>';
-    tmpHTML+='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
+    tmpHTML+='<div style="display:table; border-spacing:5px 2px; text-align:right; padding-bottom: 20px;">'
       +'<div style="display:table-row;">'
       +'<div style="display:table-cell;font-weight:bold;width:75%;text-align:center;"><a onclick="javascript:{getStatsGameList(\''+tmpUser+'\',\''+tmpSortGame+'\',\''+view+'\');}" href="javascript:{void(0);}">Game <i class="'+tmpClassPlayer+'"></i></a></div>'
       +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsGameList(\''+tmpUser+'\',\''+tmpSortPlays+'\',\''+view+'\');}" href="javascript:{void(0);}">Plays <i class="'+tmpClassPlays+'"></i></a></div>';
@@ -5897,7 +5960,7 @@
     }
     tmpHTML='';
     //tmpHTML+='<div>H-Index: '+tmpHIndex2+'</div>';
-    tmpHTML+='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
+    tmpHTML+='<div style="display:table; border-spacing:5px 2px; text-align:right; padding-bottom: 20px;">'
       +'<div style="display:table-row;">'
       +'<div style="display:table-cell;font-weight:bold;width:75%;text-align:center;"><a onclick="javascript:{getStatsGameDaysSince(\''+tmpUser+'\',\''+tmpSortGame+'\');}" href="javascript:{void(0);}">Game <i class="'+tmpClassPlayer+'"></i></a></div>'
       +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsGameDaysSince(\''+tmpUser+'\',\''+tmpSortDays+'\');}" href="javascript:{void(0);}">Days <i class="'+tmpClassDays+'"></i></a></div>'
@@ -5971,7 +6034,7 @@
       tmpClassPlays="fa_SP fa_SP-sort-amount-desc";
     }
     tmpHTML='';
-    tmpHTML+='<div style="display:table; border-spacing:5px 2px; text-align:right;">'
+    tmpHTML+='<div style="display:table; border-spacing:5px 2px; text-align:right; padding-bottom: 20px;">'
       +'<div style="display:table-row;">'
       +'<div style="display:table-cell;font-weight:bold;text-align:center;"><a onclick="javascript:{getStatsTemporalHotness(\''+tmpUser+'\',\''+tmpSortDay+'\');}" href="javascript:{void(0);}">Day <i class="'+tmpClassDay+'"></i></a></div>'
       +'<div style="display:table-cell;font-weight:bold;"><a onclick="javascript:{getStatsTemporalHotness(\''+tmpUser+'\',\''+tmpSortPlays+'\');}" href="javascript:{void(0);}">Plays <i class="'+tmpClassPlays+'"></i></a></div>'
