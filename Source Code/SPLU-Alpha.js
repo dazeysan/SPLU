@@ -517,6 +517,9 @@
         +'<div class="BRcells">'
           +'<div id="SPLU.SummaryTextField" style="max-width:400px;">'
         +'</div>'
+        +'<div id="SPLU.BGGLogo" style="text-align: right;">'
+          +'<a href="https://boardgamegeek.com" target="_blank"><img src="https://dazeysan.github.io/SPLU/Images/powered_by_K_01_SM.png" style="width: 150px;"></a>'
+        +'</div>'
       +'</div>'
     +'</div>'
     +'</div>';  
@@ -1225,6 +1228,7 @@
     listenerForPopText("CopyPlaysBtn",SPLUi18n.PopupButtonCopyPlays);
     listenerForPopText("CopyPlaysSelectAllBtn",SPLUi18n.PopupButtonSelectAllPlays);
     listenerForPopText("CopyPlaysDeselectAllBtn",SPLUi18n.PopupButtonDeselectAllPlays);
+    listenerForPopText("SPLU.BGGLogo","SPLU Makes use of data and APIs from BGG.");
     //listenerForPopText("statisticsicon","Basic Stats");
     //listenerForPopText("filtericon","Apply Filter to These Results");
     //listenerForPopText("floppydiskicon","Remember This Player");
@@ -4676,12 +4680,15 @@
         }
         showSearchResults(tmpJSON, tmpFavs, tmpText);
       } else {
-        console.log("other status code, no search results");
+        console.log("other status code ("+this.status+"), no search results");
       }
     };
     var tmpQuery='/xmlapi2/search?query='+tmpText+'&type='+tmpType+'&exact=1';
     oReq.open("GET",tmpQuery,true);
     oReq.setRequestHeader("Accept","text/xml, text/plain, */*");/**/
+    if(typeof(SPLU_Bearer) != "undefined") {
+      oReq.setRequestHeader("Authorization","Bearer "+SPLU_Bearer);/**/
+    }
     oReq.send();
   }
   
@@ -6299,7 +6306,7 @@
   
   function makeSentence(){
     if(!SPLU.Settings.SummaryTextField.Visible){return;}
-    document.getElementById('SPLU.SummaryTextField').style.maxWidth=document.getElementById('SPLUwindow').clientWidth-40+"px";
+    document.getElementById('SPLU.SummaryTextField').style.maxWidth=document.getElementById('SPLUwindow').clientWidth-190+"px";
     document.getElementById('SPLU.SummaryTextField').style.display="block";
     var SPLUselectedDate=new Date(document.getElementById('playdate99').value);
     var sentence="";
@@ -6529,6 +6536,9 @@
     var oReq=new XMLHttpRequest();
     oReq.onload=loadExpansions;
     oReq.open("get","/xmlapi2/thing?type=boardgame&id="+SPLUgameID,true);
+    if(typeof(SPLU_Bearer) != "undefined") {
+      oReq.setRequestHeader("Authorization","Bearer "+SPLU_Bearer);/**/
+    }
     oReq.send();
   }
   
@@ -6614,6 +6624,9 @@
       var oReq=new XMLHttpRequest();
       oReq.onload=loadFamily;
       oReq.open("get","/xmlapi2/family?id="+SPLUfamilyID,true);
+      if(typeof(SPLU_Bearer) != "undefined") {
+        oReq.setRequestHeader("Authorization","Bearer "+SPLU_Bearer);/**/
+      }
       oReq.send();
     }
     SPLUfamilyLoaded=true;
