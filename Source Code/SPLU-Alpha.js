@@ -512,10 +512,10 @@
         +'</div>'
       +'</div>'
     +'</div>'
-    +'<div style="display:table;">'
+    +'<div style="display:table; width: 100%;">'
       +'<div style="display:table-row;">'
         +'<div class="BRcells">'
-          +'<div id="SPLU.SummaryTextField" style="max-width:400px;">'
+          +'<div id="SPLU.SummaryTextField" style="max-width:400px;"></div>'
         +'</div>'
         +'<div id="SPLU.BGGLogo" style="text-align: right;">'
           +'<a href="https://boardgamegeek.com" target="_blank"><img src="https://dazeysan.github.io/SPLU/Images/powered_by_K_01_SM.png" style="width: 150px;"></a>'
@@ -3347,7 +3347,7 @@
       //dst.value=tmpDate.toString("yyyy-MM-dd");
       dst.value=tmpDate;
       //status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:3px;'> "+tmpDate.toString("yyyy-MM-dd");
-      status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:-3px;'> "+tmpDate;
+      status.innerHTML="<img src='https://dazeysan.github.io/SPLU/Images/accept.png' style='position:relative; top:-3px;'> "+tmpDate;
       highlightDayButton();
     }else{
       console.log("parseDate() - invalid date format: "+tmpDate);
@@ -3368,7 +3368,7 @@
       if (!isValidDate(tmpDate)){
         console.log("parseDate() - Still invalid: "+tmpDate);
         if (src.value.length){
-          dst.value='';status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/delete.png' style='position:relative; top:3px;'> "+SPLUi18n.CalendarInvalidDate;
+          dst.value='';status.innerHTML="<img src='https://dazeysan.github.io/SPLU/Images/delete.png' style='position:relative; top:3px;'> "+SPLUi18n.CalendarInvalidDate;
         }else{
           dst.value='';
           status.innerHTML='';
