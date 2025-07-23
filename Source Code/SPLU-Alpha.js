@@ -4653,6 +4653,9 @@
 
   }
   
+  // Yes I know this is pointless.
+  var SPLU_Bearer = atob("MWJmZjAyMTQtM2I1Yi00YjE4LTg4M2YtZWUwYWZmYzY3MjM3");
+  
   function SPLUsearchForGamesExact(tmpText, tmpType, tmpFavs){
     //Search for exact matches via XMLAPI2 since the regular search can't
     var oReq=new XMLHttpRequest();
