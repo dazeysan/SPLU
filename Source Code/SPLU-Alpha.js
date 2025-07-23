@@ -1721,6 +1721,9 @@
     };
     oReq.open("get","/geekplay.php?action=getplays&ajax=1&currentUser=true&objecttype=thing&pageID=1&showcount=10&objectid=98000&maxdate=1452-04-15&mindate=1452-04-15",true);
     //oReq.open("get", "/xmlapi2/plays?username="+LoggedInAs+"&mindate=1452-04-15&maxdate=1452-04-15&id=98000", true);
+    if(typeof(SPLU_Bearer) != "undefined") {
+      oReq.setRequestHeader("Authorization","Bearer "+SPLU_Bearer);/**/
+    }
     oReq.send();
   }
 
@@ -3430,6 +3433,9 @@
     };
     oReq.open("get",getString,true);
     oReq.setRequestHeader("Accept","application/json, text/plain, */*");/**/
+    if(typeof(SPLU_Bearer) != "undefined") {
+      oReq.setRequestHeader("Authorization","Bearer "+SPLU_Bearer);/**/
+    }
     oReq.send();
   }
   
@@ -3524,6 +3530,9 @@
     };
     oReq.open("get",getString,true);
     oReq.setRequestHeader("Accept","application/json, text/plain, */*");/**/
+    if(typeof(SPLU_Bearer) != "undefined") {
+      oReq.setRequestHeader("Authorization","Bearer "+SPLU_Bearer);/**/
+    }
     oReq.send();
   }
   
@@ -4649,6 +4658,9 @@
     oReq.open("GET",tmpQuery,true);
     //Set the following header so that we get a JSON object instead of HTML
     oReq.setRequestHeader("Accept","application/json, text/plain, */*");/**/
+    if(typeof(SPLU_Bearer) != "undefined") {
+      oReq.setRequestHeader("Authorization","Bearer "+SPLU_Bearer);/**/
+    }
     oReq.send();
 
   }
@@ -6278,6 +6290,9 @@
     oReq.open("GET",tmpQuery,true);
     //Set the following header so that we get a JSON object instead of HTML
     oReq.setRequestHeader("Accept","application/json, text/plain, */*");/**/
+    if(typeof(SPLU_Bearer) != "undefined") {
+      oReq.setRequestHeader("Authorization","Bearer "+SPLU_Bearer);/**/
+    }
     oReq.send();
   }
   
@@ -7385,6 +7400,9 @@
     }
   };
   oReq.open("get","/api/users/current",true);
+    if(typeof(SPLU_Bearer) != "undefined") {
+      oReq.setRequestHeader("Authorization","Bearer "+SPLU_Bearer);/**/
+    }
   oReq.send();
 
 
