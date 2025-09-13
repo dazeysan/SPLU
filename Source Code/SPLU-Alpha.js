@@ -5897,11 +5897,11 @@
     }
     tmpHIndex=0;
     for (h=0; h<tmpGames.length; h++) {
-      if (tmpGames[h].plays >= tmpHIndex) {
+      if (tmpGames[h].plays > tmpHIndex) {
         tmpHIndex++;
       }
-      //console.log(h+'-'+tmpHIndex);
-      if (tmpHIndex > tmpGames[h].plays) {
+      //console.log(h+'-'+tmpGames[h].plays+'-'+tmpHIndex);
+      if (tmpHIndex >= tmpGames[h].plays) {
         break;
       }
     }
