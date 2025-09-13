@@ -247,7 +247,7 @@
     BRlogDiv.setAttribute("style","display:table-cell; background-color: #A4DFF3; padding: 13px;border:2px solid blue;border-radius:15px; box-shadow:10px 10px 5px #888;position:relative;");
     
     tmpDiv=document.createElement('div');
-    tmpHTML= '<div id="closeButton" style="position:absolute;top:-2px;right:0px;">'
+    tmpHTML= '<div id="closeButton" style="position:absolute;top:1px;right:0px;">'
               +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();BRlogMain.parentNode.removeChild(BRlogMain);}" style="border-bottom:2px solid blue;border-left:2px solid blue;padding:1px 10px;border-bottom-left-radius:5px;border-top-right-radius:13px;background-color:lightGrey;font-size:large;font-weight:900;color:red;">X</a>'
             +'</div>'
             +'<div style="position:absolute;top:60px;right:5px;">'
@@ -532,7 +532,7 @@
     BRlogSettings.id='BRlogSettings';
     BRlogSettings.setAttribute("style","display:none; background-color: #80FE86; padding: 13px;border:2px solid black;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:75px;position:relative;");
     var tmpDiv=document.createElement('div');
-    var tmpHTML='<div id="hideSettingsButton" style="position: absolute; right: 0px; top: -3px;">'
+    var tmpHTML='<div id="hideSettingsButton" style="position: absolute; right: 0px; top: 1px;">'
       +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogMain\').style.minWidth=\'\';document.getElementById(\'BRlogSettings\').style.display=\'none\';}" style="border-bottom:2px solid black;border-left:2px solid black;padding:1px 8px;border-top-right-radius: 13px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;">'
       +'<img src="https://dazeysan.github.io/SPLU/Images/close_pane.png">'
       +'</a>'
@@ -855,7 +855,7 @@
     BRlogFavs.id='BRlogFavs';
     BRlogFavs.setAttribute("style","display:none; background-color: #FFAEC5; font-style:initial; color:black; padding: 13px;border:2px solid #F30F27;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:100px;position:relative;");
     var tmpDiv=document.createElement('div');
-    var tmpHTML='<div id="hideFavsButton" style="position: absolute; right: 0px; top: -3px;">'
+    var tmpHTML='<div id="hideFavsButton" style="position: absolute; right: 0px; top: 1px;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogFavs\').style.display=\'none\';}" style="border-left:2px solid #F30F27;border-bottom:2px solid #F30F27;padding:1px 8px;border-top-right-radius: 13px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU/Images/close_pane.png"></a>'
         +'</div>'
         +'<span style="font-variant:small-caps; font-weight:bold;">'
@@ -880,7 +880,7 @@
     BRlogExpansions.id='BRlogExpansions';
     BRlogExpansions.setAttribute("style","display:none; background-color: #B269FB; font-style:initial; color:white; padding: 13px;border:2px solid blue;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:75px; max-width:250px;position:relative;");
     var tmpDiv=document.createElement('div');
-    var tmpHTML='<div id="hideExpansionsButton" style="position: absolute; right: 0px; top: -3px;">'
+    var tmpHTML='<div id="hideExpansionsButton" style="position: absolute; right: 0px; top: 1px;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogExpansions\').style.display=\'none\';}" style="border-left:2px solid blue;border-bottom:2px solid blue;padding:1px 8px;border-top-right-radius: 13px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU/Images/close_pane.png"></a>'
         +'</div>'
         +'<form name="BRexpLogForm">'
@@ -928,7 +928,7 @@
     BRlogLocations.id='BRlogLocations';
     BRlogLocations.setAttribute("style","display:none; background-color: #F5C86C; padding: 13px;border:2px solid #249631;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:100px;position:relative;");
     var tmpDiv=document.createElement('div');
-    var tmpHTML='<div id="hideLocationsButton" style="position: absolute; right: 0px; top: -3px;">'
+    var tmpHTML='<div id="hideLocationsButton" style="position: absolute; right: 0px; top: 1px;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogLocations\').style.display=\'none\';}" style="border-left:2px solid #249631;border-bottom:2px solid #249631;padding:1px 8px;border-top-right-radius: 13px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU/Images/close_pane.png"></a>'
         +'</div>'
         +'<span style="font-variant:small-caps; font-weight:bold;">'
@@ -948,7 +948,7 @@
     BRlogPlayers.id='BRlogPlayers';
     BRlogPlayers.setAttribute("style","display:none; background-color: #F7FB6F; padding: 13px;border:2px solid #00F; border-radius:15px; box-shadow:10px 10px 5px #888; min-width:275px;position:relative;");
     var tmpDiv=document.createElement('div');
-    var tmpHTML='<div id="hidePlayersButton" style="position: absolute; right: 0px; top: -3px;">'
+    var tmpHTML='<div id="hidePlayersButton" style="position: absolute; right: 0px; top: 1px;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();showPlayersTab();document.getElementById(\'BRlogPlayers\').style.display=\'none\';}" style="border-left:2px solid #00F;border-bottom:2px solid #00F;padding:1px 8px;border-top-right-radius: 13px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU/Images/close_pane.png"></a>'
         +'</div>'
         +'<span style="font-variant:small-caps; font-weight:bold;">'
@@ -1041,7 +1041,7 @@
     BRlogPlays.id='BRlogPlays';
     BRlogPlays.setAttribute("style","display:none; background-color: #F1F8FB; padding: 13px;border:2px solid #249631;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:100px;position:relative;");
     var tmpDiv=document.createElement('div');
-    var tmpHTML='<div id="hidePlaysButton" style="position: absolute; right: 0px; top: -3px;">'
+    var tmpHTML='<div id="hidePlaysButton" style="position: absolute; right: 0px; top: 1px;">'
           +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogPlays\').style.display=\'none\';}" style="border-bottom:2px solid #249631;border-left:2px solid #249631;padding:1px 8px;border-top-right-radius: 13px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU/Images/close_pane.png"></a>'
         +'</div>'
         +'<span style="font-variant:small-caps; font-weight:bold;">'
@@ -5851,7 +5851,7 @@
       SPLUgameStats[tmpGame]["TotalPlays"]++;
     }
     tmpGames=[];
-    tmpHIndex={};
+    //tmpHIndex={};
     for(key in SPLUgameStats){
       if (SPLUgameStats.hasOwnProperty(key)) {
         if (view=="list"){
@@ -5861,20 +5861,20 @@
         }
         window.tmpGames=tmpGames;
         //H-Index
-        if(tmpHIndex[SPLUgameStats[key]["TotalPlays"]]===undefined){
-          tmpHIndex[SPLUgameStats[key]["TotalPlays"]]=0;
-        }
-        tmpHIndex[SPLUgameStats[key]["TotalPlays"]]++;
+        //if(tmpHIndex[SPLUgameStats[key]["TotalPlays"]]===undefined){
+        //  tmpHIndex[SPLUgameStats[key]["TotalPlays"]]=0;
+        ////}
+        //tmpHIndex[SPLUgameStats[key]["TotalPlays"]]++;
       }
     }
-    tmpHIndex2="";
-    for(key in tmpHIndex){
-      if (tmpHIndex.hasOwnProperty(key)) {
-        if(tmpHIndex[key]>=key){
-          tmpHIndex2=key;
-        }
-      }
-    }
+    //tmpHIndex2="";
+    //for(key in tmpHIndex){
+    //  if (tmpHIndex.hasOwnProperty(key)) {
+    //    if(tmpHIndex[key]>=key){
+    //      tmpHIndex2=key;
+    //    }
+    //  }
+    //}
     if (view=="rank"){
       for(i=0;i<tmpGames.length;i++){
         if(tmpGames[i]["rank"]===undefined) {
@@ -5882,6 +5882,30 @@
         }
       }
     }
+
+    //Sorting by "-plays" for the H-index and Stairs numbers
+    tmpGames.sort(dynamicSortMultipleCI("-plays"));
+    tmpHighStep=tmpGames[0].plays;
+    for (step=0; step<tmpGames.length; step++) {
+      if ((tmpGames[step].plays < (tmpHighStep-1)) && ((tmpGames[step].plays+step) <= tmpHighStep)) {
+        tmpHighStep=tmpGames[step].plays+step;
+      }
+      //console.log(step+'-'+tmpGames[step].plays+'-'+tmpHighStep);
+      if (tmpHighStep == step) {
+        break;
+      }
+    }
+    tmpHIndex=0;
+    for (h=0; h<tmpGames.length; h++) {
+      if (tmpGames[h].plays >= tmpHIndex) {
+        tmpHIndex++;
+      }
+      //console.log(h+'-'+tmpHIndex);
+      if (tmpHIndex > tmpGames[h].plays) {
+        break;
+      }
+    }
+
     //Sorting by "game" first to get alpha order among numeric groups.
     tmpGames.sort(dynamicSortMultipleCI("game"));
     tmpGames.sort(dynamicSortMultipleCI(sort));
@@ -5901,9 +5925,10 @@
       tmpSortRank="-rank";
       tmpClassRank="fa_SP fa_SP-sort-amount-desc";
     }
+
     tmpHTML='';
     tmpHTML+='<div>Unique Games: '+tmpGames.length+'</div>';
-    //tmpHTML+='<div>H-Index: '+tmpHIndex2+'</div>';
+    tmpHTML+='<div>H-Index: '+tmpHIndex+', Stairs: '+tmpHighStep+'</div>';
     tmpHTML+='<div style="display:table; border-spacing:5px 2px; text-align:right; padding-bottom: 20px;">'
       +'<div style="display:table-row;">'
       +'<div style="display:table-cell;font-weight:bold;width:75%;text-align:center;"><a onclick="javascript:{getStatsGameList(\''+tmpUser+'\',\''+tmpSortGame+'\',\''+view+'\');}" href="javascript:{void(0);}">Game <i class="'+tmpClassPlayer+'"></i></a></div>'
