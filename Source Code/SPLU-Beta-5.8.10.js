@@ -1,4 +1,4 @@
-// SPLU 5.9.1 Alpha/Beta/Current
+// SPLU 5.8.10 Alpha/Beta/Current
 
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
@@ -26,7 +26,7 @@
     //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.9.1";
+    var SPLUversion="5.8.10";
 
     var SPLU={};
     var SPLUplayId="";
@@ -247,7 +247,7 @@
     BRlogDiv.setAttribute("style","display:table-cell; background-color: #A4DFF3; padding: 13px;border:2px solid blue;border-radius:15px; box-shadow:10px 10px 5px #888;position:relative;");
     
     tmpDiv=document.createElement('div');
-    tmpHTML= '<div id="closeButton" style="position:absolute;top:1px;right:0px;">'
+    tmpHTML= '<div id="closeButton" style="position:absolute;top:-2px;right:0px;">'
               +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();BRlogMain.parentNode.removeChild(BRlogMain);}" style="border-bottom:2px solid blue;border-left:2px solid blue;padding:1px 10px;border-bottom-left-radius:5px;border-top-right-radius:13px;background-color:lightGrey;font-size:large;font-weight:900;color:red;">X</a>'
             +'</div>'
             +'<div style="position:absolute;top:60px;right:5px;">'
@@ -512,13 +512,10 @@
         +'</div>'
       +'</div>'
     +'</div>'
-    +'<div style="display:table; width: 100%;">'
+    +'<div style="display:table;">'
       +'<div style="display:table-row;">'
         +'<div class="BRcells">'
-          +'<div id="SPLU.SummaryTextField" style="max-width:400px;"></div>'
-        +'</div>'
-        +'<div id="SPLU.BGGLogo" style="text-align: right;">'
-          +'<a href="https://boardgamegeek.com" target="_blank"><img src="https://dazeysan.github.io/SPLU/Images/powered_by_K_01_SM.png" style="width: 150px;"></a>'
+          +'<div id="SPLU.SummaryTextField" style="max-width:400px;">'
         +'</div>'
       +'</div>'
     +'</div>'
@@ -532,7 +529,7 @@
     BRlogSettings.id='BRlogSettings';
     BRlogSettings.setAttribute("style","display:none; background-color: #80FE86; padding: 13px;border:2px solid black;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:75px;position:relative;");
     var tmpDiv=document.createElement('div');
-    var tmpHTML='<div id="hideSettingsButton" style="position: absolute; right: 0px; top: 1px;">'
+    var tmpHTML='<div id="hideSettingsButton" style="position: absolute; right: 0px; top: -3px;">'
       +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogMain\').style.minWidth=\'\';document.getElementById(\'BRlogSettings\').style.display=\'none\';}" style="border-bottom:2px solid black;border-left:2px solid black;padding:1px 8px;border-top-right-radius: 13px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;">'
       +'<img src="https://dazeysan.github.io/SPLU/Images/close_pane.png">'
       +'</a>'
@@ -855,7 +852,7 @@
     BRlogFavs.id='BRlogFavs';
     BRlogFavs.setAttribute("style","display:none; background-color: #FFAEC5; font-style:initial; color:black; padding: 13px;border:2px solid #F30F27;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:100px;position:relative;");
     var tmpDiv=document.createElement('div');
-    var tmpHTML='<div id="hideFavsButton" style="position: absolute; right: 0px; top: 1px;">'
+    var tmpHTML='<div id="hideFavsButton" style="position: absolute; right: 0px; top: -3px;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogFavs\').style.display=\'none\';}" style="border-left:2px solid #F30F27;border-bottom:2px solid #F30F27;padding:1px 8px;border-top-right-radius: 13px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU/Images/close_pane.png"></a>'
         +'</div>'
         +'<span style="font-variant:small-caps; font-weight:bold;">'
@@ -880,7 +877,7 @@
     BRlogExpansions.id='BRlogExpansions';
     BRlogExpansions.setAttribute("style","display:none; background-color: #B269FB; font-style:initial; color:white; padding: 13px;border:2px solid blue;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:75px; max-width:250px;position:relative;");
     var tmpDiv=document.createElement('div');
-    var tmpHTML='<div id="hideExpansionsButton" style="position: absolute; right: 0px; top: 1px;">'
+    var tmpHTML='<div id="hideExpansionsButton" style="position: absolute; right: 0px; top: -3px;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogExpansions\').style.display=\'none\';}" style="border-left:2px solid blue;border-bottom:2px solid blue;padding:1px 8px;border-top-right-radius: 13px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU/Images/close_pane.png"></a>'
         +'</div>'
         +'<form name="BRexpLogForm">'
@@ -928,7 +925,7 @@
     BRlogLocations.id='BRlogLocations';
     BRlogLocations.setAttribute("style","display:none; background-color: #F5C86C; padding: 13px;border:2px solid #249631;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:100px;position:relative;");
     var tmpDiv=document.createElement('div');
-    var tmpHTML='<div id="hideLocationsButton" style="position: absolute; right: 0px; top: 1px;">'
+    var tmpHTML='<div id="hideLocationsButton" style="position: absolute; right: 0px; top: -3px;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogLocations\').style.display=\'none\';}" style="border-left:2px solid #249631;border-bottom:2px solid #249631;padding:1px 8px;border-top-right-radius: 13px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU/Images/close_pane.png"></a>'
         +'</div>'
         +'<span style="font-variant:small-caps; font-weight:bold;">'
@@ -948,7 +945,7 @@
     BRlogPlayers.id='BRlogPlayers';
     BRlogPlayers.setAttribute("style","display:none; background-color: #F7FB6F; padding: 13px;border:2px solid #00F; border-radius:15px; box-shadow:10px 10px 5px #888; min-width:275px;position:relative;");
     var tmpDiv=document.createElement('div');
-    var tmpHTML='<div id="hidePlayersButton" style="position: absolute; right: 0px; top: 1px;">'
+    var tmpHTML='<div id="hidePlayersButton" style="position: absolute; right: 0px; top: -3px;">'
         +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();showPlayersTab();document.getElementById(\'BRlogPlayers\').style.display=\'none\';}" style="border-left:2px solid #00F;border-bottom:2px solid #00F;padding:1px 8px;border-top-right-radius: 13px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU/Images/close_pane.png"></a>'
         +'</div>'
         +'<span style="font-variant:small-caps; font-weight:bold;">'
@@ -1041,7 +1038,7 @@
     BRlogPlays.id='BRlogPlays';
     BRlogPlays.setAttribute("style","display:none; background-color: #F1F8FB; padding: 13px;border:2px solid #249631;border-radius:15px; box-shadow:10px 10px 5px #888; min-width:100px;position:relative;");
     var tmpDiv=document.createElement('div');
-    var tmpHTML='<div id="hidePlaysButton" style="position: absolute; right: 0px; top: 1px;">'
+    var tmpHTML='<div id="hidePlaysButton" style="position: absolute; right: 0px; top: -3px;">'
           +'<a href="javascript:{void(0);}" onClick="javascript:{hidePopText();document.getElementById(\'BRlogPlays\').style.display=\'none\';}" style="border-bottom:2px solid #249631;border-left:2px solid #249631;padding:1px 8px;border-top-right-radius: 13px; border-bottom-left-radius: 5px;background-color:lightGrey;font-size:x-large;font-weight:900;color:red;"><img src="https://dazeysan.github.io/SPLU/Images/close_pane.png"></a>'
         +'</div>'
         +'<span style="font-variant:small-caps; font-weight:bold;">'
@@ -1228,7 +1225,6 @@
     listenerForPopText("CopyPlaysBtn",SPLUi18n.PopupButtonCopyPlays);
     listenerForPopText("CopyPlaysSelectAllBtn",SPLUi18n.PopupButtonSelectAllPlays);
     listenerForPopText("CopyPlaysDeselectAllBtn",SPLUi18n.PopupButtonDeselectAllPlays);
-    listenerForPopText("SPLU.BGGLogo","SPLU Makes use of data and APIs from BGG.");
     //listenerForPopText("statisticsicon","Basic Stats");
     //listenerForPopText("filtericon","Apply Filter to These Results");
     //listenerForPopText("floppydiskicon","Remember This Player");
@@ -1721,9 +1717,6 @@
     };
     oReq.open("get","/geekplay.php?action=getplays&ajax=1&currentUser=true&objecttype=thing&pageID=1&showcount=10&objectid=98000&maxdate=1452-04-15&mindate=1452-04-15",true);
     //oReq.open("get", "/xmlapi2/plays?username="+LoggedInAs+"&mindate=1452-04-15&maxdate=1452-04-15&id=98000", true);
-    if(typeof(SPLU_Bearer) != "undefined") {
-      oReq.setRequestHeader("Authorization","Bearer "+SPLU_Bearer);/**/
-    }
     oReq.send();
   }
 
@@ -3350,7 +3343,7 @@
       //dst.value=tmpDate.toString("yyyy-MM-dd");
       dst.value=tmpDate;
       //status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:3px;'> "+tmpDate.toString("yyyy-MM-dd");
-      status.innerHTML="<img src='https://dazeysan.github.io/SPLU/Images/accept.png' style='position:relative; top:-3px;'> "+tmpDate;
+      status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/accept.png' style='position:relative; top:-3px;'> "+tmpDate;
       highlightDayButton();
     }else{
       console.log("parseDate() - invalid date format: "+tmpDate);
@@ -3371,7 +3364,7 @@
       if (!isValidDate(tmpDate)){
         console.log("parseDate() - Still invalid: "+tmpDate);
         if (src.value.length){
-          dst.value='';status.innerHTML="<img src='https://dazeysan.github.io/SPLU/Images/delete.png' style='position:relative; top:3px;'> "+SPLUi18n.CalendarInvalidDate;
+          dst.value='';status.innerHTML="<img src='//cf.geekdo-static.com/images/icons/silkicons/delete.png' style='position:relative; top:3px;'> "+SPLUi18n.CalendarInvalidDate;
         }else{
           dst.value='';
           status.innerHTML='';
@@ -3433,9 +3426,6 @@
     };
     oReq.open("get",getString,true);
     oReq.setRequestHeader("Accept","application/json, text/plain, */*");/**/
-    if(typeof(SPLU_Bearer) != "undefined") {
-      oReq.setRequestHeader("Authorization","Bearer "+SPLU_Bearer);/**/
-    }
     oReq.send();
   }
   
@@ -3530,9 +3520,6 @@
     };
     oReq.open("get",getString,true);
     oReq.setRequestHeader("Accept","application/json, text/plain, */*");/**/
-    if(typeof(SPLU_Bearer) != "undefined") {
-      oReq.setRequestHeader("Authorization","Bearer "+SPLU_Bearer);/**/
-    }
     oReq.send();
   }
   
@@ -4658,15 +4645,9 @@
     oReq.open("GET",tmpQuery,true);
     //Set the following header so that we get a JSON object instead of HTML
     oReq.setRequestHeader("Accept","application/json, text/plain, */*");/**/
-    if(typeof(SPLU_Bearer) != "undefined") {
-      oReq.setRequestHeader("Authorization","Bearer "+SPLU_Bearer);/**/
-    }
     oReq.send();
 
   }
-  
-  // Yes I know this is pointless.
-  var SPLU_Bearer = atob("MWJmZjAyMTQtM2I1Yi00YjE4LTg4M2YtZWUwYWZmYzY3MjM3");
   
   function SPLUsearchForGamesExact(tmpText, tmpType, tmpFavs){
     //Search for exact matches via XMLAPI2 since the regular search can't
@@ -4695,15 +4676,12 @@
         }
         showSearchResults(tmpJSON, tmpFavs, tmpText);
       } else {
-        console.log("other status code ("+this.status+"), no search results");
+        console.log("other status code, no search results");
       }
     };
     var tmpQuery='/xmlapi2/search?query='+tmpText+'&type='+tmpType+'&exact=1';
     oReq.open("GET",tmpQuery,true);
     oReq.setRequestHeader("Accept","text/xml, text/plain, */*");/**/
-    if(typeof(SPLU_Bearer) != "undefined") {
-      oReq.setRequestHeader("Authorization","Bearer "+SPLU_Bearer);/**/
-    }
     oReq.send();
   }
   
@@ -5851,7 +5829,7 @@
       SPLUgameStats[tmpGame]["TotalPlays"]++;
     }
     tmpGames=[];
-    //tmpHIndex={};
+    tmpHIndex={};
     for(key in SPLUgameStats){
       if (SPLUgameStats.hasOwnProperty(key)) {
         if (view=="list"){
@@ -5861,20 +5839,20 @@
         }
         window.tmpGames=tmpGames;
         //H-Index
-        //if(tmpHIndex[SPLUgameStats[key]["TotalPlays"]]===undefined){
-        //  tmpHIndex[SPLUgameStats[key]["TotalPlays"]]=0;
-        ////}
-        //tmpHIndex[SPLUgameStats[key]["TotalPlays"]]++;
+        if(tmpHIndex[SPLUgameStats[key]["TotalPlays"]]===undefined){
+          tmpHIndex[SPLUgameStats[key]["TotalPlays"]]=0;
+        }
+        tmpHIndex[SPLUgameStats[key]["TotalPlays"]]++;
       }
     }
-    //tmpHIndex2="";
-    //for(key in tmpHIndex){
-    //  if (tmpHIndex.hasOwnProperty(key)) {
-    //    if(tmpHIndex[key]>=key){
-    //      tmpHIndex2=key;
-    //    }
-    //  }
-    //}
+    tmpHIndex2="";
+    for(key in tmpHIndex){
+      if (tmpHIndex.hasOwnProperty(key)) {
+        if(tmpHIndex[key]>=key){
+          tmpHIndex2=key;
+        }
+      }
+    }
     if (view=="rank"){
       for(i=0;i<tmpGames.length;i++){
         if(tmpGames[i]["rank"]===undefined) {
@@ -5882,30 +5860,6 @@
         }
       }
     }
-
-    //Sorting by "-plays" for the H-index and Stairs numbers
-    tmpGames.sort(dynamicSortMultipleCI("-plays"));
-    tmpHighStep=tmpGames[0].plays;
-    for (step=0; step<tmpGames.length; step++) {
-      if ((tmpGames[step].plays < (tmpHighStep-1)) && ((tmpGames[step].plays+step) <= tmpHighStep)) {
-        tmpHighStep=tmpGames[step].plays+step;
-      }
-      //console.log(step+'-'+tmpGames[step].plays+'-'+tmpHighStep);
-      if (tmpHighStep == step) {
-        break;
-      }
-    }
-    tmpHIndex=0;
-    for (h=0; h<tmpGames.length; h++) {
-      if (tmpGames[h].plays > tmpHIndex) {
-        tmpHIndex++;
-      }
-      //console.log(h+'-'+tmpGames[h].plays+'-'+tmpHIndex);
-      if (tmpHIndex >= tmpGames[h].plays) {
-        break;
-      }
-    }
-
     //Sorting by "game" first to get alpha order among numeric groups.
     tmpGames.sort(dynamicSortMultipleCI("game"));
     tmpGames.sort(dynamicSortMultipleCI(sort));
@@ -5925,10 +5879,9 @@
       tmpSortRank="-rank";
       tmpClassRank="fa_SP fa_SP-sort-amount-desc";
     }
-
     tmpHTML='';
     tmpHTML+='<div>Unique Games: '+tmpGames.length+'</div>';
-    tmpHTML+='<div>H-Index: '+tmpHIndex+', Stairs: '+tmpHighStep+'</div>';
+    //tmpHTML+='<div>H-Index: '+tmpHIndex2+'</div>';
     tmpHTML+='<div style="display:table; border-spacing:5px 2px; text-align:right; padding-bottom: 20px;">'
       +'<div style="display:table-row;">'
       +'<div style="display:table-cell;font-weight:bold;width:75%;text-align:center;"><a onclick="javascript:{getStatsGameList(\''+tmpUser+'\',\''+tmpSortGame+'\',\''+view+'\');}" href="javascript:{void(0);}">Game <i class="'+tmpClassPlayer+'"></i></a></div>'
@@ -6315,9 +6268,6 @@
     oReq.open("GET",tmpQuery,true);
     //Set the following header so that we get a JSON object instead of HTML
     oReq.setRequestHeader("Accept","application/json, text/plain, */*");/**/
-    if(typeof(SPLU_Bearer) != "undefined") {
-      oReq.setRequestHeader("Authorization","Bearer "+SPLU_Bearer);/**/
-    }
     oReq.send();
   }
   
@@ -6349,7 +6299,7 @@
   
   function makeSentence(){
     if(!SPLU.Settings.SummaryTextField.Visible){return;}
-    document.getElementById('SPLU.SummaryTextField').style.maxWidth=document.getElementById('SPLUwindow').clientWidth-190+"px";
+    document.getElementById('SPLU.SummaryTextField').style.maxWidth=document.getElementById('SPLUwindow').clientWidth-40+"px";
     document.getElementById('SPLU.SummaryTextField').style.display="block";
     var SPLUselectedDate=new Date(document.getElementById('playdate99').value);
     var sentence="";
@@ -6579,9 +6529,6 @@
     var oReq=new XMLHttpRequest();
     oReq.onload=loadExpansions;
     oReq.open("get","/xmlapi2/thing?type=boardgame&id="+SPLUgameID,true);
-    if(typeof(SPLU_Bearer) != "undefined") {
-      oReq.setRequestHeader("Authorization","Bearer "+SPLU_Bearer);/**/
-    }
     oReq.send();
   }
   
@@ -6667,9 +6614,6 @@
       var oReq=new XMLHttpRequest();
       oReq.onload=loadFamily;
       oReq.open("get","/xmlapi2/family?id="+SPLUfamilyID,true);
-      if(typeof(SPLU_Bearer) != "undefined") {
-        oReq.setRequestHeader("Authorization","Bearer "+SPLU_Bearer);/**/
-      }
       oReq.send();
     }
     SPLUfamilyLoaded=true;
@@ -7425,9 +7369,6 @@
     }
   };
   oReq.open("get","/api/users/current",true);
-    if(typeof(SPLU_Bearer) != "undefined") {
-      oReq.setRequestHeader("Authorization","Bearer "+SPLU_Bearer);/**/
-    }
   oReq.send();
 
 
