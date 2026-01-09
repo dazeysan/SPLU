@@ -1,5 +1,4 @@
-// SPLU 5.9.1 Alpha/Beta/Current
-
+// SPLU 5.9.2 Alpha
     //Check if they aren't on a BGG site and alert them to that fact.
     if(window.location.host.slice(-17)!="boardgamegeek.com" &&  window.location.host.slice(-17)!="videogamegeek.com" && window.location.host.slice(-11)!="rpggeek.com" && window.location.host.slice(-6)!="bgg.cc" && window.location.host.slice(-10)!="geekdo.com"){
       alert("You must be on a BGG website to run SPLU.");
@@ -26,7 +25,7 @@
     //var LoggedInAs = document.getElementsByClassName('menu_login')[0].childNodes[3].childNodes[1].innerHTML;
     //Check if the user is logged in to BGG, throw an error if not
     //if(LoggedInAs==""){alert("You aren't logged in.");throw new Error("You aren't logged in.");}
-    var SPLUversion="5.9.1";
+    var SPLUversion="5.9.2";
 
     var SPLU={};
     var SPLUplayId="";
@@ -6047,11 +6046,21 @@
       if(SPLUplayData[tmpUser][SPLUlistOfPlays[p].id].deleted){
         continue;
       }
-      tmpDays[SPLUlistOfPlays[p].date.slice(5)]++;
+      //if(document.querySelector('input[name="hotnesssum"]:checked').value == "sessions"){
+      if(false){
+        tmpDays[SPLUlistOfPlays[p].date.slice(5)]++;
+      } else {
+        tmpDays[SPLUlistOfPlays[p].date.slice(5)]+=Number(SPLUplayData[tmpUser][SPLUlistOfPlays[p].id].quantity);
+      }
       if(SPLUlistOfPlays[p].date.slice(5,7) == "00"){
         continue;
       }
-      tmpMonthCount[SPLUlistOfPlays[p].date.slice(5,7)]++;
+      //if(document.querySelector('input[name="hotnesssum"]:checked').value == "sessions"){
+      if(false){
+        tmpMonthCount[SPLUlistOfPlays[p].date.slice(5,7)]++;
+      } else {
+        tmpMonthCount[SPLUlistOfPlays[p].date.slice(5,7)]+=Number(SPLUplayData[tmpUser][SPLUlistOfPlays[p].id].quantity);
+      }
     }
     
     tmpCount=[];
