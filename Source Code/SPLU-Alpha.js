@@ -1186,7 +1186,7 @@
           +'<span id="SPLUcsvDownload" style="margin-left:50px;vertical-align:top;">'
             +'<a href="javascript:{void(0);}" onClick="javascript:{SPLUdownloadText(\'SPLU-Export.csv\',SPLUcsv);}"><img src="https://dazeysan.github.io/SPLU/Images/save-csv.png""></a>'
           +'</span>'
-          +'<div id="SPLUshowTemporalChartButton" style="display: none; margin-top: 5px;"><input type="button" onclick="javascript:{showTemporalHotnessChart();}" style="border: 1px solid black;padding: 0px 05px;border-radius: 4px;background: #e9e9ed;" value="Display Chart"></div>'
+          +'<div id="SPLUshowTemporalChartButton" style="display: none; margin-top: 5px;"><input type="button" onclick="javascript:{showTemporalHotnessChart();}" style="border: 1px solid black;padding: 0px 05px;border-radius: 4px;background: #e9e9ed;" value="Display Chart"> - Sum: <select id="hotnesssum" style="border: 1px solid black;background: #ffffff;padding: 1px;" onchange="javascript:getStatsTemporalHotness(tmpUser,\'day\');"><option value="Quantity" selected="">Quantity</option><option value="Sessions">Sessions</option></select></div>'
           +'<div id="SPLU.StatsPlayerDiv" style="display: none;">'+SPLUi18n.PlaysFilterPlayer+': <select class="fa_SP" id="SPLU.SelectStatPlayer" onChange="javascript:{setWinsByGamePlayer(\'\');}"></select></div>'
         +'</div>'
         +'<div id="SPLU.StatsContent" style="display:none;overflow-y: auto; width: 315px; margin-top: 3px; margin-bottom: 15px;"></div>'
@@ -6046,8 +6046,7 @@
       if(SPLUplayData[tmpUser][SPLUlistOfPlays[p].id].deleted){
         continue;
       }
-      //if(document.querySelector('input[name="hotnesssum"]:checked').value == "sessions"){
-      if(false){
+      if(document.getElementById("hotnesssum").value == "Sessions"){
         tmpDays[SPLUlistOfPlays[p].date.slice(5)]++;
       } else {
         tmpDays[SPLUlistOfPlays[p].date.slice(5)]+=Number(SPLUplayData[tmpUser][SPLUlistOfPlays[p].id].quantity);
@@ -6055,8 +6054,7 @@
       if(SPLUlistOfPlays[p].date.slice(5,7) == "00"){
         continue;
       }
-      //if(document.querySelector('input[name="hotnesssum"]:checked').value == "sessions"){
-      if(false){
+      if(document.getElementById("hotnesssum").value == "Sessions"){
         tmpMonthCount[SPLUlistOfPlays[p].date.slice(5,7)]++;
       } else {
         tmpMonthCount[SPLUlistOfPlays[p].date.slice(5,7)]+=Number(SPLUplayData[tmpUser][SPLUlistOfPlays[p].id].quantity);
